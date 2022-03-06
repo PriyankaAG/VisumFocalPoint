@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderPaymentsView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderPaymentsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0"  Text="Amount Due "/>
+            <Label Grid.Row="0" Grid.Column="1" Text="$0.00 "/>
+            <Label Grid.Row="0" Grid.Column="2"  Text="Suggested Deposit "/>
+            <Label Grid.Row="0" Grid.Column="3" Text="$0.00 "/>
+            <dxe:SimpleButton Grid.Row="1" Grid.Column="0" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="New Payment" Clicked="SimpleButton_Clicked" />
+            <dxe:SimpleButton Grid.Row="1" Grid.Column="1" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Deposit" Clicked="SimpleButton_Clicked"/>
+            <dxe:SimpleButton Grid.Row="1" Grid.Column="2" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Security Deposit" Clicked="SimpleButton_Clicked" />
+            <dxe:SimpleButton Grid.Row="1" Grid.Column="3" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Secuirty Pre-Auth" Clicked="SimpleButton_Clicked"  />
+            <BoxView Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+            <!--<dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime"
+                           Tap="collectionView_Tap"
+                                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">-->
+                <!--Define the item template.-->
+
+                <!--<dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                            </Grid.RowDefinitions>
+                            --><!--<StackLayout Grid.Column="0" 
+                             Padding="18,1,18,7"
+                             Orientation="Vertical">--><!--
+
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="Number:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            --><!--<Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WONo}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" Text="Description:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WOItemDscr}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="0" FontAttributes="Bold" Text="Equip ID:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WOEquipID}"
+                               TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="0" FontAttributes="Bold" Text="Customer:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Customer.CustomerName}"
+                               Margin="0,2,0,0"
+                               TextColor="#3A3A3A" />
+                            <BoxView Margin="0,0,0,0" Grid.Row="4" Grid.ColumnSpan="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"HeightRequest="5"/>--><!--
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+
+                --><!--Define the group header template.--><!--
+                <dxcv:DXCollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="2, 0, 18, 10">
+                            <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                            <BoxView BackgroundColor="Black" 
+                         HeightRequest="1"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                --><!--Specify margins.--><!--
+                <dxcv:DXCollectionView.Margin>
+                    <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                </dxcv:DXCollectionView.Margin>
+            </dxcv:DXCollectionView>-->
+
+            <dxcv:DXCollectionView x:Name="collectionView2"
+                           ItemsSource="{Binding Recent2}"
+                           IndicatorColor="Lime"
+                           Tap="collectionView_Tap"
+                                   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
+                <!--Define the item template.-->
+
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="22"/>
+                            </Grid.RowDefinitions>
+                            <!--<StackLayout Grid.Column="0" 
+                             Padding="18,1,18,7"
+                             Orientation="Vertical">-->
+
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="Number:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WONo}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" Text="Description:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WOItemDscr}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="0" FontAttributes="Bold" Text="Equip ID:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding WOEquipID}"
+                               TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="0" FontAttributes="Bold" Text="Customer:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Customer.CustomerName}"
+                               Margin="0,2,0,0"
+                               TextColor="#3A3A3A" />
+                            <BoxView Margin="0,0,0,0" Grid.Row="4" Grid.ColumnSpan="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+
+                <!--Define the group header template.-->
+                <dxcv:DXCollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="2, 0, 18, 10">
+                            <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                            <BoxView BackgroundColor="Black" 
+                         HeightRequest="1"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                <!--Specify margins.-->
+                <dxcv:DXCollectionView.Margin>
+                    <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                </dxcv:DXCollectionView.Margin>
+            </dxcv:DXCollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

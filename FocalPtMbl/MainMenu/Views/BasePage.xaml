@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dxn:DrawerPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FocalPtMbl.MainMenu.Views.BasePage"
+    xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+    xmlns:views="clr-namespace:FocalPtMbl.MainMenu.Views" 
+    Padding="0"
+    DrawerBehavior="Push"
+    DrawerContentHeight="*"
+    DrawerWidth="340"
+    DrawerBackgroundColor="{DynamicResource BackgroundThemeColor}"
+    DrawerShadowColor="Transparent"
+    BackgroundColor="Transparent">
+    <dxn:DrawerPage.DrawerContent>
+        <views:AboutPage x:Name="AboutPage"/>
+    </dxn:DrawerPage.DrawerContent>
+    <dxn:DrawerPage.MainContent>
+        <NavigationPage x:Name="navPage">
+            <x:Arguments>
+                <views:MainPage x:Name="mainPage"/>
+            </x:Arguments>
+        </NavigationPage>
+    </dxn:DrawerPage.MainContent>
+</dxn:DrawerPage>

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderDetailsMerchView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxg="http://schemas.devexpress.com/xamarin/2014/forms/datagrid"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderDetailsMerchViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" SelectionChanged="ComboBoxEdit_SelectionChanged"  BackgroundColor="#2088ff" LabelText="Search Type" >
+            <dxe:ComboBoxEdit.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Description</x:String>
+                    <x:String>UPC Number</x:String>
+                    <x:String>Part Number</x:String>
+                    <x:String>Extended</x:String>
+                </x:Array>
+            </dxe:ComboBoxEdit.ItemsSource>
+        </dxe:ComboBoxEdit>
+        <dxe:TextEdit Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" LabelText="Search" PlaceholderText="Item Search" ClearIconClicked="TextEdit_Cleared" Completed="TextEdit_Completed" Text=""></dxe:TextEdit>
+
+        <dxg:DataGridView DoubleTap="grid_DoubleTap" BackgroundColor="{DynamicResource MainPageBackgroundColor}" BorderThickness="3" VerticalLineThickness="3"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" RowHeight="80" x:Name="grid" SelectionChanged="grid_SelectionChanged" ItemsSource="{Binding Recent}">
+            <dxg:DataGridView.CellStyle>
+                <dxg:CellStyle Padding="5" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalLineThickness="3"  BorderColor="{DynamicResource MainPageBackgroundColor}"
+                           FontSize="14" FontColor="Black"
+                           SelectionColor="Orange" SelectionFontColor="Black"/>
+            </dxg:DataGridView.CellStyle>
+            <dxg:DataGridView.ColumnHeaderStyle>
+                <dxg:ColumnHeaderStyle BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                                   FontSize="16" FontColor="Black" FontAttributes="Bold" 
+                                   HorizontalLineThickness="3"/>
+            </dxg:DataGridView.ColumnHeaderStyle>
+            <dxg:DataGridView.Columns>
+                <dxg:TextColumn FieldName="AvailDscr" Caption="Description" Width="150" />
+                <dxg:NumberColumn FieldName="AvailPart" Caption="Part Num" MinWidth="100"/>
+                <!--<dxg:NumberColumn FieldName="AvailItem" Caption="AvailItem" 
+                          DisplayFormat="" MinWidth="30"/>
+                <dxg:NumberColumn FieldName="AvailItem" Caption="AvailItem" 
+                          DisplayFormat="C0" MinWidth="100"/>-->
+
+                <dxg:NumberColumn  FieldName="AvailQty" Caption="Avail Qty " MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailMSRPAmt" Caption="Price" MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailMSRPAmt" Caption="MSRP" MinWidth="100"/>
+                <!--<dxg:NumberColumn FieldName="Total" 
+                          UnboundType="Integer" UnboundExpression="[Quantity] * [Product.UnitPrice]" 
+                          IsReadOnly="True" DisplayFormat="C0" MinWidth="100"/>-->
+                <!--<dxg:DateColumn FieldName="Date" DisplayFormat="d" MinWidth="100"/>
+                <dxg:CheckBoxColumn FieldName="Shipped" MinWidth="100"/>-->
+            </dxg:DataGridView.Columns>
+        </dxg:DataGridView>
+        <!--<dxcv:DXCollectionView x:Name="collectionView"
+                               Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="4"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime"
+                           SelectionMode="Single"
+            LoadMoreCommand="{Binding LoadMoreCommand}"
+            IsLoadMoreEnabled="True"
+                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+            --><!--Define the item template.--><!--
+
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10, 8, 18, 7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+                        --><!--<StackLayout Grid.Column="0" 
+                             Padding="18,1,18,7"
+                             Orientation="Vertical">--><!--
+                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AvailDscr}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AvailEquipID}"
+                               TextColor="DarkSlateBlue"/>
+                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding AvailOwnQty}"
+                               Margin="0,2"
+                               TextColor="DarkSlateBlue"/>
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding AvailMinChg}"
+                               Margin="20,2"
+                               TextColor="DarkSlateBlue"/>
+                        --><!--<Label Grid.Row="1" Grid.Column="3"  Text="{Binding State}"
+                               Margin="0,2"
+                               TextColor="#505050"/>
+                        <Label Grid.Row="2" Grid.Column="3"  Text="{Binding Zip}"
+                               Margin="0,2"
+                               TextColor="#505050"/>-->
+                        <!--</StackLayout>--><!--
+                    </Grid>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            --><!--Define the group header template.--><!--
+            <dxcv:DXCollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="2, 0, 18, 10">
+                        <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                        <BoxView BackgroundColor="#ebebeb" 
+                         HeightRequest="1"/>
+                    </StackLayout>
+                </DataTemplate>
+            </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+            --><!--Specify margins.--><!--
+            <dxcv:DXCollectionView.Margin>
+                <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
+            </dxcv:DXCollectionView.Margin>
+        </dxcv:DXCollectionView>-->
+
+
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+        <!--<dxe:SimpleButton Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="View Availability" Clicked="SimpleButton_Clicked" />-->
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Add To Order" Clicked="AddToOrder_Clicked" />
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.CustomerRelations.Views.CustomerDetailView"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             HeaderPanelPosition="Top"
+             IsSelectedItemIndicatorVisible="False"
+             ItemHeaderWidth="*"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Info" Icon="user.png" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                <Grid>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding CompanyUrl}"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="18"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Text="Customer Information"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="NO: "/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Store: "/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="Status: "/>
+                    <Label Grid.Row="4" Grid.Column="0" Text="Type: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Text="Phone Numbers"/>
+                    <Label Grid.Row="6" Grid.Column="0" Text="Phone 1: " />
+                    <Label Grid.Row="7" Grid.Column="0" Text="Phone 2: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="8" Grid.ColumnSpan="2" Grid.Column="0" Text="Email Addresses"/>
+                    <Label Grid.Row="9" Grid.Column="0" Text="Email 1: "/>
+                    <Label Grid.Row="10" Grid.Column="0" Text="Email 2: "/>
+                    <Label Grid.Row="11" Grid.Column="0" Text="Email 3: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="12" Grid.ColumnSpan="2" Grid.Column="0" Text="Primary Address"/>
+                    <Label Grid.Row="13" Grid.Column="0" Text="Address: "/>
+                    <Label Grid.Row="14" Grid.Column="0" Text="City: "/>
+                    <Label Grid.Row="15" Grid.Column="0" Text="State: "/>
+                    <Label Grid.Row="16" Grid.Column="0" Text="Zip: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="17" Grid.ColumnSpan="2" Grid.Column="0" Text="Billing Address "/>
+                    <Label Grid.Row="18" Grid.Column="0" Text="Address: "/>
+                    <Label Grid.Row="19" Grid.Column="0" Text="City: "/>
+                    <Label Grid.Row="20" Grid.Column="0" Text="State: "/>
+                    <Label Grid.Row="21" Grid.Column="0" Text="Zip: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="22" Grid.ColumnSpan="2" Grid.Column="0" Text="Other: "/>
+                    <Label Grid.Row="23" Grid.Column="0" Text="Last Updated: "/>
+
+                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.Column="1"  Text="{Binding Name}"/>
+                    <Label Grid.Row="1" Grid.Column="1"  Text="{Binding No}"
+                               TextColor="#959aa0"/>
+                    <!--<Label Grid.Row="1" Grid.Column="1"  Text="{Binding Name}"
+                               TextColor="#959aa0"/>-->
+                    <Label Grid.Row="13" Grid.Column="1"  Text="{Binding Addr1}"
+                               TextColor="#959aa0"/>
+                    <!--<Label Text="{Binding Addr2}"
+                               TextColor="#959aa0"/>-->
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding City}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Zip}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding State}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="18" Grid.Column="1"  Text="{Binding BillAddr1}"
+                               TextColor="#959aa0"/>
+                    <!--<Label Text="{Binding BillAddr2}"
+                               TextColor="#959aa0"/>-->
+                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding BillCity}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding BillZip}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding BillState}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="6" Grid.Column="1"  Focused="Phone1_Focused" Text="{Binding Phone} "
+                               TextColor="#959aa0">
+                    <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CallPhone}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <!--<Label Text="{Binding PhoneType}"
+                               TextColor="#959aa0"/>-->
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Phone2}"
+                               TextColor="#959aa0"/>
+                    <!--<Label Text="{Binding PhoneType2}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding Phone3}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding PhoneType3}"
+                               TextColor="#959aa0"/>-->
+                    <Label Grid.Row="3" Grid.Column="1"  Text="{Binding Email}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Email2}"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Email3}"
+                               TextColor="#959aa0"/>
+                    <!--<Label Text="{Binding Type}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding Notes}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding Store}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding Status}"
+                               TextColor="#959aa0"/>
+                    <Label Text="{Binding Status_Display}"
+                               TextColor="#959aa0"/>
+                <Label Text="{Binding Type_Display}"
+                               TextColor="#959aa0"/>-->
+                </Grid>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Notes" Icon="Order_32.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                <Label Text=""/>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+
+    <dxn:TabPageItem >
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Balance" Icon="dollar.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}" Appearing="ContentPage_Appearing">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Text="Total: " 
+                        HorizontalOptions="FillAndExpand" />
+                    <Label Grid.Row="1" Grid.Column="0" Text="0 - 30 Days: "/>
+                    <Label Grid.Row="2" Grid.Column="0" Text="31 - 60 Days: "/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="61 - 90 Days: "/>
+                    <Label Grid.Row="4" Grid.Column="0" Text="91 - 120 Days: "/>
+                    <Label Grid.Row="5" Grid.Column="0" Text="Over 120 Days: "/>
+
+                    <Label Grid.Row="0" Grid.Column="1"  Text="$0"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="1" Grid.Column="1"  Text="$0"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="2" Grid.Column="1"  Text="$0"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="$0"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="4" Grid.Column="1" Text="$0"
+                               TextColor="#959aa0"/>
+                    <Label Grid.Row="5" Grid.Column="1" Text="$0"
+                               TextColor="#959aa0"/>
+                </Grid>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+</dxn:TabPage>
+<!--<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxg="http://schemas.devexpress.com/xamarin/2014/forms/datagrid"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" xmlns:viewmodels="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels" x:DataType="viewmodels:CustomerDetailViewModel"
+             x:Class="FocalPoint.Modules.CustomerRelations.Views.CustomerDetailView"
+               HeaderPanelPosition="Bottom"
+               ItemHeaderWidth="*"
+               IsSelectedItemIndicatorVisible="False"
+               SwipeEnabled="False"
+               HeaderPanelHeight="61"
+               SelectedItemHeaderBackgroundColor="{DynamicResource TabPagesHeaderSelectedBackground}"
+               ItemHeaderPadding="0"
+               ItemHeaderIconSpacing="5"
+               ItemHeaderFontSize="14"
+               ItemHeaderIconColor="{DynamicResource NavigationTextColor}"
+               ItemHeaderTextColor="{DynamicResource NavigationTextColor}"
+               SelectedItemHeaderIconColor="{DynamicResource TabPagesHeaderSelectedTextColor}"
+               SelectedItemHeaderTextColor="{DynamicResource TabPagesHeaderSelectedTextColor}"
+               HeaderPanelBackgroundColor="{DynamicResource BackgroundThemeColor}"
+               HeaderPanelShadowColor="{DynamicResource TabPageHeaderShadowColor}"
+               HeaderPanelShadowHeight="1"
+               HeaderPanelShadowRadius="0">
+    <dxn:TabPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="demo:TabHeaderButton">
+                <Setter Property="TextColor" Value="{DynamicResource NavigationTextColor}"/>
+                <Setter Property="IconColor" Value="{DynamicResource NavigationTextColor}"/>
+                <Setter Property="SelectedColor" Value="{DynamicResource TabPagesHeaderSelectedTextColor}"/>
+                <Setter Property="SelectedBackgroundColor" Value="{DynamicResource TabPagesHeaderSelectedBackground}"/>
+            </Style>
+            <Style TargetType="dxg:DataGridView">
+                <Setter Property="Margin">18,10</Setter>
+                <Setter Property="RowHeight">65</Setter>
+                <Setter Property="BorderColor">Transparent</Setter>
+                <Setter Property="BorderThickness">0</Setter>
+                <Setter Property="SelectionMode">None</Setter>
+                <Setter Property="IndicatorColor">Transparent</Setter>
+                <Setter Property="VerticalLineThickness">0</Setter>
+                <Setter Property="IsColumnHeaderVisible">False</Setter>
+                <Setter Property="IsVerticalScrollBarVisible">False</Setter>
+                <Setter Property="IsHorizontalScrollBarVisible">False</Setter>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily">Roboto</Setter>
+                <Setter Property="FontSize">14</Setter>
+            </Style>
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor"
+                        Value="{DynamicResource BackgroundThemeColor}"/>
+            </Style>
+
+            <DataTemplate x:Key="infoTemplate">
+                <StackLayout Padding="18,8"
+                             Orientation="Vertical">
+                    <Label Text="{Binding Item.Name}"
+                           Margin="0,2"
+                           TextColor="{DynamicResource NavigationTextColor}"/>
+                    <Label Text="{Binding Item.Phone}"
+                           TextColor="{DynamicResource DrawerGrayFontColor}"/>
+                </StackLayout>
+            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>-->
+                <!--<demo:TabPageResources/>--><!--
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </dxn:TabPage.Resources>
+    <dxn:TabPageItem>
+        <NavigationPage BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                        Title="Contacts"
+                        Icon="demo_contacts"
+                        x:Name="navView">
+            <x:Arguments>
+                <ContentPage NavigationPage.HasNavigationBar="False">
+                    <dxg:DataGridView ItemsSource="{Binding Contacts}"
+                                         Tap="On_ItemSelected">
+                        <dxg:DataGridView.CellStyle>
+                            <dxg:CellStyle HorizontalLineThickness="0"
+                                              SelectionColor="Transparent"/>
+                        </dxg:DataGridView.CellStyle>
+                        <dxg:DataGridView.Columns>
+                            <dxg:TemplateColumn Width="50"
+                                                   FieldName="Photo"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource contactIconTemplateSelector}"/>
+                            <dxg:TemplateColumn Width="*"
+                                                   FieldName="Name"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource infoTemplate}"/>
+                            <dxg:TemplateColumn Width="18"
+                                                   MinWidth="20"
+                                                   FieldName="Favorite"
+                                                   HorizontalContentAlignment="End"
+                                                   VerticalContentAlignment="Center"
+                                                   DisplayTemplate="{StaticResource favoriteIconTemplate}"
+                                                   IsReadOnly="True"/>
+                            <dxg:TemplateColumn Width="35"
+                                                   VerticalContentAlignment="Center"
+                                                   FieldName=""
+                                                   IsReadOnly="True"
+                                                   HorizontalContentAlignment="End"
+                                                   DisplayTemplate="{StaticResource detailButtonTemplate}"/>
+                        </dxg:DataGridView.Columns>
+                    </dxg:DataGridView>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <NavigationPage Title="Recent"
+                        Icon="demo_recent"
+                        BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <x:Arguments>
+                <ContentPage NavigationPage.HasNavigationBar="False">
+                    <dxg:DataGridView AllowGroupCollapse="False"
+                                         ShowGroupedColumns="False"
+                                         GroupRowTemplate="{StaticResource dateTemplate}"
+                                         ItemsSource="{Binding Recent}"
+                                         Tap="On_ItemSelected">
+                        <dxg:DataGridView.CellStyle>
+                            <dxg:CellStyle HorizontalLineThickness="0"
+                                              SelectionColor="Transparent"/>
+                        </dxg:DataGridView.CellStyle>
+                        <dxg:DataGridView.GroupRowStyle>
+                            <dxg:GroupRowStyle Padding="0"
+                                                  BorderColor="{DynamicResource TabPageSeparatorColor}"
+                                                  BackgroundColor="Transparent"/>
+                        </dxg:DataGridView.GroupRowStyle>
+                        <dxg:DataGridView.Columns>
+                            <dxg:DateColumn SortOrder="Descending"
+                                               FieldName="Date"
+                                               MinWidth="100"
+                                               IsGrouped="true"
+                                               GroupInterval="DateRange"
+                                               IsReadOnly="True"/>
+                            <dxg:TemplateColumn Width="50"
+                                                   FieldName="Contact.Photo"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource contactIconTemplateSelector}"/>
+                            <dxg:TemplateColumn Width="*"
+                                                   FieldName="Contact.Name"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource infoTemplate}"/>
+                            <dxg:TemplateColumn Width="18"
+                                                   MinWidth="20"
+                                                   FieldName="CallType"
+                                                   HorizontalContentAlignment="End"
+                                                   VerticalContentAlignment="Center"
+                                                   DisplayTemplate="{StaticResource callTypeIconTemplate}"
+                                                   IsReadOnly="True"/>
+                            <dxg:TemplateColumn Width="35"
+                                                   FieldName=""
+                                                   IsReadOnly="True"
+                                                   HorizontalContentAlignment="End"
+                                                   DisplayTemplate="{StaticResource detailButtonTemplate}"/>
+                        </dxg:DataGridView.Columns>
+                    </dxg:DataGridView>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <NavigationPage Title="Favorites"
+                        Icon="demo_favorites"
+                        BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <x:Arguments>
+                <ContentPage NavigationPage.HasNavigationBar="False">
+                    <dxg:DataGridView ItemsSource="{Binding Favorites}"
+                                         Tap="On_ItemSelected">
+                        <dxg:DataGridView.CellStyle>
+                            <dxg:CellStyle HorizontalLineThickness="0"
+                                              SelectionColor="Transparent"/>
+                        </dxg:DataGridView.CellStyle>
+                        <dxg:DataGridView.Columns>
+                            <dxg:TemplateColumn Width="50"
+                                                   FieldName="Photo"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource contactIconTemplateSelector}"/>
+                            <dxg:TemplateColumn Width="*"
+                                                   FieldName="Name"
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource infoTemplate}"/>
+                            <dxg:TemplateColumn HorizontalContentAlignment="End"
+                                                   Width="20"
+                                                   FieldName=""
+                                                   IsReadOnly="True"
+                                                   DisplayTemplate="{StaticResource detailButtonTemplate}"/>
+                        </dxg:DataGridView.Columns>
+                    </dxg:DataGridView>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </dxn:TabPageItem>
+</dxn:TabPage>-->

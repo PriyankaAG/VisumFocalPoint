@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.CashPaymentView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxg="http://schemas.devexpress.com/xamarin/2014/forms/datagrid"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.BindingContext>
+        <viewModel:CashPaymentViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <BoxView Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="36" TextColor="Black" FontAttributes="Bold" Text="Balance Due "/>
+                <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" FontSize="36" TextColor="Black" FontAttributes="Bold" Text="$0.00 "/>
+                <dxe:SimpleButton Grid.Row="2" Grid.Column="0" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+                <dxe:SimpleButton Grid.Row="2" Grid.Column="1" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Card On File " Clicked="SimpleButton_Clicked"/>
+                <dxe:SimpleButton Grid.Row="2" Grid.Column="2" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="eCheck On File" Clicked="SimpleButton_Clicked" />
+                <dxe:SimpleButton Grid.Row="2" Grid.Column="3" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Complete" Clicked="SimpleButton_Clicked" />
+
+            <dxe:TextEdit ClearIconVisibility="Never" Text="0.00" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Payment" IsVisible="{Binding isSugPaymentVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Text="0.00" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Prefix="$" Keyboard="Numeric" LabelText="Payment" IsVisible="{Binding isPaymentVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit ClearIconVisibility="Never" Text="0.00" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Deposit" IsVisible="{Binding isSugDepositVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Text="0.00" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Prefix="$" Keyboard="Numeric" LabelText="Deposit" IsVisible="{Binding isDepositVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit ClearIconVisibility="Never" Text="0.00" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Security" IsVisible="{Binding isSecurityVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Text="0.00" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Prefix="$" Keyboard="Numeric" LabelText="Total Received" IsVisible="{Binding isTotalReceivedVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit ClearIconVisibility="Never" Text="0.00" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Total Amount" IsVisible="{Binding isTotalAmtVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Text="0.00" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Prefix="$" Keyboard="Numeric" LabelText="Change Due" IsVisible="{Binding isChangeDueVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit ClearIconVisibility="Never" Text="0.00" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Amount To Receive" IsVisible="{Binding isAmountToReceiveVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:SimpleButton Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Complete" Clicked="SimpleButton_Clicked" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

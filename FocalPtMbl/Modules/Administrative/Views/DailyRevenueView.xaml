@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Administrative.Views.DailyRevenueView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.Administrative.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.BindingContext>
+        <viewModel:DailyRevenueViewModel/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}"
+                  DisplayMember="CmpName"
+                  ValueMember="CmpNo" 
+                          SelectionChanged="ComboBoxEdit_SelectionChanged">
+            <dxe:ComboBoxEdit.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Padding="10" Text="{Binding CmpName}" FontAttributes="Bold" />
+                        <Label Padding="10" Grid.Column="1" Text="{Binding CmpNo}" />
+                        <!--<Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />-->
+                    </Grid>
+                </DataTemplate>
+            </dxe:ComboBoxEdit.ItemTemplate>
+
+        </dxe:ComboBoxEdit>
+
+        <dxe:DateEdit Date="{Binding SelectedDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
+        
+        <dxe:ComboBoxEdit LabelText="Post Code" ItemsSource="{Binding CurrentPostCodes}"
+                  DisplayMember="Description"
+                  ValueMember="No" 
+                          SelectionChanged="ComboBoxEdit_SelectionChangedPost">
+            <dxe:ComboBoxEdit.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Padding="10" Text="{Binding Description}" FontAttributes="Bold" />
+                        <Label Padding="10" Grid.Column="1" Text="{Binding No}" />
+                    </Grid>
+                </DataTemplate>
+            </dxe:ComboBoxEdit.ItemTemplate>
+        </dxe:ComboBoxEdit>
+            <dxe:SimpleButton Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />
+
+
+        <dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <!--Define the item template.-->
+
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10, 8, 18, 7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="  Totals  "
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               TextColor="Black"
+               XAlign="Start" />
+
+            <Label Text="Revenue:  "
+               Grid.Row="1" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Revenue, StringFormat='{}{0:C}'}"
+               Grid.Row="1" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="Receipts:  "
+               Grid.Row="2" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End"/>
+
+            <Label Text="{Binding Receipts, StringFormat='{}{0:C}'}"
+               Grid.Row="2" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="Inventory:  "
+               Grid.Row="3" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Inventory, StringFormat='{}{0:C}'}"
+               Grid.Row="3" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="COGS:  "
+               Grid.Row="4" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End"/>
+
+            <Label Text="{Binding COGS, StringFormat='{}{0:C}'}"
+               Grid.Row="4" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="Deposits:  "
+               Grid.Row="5" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Deposits, StringFormat='{}{0:C}'}"
+               Grid.Row="5" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="Repairs:  "
+               Grid.Row="6" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Repairs, StringFormat='{}{0:C}'}"
+               Grid.Row="6" Grid.Column="1"
+               TextColor="Black"/>
+
+            <Label Text="Warranty:  "
+               Grid.Row="7" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Warranty, StringFormat='{}{0:C}'}"
+               Grid.Row="7" Grid.Column="1"/>
+
+            <Label Text="Labor CR:  "
+               Grid.Row="8" Grid.Column="0"
+               TextColor="Black"
+               XAlign="End" />
+
+            <Label Text="{Binding Labor, StringFormat='{}{0:C}'}"
+               Grid.Row="8" Grid.Column="1"
+               TextColor="Black"/>
+
+                    </Grid>
+
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            <!--Define the group header template.-->
+            <dxcv:DXCollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="2, 0, 18, 10">
+                        <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                        <BoxView BackgroundColor="#ebebeb" 
+                         HeightRequest="1"/>
+                    </StackLayout>
+                </DataTemplate>
+            </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+            <!--Specify margins.-->
+            <dxcv:DXCollectionView.Margin>
+                <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
+            </dxcv:DXCollectionView.Margin>
+        </dxcv:DXCollectionView>
+    </StackLayout>
+</ContentPage>

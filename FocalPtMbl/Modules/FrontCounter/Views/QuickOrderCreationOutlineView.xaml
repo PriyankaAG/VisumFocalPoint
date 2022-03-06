@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderCreationOutlineView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderCreationOutlineViewModel/>
+        </ContentPage.BindingContext>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="280"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--<dxe:TextEdit LabelText="Search" PlaceholderText="Customer Search"></dxe:TextEdit>-->
+        <dxe:SimpleButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="{Binding SelectedCustomerNameBox}" Clicked="SelectCust_Clicked" />
+        <dxe:SimpleButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="{Binding SelectedHeaderBox}" Clicked="SelectHeader_Clicked" />
+        <!--<Label Grid.Row="1" Grid.Column="0" Text="Length"/>
+        <Label Grid.Row="1" Grid.Column="1" Text="Tax"/>
+        --><!--<Label Grid.Row="1" Grid.Column="2" Text="Out Date"/>--><!--
+        <Label Grid.Row="1" Grid.Column="3" Text="In Date"/>-->
+        <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" SelectionChanged="ComboBoxEdit_SelectionChanged" SelectedIndex="0" LabelColor="Black"  BackgroundColor="#2088ff" LabelText="Search Type" >
+        <dxe:ComboBoxEdit.ItemsSource>
+            <x:Array Type="{x:Type x:String}">
+                <x:String>Rentals</x:String>
+                <x:String>Merchandise</x:String>
+                <x:String>Rate Table</x:String>
+                <x:String>Rental Salable</x:String>
+            </x:Array>
+        </dxe:ComboBoxEdit.ItemsSource>
+        </dxe:ComboBoxEdit>
+        <dxe:SimpleButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Add Detail" Clicked="AddDetails_Clicked"/>
+        <!--<dxe:SimpleButton Grid.Row="1" Grid.Column="2" TextColor="White" Padding="22" BackgroundColor="#2088ff" Text="Rate" Clicked="AddDetails_Clicked"/>
+        <dxe:SimpleButton Grid.Row="1" Grid.Column="3" TextColor="White" Padding="22" BackgroundColor="#2088ff" Text="Kits" Clicked="AddDetails_Clicked"/>-->
+        <dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime"
+                           Tap="ItemSelected" 
+                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" >
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                        <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="35"/>
+                               <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="42"/>
+                              <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="35"/>
+                        </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="Type:"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="0" Grid.Column="1"  Text="{Binding OrderDtlType}"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+
+                        <Label Grid.Row="0" Grid.Column="2" FontAttributes="Bold" Text="Desc:"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr}"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="4" FontAttributes="Bold" Text="Item:"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="5"  Text="{Binding OrderDtlDscr2}"
+                               TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" Text="Amt:"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:c}'}"
+                               Margin="0,2,0,0"
+                               TextColor="#3A3A3A" />
+                        <Label Grid.Row="1" Grid.Column="2" FontAttributes="Bold" Text="Qty:"
+                           Margin="0,0"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="3" Text="{Binding OrderDtlQty}"
+                               Margin="0,0,0,0"
+                               TextColor="#3A3A3A" />
+                        <BoxView Margin="0,0,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                    </Grid>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            <!--Specify margins.-->
+                <dxcv:DXCollectionView.Margin>
+                    <OnIdiom x:TypeArguments="Thickness" Phone="0,0,0,0" Tablet="71,0,0,0"/>
+                </dxcv:DXCollectionView.Margin>
+            </dxcv:DXCollectionView>
+        <dxe:SimpleButton Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Print Notes" Clicked="PrintNotes_Clicked" />
+        <dxe:SimpleButton Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Internal Notes" Clicked="InternalNotes_Clicked" />
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="{Binding CurrentTotal}" Clicked="TotalBreakout_Clicked" />
+
+        <dxe:SimpleButton Grid.Row="6" Grid.Column="0"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Save" Clicked="SimpleButton_Clicked" />
+        <dxe:SimpleButton Grid.Row="6" Grid.Column="1"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Save and Email" Clicked="SimpleButton_Clicked" />
+        <dxe:SimpleButton Grid.Row="6" Grid.Column="2"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Payments" Clicked="Payment_Clicked" />
+        <dxe:SimpleButton Grid.Row="6" Grid.Column="3"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Void" Clicked="SimpleButton_Clicked_1" />
+    </Grid>
+</ContentPage>

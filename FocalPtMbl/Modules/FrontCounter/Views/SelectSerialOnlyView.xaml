@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.SelectSerialOnlyView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor }">
+    <ContentPage.BindingContext>
+        <viewModel:SelectSerialsOnlyViewModel/>
+    </ContentPage.BindingContext>
+    <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/> 
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0"  Text="Description:"></Label>
+        <Label Grid.Row="1" Grid.Column="0"  Text="Serials Found:"></Label>
+
+        <BoxView Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+        <dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding SelectedSerialsFound}"
+                           IndicatorColor="Lime"
+                               SelectionMode="Single"
+                               SelectedItem="{Binding SelectedSerialToRemove}"
+                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                               Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <!--Define the item template.-->
+
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="Number:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Name}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" Text="Description:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Length}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                    </Grid>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            <!--Specify margins.-->
+            <dxcv:DXCollectionView.Margin>
+                <OnIdiom x:TypeArguments="Thickness" Phone="0,0,16,0" Tablet="0,0,0,0"/>
+            </dxcv:DXCollectionView.Margin>
+        </dxcv:DXCollectionView>
+        
+        
+        
+        <Label Grid.Row="4" Grid.Column="0"  Text="Serials Added:"></Label>
+        <BoxView Margin="0,0,0,0" Grid.Row="5" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+        <dxcv:DXCollectionView x:Name="collectionView2"
+                           ItemsSource="{Binding SelectedSerials}"
+                           IndicatorColor="Lime"
+                               SelectionMode="Single"
+                               SelectedItem="{Binding SelectedSerialToRemove}"
+                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                               Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
+            <!--Define the item template.-->
+
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                            <RowDefinition Height="22"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" FontAttributes="Bold" Text="Number:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Name}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" FontAttributes="Bold" Text="Description:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                        <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Value}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                    </Grid>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+
+            <!--Specify margins.-->
+            <dxcv:DXCollectionView.Margin>
+                <OnIdiom x:TypeArguments="Thickness" Phone="0,0,16,0" Tablet="0,0,0,0"/>
+            </dxcv:DXCollectionView.Margin>
+        </dxcv:DXCollectionView>
+
+        <dxe:SimpleButton  Grid.Row="7" Grid.Column="0" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+        <dxe:SimpleButton  Grid.Row="7" Grid.Column="1" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Continue" Clicked="SimpleButton_Clicked_1" />
+    </Grid>
+</ContentPage>

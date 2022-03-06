@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.SelectedImageGetDetailsView"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+
+        <StackLayout>
+            <Image x:Name="imgSelected"/>
+            <dxe:TextEdit Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" LabelText="Name" PlaceholderText="Name" ClearIconClicked="TextEdit_ClearIconClicked" Text="{Binding ImageName}"/>
+            <dxe:ComboBoxEdit LabelText="Group" SelectedItem="{Binding SelectedGroup}">
+                <dxe:ComboBoxEdit.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Outgoing</x:String>
+                        <x:String>Incoming</x:String>
+                        <x:String>Damage</x:String>
+                        <x:String>Miscellaneous</x:String>
+                    </x:Array>
+                </dxe:ComboBoxEdit.ItemsSource>
+            </dxe:ComboBoxEdit>
+            <dxe:ComboBoxEdit LabelText="Item" ItemsSource="{Binding SelectedOrder.OrderDtls}"
+                  DisplayMember="OrderDtlDscr"
+                  ValueMember="OrderDtlNo" 
+                              SelectedItem="{Binding SelectedDtlItem}">
+                <dxe:ComboBoxEdit.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Label Padding="10" Text="{Binding OrderDtlDscr}" FontAttributes="Bold" />
+                <Label Padding="10" Grid.Column="1" Text="{Binding OrderDtlNo}" />
+                            <!--<Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />-->
+                        </Grid>
+                    </DataTemplate>
+                </dxe:ComboBoxEdit.ItemTemplate>
+            </dxe:ComboBoxEdit>
+
+
+            <Editor Placeholder="Description" Text="{Binding Description}" AutoSize="TextChanges"/>
+            <dxe:SimpleButton Clicked="SimpleButton_Clicked" Text="Cancel"></dxe:SimpleButton>
+            <dxe:SimpleButton Clicked="SimpleButton_Clicked_1" Text="Save"></dxe:SimpleButton>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

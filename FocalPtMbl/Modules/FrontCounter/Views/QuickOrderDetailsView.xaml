@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderDetailsView"
+ xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxg="http://schemas.devexpress.com/xamarin/2014/forms/datagrid"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderDetailsViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" SelectionChanged="ComboBoxEdit_SelectionChanged"  BackgroundColor="#2088ff" LabelText="Search Type" >
+            <dxe:ComboBoxEdit.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Description</x:String>
+                    <x:String>Equipment ID</x:String>
+                    <x:String>Serial Number</x:String>
+                    <x:String>Rental Rate</x:String>
+                </x:Array>
+            </dxe:ComboBoxEdit.ItemsSource>
+        </dxe:ComboBoxEdit>
+        <dxe:TextEdit Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" LabelText="Search" PlaceholderText="Item Search" ClearIconClicked="TextEdit_Cleared" Completed="TextEdit_Completed" Text=""></dxe:TextEdit>
+
+        <dxg:DataGridView DoubleTap="grid_DoubleTap" BackgroundColor="{DynamicResource MainPageBackgroundColor}" BorderThickness="3" VerticalLineThickness="3"  Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" RowHeight="80" x:Name="grid" SelectionChanged="grid_SelectionChanged" ItemsSource="{Binding Recent}">
+            <dxg:DataGridView.CellStyle>
+                <dxg:CellStyle Padding="5" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalLineThickness="3"  BorderColor="{DynamicResource MainPageBackgroundColor}"
+                           FontSize="14" FontColor="Black"
+                           SelectionColor="Orange" SelectionFontColor="Black"/>
+            </dxg:DataGridView.CellStyle>
+            <dxg:DataGridView.ColumnHeaderStyle>
+                <dxg:ColumnHeaderStyle BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                                   FontSize="16" FontColor="Black" FontAttributes="Bold" 
+                                   HorizontalLineThickness="3"/>
+            </dxg:DataGridView.ColumnHeaderStyle>
+            <dxg:DataGridView.Columns>
+                <dxg:TextColumn FieldName="AvailDscr" Caption="Description" Width="150" />
+                <dxg:NumberColumn FieldName="AvailEquipID" Caption="Equip ID" MinWidth="100"/>
+                <dxg:NumberColumn  FieldName="AvailQty" Caption="Avail Qty " MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailMinChg" Caption="Min Charge" MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailHourChg" Caption="Hour Charge" MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailDayChg" Caption="Day Charge" MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailWeekChg" Caption="Week Charge" MinWidth="100"/>
+                <dxg:NumberColumn DisplayFormat="C0" FieldName="AvailMonthChg" Caption="Month Charge" MinWidth="100"/>
+            </dxg:DataGridView.Columns>
+        </dxg:DataGridView>
+
+
+
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+        <!--<dxe:SimpleButton Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="View Availability" Clicked="SimpleButton_Clicked" />-->
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"  TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Add To Order" Clicked="AddToOrder_Clicked" />
+    </Grid>
+
+</ContentPage>

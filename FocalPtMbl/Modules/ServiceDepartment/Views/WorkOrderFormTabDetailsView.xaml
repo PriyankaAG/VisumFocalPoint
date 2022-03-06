@@ -1,0 +1,589 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.ServiceDepartment.Views.WorkOrderFormTabDetailsView"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <dxn:TabView>
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Header">
+            <dxn:TabViewItem.Content>
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Description:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding WODscr}" TextColor="Black" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Tax Exempt:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding WOTaxNo}" TextColor="Black" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Tax Code:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding TaxDscr}" TextColor="Black" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="PO Number:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding WOPO}" TextColor="Black" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Job Number:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding WOJobNo}" TextColor="Black" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Tech Assigned:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding WOTechID}" TextColor="Black" />
+
+                    <Label Grid.Row="7" Grid.Column="0" Text="Repair Type:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding WORepairDscr}" TextColor="Black" />
+
+                    <Label Grid.Row="8" Grid.Column="0" Text="Start Date:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding WOODte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Projected Date:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding WOPDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+
+                    <Label Grid.Row="10" Grid.Column="0" Text="Completed Date:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding WOCDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+
+                    <Label Grid.Row="11" Grid.Column="0" Text="Pickup Date:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding WOPUDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+
+                    <Label Grid.Row="12" Grid.Column="0" Text="Pickup Amount:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding WOPUAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="13" Grid.Column="0" Text="Delivery Date:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding WODelDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+
+                    <Label Grid.Row="14" Grid.Column="0" Text="Delivery Amount:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding WODelAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                </Grid>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+
+
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                     SelectedHeaderBackgroundColor="Transparent"
+                         HeaderText="Customer">
+            <dxn:TabViewItem.Content>
+
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding Customer}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Company:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding CustomerName}" TextColor="Black" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Contact:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding CustomerContact}" TextColor="Black" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Address:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding AddressText1}"  
+                       TextColor="Blue" TextDecorations="Underline">
+                    </Label>
+
+
+                    <Label Grid.Row="4" Grid.Column="0" Text=" " TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding AddressText2}" TextColor="Black" />
+
+                    <Label Text="{Binding Phone1Header}" Grid.Row="5" Grid.Column="0" FontAttributes="Bold"  TextColor="Black" XAlign="End"  VerticalTextAlignment="Center"   />
+                    <Label Text="{Binding CustomerPhone1}" Grid.Row="5" Grid.Column="1"    VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
+                       TextColor="Blue" TextDecorations="Underline">
+                    </Label>
+
+                    <Label Text="{Binding Phone2Header}" Grid.Row="6" Grid.Column="0" FontAttributes="Bold"  TextColor="Black" XAlign="End"  VerticalTextAlignment="Center"   />
+                    <Label Text="{Binding CustomerPhone2}" Grid.Row="6" Grid.Column="1"   VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
+                       TextColor="Blue" TextDecorations="Underline">
+                    </Label>
+
+
+                    <Label Grid.Row="7" Grid.Column="0" Text="Email:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding CustomerEmail}" TextColor="Black" />
+
+                    <Label Grid.Row="8" Grid.Column="0" Text="Type:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding CustomerTypeText}" TextColor="Black" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Terms:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding TermsDscr}" TextColor="Black" />
+
+                    <Label Grid.Row="10" Grid.Column="0" Text="Credit Limit:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding CustomerLimit, StringFormat='{}{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="11" Grid.Column="0" Text="Balance:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding CustomerARBal, StringFormat='{}{0:C}'}" TextColor="Black" />
+                </Grid>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+
+        <!--<dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Details">
+            <dxn:TabViewItem.Content>
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding Detail}"/>
+                    <Label TextColor="Black" Text="{Binding Line1}"  />
+                    <Label TextColor="Black" Text="{Binding Line2}"  />
+                    <Label TextColor="Black" Text="{Binding Line3}" />
+                </Grid>
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>-->
+
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Totals">
+            <dxn:TabViewItem.Content>
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="  Totals  "
+                           FontAttributes="Bold" 
+                          Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                            TextColor="Black"
+                            XAlign="Start"
+                           YAlign="Center"
+                           BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Text="Work Order Total:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding WOTAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Customer Total:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding WOCAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Warranty Total:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding WOWAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Tax Total:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding WOTax, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Amount Paid:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding WOPaid, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Balance Due:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding CustomerARBal, StringFormat='{0:C}'}" TextColor="Black" />
+
+
+                    <Label Text="  Customer  "
+                           Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                           FontAttributes="Bold" 
+                            TextColor="Black"
+                            XAlign="Start"
+                             YAlign="Center"
+                           BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
+
+
+                    <Label Text="{Binding Totals}"/>
+                    <Label Grid.Row="8" Grid.Column="0" Text="Parts:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding TotalPartsCustAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Labor:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding TotalLaborCustAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="10" Grid.Column="0" Text="Warranty Parts:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding TotalWarPartsCustAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="11" Grid.Column="0" Text="Warranty Labor:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding TotalWarLaborCustAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="12" Grid.Column="0" Text="Tax:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="12" Grid.Column="1" Text="{Binding TotalTaxCustAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+
+                    <Label Text="  Internal  "
+                          Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2"
+                           FontAttributes="Bold" 
+                            TextColor="Black"
+                            XAlign="Start"
+                           YAlign="Center"
+                           BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
+
+
+                    <Label Grid.Row="14" Grid.Column="0" Text="Parts:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding TotalPartsIntAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="15" Grid.Column="0" Text="Labor:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding TotalLaborIntAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="16" Grid.Column="0" Text="Warranty Parts:  "  FontAttributes="Bold" TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding TotalWarPartsIntAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="17" Grid.Column="0" Text="Warranty Labor:  "  FontAttributes="Bold" TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="17" Grid.Column="1" Text="{Binding TotalWarLaborIntAmt, StringFormat='{0:C}'}" TextColor="Black" />
+
+                    <Label Grid.Row="18" Grid.Column="0" Text="Tax:  "  FontAttributes="Bold" TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="18" Grid.Column="1" Text="{Binding TotalTaxIntAmt, StringFormat='{0:C}'}" TextColor="Black" />
+                </Grid>
+
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>
+
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Payments">
+            <dxn:TabViewItem.Content>
+                <dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding Payments}"
+                           IndicatorColor="Lime">
+                    <!--Define the item template.-->
+
+                    <dxcv:DXCollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="5" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0"  Text="Type: "
+                           Margin="0,2"
+                                       FontAttributes="Bold" 
+                           TextColor="Black"/>
+                                <Label Grid.Row="0" Grid.Column="1"  Text="{Binding PayID}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="1" Grid.Column="0"  Text="Amount: "
+                           Margin="0,2"
+                                       FontAttributes="Bold" 
+                           TextColor="Black"/>
+                                <Label Grid.Row="1" Grid.Column="1"  Text="{Binding PaymentAmt, StringFormat='{0:C}'}"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="1" Grid.Column="2"  Text="Refunded: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="Black"/>
+                                <Label Grid.Row="1" Grid.Column="3"  Text="{Binding WODtlPart, StringFormat='{0:C}'}"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="2" Grid.Column="0"  Text="Cashback: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="Black"/>
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding WODtlQty}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="2" Grid.Column="2"  Text="Date: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="Black"/>
+                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{0:C}'}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="0" Grid.Column="2"  Text="Trans: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="Black"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding WODtlStatusText}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <BoxView Margin="0,0,0,0" Grid.Row="4" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </dxcv:DXCollectionView.ItemTemplate>
+
+                    <!--Define the group header template.-->
+                    <dxcv:DXCollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="2, 0, 18, 10">
+                                <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                                <BoxView BackgroundColor="#ebebeb" 
+                         HeightRequest="1"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                    <!--Specify margins.-->
+                    <dxcv:DXCollectionView.Margin>
+                        <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                    </dxcv:DXCollectionView.Margin>
+                </dxcv:DXCollectionView>
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>
+
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Details">
+            <dxn:TabViewItem.Content>
+                <dxcv:DXCollectionView x:Name="collectionView2"
+                           ItemsSource="{Binding Details}"
+                           IndicatorColor="Lime">
+                    <!--Define the item template.-->
+
+                    <dxcv:DXCollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="22"/>
+                                    <RowDefinition Height="5" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0"  Text="Description: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="0" Grid.Column="1"  Text="{Binding WODtlDscr}"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="1" Grid.Column="0"  Text="Mfg/Tech: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="1" Grid.Column="1"  Text="{Binding WODtlMfg}"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="1" Grid.Column="2"  Text="Part: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="1" Grid.Column="3"  Text="{Binding WODtlPart}"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="2" Grid.Column="0"  Text="Quantity: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding WODtlQty}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="2" Grid.Column="2"  Text="Price: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding WODtlPrice, StringFormat='{0:C}'}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <Label Grid.Row="0" Grid.Column="2"  Text="Item Type: "
+                                       FontAttributes="Bold" 
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding WODtlStatusText}"
+                               Margin="0,2"
+                               TextColor="#3A3A3A" />
+                                <BoxView Margin="0,0,0,0" Grid.Row="4" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+
+
+                            </Grid>
+                        </DataTemplate>
+                    </dxcv:DXCollectionView.ItemTemplate>
+
+                    <!--Define the group header template.-->
+                    <dxcv:DXCollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="2, 0, 18, 10">
+                                <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                                <BoxView BackgroundColor="#ebebeb" 
+                         HeightRequest="1"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                    <!--Specify margins.-->
+                    <dxcv:DXCollectionView.Margin>
+                        <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                    </dxcv:DXCollectionView.Margin>
+                </dxcv:DXCollectionView>
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>
+
+        <dxn:TabViewItem  HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                          HeaderText="Notes In">
+            <dxn:TabViewItem.Content>
+                <Grid>
+                    <Label Text="{Binding WONotesIn}"/>
+                </Grid>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+
+            <dxn:TabViewItem HeaderFontSize="10"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="400"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                             HeaderText="Repair Notes">
+            <dxn:TabViewItem.Content>
+                <Label Text="{Binding WONotesOut}"/>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+
+        <dxn:TabViewItem  HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                          HeaderText="Info">
+            <dxn:TabViewItem.Content>
+                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding Items}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Type:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding ItemType}" TextColor="Black" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Description:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding WOItemDscr}" TextColor="Black" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Equip ID:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding WOEquipID}" TextColor="Black" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Serial Number:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding WOSerial}" TextColor="Black" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Make:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding WOMake}" TextColor="Black" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Model:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding WOModel}" TextColor="Black" />
+
+                    <Label Grid.Row="7" Grid.Column="0" Text="Meter:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding WOMeter}" TextColor="Black" />
+
+                    <Label Grid.Row="8" Grid.Column="0" Text="Year:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding WOYear}" TextColor="Black" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Color:  " FontAttributes="Bold"  TextColor="Black" XAlign="End"   />
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding WOColor}" TextColor="Black" />
+                </Grid>
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>
+
+    </dxn:TabView>
+</ContentPage>

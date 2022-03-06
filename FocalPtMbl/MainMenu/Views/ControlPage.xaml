@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:menu="clr-namespace:FocalPtMbl.MainMenu.Controls"
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"       
+             x:Class="FocalPtMbl.MainMenu.Views.ControlPage"
+             ios:Page.UseSafeArea="true"
+             Title="{Binding Title}"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.Content>
+        <dxcv:DXCollectionView
+            x:Name="collectionView"
+            BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+            ItemsSource="{Binding PageItems}" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <dxcv:DXCollectionView.ItemTemplate>
+                <DataTemplate>
+                    <AbsoluteLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="Transparent">
+                        <Grid
+                                Margin="16,0"
+                                 BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <menu:IconView Grid.Column="0"
+                                           Grid.Row="1"
+                                    Margin="20"
+                                    HeightRequest="42"
+                                    WidthRequest="42" 
+                                    Source="{Binding Icon}"
+                                           BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
+                            <Grid 
+                                    Grid.Column="1"
+                                Grid.Row="1"
+                                    Margin="0,10,0,0"
+                                    BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Label
+                                        Grid.Row="0"
+                                        Margin="0,0,0,2"
+                                        BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                                        FontSize="16"
+                                        FontFamily="Univia-Pro"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemTextStyle}"
+                                        Text="{Binding ControlsPageTitle}"
+                                        TextColor="{DynamicResource TextThemeColor}"
+                                        VerticalOptions="Start" />
+                                <Label
+                                        Grid.Row="1" 
+                                        BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                                        FontSize="12"
+                                    WidthRequest="800"
+                                    HorizontalOptions="StartAndExpand"
+                                        LineBreakMode="WordWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        Text="{Binding Description}"
+                                        TextColor="{DynamicResource TextThemeColor}"
+                                        VerticalOptions="Start" />
+                            </Grid>
+                            <BoxView Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"  HeightRequest="8"/>
+                        </Grid>
+                        <menu:IconView
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0.993, 0.25, 0.175, 0.18"
+                                IsVisible="{Binding ShowBadge}"
+                                Source="{Binding BadgeIcon}"/>
+                        <!--<BoxView
+                                AbsoluteLayout.LayoutFlags="WidthProportional"
+                                AbsoluteLayout.LayoutBounds="0, 98, 1, 1"
+                                Margin="20,0"
+                                Color="{DynamicResource GridCellLinesColor}"
+                                HeightRequest="3"
+                                IsVisible="{Binding ShowItemUnderline}" />-->
+                    </AbsoluteLayout>
+                </DataTemplate>
+            </dxcv:DXCollectionView.ItemTemplate>
+        </dxcv:DXCollectionView>
+    </ContentPage.Content>
+</ContentPage>

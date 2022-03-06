@@ -3,3 +3,10 @@
 ################################################################################
 
 /FocalPtMbl/bin
+/FocalPtMbl/obj
+/FocalPtMbl.Android/bin
+/FocalPtMbl.Android/obj
+/FocalPtMbl.iOS/bin
+/FocalPtMbl.iOS/obj
+/Visum.Services.Mobile.Entities/bin
+/Visum.Services.Mobile.Entities/obj

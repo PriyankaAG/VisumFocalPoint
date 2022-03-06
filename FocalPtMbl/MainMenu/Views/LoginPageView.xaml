@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Core" 
+              xmlns:dxdf="http://schemas.devexpress.com/xamarin/2014/forms/dataform"
+             x:Class="FocalPoint.MainMenu.Views.LoginPageView">
+    <!--<ContentPage.Content>-->
+        <ContentPage.Resources>
+            <Style TargetType="dxe:TextEdit">
+                <Setter Property="ClearIconVisibility" Value="Never" />
+            </Style>
+            <Style TargetType="dxe:SimpleButton">
+                <Setter Property="CornerRadius" Value="0"/>
+            </Style>
+        </ContentPage.Resources>
+    <RelativeLayout>
+        <Image Aspect="Fill" Source="Splash.png" Opacity="1" RelativeLayout.WidthConstraint=
+              "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+            RelativeLayout.HeightConstraint=
+              "{ConstraintExpression Type=RelativeToParent, Property=Height}"/>
+        <Grid RelativeLayout.WidthConstraint=
+          "{ConstraintExpression Type=RelativeToParent, Property=Width}"
+        RelativeLayout.HeightConstraint=
+          "{ConstraintExpression Type=RelativeToParent, Property=Height}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <dxdf:DataFormView
+             Grid.Row="1"
+            ContentPadding="0,0,0,0"
+            CommitMode="Manually"
+            ValidationMode="PropertyChanged"
+            DataObject="{Binding Model}"
+            x:Name="dataForm"
+            EditorLabelColor="#8a8d93"
+            EditorBoxMode="Filled"
+            EditorHorizontalSpacing="0"
+            ReserveBottomTextLine="True"
+             
+            EditorPadding="0,10,0,0"
+            Margin="0,0,0,0"/>
+            <dxe:SimpleButton Grid.Row="2" TextColor="White" Padding="22" BackgroundColor="#2088ff" Text="Login" Clicked="SimpleButton_Clicked" />
+        </Grid>
+    </RelativeLayout>
+
+
+    <!--<StackLayout Padding="0,16" Spacing="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <forms:ColumnDefinition Width="auto" />
+                    <forms:ColumnDefinition Width="auto" />
+                    <forms:ColumnDefinition Width="*" />
+                    <forms:ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackLayout>
+                    <Label Text="Login Screen" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Large"/>
+                    <dxe:TextEdit
+                    LabelText="Connection URL"
+                    PlaceholderText="Connection URL"
+                    HelpText="{Binding ActualHelpText}"
+                    MaxCharacterCount="{Binding ActualMaxCharacterCount}"
+                    BoxMode="{Binding SelectedBoxMode}"
+                    CornerMode="Round"
+                    CornerRadius="1"
+                    FocusedBorderColor="{Binding SelectedAccentColor.Color}"
+                    FocusedLabelColor="{Binding SelectedAccentColor.Color}"
+                    ErrorText="{Binding ActualErrorText}"
+                    HasError="{Binding ActualHasError}"
+                    VerticalOptions="Center"
+                    Margin="16,0"/>
+                    <dxe:TextEdit
+                    LabelText="Username"
+                    PlaceholderText="Username"
+                    HelpText="{Binding ActualHelpText}"
+                    MaxCharacterCount="{Binding ActualMaxCharacterCount}"
+                    BoxMode="{Binding SelectedBoxMode}"
+                    CornerMode="Round"
+                    CornerRadius="1"
+                    FocusedBorderColor="{Binding SelectedAccentColor.Color}"
+                    FocusedLabelColor="{Binding SelectedAccentColor.Color}"
+                    ErrorText="{Binding ActualErrorText}"
+                    HasError="{Binding ActualHasError}"
+                    VerticalOptions="Center"
+                    Margin="16,0"/>
+                <BoxView Grid.Row="1" />
+                <dxe:TextEdit
+                    LabelText="Password"
+                    PlaceholderText="Password"
+                    HelpText="{Binding ActualHelpText}"
+                    MaxCharacterCount="{Binding ActualMaxCharacterCount}"
+                    BoxMode="{Binding SelectedBoxMode}"
+                    CornerMode="Round"
+                    CornerRadius="1"
+                    FocusedBorderColor="{Binding SelectedAccentColor.Color}"
+                    FocusedLabelColor="{Binding SelectedAccentColor.Color}"
+                    ErrorText="{Binding ActualErrorText}"
+                    HasError="{Binding ActualHasError}"
+                    VerticalOptions="Center"
+                    Margin="16,0"/>
+                <BoxView Grid.Row="1" />
+                </StackLayout>
+            </Grid>
+        </StackLayout>-->
+    <!--</ContentPage.Content>-->
+</ContentPage>
