@@ -1,14 +1,9 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Components.Interface;
-using FocalPoint.Data.API;
+﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.ServiceDepartment.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;

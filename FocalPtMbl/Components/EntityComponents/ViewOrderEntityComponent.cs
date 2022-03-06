@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
-namespace FocalPoint.Components.EntityComponents
+namespace FocalPoint
 {    
     public class ViewOrderEntityComponent: IViewOrderEntityComponent
     {

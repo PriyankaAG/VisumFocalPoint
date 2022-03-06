@@ -1,15 +1,9 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Data;
+﻿using FocalPoint.Data;
 using FocalPoint.Data.API;
 using FocalPoint.Models;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Visum.Services.Mobile.Entities;

@@ -1,15 +1,10 @@
-﻿using FocalPoint.Components.Common;
-using FocalPoint.Components.Common.Interface;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Common.Interface;
 using FocalPoint.Data.API;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FocalPoint.Components.EntityComponents
+namespace FocalPoint
 {
     public class GeneralComponent : IGeneralComponent
     {

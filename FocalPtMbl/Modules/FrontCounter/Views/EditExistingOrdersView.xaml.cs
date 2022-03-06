@@ -3,10 +3,9 @@ using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using System;
 using System.Threading.Tasks;
-using Xamarin.Forms.Xaml;
 using Visum.Services.Mobile.Entities;
-using FocalPoint.Components.EntityComponents;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {

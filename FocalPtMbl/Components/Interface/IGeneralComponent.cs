@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FocalPoint.Components.Interface
+namespace FocalPoint
 {
     public interface IGeneralComponent
     {

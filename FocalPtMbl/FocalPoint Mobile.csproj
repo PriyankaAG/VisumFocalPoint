@@ -144,6 +144,9 @@
     <None Update="Modules\Administrative\Views\RentalValuationSummaryView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Modules\Common\View\OrderImagePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Modules\CustomerRelations\Views\CustomerDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
@@ -250,6 +253,9 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
