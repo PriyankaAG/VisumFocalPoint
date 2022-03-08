@@ -26,7 +26,7 @@ namespace FocalPoint
             var httpClientCache  = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             //clientHttp.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            Task.Delay(10000).Wait();
+            //Task.Delay(10000).Wait();
             baseURL = DataManager.Settings.ApiUri;
         }
 
