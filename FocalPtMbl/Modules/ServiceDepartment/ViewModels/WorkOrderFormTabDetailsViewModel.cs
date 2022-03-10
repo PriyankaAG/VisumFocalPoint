@@ -5,6 +5,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+using FocalPoint.Data.API;
+using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPoint.Modules.FrontCounter.Views;
 
 namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 {
@@ -13,8 +18,9 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         readonly WorkOrder order;
         public WorkOrderFormTabDetailsViewModel(WorkOrder workOrder)
         {
+            ViewOrderEntityComponent = new ViewOrderEntityComponent();
             foreach (var paym in workOrder.Payments)
-               this.Payments.Add(paym);
+                this.Payments.Add(paym);
             foreach (var dtl in workOrder.WorkOrderDtls)
                 this.Details.Add(dtl);
             this.order = workOrder;
@@ -22,6 +28,23 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         /// <summary>
         /// Header
         /// </summary>
+
+        public int WONo
+        {
+            get => order.WONo;
+        }
+        public string _signatureImage;
+        public string SignatureImage
+        {
+            get => _signatureImage;
+            set => SetProperty(ref _signatureImage, value);
+        }
+        private string _waiverCapturedImage;
+        public string WaiverCapturedImage
+        {
+            get => _waiverCapturedImage;
+            set => SetProperty(ref _waiverCapturedImage, value);
+        }
         public string WODscr
         {
             get => this.order.WODscr;
@@ -57,6 +80,10 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         {
             get => this.order.WOODte.ToString();
         }
+        public string WOCDte
+        {
+            get => this.order.WOCDte.ToString();
+        }
         public string WOPDte
         {
             get => this.order.WOPDte.ToString();
@@ -64,6 +91,13 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         public string WOPUDte
         {
             get => this.order.WOPUDte.ToString();
+        }
+
+        private SignatureMessageOutputDTO _signatureMessageOutputDTO;
+        public SignatureMessageOutputDTO SignatureMessageOutputDTO
+        {
+            get => _signatureMessageOutputDTO;
+            set => SetProperty(ref _signatureMessageOutputDTO, value);
         }
         public decimal WOPUAmt
         {
@@ -77,9 +111,17 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         {
             get => this.order.WODelAmt;
         }
+
+        public IViewOrderEntityComponent ViewOrderEntityComponent { get; set; }
+
+
         /// <summary>
         /// Customer
         /// </summary>
+        public Customer Customer
+        {
+            get => this.order.Customer;
+        }
         public string CustomerName
         {
             get => this.order.Customer.CustomerName;
@@ -138,7 +180,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string CustomerPhone2
         {
-            get => FormatNumber(this.order.Customer.CustomerPhone2) ;
+            get => FormatNumber(this.order.Customer.CustomerPhone2);
         }
         public string CustomerEmail
         {
@@ -233,7 +275,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         public ObservableCollection<Payment> Payments
         {
             get => this.payments;
-             set
+            set
             {
                 if (payments.Count < 0)
                     this.payments = value;
@@ -267,7 +309,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             }
 
         }
-        
+
         //public string Line1
         //{
         //    get
@@ -378,6 +420,93 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         public decimal TotalLaborCustAmt
         {
             get => this.order.Totals.TotalLaborCustAmt;
+        }
+
+        internal bool EmailExists()
+        {
+            return false;
+        }
+
+        public async Task SignatureCommand(INavigation navigation)
+        {
+            SignatureMessageInputDTO singnatureMessageInputDTO = new SignatureMessageInputDTO
+            {
+                DocKind = (int)DocKinds.WorkOrder,
+                RecordID = WONo,
+                Stat = "W"//OrderEdit, used when editing an existing Order
+            };
+            var viewOrderEntityComponent = new ViewOrderEntityComponent();
+            SignatureMessageOutputDTO = await viewOrderEntityComponent.GetSignatureMessageDTO(singnatureMessageInputDTO);
+            if (SignatureMessageOutputDTO != null)
+            {
+                if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO.Waiver))
+                {
+                    OpenSignatureWaiverPage(navigation);
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO.Terms))
+                    {
+                        OpenSignatureTermsView(navigation);
+                    }
+                    else
+                    {
+                        OpenSignaturePage(navigation, false);
+                    }
+                }
+            }
+            else
+            {
+                OpenSignaturePage(navigation, false);
+            }
+        }
+
+        public void OpenSignatureTermsView(INavigation navigation)
+        {
+            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(false, WONo, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
+            var orderSignatureTermsView = new SignatureTermsView();
+            orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
+            navigation.PushAsync(orderSignatureTermsView);
+        }
+
+        public void OpenSignatureWaiverPage(INavigation navigation)
+        {
+            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(true, WONo, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
+            var orderSignatureTermsView = new SignatureTermsView();
+            orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
+            navigation.PushAsync(orderSignatureTermsView);
+        }
+
+        public void OpenSignaturePage(INavigation navigation, bool isWaiver)
+        {
+            OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(order, isWaiver, "Sign above for Terms & Conditions");
+            var orderSignatureView = new OrderSignatureView();
+            orderSignatureView.BindingContext = orderSignatureViewModel;
+            navigation.PushAsync(orderSignatureView);
+        }
+
+        public async Task<bool> SaveSignature()
+        {
+            SignatureInputDTO signatureInputDTO = new SignatureInputDTO();
+            signatureInputDTO.DocKind = (int)DocKinds.WorkOrder;
+            signatureInputDTO.RecordID = WONo;
+            signatureInputDTO.Stat = "W";//OrderEdit, used when editing an existing Order
+            signatureInputDTO.Format = 4;//Base64 String of Image
+            signatureInputDTO.Signature = SignatureImage;
+            signatureInputDTO.Waiver = WaiverCapturedImage;
+            return await ViewOrderEntityComponent.SaveSignature(signatureInputDTO);
+        }
+
+        public void IsNeedToRedirectTermsOrSignature(INavigation navigation)
+        {
+            if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO?.Terms))
+            {
+                OpenSignatureTermsView(navigation);
+            }
+            else
+            {
+                OpenSignaturePage(navigation, false);
+            }
         }
     }
 }
