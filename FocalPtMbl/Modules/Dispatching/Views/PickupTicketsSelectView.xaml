@@ -12,19 +12,7 @@
         <viewModel:PickupTicketsSelectViewModel/>
     </ContentPage.BindingContext>
     <StackLayout>
-        <BoxView Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
-        <!--<Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*" />
-                <ColumnDefinition Width="50*" />
-            </Grid.ColumnDefinitions>
-
-           -->
-
+        <dxe:TextEdit LabelText="Search" PlaceholderText="Ticket Search" ClearIconClicked="TextEdit_Cleared" Completed="TextEdit_Completed" Text="" Margin="10,0"></dxe:TextEdit>
             <dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Recent}"
                            SelectedItem="{Binding SelectedTicket}"
