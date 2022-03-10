@@ -1,4 +1,4 @@
-﻿using FocalPoint.Components.Common.Interface;
+﻿using FocalPoint.Components.Common;
 using FocalPoint.Data.API;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -10,6 +10,8 @@ namespace FocalPoint
     {
         IAPICompnent apiComponent; 
         public const string postEmailDocument = "Email/Document/";
+        public const string postSignatureMessage = "Signature/Messages";
+        public const string postSaveSignature = "Signature/Waiver";
 
         public GeneralComponent()
         {
@@ -20,6 +22,28 @@ namespace FocalPoint
         {
             string requestContent = JsonConvert.SerializeObject(emailDocumentInputDTO);
             HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postEmailDocument, requestContent);
+            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
+                return true;
+            return false;
+        }
+
+        public async Task<SignatureMessageOutputDTO> GetSignatureMessageDTO(SignatureMessageInputDTO singnatureMessageInputDTO)
+        {
+            SignatureMessageOutputDTO singnatureMessageOutputDTO = null;
+            string requestContent = JsonConvert.SerializeObject(singnatureMessageInputDTO);
+            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSignatureMessage, requestContent);
+            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
+            {
+                string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                singnatureMessageOutputDTO = JsonConvert.DeserializeObject<SignatureMessageOutputDTO>(content);
+            }
+            return singnatureMessageOutputDTO;
+        }
+
+        public async Task<bool> SaveSignature(SignatureInputDTO signatureInputDTO)
+        {
+            string requestContent = JsonConvert.SerializeObject(signatureInputDTO);
+            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSaveSignature, requestContent);
             if (httpResponseMessage?.IsSuccessStatusCode ?? false)
                 return true;
             return false;

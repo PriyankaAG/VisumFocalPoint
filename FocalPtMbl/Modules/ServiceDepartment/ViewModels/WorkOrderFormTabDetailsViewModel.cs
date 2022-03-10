@@ -1,15 +1,12 @@
-﻿using Visum.Services.Mobile.Entities;
-using FocalPtMbl.MainMenu.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using FocalPoint.Data.API;
+﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPtMbl.MainMenu.ViewModels;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 {
@@ -18,7 +15,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         readonly WorkOrder order;
         public WorkOrderFormTabDetailsViewModel(WorkOrder workOrder)
         {
-            ViewOrderEntityComponent = new ViewOrderEntityComponent();
+            GeneralComponent = new GeneralComponent();
             foreach (var paym in workOrder.Payments)
                 this.Payments.Add(paym);
             foreach (var dtl in workOrder.WorkOrderDtls)
@@ -112,7 +109,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             get => this.order.WODelAmt;
         }
 
-        public IViewOrderEntityComponent ViewOrderEntityComponent { get; set; }
+        public IGeneralComponent GeneralComponent { get; set; }
 
 
         /// <summary>
@@ -435,8 +432,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
                 RecordID = WONo,
                 Stat = "W"//OrderEdit, used when editing an existing Order
             };
-            var viewOrderEntityComponent = new ViewOrderEntityComponent();
-            SignatureMessageOutputDTO = await viewOrderEntityComponent.GetSignatureMessageDTO(singnatureMessageInputDTO);
+            SignatureMessageOutputDTO = await GeneralComponent.GetSignatureMessageDTO(singnatureMessageInputDTO);
             if (SignatureMessageOutputDTO != null)
             {
                 if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO.Waiver))
@@ -494,7 +490,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             signatureInputDTO.Format = 4;//Base64 String of Image
             signatureInputDTO.Signature = SignatureImage;
             signatureInputDTO.Waiver = WaiverCapturedImage;
-            return await ViewOrderEntityComponent.SaveSignature(signatureInputDTO);
+            return await GeneralComponent.SaveSignature(signatureInputDTO);
         }
 
         public void IsNeedToRedirectTermsOrSignature(INavigation navigation)

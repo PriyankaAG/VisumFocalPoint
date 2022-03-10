@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\Common\ViewModel\**" />
+    <EmbeddedResource Remove="Modules\Common\ViewModel\**" />
+    <None Remove="Modules\Common\ViewModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="DevExpress.XamarinForms.Charts" Version="20.2.6" />
     <PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="20.2.6" />
@@ -303,9 +309,5 @@
     <None Update="Views\NewItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\Common\ViewModel\" />
   </ItemGroup>
 </Project>
