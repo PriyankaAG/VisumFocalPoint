@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Components.Common;
 using FocalPoint.Data.API;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,33 +21,47 @@ namespace FocalPoint
 
         public async Task<bool> SendEmailDocument(EmailDocumentInputDTO emailDocumentInputDTO)
         {
-            string requestContent = JsonConvert.SerializeObject(emailDocumentInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postEmailDocument, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                return true;
-            return false;
+            bool isEmailSuccess = default;
+            try
+            {
+                string requestContent = JsonConvert.SerializeObject(emailDocumentInputDTO);
+                isEmailSuccess = await apiComponent.PostAsync<bool>(postEmailDocument, requestContent);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Track error
+            }
+            return isEmailSuccess;
         }
 
         public async Task<SignatureMessageOutputDTO> GetSignatureMessageDTO(SignatureMessageInputDTO singnatureMessageInputDTO)
         {
-            SignatureMessageOutputDTO singnatureMessageOutputDTO = null;
-            string requestContent = JsonConvert.SerializeObject(singnatureMessageInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSignatureMessage, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
+            SignatureMessageOutputDTO singnatureMessageOutputDTO = default;
+            try
             {
-                string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                singnatureMessageOutputDTO = JsonConvert.DeserializeObject<SignatureMessageOutputDTO>(content);
+                string requestContent = JsonConvert.SerializeObject(singnatureMessageInputDTO);
+                singnatureMessageOutputDTO = await apiComponent.PostAsync<SignatureMessageOutputDTO>(postSignatureMessage, requestContent);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Track Error
             }
             return singnatureMessageOutputDTO;
         }
 
         public async Task<bool> SaveSignature(SignatureInputDTO signatureInputDTO)
         {
-            string requestContent = JsonConvert.SerializeObject(signatureInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSaveSignature, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                return true;
-            return false;
+            bool isSignatureSaved = default;
+            try
+            {
+                string requestContent = JsonConvert.SerializeObject(signatureInputDTO);
+                isSignatureSaved = await apiComponent.PostAsync<bool>(postSaveSignature, requestContent);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Track Error
+            }
+            return isSignatureSaved;
         }
     }
 }
