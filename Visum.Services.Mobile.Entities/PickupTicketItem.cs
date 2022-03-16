@@ -94,6 +94,9 @@ namespace Visum.Services.Mobile.Entities
         [DataMember]
         public string ImageName { get; set; }
 
+        [IgnoreDataMember()]
+        public bool Checked { get; set; }
+
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)
         {

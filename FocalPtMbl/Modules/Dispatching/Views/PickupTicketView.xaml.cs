@@ -1,5 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using FocalPoint.Modules.Dispatching.ViewModels;
+using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPoint.Modules.FrontCounter.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,22 +29,22 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             if (args.Item != null)
             {
-                ((PickupTicketViewModel)this.BindingContext).SelectedDetail = (PickupTicketItem)args.Item;
+                ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)args.Item;
                 await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
                 //Get Number of questions
-                List<string> popUpCount = ((PickupTicketViewModel)this.BindingContext).GetPopUpCount();
+                //List<string> popUpCount = ((PickupTicketViewModel)this.BindingContext).GetPopUpCount();
                 //check popups?
-                foreach (var popupString in popUpCount)
+                /*foreach (var popupString in popUpCount)
                 {
                     double initValue = 0;
                     //bool stayOrLeave = await DisplayAlert("New customer # duplicate", "The New customer has the same phone number as one already in the database", "Cancel", "Continue");
-                   if (popupString == "Input Meter")
+                    if (popupString == "Input Meter")
                         initValue = ((PickupTicketViewModel)this.BindingContext).SelectedDetail.PuDtlMeterIn;
-                   else if(popupString  == "Select Count")
+                    else if (popupString == "Select Count")
                         initValue = (double)((PickupTicketViewModel)this.BindingContext).SelectedDetail.LastCntOutQty;
-                   else if(popupString == "Add Fuel")
+                    else if (popupString == "Add Fuel")
                         initValue = (double)((PickupTicketViewModel)this.BindingContext).SelectedDetail.PuDtlTank;
-                    string result = await DisplayPromptAsync("Change Pickup",popupString, initialValue: initValue.ToString(), keyboard: Keyboard.Numeric);
+                    string result = await DisplayPromptAsync("Change Pickup", popupString, initialValue: initValue.ToString(), keyboard: Keyboard.Numeric);
                     if (popupString == "Input Meter" && result != null)
                         ((PickupTicketViewModel)this.BindingContext).SelectedDetail.PuDtlMeterIn = Convert.ToDouble(result);
                     else if (popupString == "Select Count" && result != null)
@@ -52,8 +54,8 @@ namespace FocalPoint.Modules.Dispatching.Views
 
                     ((PickupTicketViewModel)this.BindingContext).SelectedDetail.CurrentTotalCnt = ((PickupTicketViewModel)this.BindingContext).Totals;
                     ((PickupTicketViewModel)this.BindingContext).SelectedDetail.ImageName = ((PickupTicketViewModel)this.BindingContext).GetImageString();
-                    ((PickupTicketViewModel)this.BindingContext).PickupTicketItemToSubmit();
-                }
+                    //((PickupTicketViewModel)this.BindingContext).PickupTicketItemToSubmit();
+                }*/
 
                 //await OpenDetailPage(GetDetailInfo(args.Item));
             }
@@ -80,8 +82,42 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         readonly PickupTicketViewModel viewModel;
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
+            if (((PickupTicketViewModel)this.BindingContext).ToBeCounted > 0)
+            {
+                await DisplayAlert("FocalPoint Mobile", "Please Count All Detail Lines.", "OK");
+                return;
+            }
+            var underCount = false;
+            foreach (var itemVm in viewModel.Details)
+            {
+                if (viewModel.Totals > itemVm.PuDtlQty)
+                {
+                    await DisplayAlert("FocalPoint", "Items Over Counted, Please check details for Errors.", "OK");
+                    return;
+                }
+
+                if (viewModel.Totals > 0 && viewModel.Totals < itemVm.PuDtlQty)
+                    underCount = true;
+            }
+            if (underCount)
+            {
+                string proceed = await DisplayPromptAsync("FocalPoint", "Some Items are under Counted, Are you sure you want to Complete?", "Yes", "No");
+
+                if (proceed == "No")
+                    return;
+            }
+            //App.Platform.Show("Sending Counts...");
+
+            var success = viewModel.PickupTicketCounted(viewModel.PuTNo);
+            if (success)
+            {
+                OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(null, false, "Sign below to accept Pickup");
+                var orderSignatureView = new OrderSignatureView();
+                orderSignatureView.BindingContext = orderSignatureViewModel;
+                //navigation.PushAsync(orderSignatureView);
+            }
 
         }
 
@@ -110,7 +146,40 @@ namespace FocalPoint.Modules.Dispatching.Views
             bool isChecked = false;
             if (((PickupTicketViewModel)this.BindingContext).SelectedDetail.ImageName != "UnCheckedBox.png")
                 isChecked = true;
-           ((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
+            ((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
+        }
+
+        async protected void CheckBoxTapped(object sender, EventArgs args)
+        {
+            var img = (Image)sender;
+            PickupTicketViewModel viewModel = BindingContext as PickupTicketViewModel;
+            bool isChecked = false;
+            if (viewModel.SelectedDetail.ImageName != "UnCheckedBox.png")
+                isChecked = true;
+
+            if (isChecked)
+            {
+                viewModel.SelectedDetail.PuDtlCntQty = viewModel.SelectedDetail.PuDtlQty;
+                List<string> popUpCount = viewModel.GetPopUpCount();
+                foreach (var popupString in popUpCount)
+                {
+                    double initValue = viewModel.GetPopupType(popupString);
+                    string result = await DisplayPromptAsync("Change Pickup", popupString, initialValue: initValue.ToString(), keyboard: Keyboard.Numeric);
+                    if (result != null)
+                        viewModel.setPopupValue(popupString, result);
+                }
+            }
+            else
+                viewModel.ClearQuantities();
+            viewModel.SelectedDetail.UTCCountDte = DateTime.UtcNow;
+            bool update = viewModel.PickupTicketItemCount();
+            if (!update)
+            {
+                if (isChecked)
+                    await DisplayAlert("FocalPoint", "Item Counted by Another, Counts Reloaded.", "OK");
+                else
+                    await DisplayAlert("FocalPoint", "Item Counted by Another, Last Counts Reloaded.", "OK");
+            }
         }
 
         private void SimpleButton_Clicked(object sender, EventArgs e)

@@ -38,8 +38,8 @@ namespace FocalPoint.Modules.Dispatching.Views
             {
                 ((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket = (PickupTicket)args.Item;
                 await OpenDetailPage(GetTicketInfo(args.Item));
-                if(((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket != null)
-                ((PickupTicketsSelectViewModel)this.BindingContext).UnlockTicket(((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket);
+                if (((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket != null)
+                    ((PickupTicketsSelectViewModel)this.BindingContext).UnlockTicket(((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket);
             }
         }
         private PickupTicket GetTicketInfo(object item)
@@ -57,8 +57,8 @@ namespace FocalPoint.Modules.Dispatching.Views
             //MessagingCenter.Send<SelectCustomerView, string>(this, "Hi", "John");
             //MessagingCenter.Send<SelectCustomerView, Customer>(this, "Hi", cust);
             //EventPass(((SelectCustomerViewModel)this.BindingContext).SelectedCustomer);
-            //return Navigation.PushAsync(new PickupTicketView(detailedTicket));
-            return Navigation.PopAsync();
+            return Navigation.PushAsync(new PickupTicketView(detailedTicket));
+            //return Navigation.PopAsync();
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

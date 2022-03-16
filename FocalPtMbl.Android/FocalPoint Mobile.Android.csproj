@@ -65,13 +65,17 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningKeyStore>D:\Visum\FocalPoint Mobile\FocalPoint Mobile_3.0\VisumFocalPoint.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Visum982$</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>VisumFocalPoint</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Visum982$</AndroidSigningKeyPass>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <MandroidI18n />
+    <AndroidHttpClientHandlerType>System.Net.Http.HttpClientHandler</AndroidHttpClientHandlerType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

@@ -18,8 +18,8 @@
                            SelectedItem="{Binding SelectedTicket}"
                            IndicatorColor="Lime"
                            Tap="ItemSelected"
-            LoadMoreCommand="{Binding LoadMoreCommand}"
-            IsLoadMoreEnabled="True"
+                        LoadMoreCommand="{Binding LoadMoreCommand}"
+                        IsLoadMoreEnabled="True"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                                     Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                 <!--Define the item template.-->

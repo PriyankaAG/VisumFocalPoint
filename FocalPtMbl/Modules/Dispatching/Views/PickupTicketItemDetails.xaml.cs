@@ -14,9 +14,8 @@ namespace FocalPoint.Modules.Dispatching.Views
     {
         public PickupTicketItemDetails(PickupTicketItem pickupTicketItem)
         {
-            this.
             InitializeComponent();
-            this.Title = "Pickup Detail: " + pickupTicketItem.EquipID.ToString();
+            this.Title = "Count Adjustment";
         }
 
 
