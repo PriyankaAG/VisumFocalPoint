@@ -9,9 +9,9 @@ using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint
 {
-    public class ViewOrderEntityComponent: IViewOrderEntityComponent
+    public class ViewOrderEntityComponent : IViewOrderEntityComponent
     {
-        IAPICompnent apiComponent;       
+        IAPICompnent apiComponent;
 
         public const string OrderDetail = "Order/{0}";
         public const string orderImage = "OrderImage";
@@ -19,54 +19,40 @@ namespace FocalPoint
         public ViewOrderEntityComponent()
         {
             apiComponent = new APIComponent();
-        }
+        }        
 
         public async Task<Order> GetOrderDetails(int orderNo)
         {
+            Order order = default;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(string.Format(OrderDetail, orderNo));
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<Order>(content);
-                    return response;
-                }
+                order = await apiComponent.GetAsync<Order>(string.Format(OrderDetail, orderNo));
             }
             catch (Exception ex)
             {
 
             }
-            return null;
+            return order;
         }
 
         public async Task<bool> SaveOrderImage(OrderImageInputDTO orderImageInputDTO)
         {
             string requestContent = JsonConvert.SerializeObject(orderImageInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(orderImage, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                return true;
-            return false;
+            return await apiComponent.PostAsync<bool>(orderImage, requestContent);
         }
 
         public async Task<List<OrderImageDetail>> GetOrderImages(string orderNo)
         {
-            var url = string.Format(orderImages, orderNo);
+            List<OrderImageDetail> orderImageDetails = default;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(url);
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<List<OrderImageDetail>>(content);
-                    return response;
-                }
+                orderImageDetails = await apiComponent.GetAsync<List<OrderImageDetail>>(string.Format(orderImages, orderNo));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-            return null;
+            return orderImageDetails;
         }
     }
 }
