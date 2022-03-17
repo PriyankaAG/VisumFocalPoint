@@ -1,9 +1,7 @@
-﻿using FocalPoint.Components.Common;
-using FocalPoint.Data.API;
+﻿using FocalPoint.Data.API;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
