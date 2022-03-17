@@ -113,9 +113,10 @@ namespace FocalPoint.Modules.Dispatching.Views
             var success = viewModel.PickupTicketCounted(viewModel.PuTNo);
             if (success)
             {
-                OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(null, false, "Sign below to accept Pickup");
-                var orderSignatureView = new OrderSignatureView();
-                orderSignatureView.BindingContext = orderSignatureViewModel;
+                //TODO: Pickup Ticket COG
+                //OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(null, false, "Sign below to accept Pickup");
+                //var orderSignatureView = new OrderSignatureView();
+                //orderSignatureView.BindingContext = orderSignatureViewModel;
                 //navigation.PushAsync(orderSignatureView);
             }
 
