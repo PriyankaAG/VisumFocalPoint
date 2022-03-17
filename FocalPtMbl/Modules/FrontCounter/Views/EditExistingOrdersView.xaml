@@ -7,7 +7,7 @@
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
              HeaderPanelPosition="Top"
-             IsSelectedItemIndicatorVisible="False"
+             IsSelectedItemIndicatorVisible="True"
              ItemHeaderWidth="*"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPage.Resources>
