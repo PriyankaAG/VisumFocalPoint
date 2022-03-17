@@ -23,6 +23,12 @@ namespace FocalPoint.Modules.FrontCounter.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            MessagingCenter.Send(this, "AllowLandscape");
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send(this, "PreventLandscape");
         }
 
         private async void Button_Clicked(object sender, EventArgs e)

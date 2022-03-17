@@ -39,7 +39,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedOrder.Customer.CustomerName, StringFormat='Company: {0}'}" Padding="0,2,10,0" TextColor="Black" XAlign="End" YAlign="Center"     />
                     <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" TextColor="Black" YAlign="Center"  />-->
 
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
 
                         <!--<Grid.RowDefinitions>
           <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
@@ -101,9 +101,9 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Customer"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Customer">
                 <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                         <!--<Grid.RowDefinitions>
                     <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
                 </Grid.RowDefinitions>-->
@@ -174,9 +174,9 @@
 
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Detail"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Detail">
                 <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                         <!--<Grid.RowDefinitions>
         <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
       </Grid.RowDefinitions>-->
@@ -197,9 +197,9 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Totals"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Totals">
                 <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                         <!--<Grid.RowDefinitions>
           <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
         </Grid.RowDefinitions>-->
@@ -292,12 +292,12 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Payments"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Payments">
                 <StackLayout>
                     <ListView      
              VerticalOptions="End"
              x:Name="listView"
-             BackgroundColor="White"
+             
              ItemSelected="listView_ItemSelected">
 
                         <ListView.ItemTemplate>
@@ -337,9 +337,9 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Shipping"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Shipping">
                 <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                         <!--<Grid.RowDefinitions>
           <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
         </Grid.RowDefinitions>-->
@@ -390,9 +390,9 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Dispatching"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="Dispatching">
                 <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                         <!--<Grid.RowDefinitions>
           <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
         </Grid.RowDefinitions>-->
@@ -461,7 +461,7 @@
     </dxn:TabPageItem>
     <!--<dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="ExtraFunctions"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <ContentPage Title="ExtraFunctions">
                 <StackLayout>
                     <dxe:SimpleButton Clicked="SimpleButton_Clicked" Text="Test Signature Capture"></dxe:SimpleButton>
                     <dxe:SimpleButton Clicked="SimpleButton_Clicked_1" Text="Test Email Copy to Customer"></dxe:SimpleButton>
