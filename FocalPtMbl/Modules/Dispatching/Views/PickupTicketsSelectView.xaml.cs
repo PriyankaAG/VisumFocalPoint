@@ -53,7 +53,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             if (ticket == null)
                 return Task.CompletedTask;
 
-            PickupTicket detailedTicket = ((PickupTicketsSelectViewModel)this.BindingContext).GetDetailedTicketInfo(ticket);
+            PickupTicket detailedTicket = ((PickupTicketsSelectViewModel)this.BindingContext).GetDetailedTicketInfo(ticket).GetAwaiter().GetResult();
             //MessagingCenter.Send<SelectCustomerView, string>(this, "Hi", "John");
             //MessagingCenter.Send<SelectCustomerView, Customer>(this, "Hi", cust);
             //EventPass(((SelectCustomerViewModel)this.BindingContext).SelectedCustomer);
