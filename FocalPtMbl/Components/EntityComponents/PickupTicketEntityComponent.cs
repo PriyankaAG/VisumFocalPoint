@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using FocalPoint.Components.Common.Interface;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Interface;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
-namespace FocalPoint.Components.EntityComponents
+namespace FocalPoint
 {
     public class PickupTicketEntityComponent : IPickupTicketEntityComponent
     {
@@ -27,118 +25,89 @@ namespace FocalPoint.Components.EntityComponents
 
         public async Task<PickupTicket> GetPickupTicket(string ticketNumber)
         {
+            PickupTicket pickupTicket = null;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(string.Format(PickupTicket, ticketNumber));
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<PickupTicket>(content);
-                    return response;
-                }
+                pickupTicket = await apiComponent.GetAsync<PickupTicket>(string.Format(PickupTicket, ticketNumber));
+                
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return null;
+            return pickupTicket;
         }
 
         public async Task<List<PickupTicket>> GetPickupTickets()
         {
+            List<PickupTicket> pickupTickets = null;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(PickupTickets);
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<List<PickupTicket>>(content);
-                    return response;
-                }
+                pickupTickets = await apiComponent.GetAsync<List<PickupTicket>>(PickupTickets);
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return null;
+            return pickupTickets;
         }
 
         public async Task<bool> LockPickupTicket(string ticketNumber, string apiLocked)
         {
+            bool result = false;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(string.Format(PickupTicketLock, ticketNumber, apiLocked));
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<bool>(content);
-                    return response;
-                }
+                result = await apiComponent.GetAsync<bool>(string.Format(PickupTicketLock, ticketNumber, apiLocked));
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return false;
+            return result;
         }
 
         public async Task<PickupTicket> GetPickupTicketDetails(string ticketNumber)
         {
+            PickupTicket pickupTicket = null;
             try
             {
-                HttpResponseMessage httpResponseMessage = await apiComponent.GetAsync(string.Format(PickupTicketDetails, ticketNumber));
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<PickupTicket>(content);
-                    return response;
-                }
+                pickupTicket = await apiComponent.GetAsync<PickupTicket>(string.Format(PickupTicketDetails, ticketNumber));
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return null;
+            return pickupTicket;
         }
 
         public async Task<bool> PostPickupTicketItemCount(PickupTicketItem selectedDetail)
         {
+            bool result = false;
             try
             {
                 string requestContent = JsonConvert.SerializeObject(selectedDetail);
-                HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(PickupTicketItemCount, requestContent);
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<bool>(content);
-                    return response;
-                }
+                result = await apiComponent.PostAsync<bool>(PickupTicketItemCount, requestContent);
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return false;
+            return result;
         }
 
         public async Task<bool> PostPickupTicketCounted(string puTNo)
         {
+            bool result = false;
             try
             {
                 string requestContent = JsonConvert.SerializeObject(puTNo);
-                HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(PickupTicketCounted, requestContent);
-                if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                {
-                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<bool>(content);
-                    return response;
-                }
+                result = await apiComponent.PostAsync<bool>(PickupTicketCounted, requestContent);
             }
             catch (Exception ex)
             {
-
+                //TODO: Log error
             }
-            return false;
+            return result;
         }
     }
 }

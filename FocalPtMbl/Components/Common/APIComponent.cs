@@ -1,50 +1,86 @@
-﻿using FocalPoint.Components.Common.Interface;
-using FocalPoint.Data;
+﻿using FocalPoint.Data;
 using Newtonsoft.Json;
 using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace FocalPoint
+namespace FocalPoint.Components.Common
 {
     public class APIComponent: IAPICompnent
     {
-        HttpClient clientHttp = new HttpClient();
-        string baseURL;
-        public HttpClient ClientHTTP
-        {
-            get { return clientHttp; }
-        }
+        private string mediaType = "application/json";        
 
         public APIComponent()
         {
             var httpClientCache  = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
-            //clientHttp.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //Task.Delay(10000).Wait();
             baseURL = DataManager.Settings.ApiUri;
         }
 
-        public async Task<HttpResponseMessage> PostAsyc(string url, string requestConentString)
+        HttpClient clientHttp { get; set; }
+        string baseURL;
+
+        public HttpClient ClientHTTP
+        {
+            get { return clientHttp; }
+        }
+
+        public async Task<T> GetAsync<T>(string url)
+        {
+            T typedRequestContent = default;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await GetAsync(url);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch (Exception exception)
+            {
+                //TODO: Track Error
+            }
+            return typedRequestContent;
+        }
+
+        public async Task<T> PostAsync<T>(string url, string requestContent)
+        {
+            T typedRequestContent = default;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await PostAsync(url, requestContent);
+                if(httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch(Exception exception)
+            {
+                //TODO: Track Error
+            }
+            return typedRequestContent;
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string url, string requestConentString)
         {
             HttpResponseMessage responseMessage = null;
             try
             {
-                var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
-                this.clientHttp = httpClientCache.GetHttpClientAsync();
-                StringContent requestContent = new StringContent(requestConentString);                
-                string absoluteUrl = GetCompleteURL(url);
-                HttpContent content = new StringContent(requestConentString, Encoding.UTF8, "application/json");
-
-                responseMessage = await ClientHTTP.PostAsync(absoluteUrl, content);
-                var content2 = responseMessage.Content.ReadAsStringAsync().Result.ToString();
-                /*var response = await PostTest(requestContent, absoluteUrl);
-                var content2 = response;*/
+                StringContent requestContent = new StringContent(requestConentString);
+                HttpContent content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
+                responseMessage = await ClientHTTP.PostAsync(GetCompleteURL(url), content);
             }
             catch (Exception ex)
             {
@@ -55,19 +91,17 @@ namespace FocalPoint
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            HttpResponseMessage responseMessage = null;
+            HttpResponseMessage httpResponseMessage = default;
             try
             {
-                Uri absoluteUrl = new Uri(GetCompleteURL(url));
-                responseMessage = await ClientHTTP.GetAsync(absoluteUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                var content2 = responseMessage.Content.ReadAsStringAsync().Result.ToString();
+                httpResponseMessage = await ClientHTTP.GetAsync(GetCompleteURL(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
+
             }
 
-            return responseMessage;
-
+            return httpResponseMessage;
         }
 
         private string GetCompleteURL(string url)

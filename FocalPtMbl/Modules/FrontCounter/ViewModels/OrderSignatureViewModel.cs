@@ -19,6 +19,14 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             SignatureFor = title;
         }
 
+        public OrderSignatureViewModel(WorkOrder orderDetails, bool isWaiver, string title) : base("Signature Capture")
+        {
+            ViewOrderEntityComponent = new ViewOrderEntityComponent();
+            SelectedWorkOrder = orderDetails;
+            IsWaiver = isWaiver;
+            SignatureFor = title;
+        }
+
         #endregion Construction & Initialisation
 
         #region Properties
@@ -26,6 +34,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         public IViewOrderEntityComponent ViewOrderEntityComponent { get; set; }
 
         public Order SelectedOrder { get; set; }
+        public WorkOrder SelectedWorkOrder { get; set; }
         public bool IsWaiver { get; set; }
         public string SignatureFor { get; set; }
         public string Message { get; set; }

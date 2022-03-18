@@ -1,5 +1,4 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Interface;
 using FocalPoint.Data;
 using FocalPtMbl.MainMenu.ViewModels;
 using Newtonsoft.Json;

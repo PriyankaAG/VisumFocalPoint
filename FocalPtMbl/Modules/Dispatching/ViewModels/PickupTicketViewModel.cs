@@ -1,15 +1,10 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Interface;
 using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
-using Xamarin.Forms;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
