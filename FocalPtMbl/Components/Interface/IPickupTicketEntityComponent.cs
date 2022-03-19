@@ -11,6 +11,6 @@ namespace FocalPoint.Components.Interface
         Task<bool> LockPickupTicket(string ticketNumber, string apiLocked);
         Task<PickupTicket> GetPickupTicketDetails(string ticketNumber);
         Task<bool> PostPickupTicketItemCount(PickupTicketItem selectedDetail);
-        Task<bool> PostPickupTicketCounted(string puTNo);
+        Task<bool> PostPickupTicketCounted(PickupTicketCounted request);
     }
 }

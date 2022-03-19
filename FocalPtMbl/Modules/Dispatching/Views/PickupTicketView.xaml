@@ -95,7 +95,7 @@
                         </Label.GestureRecognizers>
                     </Label>
                     </Grid>
-                    <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked"></Button>
+                    <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="CompleteCountButton_Clicked"></Button>
                 </StackLayout>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
@@ -166,8 +166,8 @@
                         <ColumnDefinition Width="50*" />
                     </Grid.ColumnDefinitions>
                         <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                    
-                    <dxcv:DXCollectionView x:Name="collectionView"
+
+                        <dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Details}"           
                            SelectedItem="{Binding SelectedDetail}"
                            IndicatorColor="Lime"
@@ -175,15 +175,15 @@
                            Margin="0,5"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                        <!--Define the item template.-->
-                            <!--<dxcv:DXCollectionView x:Name="collectionView"
+
+                            <!-- <dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Details}"           
                            SelectedItem="{Binding SelectedDetail}"
                            IndicatorColor="Lime"
                            Margin="0,5"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"> -->
-                                <dxcv:DXCollectionView.ItemTemplate>
+                            <dxcv:DXCollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid  BackgroundColor="White">
                                     <Grid.ColumnDefinitions>
@@ -201,7 +201,7 @@
                                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
                                             </Label.GestureRecognizers>
                                         </Label>
-                                    <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                        <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
                                     </Label>
                                     <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
                                     </Label>
@@ -217,7 +217,6 @@
                                         </Image.VerticalOptions>
                                         <Image.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
-                                               <!-- <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4" NumberOfTapsRequired="1" /> -->
                                         </Image.GestureRecognizers>
                                     </Image>
                                     <BoxView Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"

@@ -1,34 +1,28 @@
 ﻿using FocalPoint.Components.Interface;
-using FocalPtMbl.MainMenu.ViewModels;
+using FocalPoint.Data.API;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
-    public class PickupTicketViewModel : ThemeBaseViewModel
+    public class PickupTicketViewModel : CommonViewModel
     {
-        readonly PickupTicket order;
+        private PickupTicket order;
 
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
 
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            order = pickupTicket;
-            if (pickupTicket.Details != null)
-            {
-                foreach (var dtl in pickupTicket.Details)
-                {
-                    dtl.CurrentTotalCnt = dtl.PuDtlCntQty + dtl.PuDtlOutQty + dtl.PuDtlSoldQty + dtl.PuDtlStolenQty + dtl.PuDtlLostQty + dtl.PuDtlDmgdQty;
-                    dtl.ImageName = LoadImageString(dtl);
-                    Details.Add(dtl);
-                }
-                order = pickupTicket;
-            }
+            Init(pickupTicket);
         }
+
+        
         #endregion
 
         #region Properties
@@ -50,29 +44,18 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged(nameof(Details));
             }
         }
+
+        internal void setSelectedDetail(int index)
+        {
+            SelectedDetail = Details[index];
+        }
+
         public decimal Totals
         {
             get
             {
                 return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
             }
-        }
-        private ObservableCollection<PickupTicketItem> selectedDetails = new ObservableCollection<PickupTicketItem>();
-        public ObservableCollection<PickupTicketItem> SelectedDetails
-        {
-            get => this.details;
-            set
-            {
-                if (details.Count < 0)
-                    this.details = value;
-                else
-                {
-                    this.details.Clear();
-                    this.details = value;
-                }
-                OnPropertyChanged(nameof(Details));
-            }
-
         }
         public string Address1
         {
@@ -156,6 +139,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return Details.Count(x => x.PuDtlCounted == false);
             }
         }
+        public PickupTicketItem OriginalDetailItem { get; set; }
         private PickupTicketItem selectedDetail = new PickupTicketItem();
         public PickupTicketItem SelectedDetail
         {
@@ -167,9 +151,76 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
 
         }
+        public decimal Counted
+        {
+            get => selectedDetail.PuDtlCntQty;
+            set
+            {
+                selectedDetail.PuDtlCntQty = value;
+                OnPropertyChanged(nameof(SelectedDetail));
+            }
+        }
+        public decimal Qty
+        {
+            get => selectedDetail.PuDtlQty;
+            set
+            {
+                selectedDetail.PuDtlQty = value;
+                OnPropertyChanged(nameof(SelectedDetail));
+            }
+        }
+
+        /*ImageSource _image = null;
+        public ImageSource Image
+        {
+            get
+            {
+                var classId = string.Empty;
+
+                if (Totals > 0)
+                {
+                    SelectedDetail.Checked = true;
+
+                    if (Totals > SelectedDetail.PuDtlQty)
+                        classId = "RedCheckedBox";
+                    else if (Totals == SelectedDetail.PuDtlQty)
+                        classId = "GreenCheckedBox";
+                    else
+                        classId = "YellowCheckedBox";
+                }
+                else
+                {
+                    classId = "UnCheckedBox";
+                }
+
+
+                if (_image == null || classId != _image.ClassId)
+                {
+                    var str = string.Format("FocalPoint.Images.{0}.png", classId);
+
+                    _image = ImageSource.FromResource(str);
+                    _image.ClassId = classId;
+                }
+
+                return _image;
+            }
+        }*/
         #endregion
 
         #region Methods
+        public void Init(PickupTicket pickupTicket)
+        {
+            order = pickupTicket;
+            if (pickupTicket.Details == null)
+                Details = null;
+            foreach (var item in pickupTicket.Details)
+            {
+                item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+                item.ImageName = LoadImageString(item);
+                Details.Add(item);
+            }
+            order = pickupTicket;
+        }
         internal List<string> GetPopUpCount()
         {
             List<string> popUpList = new List<string>();
@@ -183,9 +234,14 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return popUpList;
         }
 
-        internal bool PickupTicketCounted(string puTNo)
+        internal bool PickupTicketCounted()
         {
-            return PickupTicketEntityComponent.PostPickupTicketCounted(puTNo).GetAwaiter().GetResult();
+            var requestObj = new PickupTicketCounted 
+            {
+                PuTNo = Convert.ToInt32(this.PuTNo),
+                UTCDte = DateTime.Now 
+            };
+            return PickupTicketEntityComponent.PostPickupTicketCounted(requestObj).GetAwaiter().GetResult();
         }
 
         internal string GetImageString()
@@ -268,8 +324,16 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 default:
                     break;
             }
+        }
+
+        internal void UpdateSelectedDetails()
+        {
+            Counted = Qty;
             SelectedDetail.CurrentTotalCnt = Totals;
-            SelectedDetail.ImageName = GetImageString();
+            //SelectedDetail.ImageName = GetImageString();
+            SelectedDetail.UTCCountDte = DateTime.UtcNow;
+            SelectedDetail.ImageName = "CheckedBox.png";
+            //Details[0] = SelectedDetail;
         }
 
         internal double GetPopupType(string popupString)
@@ -328,6 +392,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         internal void SelectedItemEdit()
         {
             //throw new NotImplementedException();
+        }
+
+        public override async Task<bool> SaveSignature()
+        {
+            SignatureInputDTO signatureInputDTO = new SignatureInputDTO
+            {
+                DocKind = (int)DocKinds.PickupTicket,
+                RecordID = Convert.ToInt32(PuTNo),
+                Stat = "R", //TODO confirm with Kirk
+                Format = 4,//Base64 String of Image
+                Signature = SignatureImage
+            };
+            return await GeneralComponent.SaveSignature(signatureInputDTO);
         }
         #endregion
 

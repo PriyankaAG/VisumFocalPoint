@@ -15,7 +15,7 @@ namespace FocalPoint
         const string PickupTickets = "PickupTickets/";
         const string PickupTicketDetails = "PickupTickets/{0}";
         const string PickupTicketLock = "PickupTicketLock/{0}/{1}";
-        const string PickupTicketItemCount = "PickupTicketItemCount";
+        const string PickupTicketItemCount = "PickupTicket/ItemCount";
         const string PickupTicketCounted = "PickupTicket/Counted";
 
         public PickupTicketEntityComponent()
@@ -95,12 +95,12 @@ namespace FocalPoint
             return result;
         }
 
-        public async Task<bool> PostPickupTicketCounted(string puTNo)
+        public async Task<bool> PostPickupTicketCounted(PickupTicketCounted request)
         {
             bool result = false;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(puTNo);
+                string requestContent = JsonConvert.SerializeObject(request);
                 result = await apiComponent.PostAsync<bool>(PickupTicketCounted, requestContent);
             }
             catch (Exception ex)
