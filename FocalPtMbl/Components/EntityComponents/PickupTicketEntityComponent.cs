@@ -17,6 +17,8 @@ namespace FocalPoint
         const string PickupTicketLock = "PickupTicketLock/{0}/{1}";
         const string PickupTicketItemCount = "PickupTicket/ItemCount";
         const string PickupTicketCounted = "PickupTicket/Counted";
+        const string PickupTicketOrderItems = "PickupTicket/OrderItems/{0}";
+        const string PickupTicketOrderCreate= "PickupTicket/OrderItems";
 
         public PickupTicketEntityComponent()
         {
@@ -108,6 +110,38 @@ namespace FocalPoint
                 //TODO: Log error
             }
             return result;
+        }
+
+        public async Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        {
+
+            List<PickupTicketOrder> pickupTicketOrders = null;
+            try
+            {
+                pickupTicketOrders = await apiComponent.GetAsync<List<PickupTicketOrder>>(string.Format(PickupTicketOrderItems, puTNo));
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return pickupTicketOrders;
+        }
+
+        async public Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        {
+
+            bool result = false;
+            try
+            {
+                string requestContent = JsonConvert.SerializeObject(pickupTicketOrders);
+                result = await apiComponent.PostAsync<bool>(PickupTicketOrderCreate, requestContent);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return result; 
         }
     }
 }

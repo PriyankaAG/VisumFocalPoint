@@ -15,8 +15,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 {
     public class PickupTicketViewModel : CommonViewModel
     {
-        private PickupTicket order;
-
+        public PickupTicket Ticket { get; set; }
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
@@ -25,9 +24,17 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
-
         }
 
+        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        {
+            return PickupTicketEntityComponent.PickupTicketOrder(puTNo);
+        }
+
+        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        {
+            return PickupTicketEntityComponent.PickupTicketCreate(pickupTicketOrders);
+        }
 
         #endregion
 
@@ -50,7 +57,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged(nameof(Details));
             }
         }
-
+        ObservableCollection<PickupTicketOrder> _orders = new ObservableCollection<PickupTicketOrder>();
+        public ObservableCollection<PickupTicketOrder> Orders
+        {
+            get
+            {
+                return _orders;
+            }
+            set
+            {
+                _orders = value;
+                OnPropertyChanged("Orders");
+            }
+        }
         internal void setSelectedDetail(int index)
         {
             SelectedDetail = Details[index];
@@ -63,80 +82,83 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
             }
         }
+
+
         public string Address1
         {
-            get => this.order.Address1;
+            get => Ticket.Address1;
         }
         public string Address2
         {
-            get => this.order.Address2;
+            get => this.Ticket.Address2;
         }
         public string CityStateZip
         {
-            get => order.CityStateZip == null || order.CityStateZip.Trim().Equals(",") ? "" : order.CityStateZip;
+            get => Ticket.CityStateZip == null || Ticket.CityStateZip.Trim().Equals(",") ? "" : Ticket.CityStateZip;
         }
 
         public string CustomerName
         {
-            get => this.order.CustomerName;
+            get => this.Ticket.CustomerName;
         }
 
         public string OrderNumberT
         {
-            get => this.order.OrderNumberT;
+            get => this.Ticket.OrderNumberT;
         }
 
         public string Phone
         {
-            get => this.order.Phone;
+            get => this.Ticket.Phone;
         }
         public string Phone2
         {
-            get => this.order.Phone2;
+            get => this.Ticket.Phone2;
         }
         public string PhoneType
         {
-            get => this.order.PhoneType;
+            get => this.Ticket.PhoneType;
         }
         public string PhoneType2
         {
-            get => this.order.PhoneType2;
+            get => this.Ticket.PhoneType2;
         }
         public string PuCDte
         {
-            get => this.order.PuCDte.ToString();
+            get => this.Ticket.PuCDte.ToString();
         }
         public string PuContact
         {
-            get => this.order.PuContact;
+            get => this.Ticket.PuContact;
         }
         public string PuEDte
         {
-            get => this.order.PuEDte.ToString();
+            get => this.Ticket.PuEDte.ToString();
         }
         public string PuEEmpid
         {
-            get => this.order.PuEEmpid;
+            get => this.Ticket.PuEEmpid;
         }
         public string PuMobile
         {
-            get => this.order.PuMobile.ToString();
+            get => this.Ticket.PuMobile.ToString();
         }
         public bool IsSelectPickupItemVisible
         {
-            get => order.PuMobile;
+            //get => true;
+            get => Ticket.PuMobile && Ticket.Details.Count == 0;
         }
         public string PuNote
         {
-            get => this.order.PuNote;
+            get => this.Ticket.PuNote;
         }
         public string PuPDte
         {
-            get => this.order.PuPDte.ToString();
+            get => this.Ticket.PuPDte.ToString();
         }
         public string PuTNo
         {
-            get => this.order.PuTNo.ToString();
+            get => this.Ticket.PuTNo.ToString();
         }
         public int ToBeCounted
         {
@@ -216,7 +238,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         #region Methods
         public void Init(PickupTicket pickupTicket)
         {
-            order = pickupTicket;
+            Ticket = pickupTicket;
             if (pickupTicket.Details == null)
                 Details = null;
             foreach (var item in pickupTicket.Details)
@@ -225,7 +247,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
             }
-            order = pickupTicket;
+            Ticket = pickupTicket;
         }
         internal List<string> GetPopUpCount()
         {

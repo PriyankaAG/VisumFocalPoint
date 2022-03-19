@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FocalPoint;assembly=FocalPtMbl"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             x:Class="FocalPoint.Modules.Dispatching.Views.PickupDetailMobileSelect"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0">
+
+            <Label Text="{Binding Ticket.OrderNumberT, StringFormat='Contract: {0}'}" TextColor="Black" XAlign="Start" Margin="0,10,0,0" Padding="10,5"
+                   HeightRequest="40" FontSize="Title" BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
+                <dxcv:DXCollectionView x:Name="collectionView"
+                               ItemsSource="{Binding Orders}"           
+                               IndicatorColor="Lime">
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0,5,0,0" Padding="5,0,0,0">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1"></TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="30*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" />
+                            <Label Text="{Binding EquipID, StringFormat='   {0}'}" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" />
+
+                            <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" />
+
+                            <StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" HorizontalOptions="EndAndExpand" BackgroundColor="Gray" VerticalOptions="CenterAndExpand" WidthRequest="100" Padding="2">
+                                <!--<local:MyEntry Text="{Binding PuDtlQty}" Unfocused="MyEntry_Unfocused" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" HorizontalOptions="FillAndExpand" BackgroundColor="Gray" HorizontalTextAlignment="Center" WidthRequest="96" Keyboard="Numeric">
+                                    </local:MyEntry> -->
+                                <dxe:TextEdit Text="{Binding PuDtlQty}" ClearIconVisibility="Never" Unfocused="Text_Unfocused"  VerticalOptions="FillAndExpand" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" HorizontalOptions="FillAndExpand" BackgroundColor="Gray"  WidthRequest="96" Keyboard="Numeric"></dxe:TextEdit>
+
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+            <Button Text="Create Pickup Ticket" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked"
+                    Margin="0,10"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

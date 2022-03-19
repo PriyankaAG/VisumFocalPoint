@@ -233,7 +233,7 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async void TapGestureRecognizer_Tapped_5(object sender, EventArgs e)
         {
-            
+
             //Get Itemized Sheet for selected Item
             ((PickupTicketViewModel)this.BindingContext).SelectedItemEdit();
 
@@ -246,6 +246,11 @@ namespace FocalPoint.Modules.Dispatching.Views
             //var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedDetail.PuTNo.ToString());
 
             //viewModel.Init(detailedTicket);
+        }
+
+        private async void MobilePickupClick(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new PickupDetailMobileSelect(((PickupTicketViewModel)this.BindingContext).Ticket));
         }
     }
 }
