@@ -1,10 +1,12 @@
 ﻿using FocalPoint.Components.Interface;
-using FocalPoint.Data.API;
+using FocalPoint.Utils;
+using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -17,12 +19,15 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
-
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
             Init(pickupTicket);
+            OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
+            OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
+            OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
+
         }
 
-        
+
         #endregion
 
         #region Properties
@@ -389,10 +394,75 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 this.Details.Insert(selectedIndex, SelectedDetail);
             //this.Details.
         }
+
         internal void SelectedItemEdit()
         {
             //throw new NotImplementedException();
         }
+
+        #region OpenPhoneDialer
+
+        public ICommand OpenPhoneDialerCommand { get; }
+
+        private async Task OpenPhoneDialerTask(string phoneNumber)
+        {
+            try
+            {
+                await Ultils.OpenPhoneDialer(phoneNumber);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenPhoneDialer
+
+
+        #region OpenMapApplication
+
+        public ICommand OpenMapApplicationCommand { get; }
+
+        private async Task OpenMapApplicationTask(string address)
+        {
+            try
+            {
+                await Ultils.OpenMapApplication(address);
+            }
+            catch (Exception exception)
+            {
+                //TODO: log error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenMapApplication
+
+        #region OpenEmailApplication
+
+        public ICommand OpenEmailApplicationCommand { get; }
+
+        private async Task OpenEmailApplicationTask(string emailAddress)
+        {
+            try
+            {
+                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenEmailApplication
 
         public override async Task<bool> SaveSignature()
         {

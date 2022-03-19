@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace FocalPoint.Utils
 {
@@ -84,6 +87,76 @@ namespace FocalPoint.Utils
 
             }
             return "";
+        }
+
+        public static async Task OpenMapApplication(string address)
+        {
+            try
+            {
+                // Do Geo-coding and get the lat/long for the address.
+                IEnumerable<Xamarin.Essentials.Location> locations = await Geocoding.GetLocationsAsync(address);
+                Xamarin.Essentials.Location location = locations?.FirstOrDefault();
+                if (location != null)
+                {
+                    MapLaunchOptions options = new MapLaunchOptions { NavigationMode = NavigationMode.Driving };
+                    await Map.OpenAsync(location, options);
+                }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                //TODO: Log Error
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log Error
+                throw;
+            }
+        }
+
+        public static async Task OpenPhoneDialer(string phoneNumber)
+        {
+            try
+            {
+                PhoneDialer.Open(phoneNumber);
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                //TODO: Log Error
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log Error
+                throw;
+            }
+        }
+
+        public static async Task OpenEmailApplication(
+            string subject,
+            string body,
+            List<string> recipients)
+        {
+            try
+            {
+                EmailMessage message = new EmailMessage
+                {
+                    Subject = subject,
+                    Body = body,
+                    To = recipients
+                };
+                await Email.ComposeAsync(message);
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                //TODO: Log Error
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log Error
+                throw;
+            }
         }
     }
 }
