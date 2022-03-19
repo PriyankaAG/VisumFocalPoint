@@ -172,7 +172,6 @@
                                ItemsSource="{Binding Details}"           
                                SelectedItem="{Binding SelectedDetail}"
                                IndicatorColor="Lime"
-                               Tap="ItemSelected"
                                Margin="0,5"
                                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
@@ -201,7 +200,6 @@
                                             <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
                                         </Grid.GestureRecognizers>
                                     <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                            
                                         </Label>
                                         <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
                                     </Label>
