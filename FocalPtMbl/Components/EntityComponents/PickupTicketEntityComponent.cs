@@ -14,7 +14,7 @@ namespace FocalPoint
         const string PickupTicket = "PickupTicket/{0}";
         const string PickupTickets = "PickupTickets/";
         const string PickupTicketDetails = "PickupTickets/{0}";
-        const string PickupTicketLock = "PickupTicketLock/{0}/{1}";
+        const string PickupTicketLock = "PickupTicket/{0}/{1}";
         const string PickupTicketItemCount = "PickupTicketItemCount";
         const string PickupTicketCounted = "PickupTicket/Counted";
 

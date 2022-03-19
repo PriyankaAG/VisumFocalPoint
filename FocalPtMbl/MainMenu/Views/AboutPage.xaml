@@ -70,61 +70,8 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
 
                 </Grid.RowDefinitions>
-                <!--<Grid Grid.Row="0" Margin="0" Padding="0" ColumnSpacing="20">
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding CompanyUrl}"/>
-                    </Grid.GestureRecognizers>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="24"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <menu:IconView
-                            Source="product_page"
-                            Grid.Column="0"/>
-                    <Label
-                            x:Name="companyLabel"
-                            Text="Visum's Web Page"
-                            TextColor="{DynamicResource TextThemeColor}"
-                            Grid.Column="1"
-                            VerticalOptions="Center"/>
-                </Grid>
-                <Grid Grid.Row="1" Margin="0" Padding="0" ColumnSpacing="20">
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding ContactUrl}"/>
-                    </Grid.GestureRecognizers>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="24"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <menu:IconView
-                            Source="documentation"
-                            Grid.Column="0"/>
-                    <Label
-                            Text="Contact us"
-                            TextColor="{DynamicResource TextThemeColor}"
-                            Grid.Column="1"
-                            VerticalOptions="Center"/>
-                </Grid>
-                <Grid Grid.Row="2" Margin="0" Padding="0" ColumnSpacing="20">
-                    --><!--<Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding GoogleUrl}"/>
-                    </Grid.GestureRecognizers>--><!--
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="24"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <menu:IconView
-                            Source="source_code"
-                            Grid.Column="0"/>
-                    <Label
-                            Text="Google"
-                            TextColor="{DynamicResource TextThemeColor}"
-                            Grid.Column="1"
-                            VerticalOptions="Center"/>
-                </Grid>-->
                 <Grid Grid.Row="0" Margin="0" Padding="0" ColumnSpacing="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -164,22 +111,8 @@
                          BackgroundColor="{DynamicResource ButtonThemeColor}"
                             VerticalOptions="Fill" Clicked="Settings_Clicked" 
                         HorizontalOptions="Fill"/>
-                </Grid>
+                </Grid>               
                 <Grid Grid.Row="2" Margin="0" Padding="0" ColumnSpacing="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        ImageSource="store_houses_48.png"
-                            Text="Change Store"
-                        WidthRequest="800"
-                            TextColor="{DynamicResource TextThemeColor}"
-                            Grid.Column="0"
-                        BackgroundColor="{DynamicResource ButtonThemeColor}"
-                            VerticalOptions="Fill" Clicked="ChangeStore_Clicked" 
-                        HorizontalOptions="StartAndExpand"/>
-                </Grid>
-                <Grid Grid.Row="3" Margin="0" Padding="0" ColumnSpacing="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
@@ -212,7 +145,7 @@
                 <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Ham Lake. MN 55304" Grid.Row="2" />
                 <Label FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text ="(763)244-8050" Grid.Row="3" >
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenPhoneDialerCommand}" CommandParameter="{Binding CompanyPhone}"/>
                     </Label.GestureRecognizers>
                 </Label>
 
@@ -222,9 +155,9 @@
                     </Label.GestureRecognizers>
                 </Label>
                 <Label FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text ="Support@Visum-Corp.com" Grid.Row="5" >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1"/>
-                </Label.GestureRecognizers>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenEmailApplicationCommand}" CommandParameter="{Binding CompanyEmail}"/>
+                    </Label.GestureRecognizers>
                 </Label>
                 <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Server API Version 1" Grid.Row="6" />
                 <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Server Version 2.55.02" Grid.Row="7" />
