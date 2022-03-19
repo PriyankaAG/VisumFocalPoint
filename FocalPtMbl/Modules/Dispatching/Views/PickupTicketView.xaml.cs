@@ -231,7 +231,7 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         }
 
-        private async void TapGestureRecognizer_Tapped_5(object sender, EventArgs e)
+        private async void DetailLine_Tapped(object sender, EventArgs e)
         {
 
             //Get Itemized Sheet for selected Item

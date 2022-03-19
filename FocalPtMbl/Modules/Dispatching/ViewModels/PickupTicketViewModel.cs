@@ -169,16 +169,23 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public PickupTicketItem OriginalDetailItem { get; set; }
         private PickupTicketItem selectedDetail = new PickupTicketItem();
+        //public PickupTicketItem SelectedDetail
+        //{
+        //    get => this.selectedDetail;
+        //    set
+        //    {
+        //        this.selectedDetail = value;
+        //        OnPropertyChanged(nameof(SelectedDetail));
+        //    }
+
+        //}
+
         public PickupTicketItem SelectedDetail
         {
-            get => this.selectedDetail;
-            set
-            {
-                this.selectedDetail = value;
-                OnPropertyChanged(nameof(SelectedDetail));
-            }
-
+            get => selectedDetail;
+            set => SetProperty(ref selectedDetail, value);
         }
+
         public decimal Counted
         {
             get => selectedDetail.PuDtlCntQty;
@@ -360,6 +367,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             SelectedDetail.CurrentTotalCnt = Totals;
             //SelectedDetail.ImageName = GetImageString();
             SelectedDetail.UTCCountDte = DateTime.UtcNow;
+            SelectedDetail.Checked = true;
             SelectedDetail.ImageName = "CheckedBox.png";
             //Details[0] = SelectedDetail;
         }
