@@ -115,4 +115,9 @@ namespace Visum.Services.Mobile.Entities
                 this.LastCntDte = DateTime.ParseExact(this.strLastCntDte, "g", CultureInfo.InvariantCulture);
         }
     }
+
+    public class PickupTicketItemDTO
+    {
+        public PickupTicketItem Item { get; set; }
+    }
 }

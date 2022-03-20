@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using FocalPoint.Components.Interface;
+using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
 using Visum.Services.Mobile.Entities;
 
@@ -137,9 +138,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             return Totals == ToBePickedUp;
         }
-        internal bool PickupTicketItemCount()
+        internal Task<bool> PickupTicketItemCount()
         {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail).GetAwaiter().GetResult();
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail.ToPickupTicketItemDTO());
         }
         internal void Refresh()
         {

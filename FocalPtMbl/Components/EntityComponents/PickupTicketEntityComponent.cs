@@ -82,12 +82,12 @@ namespace FocalPoint
             return pickupTicket;
         }
 
-        public async Task<bool> PostPickupTicketItemCount(PickupTicketItem selectedDetail)
+        public async Task<bool> PostPickupTicketItemCount(PickupTicketItemDTO pickupTicketDTO)
         {
             bool result = false;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(selectedDetail);
+                string requestContent = JsonConvert.SerializeObject(pickupTicketDTO);
                 result = await apiComponent.PostAsync<bool>(PickupTicketItemCount, requestContent);
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace FocalPoint
             return result;
         }
 
-        public async Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        public async Task<List<PickupTicketOrder>> GetPickupTicketOrder(int puTNo)
         {
 
             List<PickupTicketOrder> pickupTicketOrders = null;
@@ -128,7 +128,7 @@ namespace FocalPoint
             return pickupTicketOrders;
         }
 
-        async public Task<bool> PickupTicketCreate(ListPickupTicketOrder lstPickupTicketOrders)
+        async public Task<bool> PostPickupTicketCreate(PickupTicketOrderDTO lstPickupTicketOrders)
         {
             bool result = false;
             try

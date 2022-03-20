@@ -208,7 +208,7 @@
                                             iOS="EndAndExpand"/>
                                         </Image.VerticalOptions>
                                         <Image.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
+                                                    <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
                                         </Image.GestureRecognizers>
                                     </Image>
                                     <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"

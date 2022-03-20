@@ -5,9 +5,13 @@ namespace FocalPoint.Utils
 {
     public static class Extensions
     {
-        public static ListPickupTicketOrder ToListPickupTicketOrder(this List<PickupTicketOrder> ticketOrder)
+        public static PickupTicketOrderDTO ToListPickupTicketOrder(this List<PickupTicketOrder> ticketOrder)
         {
-            return new ListPickupTicketOrder { Items = ticketOrder };
+            return new PickupTicketOrderDTO { Items = ticketOrder };
+        }
+        public static PickupTicketItemDTO ToPickupTicketItemDTO(this PickupTicketItem pickupTicket)
+        {
+            return new PickupTicketItemDTO { Item = pickupTicket };
         }
     }
 }

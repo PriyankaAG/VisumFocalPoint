@@ -28,12 +28,12 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
         {
-            return PickupTicketEntityComponent.PickupTicketOrder(puTNo);
+            return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
         }
 
         internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
         {
-            return PickupTicketEntityComponent.PickupTicketCreate(pickupTicketOrders.ToListPickupTicketOrder());
+            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders.ToListPickupTicketOrder());
         }
 
         #endregion
@@ -185,67 +185,13 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             get => selectedDetail;
             set => SetProperty(ref selectedDetail, value);
         }
-
-        public decimal Counted
-        {
-            get => selectedDetail.PuDtlCntQty;
-            set
-            {
-                selectedDetail.PuDtlCntQty = value;
-                OnPropertyChanged(nameof(SelectedDetail));
-            }
-        }
-        public decimal Qty
-        {
-            get => selectedDetail.PuDtlQty;
-            set
-            {
-                selectedDetail.PuDtlQty = value;
-                OnPropertyChanged(nameof(SelectedDetail));
-            }
-        }
-
-        /*ImageSource _image = null;
-        public ImageSource Image
-        {
-            get
-            {
-                var classId = string.Empty;
-
-                if (Totals > 0)
-                {
-                    SelectedDetail.Checked = true;
-
-                    if (Totals > SelectedDetail.PuDtlQty)
-                        classId = "RedCheckedBox";
-                    else if (Totals == SelectedDetail.PuDtlQty)
-                        classId = "GreenCheckedBox";
-                    else
-                        classId = "YellowCheckedBox";
-                }
-                else
-                {
-                    classId = "UnCheckedBox";
-                }
-
-
-                if (_image == null || classId != _image.ClassId)
-                {
-                    var str = string.Format("FocalPoint.Images.{0}.png", classId);
-
-                    _image = ImageSource.FromResource(str);
-                    _image.ClassId = classId;
-                }
-
-                return _image;
-            }
-        }*/
         #endregion
 
         #region Methods
         public void Init(PickupTicket pickupTicket)
         {
             Ticket = pickupTicket;
+            Details.Clear();
             if (pickupTicket.Details == null)
                 Details = null;
             foreach (var item in pickupTicket.Details)
@@ -279,41 +225,17 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return PickupTicketEntityComponent.PostPickupTicketCounted(requestObj).GetAwaiter().GetResult();
         }
 
-        internal string GetImageString()
+        internal string LoadImageString(PickupTicketItem item)
         {
             var str = string.Empty;
             var classId = string.Empty;
             if (Totals > 0)
             {
-                //SelectedTicket.Checked = true;
+                SelectedDetail.Checked = true;
 
-                if (Totals > SelectedDetail.PuDtlQty)
+                if (Totals > item.PuDtlQty)
                     classId = "RedCheckedBox";
-                else if (this.Totals == SelectedDetail.PuDtlQty)
-                    classId = "CheckedBox";
-                else
-                    classId = "YellowCheckedBox";
-            }
-            else
-            {
-                classId = "UnCheckedBox";
-            }
-
-
-            str = string.Format("{0}.png", classId);
-            return str;
-        }
-        internal string LoadImageString(PickupTicketItem pickupTicketItem)
-        {
-            var str = string.Empty;
-            var classId = string.Empty;
-            if (Totals > 0)
-            {
-                //SelectedTicket.Checked = true;
-
-                if (Totals > pickupTicketItem.PuDtlQty)
-                    classId = "RedCheckedBox";
-                else if (this.Totals == pickupTicketItem.PuDtlQty)
+                else if (this.Totals == item.PuDtlQty)
                     classId = "CheckedBox";
                 else
                     classId = "YellowCheckedBox";
@@ -328,19 +250,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return str;
         }
 
-        internal void ClearQuantities()
+        internal Task<bool> PickupTicketItemCount()
         {
-            SelectedDetail.PuDtlCntQty = 0;
-            SelectedDetail.PuDtlOutQty = 0;
-            SelectedDetail.PuDtlSoldQty = 0;
-            SelectedDetail.PuDtlStolenQty = 0;
-            SelectedDetail.PuDtlLostQty = 0;
-            SelectedDetail.PuDtlDmgdQty = 0;
-        }
-
-        internal bool PickupTicketItemCount()
-        {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail).GetAwaiter().GetResult();
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail.ToPickupTicketItemDTO());
         }
 
         internal void setPopupValue(string popupString, string result)
@@ -360,18 +272,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                     break;
             }
         }
-
-        internal void UpdateSelectedDetails()
-        {
-            Counted = Qty;
-            SelectedDetail.CurrentTotalCnt = Totals;
-            SelectedDetail.ImageName = GetImageString();
-            SelectedDetail.UTCCountDte = DateTime.UtcNow;
-            SelectedDetail.Checked = true;
-            //SelectedDetail.ImageName = "CheckedBox.png";
-            //Details[0] = SelectedDetail;
-        }
-
         internal double GetPopupType(string popupString)
         {
             double value = 0;
@@ -400,10 +300,12 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 isAtEndOfIndex = true;
             this.Details.Remove(SelectedDetail);
             //then change the selected detail to reflect those changes
-            if (!isChecked)
+            if (isChecked)
             {
                 SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                SelectedDetail.ImageName = GetImageString();
+                SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                SelectedDetail.PuDtlCounted = true;
             }
             else
             {
@@ -413,17 +315,18 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 SelectedDetail.PuDtlStolenQty = 0;
                 SelectedDetail.PuDtlLostQty = 0;
                 SelectedDetail.PuDtlDmgdQty = 0;
-                SelectedDetail.ImageName = GetImageString();
+                SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                SelectedDetail.PuDtlCounted = false;
             }
+
             if (isAtEndOfIndex)
             {
                 this.Details.Add(SelectedDetail);
                 OnPropertyChanged(nameof(Details));
-                //this.Details.
             }
             else
                 this.Details.Insert(selectedIndex, SelectedDetail);
-            //this.Details.
         }
 
         internal void SelectedItemEdit()

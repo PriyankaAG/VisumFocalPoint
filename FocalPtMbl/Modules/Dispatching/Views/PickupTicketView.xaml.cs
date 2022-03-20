@@ -163,12 +163,12 @@ namespace FocalPoint.Modules.Dispatching.Views
         async protected override void OnAppearing()
         {
             base.OnAppearing();
-            await RefreshTicket();
-            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
-            {
-                Task.Run(async () => await RefreshTicket());
-                return true;
-            });
+            //await RefreshTicket();
+            //Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+            //{
+            //    Task.Run(async () => await RefreshTicket());
+            //    return true;
+            //});
             MessagingCenter.Unsubscribe<OrderSignatureViewModel, string>(this, "Signature");
             MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
             {
@@ -191,40 +191,49 @@ namespace FocalPoint.Modules.Dispatching.Views
         async protected void CheckBoxTapped(object sender, EventArgs args)
         {
             PickupTicketViewModel viewModel = BindingContext as PickupTicketViewModel;
-            //viewModel.UpdateSelectedDetails();
-            //return;
+            bool isChecked;
+            /*if (viewModel.SelectedDetail.ImageName != "UnCheckedBox.png")
+isChecked = true;*/
 
-            bool isChecked = false;
-            if (viewModel.SelectedDetail.ImageName != "UnCheckedBox.png")
-                isChecked = true;
+            viewModel.SelectedDetail.Checked = isChecked = !viewModel.SelectedDetail.Checked;
 
             if (isChecked)
             {
-                List<string> popUpCount = viewModel.GetPopUpCount();
-                foreach (var popupString in popUpCount)
+                var isSuccess = await CheckPopupValues();
+                if (!isSuccess)
+                    return;
+            }
+            viewModel.SelectedItemChecked(isChecked);
+
+            try
+            {
+                bool update = await ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
+                if (!update)
                 {
-                    double initValue = viewModel.GetPopupType(popupString);
-                    string result = await DisplayPromptAsync("Change Pickup", popupString, initialValue: initValue.ToString(), keyboard: Keyboard.Numeric);
-                    if (result != null)
-                        viewModel.setPopupValue(popupString, result);
-                    else
-                        return;
+                    await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
+                        "Item Counted by Another, Last Counts Reloaded.", "OK");
+                    //await RefreshTicket();
                 }
             }
-            else
-                viewModel.ClearQuantities();
-
-            bool update = ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
-            if (!update)
+            catch (Exception ex)
             {
-                await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
-                    "Item Counted by Another, Last Counts Reloaded.", "OK");
+                await DisplayAlert("FocalPoint-Error", "Failed to update Item.", "OK");
             }
-
-            if (isChecked)
-                viewModel.UpdateSelectedDetails();
         }
-
+        async Task<bool> CheckPopupValues()
+        {
+            List<string> popUpCount = viewModel.GetPopUpCount();
+            foreach (var popupString in popUpCount)
+            {
+                double initValue = viewModel.GetPopupType(popupString);
+                string result = await DisplayPromptAsync("Change Pickup", popupString, initialValue: initValue.ToString(), keyboard: Keyboard.Numeric);
+                if (result != null)
+                    viewModel.setPopupValue(popupString, result);
+                else
+                    return false;
+            }
+            return true;
+        }
         private void SimpleButton_Clicked(object sender, EventArgs e)
         {
 
@@ -241,10 +250,10 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async Task RefreshTicket()
         {
-            //var PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            //var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedDetail.PuTNo.ToString());
+            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedDetail.PuTNo.ToString());
 
-            //viewModel.Init(detailedTicket);
+            viewModel.Init(detailedTicket);
         }
 
         private async void MobilePickupClick(object sender, EventArgs e)

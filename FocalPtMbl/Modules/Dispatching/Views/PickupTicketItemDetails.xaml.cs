@@ -39,24 +39,24 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
+
+            var vm = (PickupTicketItemDetailsViewModel)this.BindingContext;
+            vm.SelectedDetail.UTCCountDte = DateTime.UtcNow;
+            if (!vm.IsAccountedEqualToPickedUp())
+            {
+                await DisplayAlert("FocalPoint", "Picked up must be equal to Accounted For", "Ok");
+                return;
+            }
+            var result = await CheckPopupValues(vm.SelectedDetail);
+            if (!result)
+            {
+                vm.SelectedDetail = viewModel.OriginalPickupItem;
+                await Navigation.PopAsync();
+                return;
+            }
             try
             {
-                var vm = (PickupTicketItemDetailsViewModel)this.BindingContext;
-                vm.SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                /*if (!vm.IsAccountedEqualToPickedUp())
-                {
-                    await DisplayAlert("FocalPoint", "Picked up must be equal to Accounted For", "Ok");
-                    return;
-                }*/
-                var result = await CheckPopupValues(vm.SelectedDetail);
-                if (!result)
-                {
-                    vm.SelectedDetail = viewModel.OriginalPickupItem;
-                    await Navigation.PopAsync();
-                    return;
-                }
-                //var countRes = viewModel.PickupTicketItemCount();
-                var countRes = false;
+                var countRes = await viewModel.PickupTicketItemCount();
                 if (!countRes)
                 {
                     await DisplayAlert("FocalPoint", "Item Counted by Another, last Counts Reloaded", "Ok");
@@ -66,9 +66,9 @@ namespace FocalPoint.Modules.Dispatching.Views
                 }
                 await Navigation.PopAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "Ok");
+                await DisplayAlert("FocalPoint-Error", ex.Message, "Ok");
             }
         }
         async Task<bool> CheckPopupValues(PickupTicketItem itemVm)
