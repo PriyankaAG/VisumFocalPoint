@@ -8,9 +8,6 @@
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.Dispatching.ViewModels"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-    <ContentPage.BindingContext>
-        <viewModel:PickupTicketItemDetailsViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
             <Grid RowSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Margin="0,10" >

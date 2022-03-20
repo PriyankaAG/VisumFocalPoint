@@ -172,17 +172,9 @@
                                ItemsSource="{Binding Details}"           
                                SelectedItem="{Binding SelectedDetail}"
                                IndicatorColor="Lime"
-                               Margin="0,5"
+                               Tap="ItemSelected"
                                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-
-                            <!-- <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Details}"           
-                           SelectedItem="{Binding SelectedDetail}"
-                           IndicatorColor="Lime"
-                           Margin="0,5"
-                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"> -->
                             <dxcv:DXCollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid  BackgroundColor="White">
@@ -209,7 +201,7 @@
                                     </Label>
                                     <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
                                     </Label>
-                                    <Image Source="{Binding ImageName}" Margin="0, 5, 0, 5" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+                                    <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
                                         <Image.VerticalOptions>
                                             <OnPlatform x:TypeArguments="LayoutOptions"
                                             Android="FillAndExpand"
@@ -219,7 +211,7 @@
                                                 <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
                                         </Image.GestureRecognizers>
                                     </Image>
-                                    <BoxView Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                                    <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                          HeightRequest="5"/>
                                 </Grid>
 

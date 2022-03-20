@@ -33,7 +33,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
         {
-            return PickupTicketEntityComponent.PickupTicketCreate(pickupTicketOrders);
+            return PickupTicketEntityComponent.PickupTicketCreate(pickupTicketOrders.ToListPickupTicketOrder());
         }
 
         #endregion
@@ -365,10 +365,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             Counted = Qty;
             SelectedDetail.CurrentTotalCnt = Totals;
-            //SelectedDetail.ImageName = GetImageString();
+            SelectedDetail.ImageName = GetImageString();
             SelectedDetail.UTCCountDte = DateTime.UtcNow;
             SelectedDetail.Checked = true;
-            SelectedDetail.ImageName = "CheckedBox.png";
+            //SelectedDetail.ImageName = "CheckedBox.png";
             //Details[0] = SelectedDetail;
         }
 

@@ -14,7 +14,7 @@ namespace FocalPoint
         const string PickupTicket = "PickupTicket/{0}";
         const string PickupTickets = "PickupTickets/";
         const string PickupTicketDetails = "PickupTickets/{0}";
-        const string PickupTicketLock = "PickupTicketLock/{0}/{1}";
+        const string PickupTicketLock = "PickupTicket/Lock/{0}/{1}";
         const string PickupTicketItemCount = "PickupTicket/ItemCount";
         const string PickupTicketCounted = "PickupTicket/Counted";
         const string PickupTicketOrderItems = "PickupTicket/OrderItems/{0}";
@@ -128,20 +128,19 @@ namespace FocalPoint
             return pickupTicketOrders;
         }
 
-        async public Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        async public Task<bool> PickupTicketCreate(ListPickupTicketOrder lstPickupTicketOrders)
         {
-
             bool result = false;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(pickupTicketOrders);
+                string requestContent = JsonConvert.SerializeObject(lstPickupTicketOrders);
                 result = await apiComponent.PostAsync<bool>(PickupTicketOrderCreate, requestContent);
             }
             catch (Exception ex)
             {
                 //TODO: Log error
             }
-            return result; 
+            return result;
         }
     }
 }

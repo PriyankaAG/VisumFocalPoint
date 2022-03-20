@@ -13,6 +13,6 @@ namespace FocalPoint.Components.Interface
         Task<bool> PostPickupTicketItemCount(PickupTicketItem selectedDetail);
         Task<bool> PostPickupTicketCounted(PickupTicketCounted request);
         Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo);
-        Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders);
+        Task<bool> PickupTicketCreate(ListPickupTicketOrder lstPickupTicketOrders);
     }
 }

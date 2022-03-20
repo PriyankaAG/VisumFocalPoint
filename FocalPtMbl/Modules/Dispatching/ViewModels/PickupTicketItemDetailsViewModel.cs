@@ -10,24 +10,19 @@ using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
-    public class PickupTicketItemDetailsViewModel : ThemeBaseViewModel
+    public class PickupTicketItemDetailsViewModel : CommonViewModel
     {
         public IPickupTicketEntityComponent PickupTicketEntityComponent { get; set; }
-
-        public PickupTicketItemDetailsViewModel()
-        {
-
-        }
         public PickupTicketItemDetailsViewModel(PickupTicketItem pickupTicketItem)
         {
-            selectedDetail = OriginalPickupItem = pickupTicketItem;
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            selectedDetail = OriginalPickupItem = pickupTicketItem;
             Refresh();
         }
 
         #region Properties
         public PickupTicketItem OriginalPickupItem { get; set; }
-        private PickupTicketItem selectedDetail = new PickupTicketItem();
+        private PickupTicketItem selectedDetail;
         public PickupTicketItem SelectedDetail
         {
             get => selectedDetail;
@@ -109,7 +104,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public DateTime? Time
         {
-            get => selectedDetail.UTCCountDte;
+            get => selectedDetail.LastCntDte;
         }
         public decimal LastCounted
         {

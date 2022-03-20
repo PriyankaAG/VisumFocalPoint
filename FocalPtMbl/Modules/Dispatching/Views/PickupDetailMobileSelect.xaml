@@ -7,6 +7,7 @@
              x:Class="FocalPoint.Modules.Dispatching.Views.PickupDetailMobileSelect"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Content>
+        <Grid>
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0">
 
             <Label Text="{Binding Ticket.OrderNumberT, StringFormat='Contract: {0}'}" TextColor="Black" XAlign="Start" Margin="0,10,0,0" Padding="10,5"
@@ -16,7 +17,7 @@
                                IndicatorColor="Lime">
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0,5,0,0" Padding="5,0,0,0">
+                        <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="5,5,5,0" Padding="5,0,0,0">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1"></TapGestureRecognizer>
                             </Grid.GestureRecognizers>
@@ -50,5 +51,8 @@
             <Button Text="Create Pickup Ticket" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked"
                     Margin="0,10"></Button>
         </StackLayout>
+            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

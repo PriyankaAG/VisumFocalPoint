@@ -32,6 +32,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             base.OnAppearing();
             try
             {
+                viewModel.Indicator = true;
                 List<PickupTicketOrder> orders = null;
                 orders = await viewModel.PickupTicketOrder(viewModel.Ticket.PuTNo);
 
@@ -45,6 +46,10 @@ namespace FocalPoint.Modules.Dispatching.Views
             catch (Exception e)
             {
                 await DisplayAlert("FocalPoint", "Failed to retrieve Pickup Ticket Orders", "Ok");
+            }
+            finally
+            {
+                viewModel.Indicator = false;
             }
         }
 

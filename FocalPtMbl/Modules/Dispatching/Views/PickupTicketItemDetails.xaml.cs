@@ -19,6 +19,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             Title = "Count Adjustment";
             InitializeComponent();
 
+
             Counted.Focused -= Counted_Focused;
             Counted.Focused += Counted_Focused;
 

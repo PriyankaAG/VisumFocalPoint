@@ -31,7 +31,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             {
                 //viewModel.setSelectedDetail(args.ItemHandle);
                 ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)args.Item;
-                await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
+                //await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
                 #region Old
                 //Get Number of questions
                 //List<string> popUpCount = ((PickupTicketViewModel)this.BindingContext).GetPopUpCount();
@@ -214,8 +214,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             else
                 viewModel.ClearQuantities();
 
-            //bool update = ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
-            bool update = true;
+            bool update = ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
             if (!update)
             {
                 await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
