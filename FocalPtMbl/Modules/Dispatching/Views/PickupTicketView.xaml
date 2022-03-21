@@ -26,84 +26,84 @@
             <dxn:TabViewItem.Content>
                 <ScrollView>
                     <StackLayout>
-                <Label Text="Ticket Information"  TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*" />
-                        <ColumnDefinition Width="65*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                    </Grid.RowDefinitions>
-                    <!-- *************************** Ticket Information *************************** -->
+                        <Label Text="Ticket Information"  TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="65*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <!-- *************************** Ticket Information *************************** -->
 
-                    <Label Text="Contract:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
-                    <Label Text="{Binding OrderNumberT}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Called In:  " Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuCDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Billing Stop:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuPDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Created On:  " Grid.Row="3" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuEDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Created By:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuEEmpid}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
-                </Grid>
-                    <Label Text="Customer" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" Margin="0,10,0,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                    <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                        </Grid.RowDefinitions>
-                        <!--*************************** Phone Numbers ***************************-->
-                    <Label Text="Company:  " Grid.Row="0" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
-                    <Label Text="{Binding CustomerName }" Grid.Row="0" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Contact:  " Grid.Row="1" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
-                    <Label Text="{Binding PuContact }" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                        <Label Text="Address:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                        <Label Text="{Binding Address1}" Grid.Row="2" Grid.Column="1" 
+                            <Label Text="Contract:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
+                            <Label Text="{Binding OrderNumberT}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Called In:  " Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuCDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Billing Stop:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuPDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Created On:  " Grid.Row="3" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuEDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Created By:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuEEmpid}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
+                        </Grid>
+                        <Label Text="Customer" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" Margin="0,10,0,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="65*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <!--*************************** Phone Numbers ***************************-->
+                            <Label Text="Company:  " Grid.Row="0" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
+                            <Label Text="{Binding CustomerName }" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Contact:  " Grid.Row="1" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
+                            <Label Text="{Binding PuContact }" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Address:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding Address1}" Grid.Row="2" Grid.Column="1" 
                        TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
                                         Command="{x:Binding OpenMapApplicationCommand}"
                                         CommandParameter="{x:Binding Address1}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Label Text="" Grid.Row="3" Grid.Column="0" TextColor="Black"  FontAttributes="Bold" />
-                        <Label Text="{Binding CityStateZip}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="" Grid.Row="3" Grid.Column="0" TextColor="Black"  FontAttributes="Bold" />
+                            <Label Text="{Binding CityStateZip}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
 
-                        <Label Text="Phone 1:  " Grid.Row="4" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
-                    <Label Text="{Binding Phone}" Grid.Row="4" Grid.Column="1"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
+                            <Label Text="Phone 1:  " Grid.Row="4" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                            <Label Text="{Binding Phone}" Grid.Row="4" Grid.Column="1"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
                        TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
                                         Command="{x:Binding OpenPhoneDialerCommand}"
                                         CommandParameter="{x:Binding Phone}" />
-                            </Label.GestureRecognizers>
-                        </Label>
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                        <Label Text="Phone 2:  " Grid.Row="5" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
-                    <Label Text="{Binding Phone2}" Grid.Row="5" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
+                            <Label Text="Phone 2:  " Grid.Row="5" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                            <Label Text="{Binding Phone2}" Grid.Row="5" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
                        TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
                                         Command="{x:Binding OpenPhoneDialerCommand}"
                                         CommandParameter="{x:Binding Phone2}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </Grid>
-                    <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="CompleteCountButton_Clicked"></Button>
-                </StackLayout>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                        <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="CompleteCountButton_Clicked"></Button>
+                    </StackLayout>
                 </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
@@ -125,9 +125,9 @@
             <dxn:TabViewItem.Content>
                 <ScrollView>
                     <StackLayout HorizontalOptions="FillAndExpand">
-                    <Label Text="Ticket Notes" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                    <Label Text="{Binding PuNote}" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-                </StackLayout>
+                        <Label Text="Ticket Notes" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Label Text="{Binding PuNote}" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    </StackLayout>
                 </ScrollView>
 
             </dxn:TabViewItem.Content>
@@ -150,96 +150,101 @@
                          HeaderText="Details">
             <dxn:TabViewItem.Content>
                 <ScrollView>
-                    <StackLayout>
-                        <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                    <Grid>
+                        <StackLayout>
+                            <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
 
-                        <Label Text="Mobile Pickup - Click Here to Select Items to Pickup" IsVisible="{Binding IsSelectPickupItemVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MobilePickupClick" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                            <Label Text="Mobile Pickup - Click Here to Select Items to Pickup" IsVisible="{Binding IsSelectPickupItemVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MobilePickupClick" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="50"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50*" />
-                                <ColumnDefinition Width="50*" />
-                            </Grid.ColumnDefinitions>
-                            <dxcv:DXCollectionView x:Name="collectionView"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50*" />
+                                    <ColumnDefinition Width="50*" />
+                                </Grid.ColumnDefinitions>
+                                <dxcv:DXCollectionView x:Name="collectionView"
                                ItemsSource="{Binding Details}"           
                                SelectedItem="{Binding SelectedDetail}"
                                IndicatorColor="Lime"
                                Tap="ItemSelected"
                                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                            <dxcv:DXCollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid  BackgroundColor="White">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35*" />
-                                        <ColumnDefinition Width="20*" />
-                                        <ColumnDefinition Width="25*" />
-                                        <ColumnDefinition Width="20*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                    </Grid.RowDefinitions>
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
-                                        </Grid.GestureRecognizers>
-                                    <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                        </Label>
-                                        <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-                                    </Label>
-                                    <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                    </Label>
-                                    <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                    </Label>
-                                    <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                    </Label>
-                                    <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
-                                        <Image.VerticalOptions>
-                                            <OnPlatform x:TypeArguments="LayoutOptions"
+                                    <dxcv:DXCollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid  BackgroundColor="White">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                    <ColumnDefinition Width="25*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
+                                                </Grid.GestureRecognizers>
+                                                <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+                                                    <Image.VerticalOptions>
+                                                        <OnPlatform x:TypeArguments="LayoutOptions"
                                             Android="FillAndExpand"
                                             iOS="EndAndExpand"/>
-                                        </Image.VerticalOptions>
-                                        <Image.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
-                                        </Image.GestureRecognizers>
-                                    </Image>
-                                    <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                                                    </Image.VerticalOptions>
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                          HeightRequest="5"/>
-                                </Grid>
+                                            </Grid>
 
-                                    </DataTemplate>
-                                </dxcv:DXCollectionView.ItemTemplate>
+                                        </DataTemplate>
+                                    </dxcv:DXCollectionView.ItemTemplate>
 
-                                <!--Define the group header template.-->
-                                <dxcv:DXCollectionView.GroupHeaderTemplate>
-                                    <DataTemplate>
-                                        <StackLayout Margin="2, 0, 18, 10">
-                                            <Label FontFamily="Roboto-Medium"
+                                    <!--Define the group header template.-->
+                                    <dxcv:DXCollectionView.GroupHeaderTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Margin="2, 0, 18, 10">
+                                                <Label FontFamily="Roboto-Medium"
                            Margin="0,20,0,1"
                            TextColor="#55575c"
                            Text="{Binding Value}"/>
-                                            <BoxView BackgroundColor="#ebebeb" 
+                                                <BoxView BackgroundColor="#ebebeb" 
                              HeightRequest="1"/>
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </dxcv:DXCollectionView.GroupHeaderTemplate>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </dxcv:DXCollectionView.GroupHeaderTemplate>
 
-                                <!--Specify margins.-->
-                                <!--<dxcv:DXCollectionView.Margin>
+                                    <!--Specify margins.-->
+                                    <!--<dxcv:DXCollectionView.Margin>
                                 <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
                             </dxcv:DXCollectionView.Margin>-->
-                            </dxcv:DXCollectionView>
-                        </Grid>
-                    </StackLayout>
+                                </dxcv:DXCollectionView>
+                            </Grid>
+                        </StackLayout>
+                        <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                    </Grid>
                 </ScrollView>
+
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
 

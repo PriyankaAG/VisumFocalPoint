@@ -56,19 +56,26 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
             try
             {
+                viewModel.Indicator = true;
                 var countRes = await viewModel.PickupTicketItemCount();
                 if (!countRes)
                 {
                     await DisplayAlert("FocalPoint", "Item Counted by Another, last Counts Reloaded", "Ok");
                     vm.SelectedDetail = viewModel.OriginalPickupItem;
                     await Navigation.PopAsync();
+                    viewModel.UpdateTicket();
                     return;
                 }
                 await Navigation.PopAsync();
+                viewModel.UpdateTicket();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("FocalPoint-Error", ex.Message, "Ok");
+            }
+            finally
+            {
+                viewModel.Indicator = false;
             }
         }
         async Task<bool> CheckPopupValues(PickupTicketItem itemVm)

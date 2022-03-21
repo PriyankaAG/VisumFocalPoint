@@ -47,13 +47,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             get => this.details;
             set
             {
-                if (details.Count < 0)
-                    this.details = value;
-                else
-                {
-                    this.details.Clear();
-                    this.details = value;
-                }
+                this.details = value;
                 OnPropertyChanged(nameof(Details));
             }
         }
@@ -167,19 +161,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return Details.Count(x => x.PuDtlCounted == false);
             }
         }
-        public PickupTicketItem OriginalDetailItem { get; set; }
         private PickupTicketItem selectedDetail = new PickupTicketItem();
-        //public PickupTicketItem SelectedDetail
-        //{
-        //    get => this.selectedDetail;
-        //    set
-        //    {
-        //        this.selectedDetail = value;
-        //        OnPropertyChanged(nameof(SelectedDetail));
-        //    }
-
-        //}
-
         public PickupTicketItem SelectedDetail
         {
             get => selectedDetail;
@@ -200,6 +182,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
             }
+            //Details.Add(new PickupTicketItem());
             Ticket = pickupTicket;
         }
         internal List<string> GetPopUpCount()
@@ -217,10 +200,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal bool PickupTicketCounted()
         {
-            var requestObj = new PickupTicketCounted 
+            var requestObj = new PickupTicketCounted
             {
                 PuTNo = Convert.ToInt32(this.PuTNo),
-                UTCDte = DateTime.Now 
+                UTCDte = DateTime.Now
             };
             return PickupTicketEntityComponent.PostPickupTicketCounted(requestObj).GetAwaiter().GetResult();
         }
@@ -321,12 +304,12 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
 
             if (isAtEndOfIndex)
-            {
-                this.Details.Add(SelectedDetail);
-                OnPropertyChanged(nameof(Details));
-            }
+                Details.Add(SelectedDetail);
             else
-                this.Details.Insert(selectedIndex, SelectedDetail);
+                Details.Insert(selectedIndex, SelectedDetail);
+
+            OnPropertyChanged(nameof(Details));
+            OnPropertyChanged(nameof(ToBeCounted));
         }
 
         internal void SelectedItemEdit()
@@ -411,21 +394,5 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return await GeneralComponent.SaveSignature(signatureInputDTO);
         }
         #endregion
-
-        //private PickupTicketItem SelectedTicket = new PickupTicketItem();
-
-        //ImageSource _image = null;
-        //public ImageSource Image
-        //{
-        //    get
-        //    {
-        //        var str = string.Format("FocalPoint.Images.{0}.png", classId);
-
-        //        _image = ImageSource.FromResource(str);
-        //        _image.ClassId = classId;
-
-        //        return _image;
-        //    }
-        //}
     }
 }

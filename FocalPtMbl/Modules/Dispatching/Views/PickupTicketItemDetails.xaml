@@ -9,6 +9,8 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Content>
+        <ScrollView>
+            <Grid>
         <StackLayout>
             <Grid RowSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Margin="0,10" >
                 <Grid.ColumnDefinitions>
@@ -102,5 +104,9 @@
             <Button Text="Submit Count" HorizontalOptions="FillAndExpand" Margin="10, 5" TextColor="Black" FontAttributes="Bold" Clicked="Button_Clicked"/>
 
         </StackLayout>
+        <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

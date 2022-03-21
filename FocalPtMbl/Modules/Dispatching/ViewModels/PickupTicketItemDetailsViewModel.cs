@@ -8,6 +8,7 @@ using FocalPoint.Components.Interface;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
@@ -72,6 +73,12 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Refresh();
             }
         }
+
+        internal void UpdateTicket()
+        {
+            MessagingCenter.Send(this, "ItemDetails", SelectedDetail);
+        }
+
         public decimal Stolen
         {
             get => selectedDetail.PuDtlStolenQty;
