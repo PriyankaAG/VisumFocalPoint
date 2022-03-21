@@ -18,3 +18,5 @@
 /.vs/FocalPoint Mobile/v15/Server/sqlite3/db.lock
 /.vs/FocalPoint Mobile/v16/.suo
 /.vs/FocalPoint Mobile/v15/.suo
+/.vs/FocalPoint Mobile/DesignTimeBuild/.dtbcache.v2
+*.suo

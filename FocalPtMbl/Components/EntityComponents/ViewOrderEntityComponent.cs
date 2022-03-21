@@ -1,24 +1,19 @@
 ﻿using FocalPoint.Components.Common;
-using FocalPoint.Components.Common.Interface;
-using FocalPoint.Data;
 using FocalPoint.Data.API;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint
-{    
+{
     public class ViewOrderEntityComponent: IViewOrderEntityComponent
     {
         IAPICompnent apiComponent;       
 
         public const string OrderDetail = "Order/{0}";
-        public const string postSignatureMessage = "Signature/Messages";
-        public const string postSaveSignature = "Signature/Waiver";
         public const string orderImage = "OrderImage";
         public const string orderImages = "OrderImages/{0}";
         public ViewOrderEntityComponent()
@@ -43,28 +38,6 @@ namespace FocalPoint
 
             }
             return null;
-        }
-
-        public async Task<SignatureMessageOutputDTO> GetSignatureMessageDTO(SignatureMessageInputDTO singnatureMessageInputDTO)
-        {
-            SignatureMessageOutputDTO singnatureMessageOutputDTO = null;
-            string requestContent = JsonConvert.SerializeObject(singnatureMessageInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSignatureMessage, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-            {
-                string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                singnatureMessageOutputDTO = JsonConvert.DeserializeObject<SignatureMessageOutputDTO>(content);
-            }
-            return singnatureMessageOutputDTO;
-        }
-
-        public async Task<bool> SaveSignature(SignatureInputDTO signatureInputDTO)
-        {
-            string requestContent = JsonConvert.SerializeObject(signatureInputDTO);
-            HttpResponseMessage httpResponseMessage = await apiComponent.PostAsyc(postSaveSignature, requestContent);
-            if (httpResponseMessage?.IsSuccessStatusCode ?? false)
-                return true;
-            return false;
         }
 
         public async Task<bool> SaveOrderImage(OrderImageInputDTO orderImageInputDTO)

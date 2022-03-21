@@ -1,16 +1,11 @@
-﻿using FocalPoint.Components.Common.Interface;
-using FocalPoint.Data;
-using Newtonsoft.Json;
+﻿using FocalPoint.Data;
 using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace FocalPoint
+namespace FocalPoint.Components.Common
 {
     public class APIComponent: IAPICompnent
     {
@@ -26,7 +21,7 @@ namespace FocalPoint
             var httpClientCache  = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             //clientHttp.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            Task.Delay(10000).Wait();
+            //Task.Delay(10000).Wait();
             baseURL = DataManager.Settings.ApiUri;
         }
 
