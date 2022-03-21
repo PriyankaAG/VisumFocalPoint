@@ -133,9 +133,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             get => this.Ticket.PuEEmpid;
         }
-        public string PuMobile
+        public bool PuMobile
         {
-            get => this.Ticket.PuMobile.ToString();
+            get => this.Ticket.PuMobile;
         }
         public bool IsSelectPickupItemVisible
         {
@@ -161,12 +161,14 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return Details.Count(x => x.PuDtlCounted == false);
             }
         }
-        private PickupTicketItem selectedDetail = new PickupTicketItem();
+
+        public PickupTicketItem SelectedDetail { get; set; }
+        /*private PickupTicketItem selectedDetail;
         public PickupTicketItem SelectedDetail
         {
             get => selectedDetail;
             set => SetProperty(ref selectedDetail, value);
-        }
+        }*/
         #endregion
 
         #region Methods
@@ -178,6 +180,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Details = null;
             foreach (var item in pickupTicket.Details)
             {
+                SelectedDetail = item;
                 item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
@@ -275,7 +278,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return value;
         }
 
-        internal void SelectedItemChecked(bool isChecked)
+        internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
         {
             bool isAtEndOfIndex = false;
             int selectedIndex = this.Details.IndexOf(SelectedDetail);
@@ -285,7 +288,8 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             //then change the selected detail to reflect those changes
             if (isChecked)
             {
-                SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
+                if (!isFromCountAdjustment)
+                    SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
                 SelectedDetail.ImageName = LoadImageString(SelectedDetail);
                 SelectedDetail.UTCCountDte = DateTime.UtcNow;
                 SelectedDetail.PuDtlCounted = true;
@@ -392,6 +396,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Signature = SignatureImage
             };
             return await GeneralComponent.SaveSignature(signatureInputDTO);
+        }
+
+        async internal Task<bool> AttemptLock(string apiLocked)
+        {
+            try
+            {
+                return await PickupTicketEntityComponent.LockPickupTicket(Ticket.PuTNo.ToString(), apiLocked);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return false;
         }
         #endregion
     }

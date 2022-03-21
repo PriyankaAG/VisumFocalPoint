@@ -15,6 +15,7 @@ namespace FocalPoint.Modules.Dispatching.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PickupTicketView : ContentPage
     {
+        bool _continue = true;
         public PickupTicketView(PickupTicket pickupTicket)
         {
             //check to see if visable see details
@@ -132,6 +133,28 @@ namespace FocalPoint.Modules.Dispatching.Views
         async protected override void OnAppearing()
         {
             base.OnAppearing();
+            bool locked = await viewModel.AttemptLock(true.ToString());
+            if (locked == false)
+            {
+                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
+                await Navigation.PopAsync();
+                return;
+            }
+            CheckForLockPeriodically();
+
+            if(viewModel.Details.Count == 0)
+            {
+                if (viewModel.PuMobile)
+                {
+                    await DisplayAlert("FocalPoint", "Mobile Defined Pickup Ticket, Please Add Details to be Counted from Order.", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                    await Navigation.PopAsync();
+                    return;
+                }
+            }
             //await RefreshTicket();
             //Device.StartTimer(TimeSpan.FromSeconds(30), () =>
             //{
@@ -158,10 +181,40 @@ namespace FocalPoint.Modules.Dispatching.Views
 
             MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails");
             MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails", (sender, details) =>
+            {
+                viewModel.SelectedDetail = details;
+                viewModel.SelectedItemChecked(true,true);
+            });
+        }
+
+        private void CheckForLockPeriodically()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(120), () =>
+            {
+                if (!_continue)
+                    return false;
+                try
                 {
-                    viewModel.SelectedDetail = details;
-                    viewModel.SelectedItemChecked(true);
-                });
+                    Task.Run(async () => await viewModel.AttemptLock(false.ToString()));
+                }
+                catch (Exception ex)
+                {
+                    //Do nothing
+                }
+                return _continue;
+            });
+        }
+
+        async protected override void OnDisappearing()
+        {
+            _continue = false;
+            base.OnDisappearing();
+            bool locked = await viewModel.AttemptLock(false.ToString());
+            if (locked == false)
+            {
+                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
+                return;
+            }
         }
 
         async protected void CheckBoxTapped(object sender, EventArgs args)

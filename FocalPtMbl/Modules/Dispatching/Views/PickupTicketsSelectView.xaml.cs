@@ -35,8 +35,6 @@ namespace FocalPoint.Modules.Dispatching.Views
             {
                 ((PickupTicketsSelectViewModel)BindingContext).SelectedTicket = (PickupTicket)args.Item;
                 await OpenDetailPage(GetTicketInfo(args.Item));
-                if (((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket != null)
-                    ((PickupTicketsSelectViewModel)this.BindingContext).UnlockTicket(((PickupTicketsSelectViewModel)BindingContext).SelectedTicket);
             }
         }
         private PickupTicket GetTicketInfo(object item)
@@ -47,12 +45,13 @@ namespace FocalPoint.Modules.Dispatching.Views
         }
         async Task OpenDetailPage(PickupTicket ticket)
         {
-            //if (ticket == null)
-            //    return Task.CompletedTask;
-
             PickupTicket detailedTicket = await ((PickupTicketsSelectViewModel)BindingContext).GetDetailedTicketInfo(ticket);
+            if(detailedTicket == null)
+            {
+                await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                return;
+            }
             await Navigation.PushAsync(new PickupTicketView(detailedTicket));
-            //return Navigation.PopAsync();
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

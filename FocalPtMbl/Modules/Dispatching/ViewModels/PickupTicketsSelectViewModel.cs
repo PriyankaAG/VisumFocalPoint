@@ -82,15 +82,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             try
             {
                 var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedTicket.PuTNo.ToString());
-                if (detailedTicket != null)
-                {
-                    bool isLocked = await PickupTicketEntityComponent.LockPickupTicket(SelectedTicket.PuTNo.ToString(), isTrue.ToString());
-                    if (isLocked)
-                    {
-                        return detailedTicket;
-                    }
-                }
-                return new PickupTicket();
+                return detailedTicket;
             }
             catch (Exception ex)
             {
@@ -99,21 +91,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             finally
             {
                 Indicator = false;
-            }
-        }
-        internal void UnlockTicket(PickupTicket detailedTicket)
-        {
-            string apiLocked = "False";
-            try
-            {
-                PickupTicketEntityComponent.LockPickupTicket(detailedTicket.PuTNo.ToString(), apiLocked).ContinueWith(task =>
-                {
-                    apiLocked = task.Result.ToString();
-                });
-            }
-            catch (Exception ex)
-            {
-
             }
         }
         #endregion
