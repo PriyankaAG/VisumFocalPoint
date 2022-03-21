@@ -170,8 +170,8 @@
                                     <ColumnDefinition Width="50*" />
                                 </Grid.ColumnDefinitions>
                                 <dxcv:DXCollectionView x:Name="collectionView"
-                               ItemsSource="{Binding Details}"           
-                               SelectedItem="{Binding SelectedDetail}"
+                               ItemsSource="{Binding Details, Mode=TwoWay}"           
+                               SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
                                IndicatorColor="Lime"
                                Tap="ItemSelected"
                                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"

@@ -210,10 +210,27 @@ namespace FocalPoint.MainMenu.Views
                 {
                     //displays
                     string[] stores = ((LoginPageViewModel)this.BindingContext).GetStoresArray();
-                    string currentSelectedLoginStore = await DisplayActionSheet("Select Store:", "Cancel", null, stores);
+                    string currentSelectedLoginStore;
+                    if (stores?.Count() == 1)
+                    {
+                        currentSelectedLoginStore = stores[0];
+                    }
+                    else
+                    {
+                        currentSelectedLoginStore = await DisplayActionSheet("Select Store:", "Cancel", null, stores);
+                    }
+                     
                     ((LoginPageViewModel)this.BindingContext).StoreLoginNo = ((LoginPageViewModel)this.BindingContext).GetStoreFromArray(currentSelectedLoginStore);
                     string[] terminals = ((LoginPageViewModel)this.BindingContext).GetTerminalArray();
-                    string currentSelectedLoginTerminal = await DisplayActionSheet("Select Terminal:", "Cancel", null, terminals);
+                    string currentSelectedLoginTerminal;
+                    if (terminals?.Count() == 1)
+                    {
+                        currentSelectedLoginTerminal = terminals[0];
+                    }
+                    else
+                    {
+                        currentSelectedLoginTerminal = await DisplayActionSheet("Select Terminal:", "Cancel", null, terminals);
+                    }
                     ((LoginPageViewModel)this.BindingContext).TerminalNo = ((LoginPageViewModel)this.BindingContext).GetTerminalFromArray(currentSelectedLoginTerminal);
 
                     if (currentSelectedLoginStore == "Cancel")

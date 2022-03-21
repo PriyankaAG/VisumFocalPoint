@@ -16,6 +16,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
     public class PickupTicketViewModel : CommonViewModel
     {
         public PickupTicket Ticket { get; set; }
+
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
@@ -76,7 +77,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
             }
         }
-
 
         public string Address1
         {
@@ -280,40 +280,51 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
         {
-            bool isAtEndOfIndex = false;
-            int selectedIndex = this.Details.IndexOf(SelectedDetail);
-            if (Details.Count - 1 == selectedIndex)
-                isAtEndOfIndex = true;
-            this.Details.Remove(SelectedDetail);
-            //then change the selected detail to reflect those changes
-            if (isChecked)
+            Device.BeginInvokeOnMainThread(() =>
             {
-                if (!isFromCountAdjustment)
-                    SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                SelectedDetail.PuDtlCounted = true;
-            }
-            else
-            {
-                SelectedDetail.PuDtlCntQty = 0;
-                SelectedDetail.PuDtlOutQty = 0;
-                SelectedDetail.PuDtlSoldQty = 0;
-                SelectedDetail.PuDtlStolenQty = 0;
-                SelectedDetail.PuDtlLostQty = 0;
-                SelectedDetail.PuDtlDmgdQty = 0;
-                SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                SelectedDetail.PuDtlCounted = false;
-            }
+                try
+                {
+                    bool isAtEndOfIndex = false;
+                    int selectedIndex = this.Details.IndexOf(SelectedDetail);
+                    if (Details.Count - 1 == selectedIndex)
+                        isAtEndOfIndex = true;
+                    this.Details.Remove(SelectedDetail);
+                    //then change the selected detail to reflect those changes
+                    if (isChecked)
+                    {
+                        if (!isFromCountAdjustment)
+                            SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
+                        SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                        SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                        SelectedDetail.PuDtlCounted = true;
+                    }
+                    else
+                    {
+                        SelectedDetail.PuDtlCntQty = 0;
+                        SelectedDetail.PuDtlOutQty = 0;
+                        SelectedDetail.PuDtlSoldQty = 0;
+                        SelectedDetail.PuDtlStolenQty = 0;
+                        SelectedDetail.PuDtlLostQty = 0;
+                        SelectedDetail.PuDtlDmgdQty = 0;
+                        SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                        SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                        SelectedDetail.PuDtlCounted = false;
+                    }
 
-            if (isAtEndOfIndex)
-                Details.Add(SelectedDetail);
-            else
-                Details.Insert(selectedIndex, SelectedDetail);
+                    if (isAtEndOfIndex)
+                        Details.Add(SelectedDetail);
+                    else
+                        Details.Insert(selectedIndex, SelectedDetail);
 
-            OnPropertyChanged(nameof(Details));
-            OnPropertyChanged(nameof(ToBeCounted));
+                    OnPropertyChanged(nameof(SelectedDetail));
+                    OnPropertyChanged(nameof(Details));
+                    OnPropertyChanged(nameof(ToBeCounted));
+                }
+                catch(Exception ex)
+                {
+                    //TODO: log error
+                }
+            });
         }
 
         internal void SelectedItemEdit()
