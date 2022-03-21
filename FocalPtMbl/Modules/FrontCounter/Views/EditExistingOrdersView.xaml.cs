@@ -13,7 +13,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
     public partial class EditExistingOrdersView
     {
         private bool inNavigation;
-        private string selectedComboItem="";
+        private string selectedComboItem = "";
 
         public EditExistingOrdersView()
         {
@@ -93,31 +93,25 @@ namespace FocalPoint.Modules.FrontCounter.Views
         //    //Goto New Order Page
         //    return Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder));
         //}
-        private void TextEdit_Completed(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text,1, true);
-        }
         private void TextEdit_Cleared(object sender, EventArgs e)
         {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("",1, true);
+            if (sender == searchorderText)
+            {
+                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(1);
+            }
+            else if (sender == searchreservationText)
+            { 
+                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(2);
+            }
+            else if (sender == searchquotesText)
+            { 
+                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(3);
+            }
         }
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
 
         }
-
-        private void TextEdit_Completed_1(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 2, true);
-        }
-        private void TextEdit_Cleared_1(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
-        }
-
-
-
-
         private void SimpleButton_Clicked(object sender, EventArgs e)
         {
 
@@ -138,14 +132,21 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
         }
 
-        private void TextEdit_Completed_2(object sender, EventArgs e)
+        private void Search_TextChanged(object sender, EventArgs e)
         {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 3, true);
+            var enteredText = (sender as TextEdit).Text;
+            if (sender == searchorderText)
+            {
+                ((EditExistingOrdersViewModel)this.BindingContext).SearchForOrder(enteredText, 1, true);
+            }
+            else if (sender == searchreservationText)
+            {
+                ((EditExistingOrdersViewModel)this.BindingContext).SearchForOrder(enteredText, 2, true);
+            }
+            else if (sender == searchquotesText)
+            {
+                ((EditExistingOrdersViewModel)this.BindingContext).SearchForOrder(enteredText, 3, true);
+            }
         }
-        private void TextEdit_Cleared_2(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
-        }
-
     }
 }

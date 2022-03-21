@@ -16,5 +16,15 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             InitializeComponent();
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MessagingCenter.Send(this, "AllowLandscape");
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send(this, "PreventLandscape");
+        }
     }
 }
