@@ -58,7 +58,6 @@
                                 TextColor="Blue"
                                 FontSize="16"
                                 HeightRequest="22"
-                                WidthRequest="54"
                                 Padding="0"
                                 Command="{Binding BindingContext.NavigationControlCommand, Source={Reference mainPage}}"
                                 CommandParameter="{Binding Module}"
