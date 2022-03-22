@@ -37,7 +37,7 @@
             <ContentPage Title="Open Orders" Icon="Order.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" TextChanged="Search_TextChanged"></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" TextChanged="Search_TextChanged"></dxe:TextEdit>
 
                         <dxcv:DXCollectionView x:Name="collectionView" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                            ItemsSource="{Binding OpenOrders}"

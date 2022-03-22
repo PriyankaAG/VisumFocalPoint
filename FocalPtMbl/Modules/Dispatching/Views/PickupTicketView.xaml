@@ -22,185 +22,89 @@
                      HeaderVisibleElements="TextAndIcon"
                      SelectedHeaderTextColor="#1e88e5"
                      SelectedHeaderIconColor="#1e88e5"
-                         HeaderText="Header">
+                     HeaderText="Header">
             <dxn:TabViewItem.Content>
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <ScrollView>
+                    <StackLayout>
+                        <Label Text="Ticket Information"  TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="65*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <!-- *************************** Ticket Information *************************** -->
 
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*" />
-                        <ColumnDefinition Width="65*" />
-                    </Grid.ColumnDefinitions>
-
-
-                    <!-- *************************** Ticket Information *************************** -->
-                    <Label Text="  Ticket Information  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" BackgroundColor="{DynamicResource MainPageBackgroundColor}" />
-
-                    <Label Text="Contract:  " Grid.Row="1" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding OrderNumberT}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Called In:  " Grid.Row="2" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding PuCDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Billing Stop:  " Grid.Row="3" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding PuPDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Created On:  " Grid.Row="4" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding PuEDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Created By:  " Grid.Row="5" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding PuEEmpid}" Grid.Row="5" Grid.Column="1" TextColor="Black" />
-
-                    <!--*************************** Phone Numbers ***************************-->
-                    <Label Text="  Customer  " Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" BackgroundColor="{DynamicResource MainPageBackgroundColor}" />
-
-                    <Label Text="Company:  " Grid.Row="7" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding CustomerName }" Grid.Row="7" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Contact:  " Grid.Row="8" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding PuContact }" Grid.Row="8" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Address:  " Grid.Row="9" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding Addres1}" Grid.Row="9" Grid.Column="1" 
+                            <Label Text="Contract:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
+                            <Label Text="{Binding OrderNumberT}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Called In:  " Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuCDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Billing Stop:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuPDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Created On:  " Grid.Row="3" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuEDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Created By:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding PuEEmpid}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
+                        </Grid>
+                        <Label Text="Customer" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" Margin="0,10,0,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="65*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <!--*************************** Phone Numbers ***************************-->
+                            <Label Text="Company:  " Grid.Row="0" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
+                            <Label Text="{Binding CustomerName }" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Contact:  " Grid.Row="1" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
+                            <Label Text="{Binding PuContact }" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <Label Text="Address:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
+                            <Label Text="{Binding Address1}" Grid.Row="2" Grid.Column="1" 
                        TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Label Text="" Grid.Row="10" Grid.Column="0" TextColor="Black" XAlign="End" Font="black" />
-                    <Label Text="{Binding Address2}" Grid.Row="10" Grid.Column="1" TextColor="Black" />
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{x:Binding OpenMapApplicationCommand}"
+                                        CommandParameter="{x:Binding Address1}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Text="" Grid.Row="3" Grid.Column="0" TextColor="Black"  FontAttributes="Bold" />
+                            <Label Text="{Binding CityStateZip}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
 
-                    <Label Text="Phone 1:  " Grid.Row="11" Grid.Column="0" TextColor="Black" XAlign="End"  VerticalTextAlignment="Center" Font="black" />
-                    <Label Text="{Binding Phone}" Grid.Row="11" Grid.Column="1"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
+                            <Label Text="Phone 1:  " Grid.Row="4" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                            <Label Text="{Binding Phone}" Grid.Row="4" Grid.Column="1"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
                        TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
-                        </Label.GestureRecognizers>
-                    </Label>
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{x:Binding OpenPhoneDialerCommand}"
+                                        CommandParameter="{x:Binding Phone}" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
-                    <Label Text="Phone 2:  " Grid.Row="12" Grid.Column="0" TextColor="Black" XAlign="End" VerticalTextAlignment="Center" Font="black" />
-                    <Label Text="{Binding Phone2}" Grid.Row="12" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
+                            <Label Text="Phone 2:  " Grid.Row="5" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                            <Label Text="{Binding Phone2}" Grid.Row="5" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
                        TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_3" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Button  Grid.Row="13" Grid.Column="0"  Grid.ColumnSpan="2" Text="Complete Counts" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Clicked="Button_Clicked"></Button>
-                </Grid>
-            </dxn:TabViewItem.Content>
-        </dxn:TabViewItem>
-
-
-        <dxn:TabViewItem HeaderFontSize="14"
-                     HeaderFontAttributes="Bold"
-                     HeaderTextColor="#99191919"
-                     HeaderIconColor="#99191919"
-                     HeaderIconPosition="Top"
-                     HeaderIconSpacing="4"
-                     HeaderWidth="*"
-                     HeaderMinWidth="90"
-                     HeaderMaxWidth="360"
-                     HeaderPadding="16,0,16,0"
-                     HeaderVisibleElements="TextAndIcon"
-                     SelectedHeaderTextColor="#1e88e5"
-                     SelectedHeaderIconColor="#1e88e5"
-                     SelectedHeaderBackgroundColor="Transparent"
-                         HeaderText="Details">
-            <dxn:TabViewItem.Content>
-
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="50"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*" />
-                        <ColumnDefinition Width="50*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Mobile Pickup - Click Here to Select Items to Pickup" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" />
-                    <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Details}"           
-                           SelectedItem="{Binding SelectedDetail}"
-                           IndicatorColor="Lime"
-                           Tap="ItemSelected"
-                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
-                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                        <!--Define the item template.-->
-
-                        <dxcv:DXCollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Padding="10, 8, 18, 7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="35*" />
-                                        <ColumnDefinition Width="20*" />
-                                        <ColumnDefinition Width="25*" />
-                                        <ColumnDefinition Width="20*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="100"/>
-                                        <RowDefinition Height="100"/>
-                                    </Grid.RowDefinitions>
-
-
-                                    <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-
-                                    <Image Source="{Binding ImageName}" Margin="0, 5, 0, 5" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
-                                        <Image.VerticalOptions>
-                                            <OnPlatform x:TypeArguments="LayoutOptions"
-                                            Android="FillAndExpand"
-                                            iOS="EndAndExpand"/>
-                                        </Image.VerticalOptions>
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_4" NumberOfTapsRequired="1" />
-                                        </Image.GestureRecognizers>
-                                    </Image>
-
-                                </Grid>
-
-                            </DataTemplate>
-                        </dxcv:DXCollectionView.ItemTemplate>
-
-                        <!--Define the group header template.-->
-                        <dxcv:DXCollectionView.GroupHeaderTemplate>
-                            <DataTemplate>
-                                <StackLayout Margin="2, 0, 18, 10">
-                                    <Label FontFamily="Roboto-Medium"
-                       Margin="0,20,0,1"
-                       TextColor="#55575c"
-                       Text="{Binding Value}"/>
-                                    <BoxView BackgroundColor="#ebebeb" 
-                         HeightRequest="1"/>
-                                </StackLayout>
-                            </DataTemplate>
-                        </dxcv:DXCollectionView.GroupHeaderTemplate>
-
-                        <!--Specify margins.-->
-                        <dxcv:DXCollectionView.Margin>
-                            <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
-                        </dxcv:DXCollectionView.Margin>
-                    </dxcv:DXCollectionView>
-                </Grid>
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{x:Binding OpenPhoneDialerCommand}"
+                                        CommandParameter="{x:Binding Phone2}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                        <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="CompleteCountButton_Clicked"></Button>
+                    </StackLayout>
+                </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
 
@@ -219,19 +123,163 @@
                      SelectedHeaderIconColor="#1e88e5"
                          HeaderText="Notes">
             <dxn:TabViewItem.Content>
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <ScrollView>
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                        <Label Text="Ticket Notes" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                        <Label Text="{Binding PuNote}" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,0"/>
+                    </StackLayout>
+                </ScrollView>
 
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*" />
-                        <ColumnDefinition Width="65*" />
-                    </Grid.ColumnDefinitions>
+        <dxn:TabViewItem HeaderFontSize="14"
+                     HeaderFontAttributes="Bold"
+                     HeaderTextColor="#99191919"
+                     HeaderIconColor="#99191919"
+                     HeaderIconPosition="Top"
+                     HeaderIconSpacing="4"
+                     HeaderWidth="*"
+                     HeaderMinWidth="90"
+                     HeaderMaxWidth="360"
+                     HeaderPadding="16,0,16,0"
+                     HeaderVisibleElements="TextAndIcon"
+                     SelectedHeaderTextColor="#1e88e5"
+                     SelectedHeaderIconColor="#1e88e5"
+                     SelectedHeaderBackgroundColor="Transparent"
+                         HeaderText="Details">
+            <dxn:TabViewItem.Content>
+                <ScrollView>
+                    <Grid>
+                        <StackLayout>
+                            <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
 
-                    <Label Text="  Ticket Notes  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start"   />
+                            <Label Text="Mobile Pickup - Click Here to Select Items to Pickup" IsVisible="{Binding IsSelectPickupItemVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MobilePickupClick" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <ListView
+             x:Name="collectionView"
+             HasUnevenRows="true"
+                                ItemsSource="{Binding Details, Mode=TwoWay}"  
+                               SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
+             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+             ItemSelected="ItemSelected"
+                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Grid BindingContext="{Binding .}"  BackgroundColor="White">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                    <ColumnDefinition Width="25*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
+                                                </Grid.GestureRecognizers>
+                                                <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+                                                    <Image.VerticalOptions>
+                                                        <OnPlatform x:TypeArguments="LayoutOptions"
+                                            Android="FillAndExpand"
+                                            iOS="EndAndExpand"/>
+                                                    </Image.VerticalOptions>
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                             <!--   <dxcv:DXCollectionView x:Name="collectionView"
+                               ItemsSource="{Binding Details, Mode=TwoWay}"           
+                               SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
+                               IndicatorColor="Lime"
+                               Tap="ItemSelected"
+                               IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <dxcv:DXCollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid IsVisible="{Binding IsItemVisible}"  BackgroundColor="White">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                    <ColumnDefinition Width="25*" />
+                                                    <ColumnDefinition Width="20*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="30"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
+                                                </Grid.GestureRecognizers>
+                                                <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                                </Label>
+                                                <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+                                                    <Image.VerticalOptions>
+                                                        <OnPlatform x:TypeArguments="LayoutOptions"
+                                            Android="FillAndExpand"
+                                            iOS="EndAndExpand"/>
+                                                    </Image.VerticalOptions>
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                                <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                            </Grid>
 
-                    <Label Text="{Binding PuNote}" TextColor="Black" BackgroundColor="White" HorizontalOptions="FillAndExpand" />
+                                        </DataTemplate>
+                                    </dxcv:DXCollectionView.ItemTemplate>
 
-                </Grid>
+                                    <dxcv:DXCollectionView.GroupHeaderTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Margin="2, 0, 18, 10">
+                                                <Label FontFamily="Roboto-Medium"
+                           Margin="0,20,0,1"
+                           TextColor="#55575c"
+                           Text="{Binding Value}"/>
+                                                <BoxView BackgroundColor="#ebebeb" 
+                             HeightRequest="1"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                                </dxcv:DXCollectionView> -->
+                        </StackLayout>
+                        <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                    </Grid>
+                </ScrollView>
 
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>

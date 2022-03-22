@@ -4,7 +4,7 @@
     <SelectedDevice>Xiaomi Redmi 6A</SelectedDevice>
     <ActiveDebugProfile>OnePlus A5010</ActiveDebugProfile>
     <DefaultDevice>3gb_memory</DefaultDevice>
-    <AndroidDesignerPreferredTheme>MainTheme</AndroidDesignerPreferredTheme>
+    <AndroidDesignerPreferredTheme>Theme.AppCompat.Light.NoActionBar</AndroidDesignerPreferredTheme>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>

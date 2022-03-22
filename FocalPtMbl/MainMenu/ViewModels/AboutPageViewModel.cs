@@ -1,9 +1,12 @@
-﻿using FocalPtMbl.MainMenu.ViewModels.Services;
+﻿using FocalPoint.Utils;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace FocalPtMbl.MainMenu.ViewModels
 {
@@ -15,17 +18,63 @@ namespace FocalPtMbl.MainMenu.ViewModels
         public string CompanyUrl => "http://visum-corp.com/";
         public string ContactUrl => "http://visum-corp.com/contact/";
         public string GoogleUrl => "https://www.google.com/";
+
+        public string CompanyEmail = "Support@Visum-Corp.com";
+        public string CompanyPhone = "(763)244-8050";
         public ICommand OpenWebCommand { get; }
 
         public AboutPageViewModel(IOpenUriService openService)
         {
             InitVersion();
             OpenWebCommand = new DelegateCommand<String>((p) => openService.Open(p));
+            OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
+            OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
         }
         void InitVersion()
         {
             Version assemblyVersion = Assembly.GetAssembly(this.GetType()).GetName().Version;
             version = $"{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}";
         }
+
+        #region OpenPhoneDialer
+
+        public ICommand OpenPhoneDialerCommand { get; }
+
+        private async Task OpenPhoneDialerTask(string phoneNumber)
+        {
+            try
+            {
+                await Ultils.OpenPhoneDialer(CompanyPhone);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenPhoneDialer
+        #region OpenEmailApplication
+
+        public ICommand OpenEmailApplicationCommand { get; }
+
+        private async Task OpenEmailApplicationTask(string emailAddress)
+        {
+            try
+            {
+                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { CompanyEmail });
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenEmailApplication
     }
 }

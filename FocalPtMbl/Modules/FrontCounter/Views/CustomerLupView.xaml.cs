@@ -209,7 +209,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
                                 dataItem.LabelText = billaddr;
                             }
                             ((CustomerLupViewModel)this.BindingContext).AddressSameAsBillAdress(true, dataItem);
-                            dataItem.IsReadOnly = true;
+                            //dataItem.IsReadOnly = true;
                             
                         }
                     }
@@ -221,7 +221,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
                     {
                         if (dataItem.GroupName == "Billing Address")
                             ((CustomerLupViewModel)this.BindingContext).AddressSameAsBillAdress(false, dataItem);
-                        dataItem.IsReadOnly = false;
+                        //dataItem.IsReadOnly = false;
                     }
                 }
             }

@@ -128,7 +128,7 @@ namespace FocalPoint
             }
         }
 
-        public async Task<bool> SaveSignature()
+        public virtual async Task<bool> SaveSignature()
         {
             SignatureInputDTO signatureInputDTO = new SignatureInputDTO();
             signatureInputDTO.DocKind = (int)DocKinds.Order;

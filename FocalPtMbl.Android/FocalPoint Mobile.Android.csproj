@@ -64,7 +64,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
-    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningKeyStore>D:\Visum\FocalPoint Mobile\FocalPoint Mobile_3.0\VisumFocalPoint.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Visum982$</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>VisumFocalPoint</AndroidSigningKeyAlias>
@@ -471,6 +471,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Order_Resv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\GreenCheckedBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\RedCheckedBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\YellowCheckedBox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="_RemoveMdbFiles" BeforeTargets="_Upload">

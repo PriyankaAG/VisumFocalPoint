@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Visum.Services.Mobile.Entities
 {
     public class PickupTicketOrder
@@ -14,5 +16,10 @@ namespace Visum.Services.Mobile.Entities
 
         public decimal OrderDtlQty { get; set; }
         public decimal PuDtlQty { get; set; }
+    }
+
+    public class PickupTicketOrderDTO
+    {
+        public List<PickupTicketOrder> Items{ get; set; }
     }
 }
