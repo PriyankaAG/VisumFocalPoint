@@ -25,34 +25,13 @@ namespace FocalPoint.Modules.Dispatching.Views
             InitializeComponent();
         }
 
-        public void ItemSelected(object sender, CollectionViewGestureEventArgs args)
+        private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if (sender is Image) return;
-            if (args.Item != null)
+            if (e.SelectedItem != null)
             {
-                ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)args.Item;
+                ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)e.SelectedItem;
             }
         }
-        private PickupTicketItem GetDetailInfo(object item)
-        {
-            if (item is PickupTicketItem pTicket)
-                return pTicket;
-            return new PickupTicketItem();
-        }
-        Task OpenDetailPage(PickupTicketItem ticket)
-        {
-            if (ticket == null)
-                return Task.CompletedTask;
-
-            //PickupTicket detailedTicket = ((PickupTicketsSelectViewModel)this.BindingContext).GetDetailedTicketInfo(ticket);
-            //MessagingCenter.Send<SelectCustomerView, string>(this, "Hi", "John");
-            //MessagingCenter.Send<SelectCustomerView, Customer>(this, "Hi", cust);
-            //EventPass(((SelectCustomerViewModel)this.BindingContext).SelectedCustomer);
-
-            return Task.CompletedTask;
-            //return Navigation.PushAsync(new PickupTicketItemView(detailedTicket));
-        }
-
         readonly PickupTicketViewModel viewModel;
 
         private async void CompleteCountButton_Clicked(object sender, EventArgs e)
@@ -100,26 +79,6 @@ namespace FocalPoint.Modules.Dispatching.Views
                 BindingContext = signatureViewModel
             };
             await Navigation.PushAsync(orderSignatureView);
-        }
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TapGestureRecognizer_Tapped_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TapGestureRecognizer_Tapped_3(object sender, EventArgs e)
-        {
-
         }
 
         private void TapGestureRecognizer_Tapped_4(object sender, EventArgs e)
@@ -219,11 +178,12 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         async protected void CheckBoxTapped(object sender, EventArgs args)
         {
+            var imageSender = (Image)sender;
+            var parent = (Grid)imageSender.Parent;
+            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
+
             PickupTicketViewModel viewModel = BindingContext as PickupTicketViewModel;
             bool isChecked;
-            /*if (viewModel.SelectedDetail.ImageName != "UnCheckedBox.png")
-isChecked = true;*/
-
             viewModel.SelectedDetail.Checked = isChecked = !viewModel.SelectedDetail.Checked;
 
             if (isChecked)
@@ -233,7 +193,6 @@ isChecked = true;*/
                     return;
             }
             viewModel.SelectedItemChecked(isChecked);
-
             try
             {
                 viewModel.Indicator = true;
@@ -254,6 +213,7 @@ isChecked = true;*/
                 viewModel.Indicator = false;
             }
         }
+
         async Task<bool> CheckPopupValues()
         {
             List<string> popUpCount = viewModel.GetPopUpCount();
@@ -275,10 +235,8 @@ isChecked = true;*/
 
         private async void DetailLine_Tapped(object sender, EventArgs e)
         {
-
-            //Get Itemized Sheet for selected Item
-            ((PickupTicketViewModel)this.BindingContext).SelectedItemEdit();
-
+            var parent = (Grid)sender;
+            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
             await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
         }
 

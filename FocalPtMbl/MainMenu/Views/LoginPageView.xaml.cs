@@ -157,7 +157,7 @@ namespace FocalPoint.MainMenu.Views
 
         protected override void OnSizeAllocated(double width, double height)
         {
-            ((LoginPageViewModel)this.BindingContext).Rotate(dataForm, height > width);
+            //((LoginPageViewModel)this.BindingContext).Rotate(dataForm, height > width);
             base.OnSizeAllocated(width, height);
         }
         protected override bool OnBackButtonPressed()

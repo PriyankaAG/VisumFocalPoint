@@ -163,12 +163,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
 
         public PickupTicketItem SelectedDetail { get; set; }
-        /*private PickupTicketItem selectedDetail;
-        public PickupTicketItem SelectedDetail
-        {
-            get => selectedDetail;
-            set => SetProperty(ref selectedDetail, value);
-        }*/
         #endregion
 
         #region Methods
@@ -185,7 +179,8 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
             }
-            //Details.Add(new PickupTicketItem());
+            /*if (pickupTicket.Details != null && pickupTicket.Details.Count > 0)
+                Details.Add(new PickupTicketItem() { IsItemVisible = false });*/
             Ticket = pickupTicket;
         }
         internal List<string> GetPopUpCount()
@@ -280,58 +275,49 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            try
             {
-                try
+                bool isAtEndOfIndex = false;
+                int selectedIndex = this.Details.IndexOf(SelectedDetail);
+                if (Details.Count - 1 == selectedIndex)
+                    isAtEndOfIndex = true;
+                this.Details.Remove(SelectedDetail);
+                //then change the selected detail to reflect those changes
+                if (isChecked)
                 {
-                    bool isAtEndOfIndex = false;
-                    int selectedIndex = this.Details.IndexOf(SelectedDetail);
-                    if (Details.Count - 1 == selectedIndex)
-                        isAtEndOfIndex = true;
-                    this.Details.Remove(SelectedDetail);
-                    //then change the selected detail to reflect those changes
-                    if (isChecked)
-                    {
-                        if (!isFromCountAdjustment)
-                            SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                        SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                        SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                        SelectedDetail.PuDtlCounted = true;
-                    }
-                    else
-                    {
-                        SelectedDetail.PuDtlCntQty = 0;
-                        SelectedDetail.PuDtlOutQty = 0;
-                        SelectedDetail.PuDtlSoldQty = 0;
-                        SelectedDetail.PuDtlStolenQty = 0;
-                        SelectedDetail.PuDtlLostQty = 0;
-                        SelectedDetail.PuDtlDmgdQty = 0;
-                        SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                        SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                        SelectedDetail.PuDtlCounted = false;
-                    }
-
-                    if (isAtEndOfIndex)
-                        Details.Add(SelectedDetail);
-                    else
-                        Details.Insert(selectedIndex, SelectedDetail);
-
-                    OnPropertyChanged(nameof(SelectedDetail));
-                    OnPropertyChanged(nameof(Details));
-                    OnPropertyChanged(nameof(ToBeCounted));
+                    if (!isFromCountAdjustment)
+                        SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
+                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                    SelectedDetail.PuDtlCounted = true;
                 }
-                catch(Exception ex)
+                else
                 {
-                    //TODO: log error
+                    SelectedDetail.PuDtlCntQty = 0;
+                    SelectedDetail.PuDtlOutQty = 0;
+                    SelectedDetail.PuDtlSoldQty = 0;
+                    SelectedDetail.PuDtlStolenQty = 0;
+                    SelectedDetail.PuDtlLostQty = 0;
+                    SelectedDetail.PuDtlDmgdQty = 0;
+                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
+                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
+                    SelectedDetail.PuDtlCounted = false;
                 }
-            });
-        }
 
-        internal void SelectedItemEdit()
-        {
-            //throw new NotImplementedException();
-        }
+                if (isAtEndOfIndex)
+                    Details.Add(SelectedDetail);
+                else
+                    Details.Insert(selectedIndex, SelectedDetail);
 
+                OnPropertyChanged(nameof(SelectedDetail));
+                //OnPropertyChanged(nameof(Details));
+                OnPropertyChanged(nameof(ToBeCounted));
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
         #region OpenPhoneDialer
 
         public ICommand OpenPhoneDialerCommand { get; }
