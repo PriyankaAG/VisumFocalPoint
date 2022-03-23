@@ -1,316 +1,316 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-    <AssemblyName>FocalPtMbl</AssemblyName>
-    <RootNamespace>FocalPoint</RootNamespace>
-    <ApplicationIcon />
-    <Win32Resource />
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+		<AssemblyName>FocalPtMbl</AssemblyName>
+		<RootNamespace>FocalPoint</RootNamespace>
+		<ApplicationIcon />
+		<Win32Resource />
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Modules\Common\ViewModel\**" />
-    <EmbeddedResource Remove="Modules\Common\ViewModel\**" />
-    <None Remove="Modules\Common\ViewModel\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Modules\Common\ViewModel\**" />
+		<EmbeddedResource Remove="Modules\Common\ViewModel\**" />
+		<None Remove="Modules\Common\ViewModel\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.3.0" />
-    <PackageReference Include="DevExpress.XamarinForms.Charts" Version="21.2.6" />
-    <PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="21.2.6" />
-    <PackageReference Include="DevExpress.XamarinForms.Editors" Version="21.2.6" />
-    <PackageReference Include="DevExpress.XamarinForms.Grid" Version="21.2.6" />
-    <PackageReference Include="DevExpress.XamarinForms.Navigation" Version="21.2.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="Xamarin.Controls.SignaturePad.Forms" Version="3.0.0" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="6.2.0" />
+		<PackageReference Include="DevExpress.XamarinForms.Charts" Version="20.2.6" />
+		<PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="20.2.6" />
+		<PackageReference Include="DevExpress.XamarinForms.Editors" Version="20.2.6" />
+		<PackageReference Include="DevExpress.XamarinForms.Grid" Version="20.2.6" />
+		<PackageReference Include="DevExpress.XamarinForms.Navigation" Version="20.2.6" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="Xamarin.Controls.SignaturePad.Forms" Version="3.0.0" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Visum.Services.Mobile.Entities\Visum.Services.Mobile.Entities.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Visum.Services.Mobile.Entities\Visum.Services.Mobile.Entities.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Common\View\OrderImagePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Dispatching\Views\DispatchesPageView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Dispatching\Views\PickupDetailMobileSelect.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketItemDetails.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\Dispatching\Views\TruckPageView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\CashPaymentView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\OrderSignatureView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsSalableView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderPaymentsSelectView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderPaymentsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\RentalResultsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\Rentals\OpenRentalDetailsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\Rentals\OpenRentalsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\SelectedImageGetDetailsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\SelectSerialOnlyView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Common\View\OrderImagePage.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\DispatchesPageView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\PickupDetailMobileSelect.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketItemDetails.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\TruckPageView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\CashPaymentView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\OrderSignatureView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsSalableView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderPaymentsSelectView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderPaymentsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\RentalResultsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\Rentals\OpenRentalDetailsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\Rentals\OpenRentalsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\SelectedImageGetDetailsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\SelectSerialOnlyView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
+			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="AppShell.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Controls\IconView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\AboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\BasePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\ChangeStoreView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\ControlPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\GroupItemView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\LoginPageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\SettingsPageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\SplashPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainMenu\Views\TimeClockView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Administrative\Views\CashDrawerSummaryView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Administrative\Views\DailyRevenueView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Administrative\Views\RentalValuationSummaryView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Common\View\OrderImagePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\CustomerDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\CustomerFormView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\CustomerSimpleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\CustomersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\ProspectsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\CustomerRelations\Views\QuickAddCustProsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\DispatchesPageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\DispatchScheduleView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\PickupTicketItemDetails.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\PickupTicketView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Dispatching\Views\TruckPageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\CashPaymentView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\CustomerLupView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\EditExistingOrdersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\OrderSignatureView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderCreationOutlineView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderDetailsMerchView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderDetailsSalableView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderHeaderView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderInternalNotesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderPaymentsSelectView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderPaymentsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderPrintNotesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\QuickOrderTotalBreakoutView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\RentalResultsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\RentalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\Rentals\OpenRentalDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\Rentals\OpenRentalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\ReturnsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\SelectCustomerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\SelectedImageGetDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\SelectSerialOnlyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Inventory\Views\RentalFileListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Inventory\Views\VendorDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\Inventory\Views\VendorsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\ServiceDepartment\Views\EditWorkOrderView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\ServiceDepartment\Views\TimeClockView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\ServiceDepartment\Views\WorkOrderFormTabDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Modules\ServiceDepartment\Views\WorkOrderFormView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Themes\DarkTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Themes\LightTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\AboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\ItemDetailPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\ItemsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\LoginPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-    <None Update="Views\NewItemPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="App.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="AppShell.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Controls\IconView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\AboutPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\BasePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\ChangeStoreView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\ControlPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\GroupItemView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\LoginPageView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\SettingsPageView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\SplashPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainMenu\Views\TimeClockView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Administrative\Views\CashDrawerSummaryView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Administrative\Views\DailyRevenueView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Administrative\Views\RentalValuationSummaryView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Common\View\OrderImagePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\CustomerDetailView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\CustomerFormView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\CustomerSimpleView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\CustomersView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\ProspectsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\CustomerRelations\Views\QuickAddCustProsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\DispatchesPageView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\DispatchScheduleView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\PickupTicketItemDetails.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\PickupTicketView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Dispatching\Views\TruckPageView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\CashPaymentView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\CustomerLupView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\EditExistingOrdersView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\OrderSignatureView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderCreationOutlineView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderDetailsMerchView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderDetailsSalableView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderHeaderView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderInternalNotesView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderPaymentsSelectView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderPaymentsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderPrintNotesView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\QuickOrderTotalBreakoutView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\RentalResultsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\RentalsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\Rentals\OpenRentalDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\Rentals\OpenRentalsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\ReturnsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\SelectCustomerView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\SelectedImageGetDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\SelectSerialOnlyView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Inventory\Views\RentalFileListView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Inventory\Views\VendorDetailView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\Inventory\Views\VendorsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\ServiceDepartment\Views\EditWorkOrderView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\ServiceDepartment\Views\TimeClockView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\ServiceDepartment\Views\WorkOrderFormTabDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Modules\ServiceDepartment\Views\WorkOrderFormView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Themes\DarkTheme.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Themes\LightTheme.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Views\AboutPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Views\ItemDetailPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Views\ItemsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Views\LoginPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+		<None Update="Views\NewItemPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</None>
+	</ItemGroup>
 </Project>

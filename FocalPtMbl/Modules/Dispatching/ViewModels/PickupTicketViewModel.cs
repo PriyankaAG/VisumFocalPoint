@@ -196,14 +196,14 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return popUpList;
         }
 
-        internal bool PickupTicketCounted()
+        async internal Task<bool> PickupTicketCounted()
         {
             var requestObj = new PickupTicketCounted
             {
                 PuTNo = Convert.ToInt32(this.PuTNo),
                 UTCDte = DateTime.Now
             };
-            return PickupTicketEntityComponent.PostPickupTicketCounted(requestObj).GetAwaiter().GetResult();
+            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
         }
 
         internal string LoadImageString(PickupTicketItem item)
