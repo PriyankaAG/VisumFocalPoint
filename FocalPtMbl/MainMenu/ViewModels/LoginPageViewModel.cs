@@ -75,6 +75,19 @@ namespace FocalPoint.MainMenu.ViewModels
             clientHttp = PreparedClient();
             //secureClientHttp = new HttpClient();
             buttonCommand = new ValidationCommand(this);
+            CheckForSettings();
+        }
+        /// <summary>
+        /// Checks whether the user had logged in previously and has a HOST and a PORT saved 
+        /// onto his device.
+        /// </summary>
+        private async void CheckForSettings()
+        {
+            Model.ConnectionURL = await SettingComponent.GetSettings(Ultils.HOSTKEY);
+            Model.ConnectionPort = await SettingComponent.GetSettings(Ultils.PORTKEY);
+
+            if (string.IsNullOrEmpty(Model.ConnectionPort))
+                Model.ConnectionPort = "56883";
         }
         private HttpClient PreparedClient()
         {

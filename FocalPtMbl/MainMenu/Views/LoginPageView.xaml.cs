@@ -19,6 +19,7 @@ using DevExpress.XamarinForms.Navigation;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.Views;
 using FocalPtMbl.MainMenu.Services;
+using FocalPoint.Utils;
 
 namespace FocalPoint.MainMenu.Views
 {
@@ -51,7 +52,7 @@ namespace FocalPoint.MainMenu.Views
 
         void DataFormOnValidateProperty(object sender, DataFormPropertyValidationEventArgs e)
         {
-            if(e.PropertyName == "Login")
+            if (e.PropertyName == "Login")
             {
                 if (e.NewValue.ToString() != "")
                 {
@@ -64,13 +65,13 @@ namespace FocalPoint.MainMenu.Views
                     }
 
                     /// RCG:  Look into this ??????????
-                    else if(e.HasError)
+                    else if (e.HasError)
                     {
                         dataForm.Commit();
                     }
                 }
             }
-            if(e.PropertyName ==nameof(LoginPageViewModel.Model.Password))// "Password")
+            if (e.PropertyName == nameof(LoginPageViewModel.Model.Password))// "Password")
             {
                 if (e.NewValue.ToString() != "")
                 {
@@ -199,11 +200,11 @@ namespace FocalPoint.MainMenu.Views
             {
                 //get stores
 
-                
-              // string storeNo = await DisplayPromptAsync("Choose Store", "Enter in the StoreNo", keyboard: Keyboard.Numeric);
-             //  ((LoginPageViewModel)this.BindingContext).StoreLoginNo = storeNo;
+
+                // string storeNo = await DisplayPromptAsync("Choose Store", "Enter in the StoreNo", keyboard: Keyboard.Numeric);
+                //  ((LoginPageViewModel)this.BindingContext).StoreLoginNo = storeNo;
                 //get terminals
-               // string terminalNo = await DisplayPromptAsync("Choose Terminal", "Enter in the TerminalNo", keyboard: Keyboard.Numeric);
+                // string terminalNo = await DisplayPromptAsync("Choose Terminal", "Enter in the TerminalNo", keyboard: Keyboard.Numeric);
                 //((LoginPageViewModel)this.BindingContext).TerminalNo = terminalNo;
                 // if login success and security areas are good reload main page with security
                 if (((LoginPageViewModel)this.BindingContext).CheckLicenses(dataForm)) //security areas etc
@@ -219,7 +220,7 @@ namespace FocalPoint.MainMenu.Views
                     if (currentSelectedLoginStore == "Cancel")
                     {
                         await App.Current.MainPage.DisplayAlert("Must Select Store", "The store must be selected to continue", "OK");
-                        
+
                     }
                     if (currentSelectedLoginTerminal == "Cancel")
                     {
@@ -244,6 +245,11 @@ namespace FocalPoint.MainMenu.Views
                             ThemeLoader.Instance.LoadTheme();
                             //end loading
                             activityIndicator.IsRunning = false;
+
+                            //Login is successful and terminal/stops have been selected.
+                            //Save the host and port on the device to load later
+                            SettingComponent.AddSettings(Ultils.HOSTKEY, ((LoginPageViewModel)this.BindingContext).Model.ConnectionURL);
+                            SettingComponent.AddSettings(Ultils.PORTKEY, ((LoginPageViewModel)this.BindingContext).Model.ConnectionPort);
                         }
                     }
                 }
@@ -255,7 +261,7 @@ namespace FocalPoint.MainMenu.Views
                 //invalid # of users
                 await App.Current.MainPage.DisplayAlert("Number of users", "There are not enough licenses for the amount of mobile licenses active", "OK");
             }
-            else if (UpdateValid==3)
+            else if (UpdateValid == 3)
             {
                 //invalid token username and password
                 LoginFailed = true;
@@ -264,12 +270,12 @@ namespace FocalPoint.MainMenu.Views
                 LoginFailed = false;
 
             }
-            else if(UpdateValid == 2)
+            else if (UpdateValid == 2)
             {
                 //invalid version
                 await DisplayAlert("Invalid Version", "The version between the server and phone are incompatible, please update ", "OK");
             }
-            else if(UpdateValid==1 || UpdateValid == 0)
+            else if (UpdateValid == 1 || UpdateValid == 0)
             {
                 //invalid connection
                 URLFailed = true;

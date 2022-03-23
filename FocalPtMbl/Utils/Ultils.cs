@@ -8,6 +8,9 @@ namespace FocalPoint.Utils
 {
     public class Ultils
     {
+        //Used to save the Host and Port after successful login
+        public const string HOSTKEY = "host";
+        public const string PORTKEY = "port";
         /// <summary>
         /// 
         /// </summary>
