@@ -62,7 +62,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
             //App.Platform.Show("Sending Counts...");
 
-            var success = ((PickupTicketViewModel)BindingContext).PickupTicketCounted();
+            var success = await ((PickupTicketViewModel)BindingContext).PickupTicketCounted();
             if (success)
             {
                 await ShowSignatureScreen();
