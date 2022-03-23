@@ -232,7 +232,8 @@ namespace FocalPoint.MainMenu.Views
                     if (!(currentSelectedLoginTerminal == "Cancel" || currentSelectedLoginStore == "Cancel"))
                     {
                         activityIndicator.IsRunning = true;
-                        if (((LoginPageViewModel)this.BindingContext).LoginSecurity())
+                        LoginPageViewModel LoginPageViewModel = (LoginPageViewModel)this.BindingContext;
+                        if (LoginPageViewModel.LoginSecurity())
                         {
                             //goto main page
                             MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
@@ -248,8 +249,7 @@ namespace FocalPoint.MainMenu.Views
 
                             //Login is successful and terminal/stops have been selected.
                             //Save the host and port on the device to load later
-                            SettingComponent.AddSettings(Ultils.HOSTKEY, ((LoginPageViewModel)this.BindingContext).Model.ConnectionURL);
-                            SettingComponent.AddSettings(Ultils.PORTKEY, ((LoginPageViewModel)this.BindingContext).Model.ConnectionPort);
+                            LoginPageViewModel.SetSecures();
                         }
                     }
                 }
