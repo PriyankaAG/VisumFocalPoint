@@ -72,7 +72,13 @@ namespace FocalPoint.Modules.Dispatching.Views
                         return;
                     }
                 }
-                var success = await vm.PickupTicketCreate(vm.Orders.ToList());
+                var selectedOrders = vm.Orders.Where(x => x.PuDtlQty > 0);
+                if(selectedOrders == null || !selectedOrders.Any())
+                {
+                    await DisplayAlert("FocalPoint", "No Orders selected.", "OK");
+                    return;
+                }
+                var success = await vm.PickupTicketCreate(selectedOrders.ToList());
                 if (!success)
                     await DisplayAlert("FocalPoint", "Failed to create the Pickup Tickets.", "Ok");
                 await Navigation.PopAsync();
