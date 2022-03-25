@@ -9,7 +9,7 @@ using Xamarin.Essentials;
 
 namespace FocalPoint.Utils
 {
-    public class Ultils
+    public class Utils
     {
         /// <summary>
         /// 

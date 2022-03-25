@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -75,19 +76,19 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WOODte
         {
-            get => this.order.WOODte.ToString();
+            get => this.order.WOODte.ToFormattedDate();
         }
         public string WOCDte
         {
-            get => this.order.WOCDte.ToString();
+            get => this.order.WOCDte.ToFormattedDate();
         }
         public string WOPDte
         {
-            get => this.order.WOPDte.ToString();
+            get => this.order.WOPDte.ToFormattedDate();
         }
         public string WOPUDte
         {
-            get => this.order.WOPUDte.ToString();
+            get => this.order.WOPUDte.ToFormattedDate();
         }
 
         private SignatureMessageOutputDTO _signatureMessageOutputDTO;
@@ -102,7 +103,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WODelDte
         {
-            get => this.order.WODelDte.ToString();
+            get => this.order.WODelDte.ToFormattedDate();
         }
         public decimal WODelAmt
         {

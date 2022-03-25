@@ -44,7 +44,7 @@ namespace FocalPtMbl.MainMenu.ViewModels
         {
             try
             {
-                await Ultils.OpenPhoneDialer(CompanyPhone);
+                await Utils.OpenPhoneDialer(CompanyPhone);
             }
             catch (Exception exception)
             {
@@ -64,7 +64,7 @@ namespace FocalPtMbl.MainMenu.ViewModels
         {
             try
             {
-                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { CompanyEmail });
+                await Utils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { CompanyEmail });
             }
             catch (Exception exception)
             {

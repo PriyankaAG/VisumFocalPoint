@@ -44,11 +44,11 @@
                             <Label Text="Contract:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
                             <Label Text="{Binding OrderNumberT}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
                             <Label Text="Called In:  " Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding PuCDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <Label Text="{Binding PuCDte}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
                             <Label Text="Billing Stop:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding PuPDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+                            <Label Text="{Binding PuPDte}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
                             <Label Text="Created On:  " Grid.Row="3" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                            <Label Text="{Binding PuEDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
+                            <Label Text="{Binding PuEDte}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
                             <Label Text="Created By:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
                             <Label Text="{Binding PuEEmpid}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
                         </Grid>
@@ -173,12 +173,12 @@
                                             <Grid BindingContext="{Binding .}"  BackgroundColor="White">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="35*" />
-                                                    <ColumnDefinition Width="20*" />
                                                     <ColumnDefinition Width="25*" />
+                                                    <ColumnDefinition Width="20*" />
                                                     <ColumnDefinition Width="20*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="30"/>
+                                                    <RowDefinition Height="35"/>
                                                     <RowDefinition Height="30"/>
                                                 </Grid.RowDefinitions>
                                                 <Grid.GestureRecognizers>

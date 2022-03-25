@@ -103,11 +103,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         public string Phone
         {
-            get => this.Ticket.Phone;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone);
         }
         public string Phone2
         {
-            get => this.Ticket.Phone2;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone2);
         }
         public string PhoneType
         {
@@ -119,7 +119,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuCDte
         {
-            get => this.Ticket.PuCDte.ToString();
+            get => this.Ticket.PuCDte.ToFormattedDate();
         }
         public string PuContact
         {
@@ -127,7 +127,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuEDte
         {
-            get => this.Ticket.PuEDte.ToString();
+            get => this.Ticket.PuEDte.ToFormattedDate();
         }
         public string PuEEmpid
         {
@@ -148,7 +148,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuPDte
         {
-            get => this.Ticket.PuPDte.ToString();
+            get => this.Ticket.PuPDte.ToFormattedDate();
         }
         public string PuTNo
         {
@@ -217,7 +217,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 if (Totals > item.PuDtlQty)
                     classId = "RedCheckedBox";
                 else if (this.Totals == item.PuDtlQty)
-                    classId = "CheckedBox";
+                    classId = "GreenCheckedBox";
                 else
                     classId = "YellowCheckedBox";
             }
@@ -326,7 +326,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenPhoneDialer(phoneNumber);
+                await Utils.Utils.OpenPhoneDialer(phoneNumber);
             }
             catch (Exception exception)
             {
@@ -348,7 +348,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenMapApplication(address);
+                await Utils.Utils.OpenMapApplication(address);
             }
             catch (Exception exception)
             {
@@ -369,7 +369,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
+                await Utils.Utils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
             }
             catch (Exception exception)
             {
