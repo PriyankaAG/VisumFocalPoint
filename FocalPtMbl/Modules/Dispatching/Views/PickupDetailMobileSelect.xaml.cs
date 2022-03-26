@@ -58,6 +58,11 @@ namespace FocalPoint.Modules.Dispatching.Views
             var vm = BindingContext as PickupTicketViewModel;
             try
             {
+                if (vm.Orders.All(x => x.PuDtlQty == 0))
+                {
+                    await DisplayAlert("FocalPoint", "Please select at least 1 Pickup item.", "Ok");
+                    return;
+                }
                 foreach (var order in vm.Orders)
                 {
                     if (order.PuDtlQty < 0)
@@ -73,7 +78,7 @@ namespace FocalPoint.Modules.Dispatching.Views
                     }
                 }
                 var selectedOrders = vm.Orders.Where(x => x.PuDtlQty > 0);
-                if(selectedOrders == null || !selectedOrders.Any())
+                if (selectedOrders == null || !selectedOrders.Any())
                 {
                     await DisplayAlert("FocalPoint", "No Orders selected.", "OK");
                     return;
