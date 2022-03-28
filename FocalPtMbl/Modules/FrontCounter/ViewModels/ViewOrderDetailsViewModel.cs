@@ -3,6 +3,7 @@ using FocalPoint.Modules.FrontCounter.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
@@ -14,9 +15,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             ViewOrderEntityComponent = new ViewOrderEntityComponent();
             Images = new List<OrderImageViewModel>();
             ImageList = new ObservableCollection<ImageList>();
-        }
+        }        
 
+        public Order SelectedOrder { get; internal set; }
         public List<OrderImageViewModel> Images { get; set; }
+
         private ObservableCollection<ImageList> _imageList;
         public ObservableCollection<ImageList> ImageList 
         {

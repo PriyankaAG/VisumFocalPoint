@@ -2,6 +2,7 @@
 using FocalPoint.Modules.Dispatching.ViewModels;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -72,9 +73,8 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async Task ShowSignatureScreen()
         {
-            Order order = null;
-            OrderSignatureViewModel signatureViewModel = new OrderSignatureViewModel(order, false, "Sign below to accept Pickup");
-            var orderSignatureView = new OrderSignatureView
+            SignatureViewModel signatureViewModel = new SignatureViewModel(false, "Sign below to accept Pickup");
+            var orderSignatureView = new SignatureView
             {
                 BindingContext = signatureViewModel
             };
@@ -120,8 +120,8 @@ namespace FocalPoint.Modules.Dispatching.Views
             //    Task.Run(async () => await RefreshTicket());
             //    return true;
             //});
-            MessagingCenter.Unsubscribe<OrderSignatureViewModel, string>(this, "Signature");
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
             {
                 PickupTicketViewModel viewOrderDetailsViewModel = (PickupTicketViewModel)BindingContext;
                 viewOrderDetailsViewModel.SignatureImage = capturedImage;

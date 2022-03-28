@@ -2,6 +2,7 @@
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.ServiceDepartment.ViewModels;
+using FocalPoint.Modules.ViewModels;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -41,9 +42,9 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
             await Task.Delay(10000);
             //when task is complete turn indicator off
             activityIndicator.IsRunning = false;
-            MessagingCenter.Subscribe<OrderSignatureTermsViewModel, bool>(this, "TermsAccepted", async (sender, args) =>
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted", async (sender, args) =>
             {
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
                 if (orderSignatureView != null || signatureTermsView != null)
                     await Navigation.PopAsync();
@@ -51,9 +52,9 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
                 workOrderDetailsViewModel.OpenSignaturePage(this.Navigation, args);
             });
 
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
             {
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
                 if (orderSignatureView != null || signatureTermsView != null)
                     await Navigation.PopAsync();
@@ -62,10 +63,10 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
                 workOrderDetailsViewModel.IsNeedToRedirectTermsOrSignature(Navigation);
             });
 
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
             {
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 if (signatureTermsView != null || orderSignatureView != null)
                     await Navigation.PopAsync();
                 WorkOrderFormTabDetailsViewModel workOrderDetailsViewModel = ((WorkOrderFormTabDetailsViewModel)this.BindingContext);

@@ -22,6 +22,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
             Init(pickupTicket);
+            SetEntityDetails(DocKinds.PickupTicket, pickupTicket.PuTNo, "R");
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
@@ -339,7 +340,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         #endregion OpenPhoneDialer
 
-
         #region OpenMapApplication
 
         public ICommand OpenMapApplicationCommand { get; }
@@ -382,19 +382,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         #endregion OpenEmailApplication
 
-        public override async Task<bool> SaveSignature()
-        {
-            SignatureInputDTO signatureInputDTO = new SignatureInputDTO
-            {
-                DocKind = (int)DocKinds.PickupTicket,
-                RecordID = Convert.ToInt32(PuTNo),
-                Stat = "R", //TODO confirm with Kirk
-                Format = 4,//Base64 String of Image
-                Signature = SignatureImage
-            };
-            return await GeneralComponent.SaveSignature(signatureInputDTO);
-        }
-
         async internal Task<bool> AttemptLock(string apiLocked)
         {
             try
@@ -405,7 +392,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             {
                 throw ex;
             }
-            return false;
         }
         #endregion
     }
