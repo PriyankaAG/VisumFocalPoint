@@ -42,6 +42,29 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
             await Task.Delay(10000);
             //when task is complete turn indicator off
             activityIndicator.IsRunning = false;
+
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined");
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "WaiverSignature");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
+
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined", async (sender, args) =>
+            {
+                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
+                if (signatureTermsView != null || orderSignatureView != null)
+                    await Navigation.PopAsync();
+                if (args)
+                {
+                    await DisplayAlert("FocalPoint Mobile", "Damage Waiver Rejected", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("FocalPoint Mobile", "Terms Rejected", "OK");
+                }
+
+            });
+
             MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted", async (sender, args) =>
             {
                 SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);

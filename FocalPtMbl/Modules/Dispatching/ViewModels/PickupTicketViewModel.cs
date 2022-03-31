@@ -1,7 +1,5 @@
 ﻿using FocalPoint.Components.Interface;
-using FocalPoint.Data.API;
 using FocalPoint.Utils;
-using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -66,11 +64,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged("Orders");
             }
         }
-        internal void setSelectedDetail(int index)
-        {
-            SelectedDetail = Details[index];
-        }
-
+        
         public decimal Totals
         {
             get
@@ -319,6 +313,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 //TODO: log error
             }
         }
+
+        internal void setSelectedDetail(int index)
+        {
+            SelectedDetail = Details[index];
+        }
+
+        internal async Task RefreshTicket()
+        {
+            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedDetail.PuTNo.ToString());
+            Init(detailedTicket);
+        }
+
         #region OpenPhoneDialer
 
         public ICommand OpenPhoneDialerCommand { get; }
