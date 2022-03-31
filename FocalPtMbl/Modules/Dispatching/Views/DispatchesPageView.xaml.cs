@@ -23,7 +23,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             _vm = new DispatchesPageViewModel(trucks);
             this.BindingContext = _vm;
 
-            _vm.Search();
+            //_vm.Search();
 
 
 

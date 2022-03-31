@@ -8,88 +8,98 @@
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.Dispatching.ViewModels"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{DynamicResource BackgroundThemeColor}">
-    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
-        <Grid RowSpacing="0" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="65*" />
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <Grid RowSpacing="0" Padding="0,0,0,5" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="65*" />
+                </Grid.ColumnDefinitions>
 
-            <Label Text="Date:  " 
-                Grid.Row="0" Grid.Column="0"                       
+                <Label Text="Date:  " 
+                Grid.Row="0" Grid.Column="0"    
+                Margin="5,0,0,0"
                 TextColor="Black"
                 XAlign="Start"
                 YAlign ="Center"
-                Font="black" />
+                Font="black" FontAttributes="Bold" FontSize="18" />
 
-            <dxe:DateEdit Date="{Binding DispatchVm.SearchDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
-        </Grid>
+                <dxe:DateEdit Margin="5,0,5,0" Date="{Binding DispatchVm.SearchDate,Mode=TwoWay}" x:Name="startDate" DisplayFormat="M/d/yyyy" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
+            </Grid>
 
-        <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-            </Grid.RowDefinitions>-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="65*" />
-            </Grid.ColumnDefinitions>
+            <Grid IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="65*" />
+                </Grid.ColumnDefinitions>
 
-            <Label Text="  Truck  "
-         Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-         TextColor="Black"
-         XAlign="Start"
-         YAlign="Center"
-         Font="black"
-           />
-        </Grid>
+                <Label Text="Truck  "
+                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  
+                 Margin="5,0"
+                 TextColor="Black"
+                 XAlign="Start"
+                 YAlign="Center"
+                 Font="black" FontAttributes="Bold"/>
+            </Grid>
 
-        <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-            </Grid.RowDefinitions>-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="65*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Text="Description:  " TextColor="Black" XAlign="End" YAlign="Center" Font="black"   />
-            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Truck.TruckDscr}" TextColor="Black" YAlign="Center" Font="black" BackgroundColor="White"/>
-        </Grid>
+            <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" LineBreakMode="WordWrap" MaxLines="2" Margin="15,0"  TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Description: " FontAttributes="Bold"/>
+                                <Span Text="{Binding Truck.TruckDscr}" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
 
-        <BoxView  HeightRequest="4" HorizontalOptions="FillAndExpand" />
+            <BoxView  HeightRequest="4" HorizontalOptions="FillAndExpand" />
 
-        <ListView
+            <ListView
              x:Name="listView"
              HasUnevenRows="true"
-              
              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-             ItemSelected="listView_ItemSelected">
+             ItemSelected="listView_ItemSelected"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
 
-                        <StackLayout
-               Padding="10,2,10,2"
+                            <StackLayout
                Spacing="0"
                Orientation="Vertical"
                HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
 
-                            <Label TextColor="Black" Text="{Binding Line1}" Font="black" LineBreakMode="TailTruncation" />
-                            <Label TextColor="Black" Text="{Binding Line2}" Font="black" LineBreakMode="TailTruncation" />
-                            <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
+                                <Label TextColor="Black" Text="{Binding Line1}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2"/>
+                                <Label TextColor="Black" Text="{Binding Line2}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2" />
+                                <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2" />
+                                <BoxView Margin="0,0,0,0" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            </ListView>
 
-        </ListView>
+        </StackLayout>
 
 
-    </StackLayout>
-
-
+        <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding DispatchVm.Indicator}" IsVisible="{Binding DispatchVm.Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

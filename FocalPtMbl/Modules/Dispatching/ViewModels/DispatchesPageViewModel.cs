@@ -1,15 +1,30 @@
-﻿using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
+using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
     public class DispatchesPageViewModel : ThemeBaseViewModel
     {
+        public IDispatchingEntityComponent DispatchingEntityComponent { get; set; }
+        List<Truck> trucks;
+        public List<Truck> Trucks
+        {
+            get => trucks;
+            private set
+            {
+                this.trucks = value;
+                OnPropertyChanged(nameof(trucks));
+            }
+        }
+
         DateTime _searchDate;
         public DateTime SearchDate
         {
@@ -29,42 +44,77 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal List<Truck> GetTrucks()
         {
-            //  throw new NotImplementedException();
-            return new List<Truck>();
-        }
-
-        internal void Search()
-        {
             try
             {
-
-                var dispatches = new List<Dispatches>();// = await ApiClient.Dispatches(this.SearchDate);
-
-
-
-
-                this.AllDispatches.Clear();
-
-                foreach (var t in this.TruckViewModels)
-                    t.Dispatches.Clear();
-
-                if (dispatches != null)
+                var resTruck = DispatchingEntityComponent.GetTrucks().ContinueWith(task =>
                 {
-                    foreach (var d in dispatches)
+                    var trucksList = task.Result;
+
+                    if (trucks == null)
                     {
-                        var tvm = this.TruckViewModels.SingleOrDefault(x => x.Truck.TruckNo == d.DispatchTruckID);
-
-                        if (tvm != null)
-                            tvm.Dispatches.Add(new DispatchRowViewModel(d));
-
-                        this.AllDispatches.Add(new DispatchRowViewModel(d));
+                        Trucks = new List<Truck>(trucksList);
                     }
-                }
+                    else
+                    {
+                        Trucks.Clear();
+                        foreach (var truck in trucksList)
+                        {
+                            Trucks.Add(truck);
+                        }
+                    }
+                    Indicator = false;
+                    return Trucks;
+                });
+                return resTruck.Result;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                var msg = e.Message;
+                return null;
             }
+        }
+
+        internal async Task Search()
+        {
+            _ = Task.Run(async () =>
+             {
+                 try
+                 {
+                     Indicator = true;
+                     await DispatchingEntityComponent.GetDispatches(this.SearchDate).ContinueWith(task =>
+                     {
+                         lock (this)
+                         {
+                             var dispatches = task.Result;
+
+                             this.AllDispatches.Clear();
+
+                             foreach (var t in this.TruckViewModels)
+                                 t.Dispatches.Clear();
+
+                             if (dispatches != null)
+                             {
+                                 foreach (var d in dispatches)
+                                 {
+                                     var tvm = this.TruckViewModels.SingleOrDefault(x => x.Truck.TruckNo == d.DispatchTruckID);
+
+                                     if (tvm != null)
+                                         tvm.Dispatches.Add(new DispatchRowViewModel(d));
+
+                                     this.AllDispatches.Add(new DispatchRowViewModel(d));
+                                 }
+                             }
+                             Indicator = false;
+
+                         }
+
+                     });
+
+                 }
+                 catch (Exception e)
+                 {
+                     var msg = e.Message;
+                 }
+             });
         }
 
         ObservableCollection<DispatchRowViewModel> _dispatches = null;
@@ -95,8 +145,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public DispatchesPageViewModel(List<Truck> trucks)
         {
-            //this.Title = "Dispatching";
-            //this.SearchDate = DateTime.Now.Date;
+            this.SearchDate = DateTime.Now.Date;
+            DispatchingEntityComponent = new DispatchingEntityComponent();
+
             this.AllDispatches = new ObservableCollection<DispatchRowViewModel>();
             this.TruckViewModels = new List<TruckPageViewModel>();
 

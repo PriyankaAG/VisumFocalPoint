@@ -24253,160 +24253,169 @@ namespace FocalPtMbl.Droid
 			public const int notify_panel_notification_icon_bg = 2131230976;
 			
 			// aapt resource value: 0x7F080101
-			public const int Order_16 = 2131230977;
+			public const int Order = 2131230977;
 			
 			// aapt resource value: 0x7F080102
-			public const int Order_32 = 2131230978;
+			public const int Order_16 = 2131230978;
 			
 			// aapt resource value: 0x7F080103
-			public const int Order_return_16 = 2131230979;
+			public const int Order_32 = 2131230979;
 			
 			// aapt resource value: 0x7F080104
-			public const int Order_return_32 = 2131230980;
+			public const int Order_Quote = 2131230980;
 			
 			// aapt resource value: 0x7F080105
-			public const int our_customers_b_32 = 2131230981;
+			public const int Order_Resv = 2131230981;
 			
 			// aapt resource value: 0x7F080106
-			public const int our_customers_b_321 = 2131230982;
+			public const int Order_return_16 = 2131230982;
 			
 			// aapt resource value: 0x7F080107
-			public const int our_customers_b_add_32 = 2131230983;
+			public const int Order_return_32 = 2131230983;
 			
 			// aapt resource value: 0x7F080108
-			public const int payment_16 = 2131230984;
+			public const int our_customers_b_32 = 2131230984;
 			
 			// aapt resource value: 0x7F080109
-			public const int payment_32 = 2131230985;
+			public const int our_customers_b_321 = 2131230985;
 			
 			// aapt resource value: 0x7F08010A
-			public const int paypal_96 = 2131230986;
+			public const int our_customers_b_add_32 = 2131230986;
 			
 			// aapt resource value: 0x7F08010B
-			public const int phone_settings = 2131230987;
+			public const int payment_16 = 2131230987;
 			
 			// aapt resource value: 0x7F08010C
-			public const int process_48 = 2131230988;
+			public const int payment_32 = 2131230988;
 			
 			// aapt resource value: 0x7F08010D
-			public const int providers_32 = 2131230989;
+			public const int paypal_96 = 2131230989;
 			
 			// aapt resource value: 0x7F08010E
-			public const int purchase_order_96 = 2131230990;
+			public const int phone_settings = 2131230990;
 			
 			// aapt resource value: 0x7F08010F
-			public const int QuickRental_32 = 2131230991;
+			public const int process_48 = 2131230991;
 			
 			// aapt resource value: 0x7F080110
-			public const int Quote_16 = 2131230992;
+			public const int providers_32 = 2131230992;
 			
 			// aapt resource value: 0x7F080111
-			public const int Quote_32 = 2131230993;
+			public const int purchase_order_96 = 2131230993;
 			
 			// aapt resource value: 0x7F080112
-			public const int RedCheckedBox = 2131230994;
+			public const int QuickRental_32 = 2131230994;
 			
 			// aapt resource value: 0x7F080113
-			public const int rental_item_32 = 2131230995;
+			public const int Quote_16 = 2131230995;
 			
 			// aapt resource value: 0x7F080114
-			public const int Rental_Schedule_24 = 2131230996;
+			public const int Quote_32 = 2131230996;
 			
 			// aapt resource value: 0x7F080115
-			public const int Rental_Schedule_32 = 2131230997;
+			public const int RedCheckedBox = 2131230997;
 			
 			// aapt resource value: 0x7F080116
-			public const int results = 2131230998;
+			public const int rental_item_32 = 2131230998;
 			
 			// aapt resource value: 0x7F080117
-			public const int sales = 2131230999;
+			public const int Rental_Schedule_24 = 2131230999;
 			
 			// aapt resource value: 0x7F080118
-			public const int schedule_16 = 2131231000;
+			public const int Rental_Schedule_32 = 2131231000;
 			
 			// aapt resource value: 0x7F080119
-			public const int schedule_scan = 2131231001;
-			
-			// aapt resource value: 0x7F08011C
-			public const int signature_pad_background = 2131231004;
+			public const int results = 2131231001;
 			
 			// aapt resource value: 0x7F08011A
-			public const int sign_out_24 = 2131231002;
+			public const int sales = 2131231002;
 			
 			// aapt resource value: 0x7F08011B
-			public const int sign_out_48 = 2131231003;
+			public const int schedule_16 = 2131231003;
 			
-			// aapt resource value: 0x7F08011D
-			public const int Splash = 2131231005;
-			
-			// aapt resource value: 0x7F08011E
-			public const int SplashScreen = 2131231006;
+			// aapt resource value: 0x7F08011C
+			public const int schedule_scan = 2131231004;
 			
 			// aapt resource value: 0x7F08011F
-			public const int store_house = 2131231007;
+			public const int signature_pad_background = 2131231007;
+			
+			// aapt resource value: 0x7F08011D
+			public const int sign_out_24 = 2131231005;
+			
+			// aapt resource value: 0x7F08011E
+			public const int sign_out_48 = 2131231006;
 			
 			// aapt resource value: 0x7F080120
-			public const int store_houses_48 = 2131231008;
+			public const int Splash = 2131231008;
 			
 			// aapt resource value: 0x7F080121
-			public const int summary_cashbox_48 = 2131231009;
+			public const int SplashScreen = 2131231009;
 			
 			// aapt resource value: 0x7F080122
-			public const int summary_dollar_48 = 2131231010;
+			public const int store_house = 2131231010;
 			
 			// aapt resource value: 0x7F080123
-			public const int summary_rental_48 = 2131231011;
+			public const int store_houses_48 = 2131231011;
 			
 			// aapt resource value: 0x7F080124
-			public const int test_custom_background = 2131231012;
+			public const int summary_cashbox_48 = 2131231012;
 			
 			// aapt resource value: 0x7F080125
-			public const int theme_palette = 2131231013;
-			
-			// aapt resource value: 0x7F080127
-			public const int TimeClock = 2131231015;
-			
-			// aapt resource value: 0x7F080128
-			public const int TimeClockIn = 2131231016;
-			
-			// aapt resource value: 0x7F080129
-			public const int TimeClockOut = 2131231017;
+			public const int summary_dollar_48 = 2131231013;
 			
 			// aapt resource value: 0x7F080126
-			public const int time_frame_48 = 2131231014;
+			public const int summary_rental_48 = 2131231014;
+			
+			// aapt resource value: 0x7F080127
+			public const int test_custom_background = 2131231015;
+			
+			// aapt resource value: 0x7F080128
+			public const int theme_palette = 2131231016;
 			
 			// aapt resource value: 0x7F08012A
-			public const int tooltip_frame_dark = 2131231018;
+			public const int TimeClock = 2131231018;
 			
 			// aapt resource value: 0x7F08012B
-			public const int tooltip_frame_light = 2131231019;
+			public const int TimeClockIn = 2131231019;
 			
 			// aapt resource value: 0x7F08012C
-			public const int UnCheckedBox = 2131231020;
+			public const int TimeClockOut = 2131231020;
+			
+			// aapt resource value: 0x7F080129
+			public const int time_frame_48 = 2131231017;
 			
 			// aapt resource value: 0x7F08012D
-			public const int user = 2131231021;
+			public const int tooltip_frame_dark = 2131231021;
 			
 			// aapt resource value: 0x7F08012E
-			public const int user_filter_32 = 2131231022;
+			public const int tooltip_frame_light = 2131231022;
 			
 			// aapt resource value: 0x7F08012F
-			public const int visa_96 = 2131231023;
+			public const int UnCheckedBox = 2131231023;
 			
 			// aapt resource value: 0x7F080130
-			public const int watermark = 2131231024;
+			public const int user = 2131231024;
 			
 			// aapt resource value: 0x7F080131
-			public const int Work_Order_16 = 2131231025;
+			public const int user_filter_32 = 2131231025;
 			
 			// aapt resource value: 0x7F080132
-			public const int Work_Order_32 = 2131231026;
+			public const int visa_96 = 2131231026;
 			
 			// aapt resource value: 0x7F080133
-			public const int xamarin_logo = 2131231027;
+			public const int watermark = 2131231027;
 			
 			// aapt resource value: 0x7F080134
-			public const int YellowCheckedBox = 2131231028;
+			public const int Work_Order_16 = 2131231028;
+			
+			// aapt resource value: 0x7F080135
+			public const int Work_Order_32 = 2131231029;
+			
+			// aapt resource value: 0x7F080136
+			public const int xamarin_logo = 2131231030;
+			
+			// aapt resource value: 0x7F080137
+			public const int YellowCheckedBox = 2131231031;
 			
 			static Drawable()
 			{
