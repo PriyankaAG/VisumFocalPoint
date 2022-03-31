@@ -34,7 +34,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
         {
-            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders.ToListPickupTicketOrder());
+            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders);
         }
 
         #endregion
@@ -231,9 +231,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             return str;
         }
 
-        internal Task<bool> PickupTicketItemCount()
+        internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
         {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail.ToPickupTicketItemDTO());
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
         }
 
         internal void setPopupValue(string popupString, string result)
@@ -253,6 +253,24 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                     break;
             }
         }
+
+        internal async Task UpdateItem()
+        {
+            var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(SelectedDetail.PuDtlTNo);
+            if (updatedItem != null)
+            {
+                bool isAtEndOfIndex = false;
+                int selectedIndex = Details.IndexOf(SelectedDetail);
+                if (Details.Count - 1 == selectedIndex)
+                    isAtEndOfIndex = true;
+                Details.Remove(SelectedDetail);
+                if (isAtEndOfIndex)
+                    Details.Add(SelectedDetail);
+                else
+                    Details.Insert(selectedIndex, SelectedDetail);
+            }
+        }
+
         internal double GetPopupType(string popupString)
         {
             double value = 0;
@@ -310,7 +328,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                     Details.Insert(selectedIndex, SelectedDetail);
 
                 OnPropertyChanged(nameof(SelectedDetail));
-                //OnPropertyChanged(nameof(Details));
+                OnPropertyChanged(nameof(Details));
                 OnPropertyChanged(nameof(ToBeCounted));
             }
             catch (Exception ex)

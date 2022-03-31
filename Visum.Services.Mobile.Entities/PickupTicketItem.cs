@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Visum.Services.Mobile.Entities
 {
@@ -59,7 +62,7 @@ namespace Visum.Services.Mobile.Entities
         public bool PuDtlCounted { get; set; }
 
         [DataMember]
-        public byte[] RowVersion { get; set; }
+        public int[] RowVersion { get; set; }
 
         public DateTime? UTCCountDte { get; set; }
         [DataMember(Name = "UTCCountDte")]
@@ -114,10 +117,10 @@ namespace Visum.Services.Mobile.Entities
             if (string.IsNullOrEmpty(this.strLastCntDte) == false)
                 this.LastCntDte = DateTime.ParseExact(this.strLastCntDte, "g", CultureInfo.InvariantCulture);
         }
-    }
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
 
-    public class PickupTicketItemDTO
-    {
-        public PickupTicketItem Item { get; set; }
     }
 }

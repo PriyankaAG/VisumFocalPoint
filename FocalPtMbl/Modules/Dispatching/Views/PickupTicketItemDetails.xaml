@@ -101,7 +101,7 @@
 
             </Grid>
 
-            <Button Text="Submit Count" HorizontalOptions="FillAndExpand" Margin="10, 5" TextColor="Black" FontAttributes="Bold" Clicked="Button_Clicked"/>
+            <Button Text="Submit Count" HorizontalOptions="FillAndExpand" Margin="10, 5" TextColor="Black" FontAttributes="Bold" Clicked="Submit_Clicked"/>
 
         </StackLayout>
         <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  

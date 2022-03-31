@@ -91,6 +91,7 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         async protected override void OnAppearing()
         {
+            var viewModel = ((PickupTicketViewModel)BindingContext);
             base.OnAppearing();
             bool locked = await viewModel.AttemptLock(true.ToString());
             if (locked == false)
@@ -101,7 +102,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
             CheckForLockPeriodically();
 
-            if(viewModel.Details.Count == 0)
+            if (viewModel.Details.Count == 0)
             {
                 if (viewModel.PuMobile)
                 {
@@ -138,11 +139,18 @@ namespace FocalPoint.Modules.Dispatching.Views
                 await Navigation.PopAsync();
             });
 
-            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails");
-            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails", (sender, details) =>
+            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
+            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
             {
-                viewModel.SelectedDetail = details;
-                viewModel.SelectedItemChecked(true,true);
+                viewModel.SelectedDetail = details.Item1;
+                if (details.Item2)
+                {
+                    await CheckPopupValues();
+                    viewModel.SelectedItemChecked(true, true);
+                    await viewModel.UpdateItem();
+                }
+                else
+                    viewModel.SelectedItemChecked(false, true);
             });
         }
 
@@ -196,7 +204,8 @@ namespace FocalPoint.Modules.Dispatching.Views
             try
             {
                 viewModel.Indicator = true;
-                bool update = await ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
+                bool update = await viewModel.PickupTicketItemCount(viewModel.SelectedDetail);
+                await viewModel.UpdateItem();
                 if (!update)
                 {
                     await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
