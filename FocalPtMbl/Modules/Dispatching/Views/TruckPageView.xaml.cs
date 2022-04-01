@@ -87,9 +87,14 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
         }
 
-        private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        async void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
+            var item = e.SelectedItem as DispatchRowViewModel;
+            if (item == null)
+                return;
 
+            await this.Navigation.PushAsync(new DispatchesPageView(item));
+            listView.SelectedItem = null;
         }
     }
 }
