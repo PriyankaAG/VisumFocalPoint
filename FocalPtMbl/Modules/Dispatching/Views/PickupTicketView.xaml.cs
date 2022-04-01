@@ -1,10 +1,9 @@
-﻿using DevExpress.XamarinForms.CollectionView;
-using FocalPoint.Modules.Dispatching.ViewModels;
-using FocalPoint.Modules.FrontCounter.ViewModels;
+﻿using FocalPoint.Modules.Dispatching.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
-using Newtonsoft.Json;
+using FocalPoint.Modules.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -23,6 +22,12 @@ namespace FocalPoint.Modules.Dispatching.Views
             BindingContext = this.viewModel;
             Title = "Pickup Ticket # " + pickupTicket.PuTNo.ToString();
             InitializeComponent();
+
+            this.ToolbarItems.Add(new ToolbarItem()
+            {
+                IconImageSource = "more.png",
+                Command = this.CogCommand,
+            });
         }
 
         private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -72,9 +77,8 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async Task ShowSignatureScreen()
         {
-            Order order = null;
-            OrderSignatureViewModel signatureViewModel = new OrderSignatureViewModel(order, false, "Sign below to accept Pickup");
-            var orderSignatureView = new OrderSignatureView
+            SignatureViewModel signatureViewModel = new SignatureViewModel(false, "Sign below to accept Pickup");
+            var orderSignatureView = new SignatureView
             {
                 BindingContext = signatureViewModel
             };
@@ -120,12 +124,63 @@ namespace FocalPoint.Modules.Dispatching.Views
             //    Task.Run(async () => await RefreshTicket());
             //    return true;
             //});
-            MessagingCenter.Unsubscribe<OrderSignatureViewModel, string>(this, "Signature");
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
+
+            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails");
+            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails", (sender, details) =>
             {
-                PickupTicketViewModel viewOrderDetailsViewModel = (PickupTicketViewModel)BindingContext;
-                viewOrderDetailsViewModel.SignatureImage = capturedImage;
-                bool success = await viewOrderDetailsViewModel.SaveSignature();
+                viewModel.SelectedDetail = details;
+                viewModel.SelectedItemChecked(true,true);
+            });
+
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined");
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "WaiverSignature");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
+
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined", async (sender, args) =>
+            {
+                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
+                if (signatureTermsView != null || orderSignatureView != null)
+                    await Navigation.PopAsync();
+                if (args)
+                {
+                    await DisplayAlert("FocalPoint Mobile", "Damage Waiver Rejected", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("FocalPoint Mobile", "Terms Rejected", "OK");
+                }
+
+            });
+
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted", async (sender, args) =>
+            {
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
+                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
+                if (orderSignatureView != null || signatureTermsView != null)
+                    await Navigation.PopAsync();
+                viewModel.OpenSignaturePage(this.Navigation, args);
+            });
+
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
+            {
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
+                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
+                if (orderSignatureView != null || signatureTermsView != null)
+                    await Navigation.PopAsync();
+                viewModel.WaiverCapturedImage = capturedImage;
+                viewModel.IsNeedToRedirectTermsOrSignature(Navigation);
+            });
+
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
+            {
+                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
+                if (signatureTermsView != null || orderSignatureView != null)
+                    await Navigation.PopAsync();
+                viewModel.SignatureImage = capturedImage;
+                bool success = await viewModel.SaveSignature();
                 if (success)
                 {
                     await DisplayAlert("FocalPoint Mobile", "Signature added successfully", "OK");
@@ -134,15 +189,6 @@ namespace FocalPoint.Modules.Dispatching.Views
                 {
                     await DisplayAlert("FocalPoint Mobile", "Failed to add Signature", "OK");
                 }
-                await Navigation.PopAsync();
-                await Navigation.PopAsync();
-            });
-
-            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails");
-            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails", (sender, details) =>
-            {
-                viewModel.SelectedDetail = details;
-                viewModel.SelectedItemChecked(true,true);
             });
         }
 
@@ -174,6 +220,7 @@ namespace FocalPoint.Modules.Dispatching.Views
                 await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
                 return;
             }
+
         }
 
         async protected void CheckBoxTapped(object sender, EventArgs args)
@@ -242,15 +289,36 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private async Task RefreshTicket()
         {
-            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedDetail.PuTNo.ToString());
-
-            viewModel.Init(detailedTicket);
+           await viewModel.RefreshTicket();
         }
 
         private async void MobilePickupClick(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new PickupDetailMobileSelect(((PickupTicketViewModel)this.BindingContext).Ticket));
         }
+
+        public Command CogCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    string option = await this.DisplayActionSheet("Options", OrderCogOptions.Cancel, null,
+                            OrderCogOptions.CaptureSignature);
+
+                    if (option == OrderCogOptions.Cancel)
+                        return;
+
+                    if (option == OrderCogOptions.CaptureSignature)
+                        await Signature();
+                });
+            }
+        }
+
+        private async Task Signature()
+        {
+            await viewModel.SignatureCommand(this.Navigation);
+        }
+
     }
 }
