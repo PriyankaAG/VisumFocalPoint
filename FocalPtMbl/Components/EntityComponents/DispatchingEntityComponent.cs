@@ -51,7 +51,23 @@ namespace FocalPoint.Components.EntityComponents
 
                 dispatchList = new List<Dispatches>()
                 {
-                   new Dispatches(){ DispatchTruckID = 2, DispatchDscr = "Hello World ONE", DispatchAddr1 = "Address 1", DispatchAddr2 = "Address 2", DispatchCity = "Mumbai", DispatchCmp = 10021, DispatchID = 982, DispatchSubject = "Delivery AAA" },
+                   new Dispatches(){ 
+                       DispatchTruckID = 2,
+                       DispatchDscr = "Hello World ONE",
+                       DispatchAddr1 = "Address 1",
+                       DispatchAddr2 = "Address 2",
+                       DispatchCity = "Mumbai",
+                       DispatchCmp = 10021,
+                       DispatchID = 982,
+                       DispatchSubject = "Delivery AAA",
+                       DispatchStartDte = DateTime.Now,
+                       OriginTimeNotes = "Origin Notes",
+                       OriginContact = "Origin Contact",
+                       OriginPhone = "(999)5655745",
+                       ShipToContact = "Ship To Contact",
+                       ShipToPhone = "3435676886",
+                       OriginNotes = "Origin Notes"
+                   },
                    new Dispatches(){ DispatchTruckID = 2, DispatchDscr = "Hello World TWO", DispatchAddr1 = "Address 2", DispatchAddr2 = "Address 2", DispatchCity = "Pune", DispatchCmp = 10041, DispatchID = 985, DispatchSubject = "Delivery BBB" },
                    new Dispatches(){ DispatchTruckID = 1, DispatchDscr = "Hello World THREE", DispatchAddr1 = "Address 3", DispatchAddr2 = "Address 2", DispatchCity = "Banglore", DispatchCmp = 10023, DispatchID = 932, DispatchSubject = "Delivery CCC" },
                    new Dispatches(){ DispatchTruckID = 2, DispatchDscr = "Hello World FOUR", DispatchAddr1 = "Address 4", DispatchAddr2 = "Address 2", DispatchCity = "Delhi", DispatchCmp = 10027, DispatchID = 111, DispatchSubject = "Delivery DDD" },

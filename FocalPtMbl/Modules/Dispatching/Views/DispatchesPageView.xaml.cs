@@ -14,26 +14,17 @@ namespace FocalPoint.Modules.Dispatching.Views
     public partial class DispatchesPageView : ContentPage
     {
         DispatchesPageViewModel _vm = new DispatchesPageViewModel(null);
-        public DispatchesPageView()
+        public DispatchesPageView(DispatchRowViewModel item)
         {
-           InitializeComponent();
-            this.BindingContext = _vm;
+            try
+            {
+                InitializeComponent();
+                this.BindingContext = item;
+            }
+            catch(Exception ex)
+            {
 
-            var trucks = ((DispatchesPageViewModel)this.BindingContext).GetTrucks();
-            _vm = new DispatchesPageViewModel(trucks);
-            this.BindingContext = _vm;
-
-            //_vm.Search();
-
-
-
-
-            //this.Children.Add(new TruckPageView(new TruckPageViewModel(_vm, null)));
-
-            //foreach (var t in _vm.TruckViewModels)
-            //{
-            //    this.Children.Add(new TruckPage(t));
-            //}
+            }
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
