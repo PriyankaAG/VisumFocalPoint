@@ -1,24 +1,17 @@
 ﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint
 {
-    public class CommonViewModel: ThemeBaseViewModel
+    public class CommonViewModel : ThemeBaseViewModel
     {
-        public CommonViewModel()
-        {
-            var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
-            clientHttp = httpClientCache.GetHttpClientAsync();
-            GeneralComponent = new GeneralComponent();
-        }
-
-        public CommonViewModel(string title): base(title)
+        public CommonViewModel(string title = "") : base(title)
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             clientHttp = httpClientCache.GetHttpClientAsync();
@@ -31,7 +24,9 @@ namespace FocalPoint
             get { return clientHttp; }
         }
 
-        public Order SelectedOrder { get; internal set; }
+        public DocKinds DocKind { get; set; }
+        public int RecordID { get; set; }
+        public string Stat { get; set; }
         public IGeneralComponent GeneralComponent { get; set; }
 
         private SignatureMessageOutputDTO _signatureMessageOutputDTO;
@@ -61,9 +56,16 @@ namespace FocalPoint
             return false;
         }
 
+        public void SetEntityDetails(DocKinds docKind, int recordID, string stat)
+        {
+            DocKind = docKind;
+            RecordID = recordID;
+            Stat = stat;
+        }
+
         public void OpenSignatureTermsView(INavigation navigation)
         {
-            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(false, SelectedOrder.OrderNo, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(false, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
             var orderSignatureTermsView = new SignatureTermsView();
             orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
             navigation.PushAsync(orderSignatureTermsView);
@@ -71,7 +73,7 @@ namespace FocalPoint
 
         public void OpenSignatureWaiverPage(INavigation navigation)
         {
-            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(true, SelectedOrder.OrderNo, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(true, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
             var orderSignatureTermsView = new SignatureTermsView();
             orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
             navigation.PushAsync(orderSignatureTermsView);
@@ -79,8 +81,8 @@ namespace FocalPoint
 
         public void OpenSignaturePage(INavigation navigation, bool isWaiver)
         {
-            OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(SelectedOrder, isWaiver, "Sign above for Terms & Conditions");
-            var orderSignatureView = new OrderSignatureView();
+            SignatureViewModel orderSignatureViewModel = new SignatureViewModel(isWaiver, "Sign above for Terms & Conditions");
+            var orderSignatureView = new SignatureView();
             orderSignatureView.BindingContext = orderSignatureViewModel;
             navigation.PushAsync(orderSignatureView);
         }
@@ -100,9 +102,9 @@ namespace FocalPoint
         public async Task SignatureCommand(INavigation navigation)
         {
             SignatureMessageInputDTO singnatureMessageInputDTO = new SignatureMessageInputDTO();
-            singnatureMessageInputDTO.DocKind = (int)DocKinds.Order;
-            singnatureMessageInputDTO.RecordID = SelectedOrder.OrderNo;
-            singnatureMessageInputDTO.Stat = "E";//OrderEdit, used when editing an existing Order
+            singnatureMessageInputDTO.DocKind = (int)DocKind;
+            singnatureMessageInputDTO.RecordID = RecordID;
+            singnatureMessageInputDTO.Stat = Stat;
             SignatureMessageOutputDTO = await GeneralComponent.GetSignatureMessageDTO(singnatureMessageInputDTO);
             if (SignatureMessageOutputDTO != null)
             {
@@ -131,9 +133,9 @@ namespace FocalPoint
         public virtual async Task<bool> SaveSignature()
         {
             SignatureInputDTO signatureInputDTO = new SignatureInputDTO();
-            signatureInputDTO.DocKind = (int)DocKinds.Order;
-            signatureInputDTO.RecordID = SelectedOrder.OrderNo;
-            signatureInputDTO.Stat = "E";//OrderEdit, used when editing an existing Order
+            signatureInputDTO.DocKind = (int)DocKind;
+            signatureInputDTO.RecordID = RecordID;
+            signatureInputDTO.Stat = Stat;
             signatureInputDTO.Format = 4;//Base64 String of Image
             signatureInputDTO.Signature = SignatureImage;
             signatureInputDTO.Waiver = WaiverCapturedImage;

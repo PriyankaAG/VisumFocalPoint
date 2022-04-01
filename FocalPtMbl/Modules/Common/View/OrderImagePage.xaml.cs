@@ -12,11 +12,11 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.Modules.Common.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class OrderImagePage : ContentPage
+	public partial class ImagePage : ContentPage
 	{
 		OrderImageViewModel _imageVM = null;
 
-		public OrderImagePage(OrderImageViewModel imageVM)
+		public ImagePage(OrderImageViewModel imageVM)
 		{
 			InitializeComponent();
 

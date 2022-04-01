@@ -63,7 +63,7 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\CashPaymentView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\FrontCounter\Views\OrderSignatureView.xaml">
+		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
@@ -96,7 +96,7 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\SelectSerialsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\FrontCounter\Views\SignatureTermsView.xaml">
+		<EmbeddedResource Update="Modules\Common\View\SignatureTermsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">

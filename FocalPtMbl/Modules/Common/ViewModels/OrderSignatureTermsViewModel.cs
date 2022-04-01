@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace FocalPoint.Modules.FrontCounter.ViewModels
+namespace FocalPoint.Modules.ViewModels
 {
-    public class OrderSignatureTermsViewModel : ThemeBaseViewModel
+    public class SignatureTermsViewModel : ThemeBaseViewModel
     {
         #region Constructor & Intialization
 
-        public OrderSignatureTermsViewModel(bool isWaiver, int RecordID, string title, string message): base("Signature")
+        public SignatureTermsViewModel(bool isWaiver, string title, string message): base("Signature")
         {
             this.TermsTitle = title;
             IsWaiver = isWaiver;

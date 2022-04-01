@@ -43,7 +43,7 @@ namespace FocalPtMbl.Droid
         private void DeviceOrientation()
         {
             //allowing the device to change the screen orientation based on the rotation
-            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.OrderSignatureView>(this, "allowLandScapePortrait", sender => { RequestedOrientation = ScreenOrientation.Unspecified; });
+            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.SignatureView>(this, "allowLandScapePortrait", sender => { RequestedOrientation = ScreenOrientation.Unspecified; });
             MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.SignatureTermsView>(this, "allowLandScapePortrait", sender => { RequestedOrientation = ScreenOrientation.Unspecified; });
 
             //during page close setting back to portrait
@@ -62,7 +62,7 @@ namespace FocalPtMbl.Droid
                      RequestedOrientation = ScreenOrientation.Portrait;
              });*/
 
-            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.OrderSignatureView>(this, "AllowLandscape", sender =>
+            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.SignatureView>(this, "AllowLandscape", sender =>
             {
                 RequestedOrientation = ScreenOrientation.Landscape;
             });
@@ -72,7 +72,7 @@ namespace FocalPtMbl.Droid
             });
 
             //forces app to portrait mode after closing a Page containing only a Plot
-            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.OrderSignatureView>(this, "PreventLandscape", sender =>
+            MessagingCenter.Subscribe<FocalPoint.Modules.FrontCounter.Views.SignatureView>(this, "PreventLandscape", sender =>
             {
                 RequestedOrientation = ScreenOrientation.Portrait;
             });
