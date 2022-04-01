@@ -42,30 +42,25 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
-        internal List<Truck> GetTrucks()
+        internal async Task<List<Truck>> GetTrucks()
         {
             try
             {
-                var resTruck = DispatchingEntityComponent.GetTrucks().ContinueWith(task =>
-                {
-                    var trucksList = task.Result;
+                var trucksList = await DispatchingEntityComponent.GetTrucks();
 
-                    if (trucks == null)
+                if (trucks == null)
+                {
+                    Trucks = new List<Truck>(trucksList);
+                }
+                else
+                {
+                    Trucks.Clear();
+                    foreach (var truck in trucksList)
                     {
-                        Trucks = new List<Truck>(trucksList);
+                        Trucks.Add(truck);
                     }
-                    else
-                    {
-                        Trucks.Clear();
-                        foreach (var truck in trucksList)
-                        {
-                            Trucks.Add(truck);
-                        }
-                    }
-                    Indicator = false;
-                    return Trucks;
-                });
-                return resTruck.Result;
+                }
+                return Trucks;
             }
             catch (Exception ex)
             {
@@ -103,8 +98,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                                      this.AllDispatches.Add(new DispatchRowViewModel(d));
                                  }
                              }
-                             Indicator = false;
-
                          }
 
                      });
@@ -113,6 +106,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                  catch (Exception e)
                  {
                      var msg = e.Message;
+                 }
+                 finally
+                 {
+                     Indicator = false;
                  }
              });
         }

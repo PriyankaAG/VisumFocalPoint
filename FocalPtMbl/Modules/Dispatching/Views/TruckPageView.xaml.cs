@@ -1,4 +1,5 @@
-﻿using FocalPoint.Modules.Dispatching.ViewModels;
+﻿using DevExpress.XamarinForms.CollectionView;
+using FocalPoint.Modules.Dispatching.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +87,18 @@ namespace FocalPoint.Modules.Dispatching.Views
                 _old = _vm.DispatchVm.SearchDate;
             }
         }
+        public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
+        {
+            if (args.Item != null)
+            {
+                var item = args.Item as DispatchRowViewModel;
+                if (item == null)
+                    return;
 
+                await this.Navigation.PushAsync(new DispatchesPageView(item));
+                listView.SelectedItem = null;
+            }
+        }
         async void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as DispatchRowViewModel;

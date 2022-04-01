@@ -90,10 +90,11 @@
                         IndicatorColor="Lime"
                         IsEnabled="True"
                         BackgroundColor="{DynamicResource MainPageBackgroundColor}"
-                        SelectionMode="Single">
+                        SelectionMode="Single"
+                        Tap="ItemSelected">
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowSpacing="0" Padding="0, 5, 0, 5"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                        <Grid RowSpacing="0" Padding="0, 5, 0, 0"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22" />
                                 <RowDefinition Height="22" />

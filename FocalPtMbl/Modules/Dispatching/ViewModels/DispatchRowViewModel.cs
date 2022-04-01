@@ -132,7 +132,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             get
             {
-                var lower = this.Dispatch.DispatchOrigin.ToLower();
+                var lower = this.Dispatch.DispatchOrigin?.ToLower();
 
                 if (lower == "FC")
                     return "Order Title:  ";

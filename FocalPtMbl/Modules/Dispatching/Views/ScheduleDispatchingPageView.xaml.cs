@@ -34,33 +34,30 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         public async void LoadData()
         {
-            _ = Task.Run(async () =>
-             {
-                 var trucks = ((DispatchesPageViewModel)this.BindingContext).GetTrucks();
+            var trucks = await ((DispatchesPageViewModel)this.BindingContext).GetTrucks();
 
-                 _vm = new DispatchesPageViewModel(trucks);
-                 this.BindingContext = _vm;
+            _vm = new DispatchesPageViewModel(trucks);
+            this.BindingContext = _vm;
 
-                 await _vm.Search();
+            await _vm.Search();
 
-                 this.Children.Clear();
+            this.Children.Clear();
 
-                 Device.BeginInvokeOnMainThread(() =>
-                 {
-                     var ind = new TruckPageViewModel(_vm, null);
-                     this.Children.Add(new TruckPageView(ind));
-                 });
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                var ind = new TruckPageViewModel(_vm, null);
+                this.Children.Add(new TruckPageView(ind));
+            });
 
-                 foreach (var t in _vm.TruckViewModels)
-                 {
-                     Device.BeginInvokeOnMainThread(() =>
-                     {
-                         this.Children.Add(new TruckPageView(t));
-                     });
-                 }
-                 OnPropertyChanged("Children");
-                 ((DispatchesPageViewModel)this.BindingContext).Indicator = false;
-             });
+            foreach (var t in _vm.TruckViewModels)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    this.Children.Add(new TruckPageView(t));
+                });
+            }
+            OnPropertyChanged("Children");
+            ((DispatchesPageViewModel)this.BindingContext).Indicator = false;
         }
     }
 }
