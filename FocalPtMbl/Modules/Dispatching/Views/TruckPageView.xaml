@@ -2,12 +2,28 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.Dispatching.Views.TruckPageView"
-                          xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.Dispatching.ViewModels"
-             ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="DeepSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
     <Grid>
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <Grid RowSpacing="0" Padding="0,0,0,5" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -70,32 +86,42 @@
 
             <BoxView  HeightRequest="4" HorizontalOptions="FillAndExpand" />
 
-            <ListView
-             x:Name="listView"
-             HasUnevenRows="true"
-             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-             ItemSelected="listView_ItemSelected"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
-
-                <ListView.ItemTemplate>
+            <dxcv:DXCollectionView x:Name="listView"   
+                        IndicatorColor="Lime"
+                        IsEnabled="True"
+                        BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                        SelectionMode="Single">
+                <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <Grid RowSpacing="0" Padding="0, 5, 0, 5"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="5" />
+                            </Grid.RowDefinitions>
 
-                            <StackLayout
-               Spacing="0"
-               Orientation="Vertical"
-               HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                                <Label TextColor="Black" Text="{Binding Line1}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2"/>
-                                <Label TextColor="Black" Text="{Binding Line2}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2" />
-                                <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" Padding="10,2,10,2" />
-                                <BoxView Margin="0,0,0,0" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
-                            </StackLayout>
-                        </ViewCell>
+                            <Label Padding="5, 0, 0, 0" TextColor="Black" FontAttributes="Bold" Grid.Row="0" Font="black" LineBreakMode="TailTruncation">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="{Binding Line1}" FontAttributes="Bold" />
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
+                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
+                            <BoxView Margin="0,0,0,0" Grid.Row="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-
-            </ListView>
-
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
         </StackLayout>
 
 
