@@ -4,7 +4,11 @@
              x:Class="FocalPoint.Modules.Dispatching.Views.ScheduleDispatchingPageView"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+             Style="{StaticResource TabbedPageStyle}">
+    <ContentPage Title="">
+        
+        <ActivityIndicator x:Name="activityIndicator" IsRunning="True" IsVisible="True" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
 
-
+    </ContentPage>
 </TabbedPage>

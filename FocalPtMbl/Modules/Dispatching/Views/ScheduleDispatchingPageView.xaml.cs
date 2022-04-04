@@ -39,7 +39,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             _vm = new DispatchesPageViewModel(trucks);
             this.BindingContext = _vm;
 
-            await _vm.Search();
+            _vm.Search();
 
             this.Children.Clear();
 
@@ -47,13 +47,16 @@ namespace FocalPoint.Modules.Dispatching.Views
             {
                 var ind = new TruckPageViewModel(_vm, null);
                 this.Children.Add(new TruckPageView(ind));
+                OnPropertyChanged("Children");
             });
 
             foreach (var t in _vm.TruckViewModels)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    this.Children.Add(new TruckPageView(t));
+                    var objView = new TruckPageView(t);
+                    objView.MinimumWidthRequest = 100;
+                    this.Children.Add(objView);
                 });
             }
             OnPropertyChanged("Children");

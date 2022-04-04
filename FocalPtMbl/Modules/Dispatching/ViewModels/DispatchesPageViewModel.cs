@@ -60,6 +60,8 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                         Trucks.Add(truck);
                     }
                 }
+                //TO test ActivityIndicator
+                await Task.Delay(500);
                 return Trucks;
             }
             catch (Exception ex)
