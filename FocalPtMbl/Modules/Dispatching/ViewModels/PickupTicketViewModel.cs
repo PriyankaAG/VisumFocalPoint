@@ -363,11 +363,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
-        internal void setSelectedDetail(int index)
-        {
-            SelectedDetail = Details[index];
-        }
-
         internal async Task RefreshTicket()
         {
             var PickupTicketEntityComponent = new PickupTicketEntityComponent();
