@@ -160,12 +160,12 @@
                                 </Label.GestureRecognizers>
                             </Label>
                             <ListView
-             x:Name="collectionView"
-             HasUnevenRows="true"
+                                 x:Name="collectionView"
+                                 HasUnevenRows="true"
                                 ItemsSource="{Binding Details, Mode=TwoWay}"  
                                SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
-             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-             ItemSelected="ItemSelected"
+                                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                 ItemSelected="ItemSelected"
                                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -211,7 +211,7 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                             <!--   <dxcv:DXCollectionView x:Name="collectionView"
+                            <!--   <dxcv:DXCollectionView x:Name="collectionView"
                                ItemsSource="{Binding Details, Mode=TwoWay}"           
                                SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
                                IndicatorColor="Lime"

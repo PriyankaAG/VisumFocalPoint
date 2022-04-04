@@ -15,31 +15,33 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 {
     public class PickupTicketViewModel : CommonViewModel
     {
-        public PickupTicket Ticket { get; set; }
-
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            Init(pickupTicket);
+            ticket = pickupTicket;
+            Init();
+            //Init(pickupTicket);
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
         }
-
-        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
-        {
-            return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
-        }
-
-        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
-        {
-            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders);
-        }
-
         #endregion
 
         #region Properties
+        private PickupTicket ticket = null;
+        public PickupTicket Ticket
+        {
+            get
+            {
+                return ticket;
+            }
+            set
+            {
+                ticket = value;
+                Init();
+            }
+        }
         public IPickupTicketEntityComponent PickupTicketEntityComponent { get; set; }
 
         private ObservableCollection<PickupTicketItem> details = new ObservableCollection<PickupTicketItem>();
@@ -69,7 +71,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             SelectedDetail = Details[index];
         }
-
         public decimal Totals
         {
             get
@@ -77,7 +78,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
             }
         }
-
         public string Address1
         {
             get => Ticket.Address1;
@@ -90,17 +90,14 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             get => Ticket.CityStateZip == null || Ticket.CityStateZip.Trim().Equals(",") ? "" : Ticket.CityStateZip;
         }
-
         public string CustomerName
         {
             get => this.Ticket.CustomerName;
         }
-
         public string OrderNumberT
         {
             get => this.Ticket.OrderNumberT;
         }
-
         public string Phone
         {
             get => this.Ticket.Phone;
@@ -166,6 +163,56 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         #endregion
 
         #region Methods
+
+        private void Init()
+        {
+            UpdateItems();
+
+            OnPropertyChanged(nameof(Ticket));
+            OnPropertyChanged(nameof(Details));
+            OnPropertyChanged(nameof(ToBeCounted));
+        }
+
+        private void UpdateItems()
+        {
+            if (ticket.Details == null || ticket.Details.Count() == 0)
+            {
+                //Assume there have been counted/completed - confirm with Kirk
+                Details.Clear();
+                return;
+            }
+            foreach (var item in ticket.Details)
+            {
+                SelectedDetail = item;
+                item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+                item.ImageName = LoadImageString(item);
+
+                var existing = Details.FirstOrDefault(x => x.PuDtlTNo == item.PuDtlTNo);
+                if (existing == null)
+                {
+                    //Add it
+                    Details.Add(item);
+                    continue;
+                }
+
+                if (item.UTCCountDte > existing.UTCCountDte)
+                {
+                    //Always overwrite - even if modified locally
+                    Details.Remove(existing);
+                    Details.Add(item);
+                    continue;
+                }
+            }
+            var tmp = ticket.Details;
+            for (int i = Details.Count() - 1; i >= 0; i--)
+            {
+                if (tmp.Exists(x => x.PuDtlTNo == Details[i].PuDtlTNo))
+                    continue;
+
+                Details.RemoveAt(i);
+            }
+        }
+
         public void Init(PickupTicket pickupTicket)
         {
             Ticket = pickupTicket;
@@ -195,17 +242,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
             return popUpList;
         }
-
-        async internal Task<bool> PickupTicketCounted()
-        {
-            var requestObj = new PickupTicketCounted
-            {
-                PuTNo = Convert.ToInt32(this.PuTNo),
-                UTCDte = DateTime.Now
-            };
-            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
-        }
-
         internal string LoadImageString(PickupTicketItem item)
         {
             var str = string.Empty;
@@ -230,12 +266,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             str = string.Format("{0}.png", classId);
             return str;
         }
-
-        internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
-        {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
-        }
-
         internal void setPopupValue(string popupString, string result)
         {
             switch (popupString)
@@ -253,7 +283,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                     break;
             }
         }
-
         internal async Task UpdateItem()
         {
             var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(SelectedDetail.PuDtlTNo);
@@ -270,7 +299,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                     Details.Insert(selectedIndex, SelectedDetail);
             }
         }
-
         internal double GetPopupType(string popupString)
         {
             double value = 0;
@@ -290,7 +318,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
             return value;
         }
-
         internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
         {
             try
@@ -357,7 +384,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         #endregion OpenPhoneDialer
 
-
         #region OpenMapApplication
 
         public ICommand OpenMapApplicationCommand { get; }
@@ -412,7 +438,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             };
             return await GeneralComponent.SaveSignature(signatureInputDTO);
         }
-
         async internal Task<bool> AttemptLock(string apiLocked)
         {
             try
@@ -423,7 +448,45 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             {
                 throw ex;
             }
-            return false;
+        }
+        internal Task<PickupTicket> GetTicketInfo(string PuTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicket(PuTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders);
+        }
+        async internal Task<bool> PickupTicketCounted()
+        {
+            var requestObj = new PickupTicketCounted
+            {
+                PuTNo = Convert.ToInt32(this.PuTNo),
+                UTCDte = DateTime.Now
+            };
+            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
+        }
+        internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
         }
         #endregion
     }

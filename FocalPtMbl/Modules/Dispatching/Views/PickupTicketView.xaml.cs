@@ -2,6 +2,7 @@
 using FocalPoint.Modules.Dispatching.ViewModels;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPtMbl;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -91,29 +92,49 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         async protected override void OnAppearing()
         {
-            var viewModel = ((PickupTicketViewModel)BindingContext);
             base.OnAppearing();
-            bool locked = await viewModel.AttemptLock(true.ToString());
-            if (locked == false)
+            try
             {
-                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
-                await Navigation.PopAsync();
-                return;
-            }
-            CheckForLockPeriodically();
-
-            if (viewModel.Details.Count == 0)
-            {
-                if (viewModel.PuMobile)
+                _continue = true;
+                var viewModel = ((PickupTicketViewModel)BindingContext);
+                bool locked = await viewModel.AttemptLock(true.ToString());
+                if (locked == false)
                 {
-                    await DisplayAlert("FocalPoint", "Mobile Defined Pickup Ticket, Please Add Details to be Counted from Order.", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                    await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
                     await Navigation.PopAsync();
                     return;
                 }
+                CheckForLockPeriodically();
+
+                var ticket = await viewModel.GetTicketInfo(viewModel.Ticket.PuTNo.ToString());
+                if (ticket == null) return;
+
+                viewModel.Ticket = ticket;
+                var orders = await viewModel.PickupTicketOrder(viewModel.Ticket.PuTNo);
+                foreach (var order in orders)
+                {
+                    viewModel.Orders.Add(order);
+
+                }
+                if (viewModel.Details.Count == 0)
+                {
+                    if (viewModel.Ticket.PuMobile)
+                    {
+                        await DisplayAlert("FocalPoint", "Mobile Defined Pickup Ticket, Please Add Details to be Counted from Order.", "OK");
+                        //TODO: Go to Details Tab
+                    }
+                    else
+                    {
+                        await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                        await Navigation.PopAsync();
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                await DisplayAlert("FocalPoint", "Failed to retrieve Pickup Ticket Information.","OK");
             }
             //await RefreshTicket();
             //Device.StartTimer(TimeSpan.FromSeconds(30), () =>
@@ -176,12 +197,11 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             _continue = false;
             base.OnDisappearing();
-            bool locked = await viewModel.AttemptLock(false.ToString());
-            if (locked == false)
+            try
             {
-                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
-                return;
+                await viewModel.AttemptLock(false.ToString());
             }
+            catch { }
         }
 
         async protected void CheckBoxTapped(object sender, EventArgs args)
