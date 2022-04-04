@@ -17,15 +17,20 @@ namespace FocalPoint.Modules.Dispatching.Views
         TruckPageViewModel _vm = null;
         DateTime _old = DateTime.Now.Date;
 
+
         public TruckPageView(TruckPageViewModel vm)
+        {
+            InitializeComponent();
+
+            ProcessData(vm);
+
+        }
+        public void ProcessData(TruckPageViewModel vm)
         {
             _vm = vm;
             _vm.DispatchVm.SearchDate = DateTime.Now.Date;
 
             this.BindingContext = _vm;
-
-            InitializeComponent();
-
 
             if (_vm.Truck == null)
             {
@@ -48,7 +53,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             startDate.DateChanged -= DateEdit_DateChanged;
             startDate.DateChanged += DateEdit_DateChanged;
 
-            startDate.Date = DateTime.Now.Date;
+            startDate.Date = _vm.DispatchVm.SearchDate;
         }
         protected override void OnDisappearing()
         {
