@@ -35,8 +35,8 @@ namespace FocalPoint.Modules.ViewModels
 
         public void SaveSignature(Stream bitmap)
         {
-            string base64Image = Ultils.ConvertToBase64(bitmap);
-            string compressImage = Ultils.CompressImage(base64Image);
+            string base64Image = Utils.Utils.ConvertToBase64(bitmap);
+            string compressImage = Utils.Utils.CompressImage(base64Image);
             MessagingCenter.Send(this, (IsWaiver ? "WaiverSignature" : "Signature"), compressImage);            
         }
 

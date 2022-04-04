@@ -84,8 +84,8 @@ namespace FocalPoint.MainMenu.ViewModels
         /// </summary>
         private async void CheckForSettings()
         {
-            Model.ConnectionURL = await SettingsComponent.GetSecure(Ultils.HOSTKEY);
-            Model.ConnectionPort = await SettingsComponent.GetSecure(Ultils.PORTKEY);
+            Model.ConnectionURL = await SettingsComponent.GetSecure(Utils.Utils.HOSTKEY);
+            Model.ConnectionPort = await SettingsComponent.GetSecure(Utils.Utils.PORTKEY);
 
             if (string.IsNullOrEmpty(Model.ConnectionPort))
                 Model.ConnectionPort = "56883";
@@ -527,8 +527,8 @@ namespace FocalPoint.MainMenu.ViewModels
 
         internal void SetSecures()
         {
-            SettingsComponent.SetSecure(Ultils.HOSTKEY, Model.ConnectionURL);
-            SettingsComponent.SetSecure(Ultils.PORTKEY, Model.ConnectionPort);
+            SettingsComponent.SetSecure(Utils.Utils.HOSTKEY, Model.ConnectionURL);
+            SettingsComponent.SetSecure(Utils.Utils.PORTKEY, Model.ConnectionPort);
         }
     }
     public class ValidationCommand : ICommand

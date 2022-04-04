@@ -69,8 +69,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 
         public async Task<bool> SaveCaptureImage()
         {
-            string base64Image = Ultils.ConvertToBase64(imageStream);
-            string compressImage = Ultils.CompressImage(base64Image);
+            string base64Image = Utils.Utils.ConvertToBase64(imageStream);
+            string compressImage = Utils.Utils.CompressImage(base64Image);
             OrderImageInputDTO orderImageInputDTO = new OrderImageInputDTO();
             orderImageInputDTO.FPImage = new OrderImageDetail();
             orderImageInputDTO.FPImage.OrderNo = SelectedOrder.OrderNo;
