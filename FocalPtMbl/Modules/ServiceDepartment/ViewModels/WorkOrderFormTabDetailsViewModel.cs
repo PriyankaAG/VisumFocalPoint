@@ -1,6 +1,8 @@
 ﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.ViewModels;
+using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -75,19 +77,19 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WOODte
         {
-            get => this.order.WOODte.ToString();
+            get => this.order.WOODte.ToFormattedDate();
         }
         public string WOCDte
         {
-            get => this.order.WOCDte.ToString();
+            get => this.order.WOCDte.ToFormattedDate();
         }
         public string WOPDte
         {
-            get => this.order.WOPDte.ToString();
+            get => this.order.WOPDte.ToFormattedDate();
         }
         public string WOPUDte
         {
-            get => this.order.WOPUDte.ToString();
+            get => this.order.WOPUDte.ToFormattedDate();
         }
 
         private SignatureMessageOutputDTO _signatureMessageOutputDTO;
@@ -102,7 +104,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WODelDte
         {
-            get => this.order.WODelDte.ToString();
+            get => this.order.WODelDte.ToFormattedDate();
         }
         public decimal WODelAmt
         {
@@ -459,7 +461,8 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 
         public void OpenSignatureTermsView(INavigation navigation)
         {
-            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(false, WONo, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
+            //var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(false, WONo, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(false, WONo.ToString(), "Terms & Conditions");
             var orderSignatureTermsView = new SignatureTermsView();
             orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
             navigation.PushAsync(orderSignatureTermsView);
@@ -467,7 +470,8 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 
         public void OpenSignatureWaiverPage(INavigation navigation)
         {
-            var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(true, WONo, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
+            //var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(true, WONo, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(true, WONo.ToString(), SignatureMessageOutputDTO.WaiverDscr);
             var orderSignatureTermsView = new SignatureTermsView();
             orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
             navigation.PushAsync(orderSignatureTermsView);
@@ -475,8 +479,9 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 
         public void OpenSignaturePage(INavigation navigation, bool isWaiver)
         {
-            OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(order, isWaiver, "Sign above for Terms & Conditions");
-            var orderSignatureView = new OrderSignatureView();
+            //OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(order, isWaiver, "Sign above for Terms & Conditions");
+            SignatureViewModel orderSignatureViewModel = new SignatureViewModel(isWaiver, "Sign above for Terms & Conditions");
+            var orderSignatureView = new SignatureView();
             orderSignatureView.BindingContext = orderSignatureViewModel;
             navigation.PushAsync(orderSignatureView);
         }

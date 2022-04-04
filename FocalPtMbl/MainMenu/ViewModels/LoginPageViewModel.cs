@@ -26,7 +26,7 @@ namespace FocalPoint.MainMenu.ViewModels
         const string leftColumnWidth = "0"; //was 40
 
         //[DataFormDisplayOptions(LabelWidth = leftColumnWidth, LabelIcon = "")]
-        [DataFormDisplayOptions(IsLabelVisible =false)]
+        [DataFormDisplayOptions(IsLabelVisible = false)]
         [DataFormItemPosition(RowOrder = 0)]
         [DataFormTextEditor(InplaceLabelText = "Host", Keyboard = "Email")]
         [Required(ErrorMessage = "Host incorrect or Unavailable")]
@@ -65,7 +65,7 @@ namespace FocalPoint.MainMenu.ViewModels
     {
         ICommand buttonCommand = null;
         HttpClient clientHttp = new HttpClient();
-       // HttpClient secureClientHttp;
+        public ISettingsComponent SettingsComponent;
 
         public LoginInfo Model { get; set; }
 
@@ -75,6 +75,20 @@ namespace FocalPoint.MainMenu.ViewModels
             clientHttp = PreparedClient();
             //secureClientHttp = new HttpClient();
             buttonCommand = new ValidationCommand(this);
+            SettingsComponent = new SettingsComponent();
+            CheckForSettings();
+        }
+        /// <summary>
+        /// Checks whether the user had logged in previously and has a HOST and a PORT saved 
+        /// onto his device.
+        /// </summary>
+        private async void CheckForSettings()
+        {
+            Model.ConnectionURL = await SettingsComponent.GetSecure(Utils.Utils.HOSTKEY);
+            Model.ConnectionPort = await SettingsComponent.GetSecure(Utils.Utils.PORTKEY);
+
+            if (string.IsNullOrEmpty(Model.ConnectionPort))
+                Model.ConnectionPort = "56883";
         }
         private HttpClient PreparedClient()
         {
@@ -197,7 +211,7 @@ namespace FocalPoint.MainMenu.ViewModels
                     Password = DependencyService.Get<ICrypt>().Encrypt("VISLLc0404", Password);
 
                     Uri uri = new Uri(string.Format(baseURL + "/Mobile/Compatible"));
-                    Uri uri2 = new Uri(string.Format(baseURL+"/Mobile/Login"));
+                    Uri uri2 = new Uri(string.Format(baseURL + "/Mobile/Login"));
                     var stringContent = new StringContent(
                                                           JsonConvert.SerializeObject(3.0),
                                                           Encoding.UTF8,
@@ -217,20 +231,20 @@ namespace FocalPoint.MainMenu.ViewModels
                         //var compatible = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.CompatibleResults>(content); //JsonSerializer.Deserialize<List<CompatibleResults>>(content);
                         //if (compatible.APIHighVersion <= 3 && compatible.APILowVersion >= 1)
                         //{
-                            response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
-                            var content2 = response.Content.ReadAsStringAsync().Result.ToString();
-                            var token = JsonConvert.DeserializeObject<Guid>(content2).ToString();
-                            //token = "35cb7e13-526d-401b-9295-0a5f16c0dee2";
-                            if (token == "00000000-0000-0000-0000-000000000000")
-                            {
-                                //invalid token
-                                return 3;
-                            }
-                            else
-                            {
-                                CurToken = token;
-                                return 5;
-                            }
+                        response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
+                        var content2 = response.Content.ReadAsStringAsync().Result.ToString();
+                        var token = JsonConvert.DeserializeObject<Guid>(content2).ToString();
+                        //token = "35cb7e13-526d-401b-9295-0a5f16c0dee2";
+                        if (token == "00000000-0000-0000-0000-000000000000")
+                        {
+                            //invalid token
+                            return 3;
+                        }
+                        else
+                        {
+                            CurToken = token;
+                            return 5;
+                        }
 
                         //}
                         //else 86400000ms DNS query, check to see if on same network and use local instead of public connection. 
@@ -261,7 +275,7 @@ namespace FocalPoint.MainMenu.ViewModels
 
         internal string GetTerminalFromArray(string loginTerminal)
         {
-            if(terminalDict.ContainsKey(loginTerminal))
+            if (terminalDict.ContainsKey(loginTerminal))
             {
                 return terminalDict[loginTerminal].TerminalNo.ToString();
             }
@@ -362,8 +376,8 @@ namespace FocalPoint.MainMenu.ViewModels
                 // var conLimit = JsonConvert.DeserializeObject<bool>(content3);
                 //if (conLimit == false)
                 // {
-                
-                    return true;
+
+                return true;
             }
             else
             {
@@ -381,7 +395,7 @@ namespace FocalPoint.MainMenu.ViewModels
             Uri uriSec = new Uri(string.Format(baseURL + "/Mobile/V1/LoginSecurity"));
             List<Security> secAreas = new List<Security>();
 
-           var response = ClientHTTP.GetAsync(uriSec).GetAwaiter().GetResult();
+            var response = ClientHTTP.GetAsync(uriSec).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result.ToString();
@@ -420,8 +434,7 @@ namespace FocalPoint.MainMenu.ViewModels
             return false;
         }
 
-
-    private string getPhone()
+        private string getPhone()
         {
             var idiom = DeviceInfo.Idiom;
             if (idiom == DeviceIdiom.Phone)
@@ -432,9 +445,9 @@ namespace FocalPoint.MainMenu.ViewModels
                 {
                     try
                     {
-                    //    TelephonyManager mgr =
-                    //Android.App.Application.Context.GetSystemService(Context.TelephonyService) as TelephonyManager;
-                    //    return mgr.Line1Number;
+                        //    TelephonyManager mgr =
+                        //Android.App.Application.Context.GetSystemService(Context.TelephonyService) as TelephonyManager;
+                        //    return mgr.Line1Number;
                     }
                     catch (Exception ex)
                     {
@@ -458,7 +471,7 @@ namespace FocalPoint.MainMenu.ViewModels
         private short GetDeviceType()
         {
             var idiom = DeviceInfo.Idiom;
-            if(idiom == DeviceIdiom.Phone)
+            if (idiom == DeviceIdiom.Phone)
             {
                 return 1;
             }
@@ -483,7 +496,7 @@ namespace FocalPoint.MainMenu.ViewModels
             //    if (!string.IsNullOrWhiteSpace(id))
             //        return id;
 
-           return DependencyService.Resolve<IDeviceInfo>().DeviceId;
+            return DependencyService.Resolve<IDeviceInfo>().DeviceId;
 
             //var platform = DeviceInfo.Platform;
             //if (platform == DevicePlatform.Android)
@@ -510,6 +523,12 @@ namespace FocalPoint.MainMenu.ViewModels
             //}
 
             //return id;
+        }
+
+        internal void SetSecures()
+        {
+            SettingsComponent.SetSecure(Utils.Utils.HOSTKEY, Model.ConnectionURL);
+            SettingsComponent.SetSecure(Utils.Utils.PORTKEY, Model.ConnectionPort);
         }
     }
     public class ValidationCommand : ICommand

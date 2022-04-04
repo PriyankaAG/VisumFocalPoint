@@ -1,7 +1,5 @@
 ﻿using FocalPoint.Components.Interface;
-using FocalPoint.Data.API;
 using FocalPoint.Utils;
-using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +20,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             ticket = pickupTicket;
             Init();
             //Init(pickupTicket);
+            SetEntityDetails(DocKinds.PickupTicket, pickupTicket.PuTNo, "R");
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
@@ -100,11 +99,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string Phone
         {
-            get => this.Ticket.Phone;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone);
         }
         public string Phone2
         {
-            get => this.Ticket.Phone2;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone2);
         }
         public string PhoneType
         {
@@ -116,7 +115,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuCDte
         {
-            get => this.Ticket.PuCDte.ToString();
+            get => this.Ticket.PuCDte.ToFormattedDate();
         }
         public string PuContact
         {
@@ -124,7 +123,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuEDte
         {
-            get => this.Ticket.PuEDte.ToString();
+            get => this.Ticket.PuEDte.ToFormattedDate();
         }
         public string PuEEmpid
         {
@@ -145,7 +144,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuPDte
         {
-            get => this.Ticket.PuPDte.ToString();
+            get => this.Ticket.PuPDte.ToFormattedDate();
         }
         public string PuTNo
         {
@@ -253,7 +252,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 if (Totals > item.PuDtlQty)
                     classId = "RedCheckedBox";
                 else if (this.Totals == item.PuDtlQty)
-                    classId = "CheckedBox";
+                    classId = "GreenCheckedBox";
                 else
                     classId = "YellowCheckedBox";
             }
@@ -363,6 +362,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 //TODO: log error
             }
         }
+
+        internal void setSelectedDetail(int index)
+        {
+            SelectedDetail = Details[index];
+        }
+
+        internal async Task RefreshTicket()
+        {
+            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedDetail.PuTNo.ToString());
+            Init(detailedTicket);
+        }
+
         #region OpenPhoneDialer
 
         public ICommand OpenPhoneDialerCommand { get; }
@@ -371,7 +383,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenPhoneDialer(phoneNumber);
+                await Utils.Utils.OpenPhoneDialer(phoneNumber);
             }
             catch (Exception exception)
             {
@@ -392,7 +404,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenMapApplication(address);
+                await Utils.Utils.OpenMapApplication(address);
             }
             catch (Exception exception)
             {
@@ -413,7 +425,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
+                await Utils.Utils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
             }
             catch (Exception exception)
             {
@@ -426,18 +438,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
         #endregion OpenEmailApplication
 
-        public override async Task<bool> SaveSignature()
-        {
-            SignatureInputDTO signatureInputDTO = new SignatureInputDTO
-            {
-                DocKind = (int)DocKinds.PickupTicket,
-                RecordID = Convert.ToInt32(PuTNo),
-                Stat = "R", //TODO confirm with Kirk
-                Format = 4,//Base64 String of Image
-                Signature = SignatureImage
-            };
-            return await GeneralComponent.SaveSignature(signatureInputDTO);
-        }
         async internal Task<bool> AttemptLock(string apiLocked)
         {
             try

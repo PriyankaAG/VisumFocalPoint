@@ -1,6 +1,6 @@
 ﻿namespace FocalPoint
 {
-    public class IComponent
+    public interface IComponent
     {
     }
 }
