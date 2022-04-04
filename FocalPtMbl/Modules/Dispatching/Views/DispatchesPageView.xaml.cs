@@ -1,10 +1,5 @@
 ﻿using FocalPoint.Modules.Dispatching.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,12 +9,19 @@ namespace FocalPoint.Modules.Dispatching.Views
     public partial class DispatchesPageView : ContentPage
     {
         DispatchesPageViewModel _vm = new DispatchesPageViewModel(null);
+        DispatchRowViewModel rowVm;
         public DispatchesPageView(DispatchRowViewModel item)
         {
             try
             {
                 InitializeComponent();
+                rowVm = item;
                 this.BindingContext = item;
+                ToolbarItems.Add(new ToolbarItem
+                {
+                    IconImageSource = "phone.png",
+                    Command = PhoneCommand
+                });
             }
             catch(Exception ex)
             {
@@ -27,19 +29,20 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        public Command PhoneCommand
         {
-
-        }
-
-        private void TapGestureRecognizer_Tapped_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TapGestureRecognizer_Tapped_2(object sender, EventArgs e)
-        {
-
+            get
+            {
+                return new Command(async () =>
+                {
+                    if (string.IsNullOrEmpty(rowVm?.Dispatch?.OriginPhone)) return;
+                    var ok = await this.DisplayAlert("FocalPoint", string.Format("Call {0}?", rowVm.Dispatch.OriginPhone), "Yes", "Cancel");
+                    if (ok)
+                    {
+                        await Utils.Ultils.OpenPhoneDialer(rowVm.Dispatch.OriginPhone);
+                    }
+                });
+            }
         }
     }
 }

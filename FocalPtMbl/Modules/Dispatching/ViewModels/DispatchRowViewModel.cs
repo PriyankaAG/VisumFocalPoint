@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
@@ -155,6 +158,42 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         public DispatchRowViewModel(Dispatches dis)
         {
             this.Dispatch = dis;
+            OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
+            OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(AddressText));
         }
+
+        #region OpenPhoneDialer
+
+        public ICommand OpenPhoneDialerCommand { get; }
+
+        private async Task OpenPhoneDialerTask(string phoneNumber)
+        {
+            try
+            {
+                await Utils.Ultils.OpenPhoneDialer(phoneNumber);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log Error
+            }
+        }
+        #endregion
+        #region OpenMapApplication
+
+        public ICommand OpenMapApplicationCommand { get; }
+
+        private async Task OpenMapApplicationTask(string address)
+        {
+            try
+            {
+                await Utils.Ultils.OpenMapApplication(address);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+
+        #endregion OpenMapApplication
     }
 }
