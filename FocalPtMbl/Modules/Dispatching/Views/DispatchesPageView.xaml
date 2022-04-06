@@ -46,7 +46,7 @@
                 <Label Text="Contact:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
                 <Label Text="{Binding Dispatch.OriginContact}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
                 <Label Text="Phone:  " Grid.Row="5" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                <Label Text="{Binding Dispatch.OriginPhone}" Grid.Row="5" Grid.Column="1" Font="black"  VerticalTextAlignment="Center"
+                <Label Text="{Binding Dispatch.OriginPhone}" Grid.Row="5" Grid.Column="1" Font="black"
                        HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
                    TextColor="Blue"  TextDecorations="Underline">
                     <Label.GestureRecognizers>
@@ -59,7 +59,7 @@
                 <Label Text="Ship Contact:  " Grid.Row="6" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
                 <Label Text="{Binding Dispatch.ShipToContact}" Grid.Row="6" Grid.Column="1" TextColor="Black" />
                 <Label Text="Phone:  " Grid.Row="7" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                <Label Text="{Binding Dispatch.ShipToPhone}" Grid.Row="7" Grid.Column="1" Font="black"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                <Label Text="{Binding Dispatch.ShipToPhone}" Grid.Row="7" Grid.Column="1" Font="black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
                     TextColor="Blue"  TextDecorations="Underline">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer 

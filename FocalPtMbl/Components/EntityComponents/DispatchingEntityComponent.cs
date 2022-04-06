@@ -75,11 +75,11 @@ namespace FocalPoint.Components.EntityComponents
 
                 dispatchList = new List<Dispatches>()
                 {
-                   new Dispatches(){ 
+                   new Dispatches(){
                        DispatchTruckID = 2,
                        DispatchDscr = "Hello World ONE",
-                       DispatchAddr1 = "Address 1",
-                       DispatchAddr2 = "Address 2",
+                       DispatchAddr1 = "3840 US 42",
+                       DispatchAddr2 = "Florence, KY 41042",
                        DispatchCity = "Mumbai",
                        DispatchCmp = 10021,
                        DispatchID = 982,
@@ -89,7 +89,24 @@ namespace FocalPoint.Components.EntityComponents
                        OriginContact = "Origin Contact",
                        OriginPhone = "(999)5655745",
                        ShipToContact = "Ship To Contact",
-                       ShipToPhone = "3435676886",
+                       ShipToPhone = "(982)0596420",
+                       OriginNotes = "Origin Notes"
+                   },   
+                    new Dispatches(){
+                       DispatchTruckID = 2,
+                       DispatchDscr = "Hello World ONE",
+                       DispatchAddr1 = "KDMC Office",
+                       DispatchAddr2 = "Kalyan, 421306",
+                       DispatchCity = "Mumbai",
+                       DispatchCmp = 10021,
+                       DispatchID = 982,
+                       DispatchSubject = "Delivery BBB",
+                       DispatchStartDte = DateTime.Now,
+                       OriginTimeNotes = "Origin Notes",
+                       OriginContact = "Origin Contact",
+                       OriginPhone = "(982)0596420",
+                       ShipToContact = "Ship To Contact",
+                       ShipToPhone = "(982)0596420",
                        OriginNotes = "Origin Notes"
                    },
                    new Dispatches(){ DispatchTruckID = 2, DispatchDscr = "Hello World TWO", DispatchAddr1 = "Address 2", DispatchAddr2 = "Address 2", DispatchCity = "Pune", DispatchCmp = 10041, DispatchID = 985, DispatchSubject = "Delivery BBB" },

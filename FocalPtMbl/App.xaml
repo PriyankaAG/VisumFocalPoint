@@ -32,7 +32,6 @@
                 <Setter Property="BarBackgroundColor" Value="White"/>
                 <Setter Property="SelectedTabColor" Value="Blue"/>
                 <Setter Property="UnselectedTabColor" Value="Black"/>
-                <Setter Property="UnselectedTabColor" Value="Black"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
