@@ -170,7 +170,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Utils.Ultils.OpenPhoneDialer(phoneNumber);
+                await Utils.Utils.OpenPhoneDialer(phoneNumber);
             }
             catch (Exception ex)
             {
@@ -186,7 +186,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Utils.Ultils.OpenMapApplication(address);
+                await Utils.Utils.OpenMapApplication(address);
             }
             catch (Exception ex)
             {

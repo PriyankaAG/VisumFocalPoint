@@ -27,7 +27,6 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-            
             <Style x:Key="TabbedPageStyle" TargetType="TabbedPage">
                 <Setter Property="BarBackgroundColor" Value="White"/>
                 <Setter Property="SelectedTabColor" Value="Blue"/>

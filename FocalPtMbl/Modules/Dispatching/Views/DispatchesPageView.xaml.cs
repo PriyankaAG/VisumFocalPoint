@@ -39,7 +39,7 @@ namespace FocalPoint.Modules.Dispatching.Views
                     var ok = await this.DisplayAlert("FocalPoint", string.Format("Call {0}?", rowVm.Dispatch.OriginPhone), "Yes", "Cancel");
                     if (ok)
                     {
-                        await Utils.Ultils.OpenPhoneDialer(rowVm.Dispatch.OriginPhone);
+                        await Utils.Utils.OpenPhoneDialer(rowVm.Dispatch.OriginPhone);
                     }
                 });
             }
