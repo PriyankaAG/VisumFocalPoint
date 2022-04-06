@@ -3,7 +3,6 @@ using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -22,19 +21,13 @@ namespace FocalPoint.Modules.Dispatching.Views
             BindingContext = this.viewModel;
             Title = "Pickup Ticket # " + pickupTicket.PuTNo.ToString();
             InitializeComponent();
-
-            this.ToolbarItems.Add(new ToolbarItem()
-            {
-                IconImageSource = "more.png",
-                Command = this.CogCommand,
-            });
         }
 
         private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
-                ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)e.SelectedItem;
+                ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)e.SelectedItem;
             }
         }
         readonly PickupTicketViewModel viewModel;
@@ -88,35 +81,56 @@ namespace FocalPoint.Modules.Dispatching.Views
         private void TapGestureRecognizer_Tapped_4(object sender, EventArgs e)
         {
             bool isChecked = false;
-            if (((PickupTicketViewModel)this.BindingContext).SelectedDetail.ImageName != "UnCheckedBox.png")
+            if (((PickupTicketViewModel)this.BindingContext).SelectedItem.ImageName != "UnCheckedBox.png")
                 isChecked = true;
-            ((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
+            //((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
         }
 
         async protected override void OnAppearing()
         {
             base.OnAppearing();
-            bool locked = await viewModel.AttemptLock(true.ToString());
-            if (locked == false)
+            try
             {
-                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
-                await Navigation.PopAsync();
-                return;
-            }
-            CheckForLockPeriodically();
-
-            if(viewModel.Details.Count == 0)
-            {
-                if (viewModel.PuMobile)
+                _continue = true;
+                var viewModel = ((PickupTicketViewModel)BindingContext);
+                bool locked = await viewModel.AttemptLock(true.ToString());
+                if (locked == false)
                 {
-                    await DisplayAlert("FocalPoint", "Mobile Defined Pickup Ticket, Please Add Details to be Counted from Order.", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                    await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
                     await Navigation.PopAsync();
                     return;
                 }
+                CheckForLockPeriodically();
+
+                var ticket = await viewModel.GetTicketInfo(viewModel.Ticket.PuTNo.ToString());
+                if (ticket == null) return;
+
+                viewModel.Ticket = ticket;
+                var orders = await viewModel.PickupTicketOrder(viewModel.Ticket.PuTNo);
+                foreach (var order in orders)
+                {
+                    viewModel.Orders.Add(order);
+
+                }
+                if (viewModel.Details.Count == 0)
+                {
+                    if (viewModel.Ticket.PuMobile)
+                    {
+                        await DisplayAlert("FocalPoint", "Mobile Defined Pickup Ticket, Please Add Details to be Counted from Order.", "OK");
+                        //TODO: Go to Details Tab
+                    }
+                    else
+                    {
+                        await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                        await Navigation.PopAsync();
+                        return;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                await DisplayAlert("FocalPoint", "Failed to retrieve Pickup Ticket Information.","OK");
             }
             //await RefreshTicket();
             //Device.StartTimer(TimeSpan.FromSeconds(30), () =>
@@ -124,63 +138,12 @@ namespace FocalPoint.Modules.Dispatching.Views
             //    Task.Run(async () => await RefreshTicket());
             //    return true;
             //});
-
-            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails");
-            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, PickupTicketItem>(this, "ItemDetails", (sender, details) =>
-            {
-                viewModel.SelectedDetail = details;
-                viewModel.SelectedItemChecked(true,true);
-            });
-
-            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined");
-            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted");
-            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "WaiverSignature");
             MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
-
-            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined", async (sender, args) =>
-            {
-                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
-                if (signatureTermsView != null || orderSignatureView != null)
-                    await Navigation.PopAsync();
-                if (args)
-                {
-                    await DisplayAlert("FocalPoint Mobile", "Damage Waiver Rejected", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("FocalPoint Mobile", "Terms Rejected", "OK");
-                }
-
-            });
-
-            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted", async (sender, args) =>
-            {
-                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
-                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                if (orderSignatureView != null || signatureTermsView != null)
-                    await Navigation.PopAsync();
-                viewModel.OpenSignaturePage(this.Navigation, args);
-            });
-
-            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
-            {
-                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
-                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                if (orderSignatureView != null || signatureTermsView != null)
-                    await Navigation.PopAsync();
-                viewModel.WaiverCapturedImage = capturedImage;
-                viewModel.IsNeedToRedirectTermsOrSignature(Navigation);
-            });
-
             MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
             {
-                SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
-                if (signatureTermsView != null || orderSignatureView != null)
-                    await Navigation.PopAsync();
-                viewModel.SignatureImage = capturedImage;
-                bool success = await viewModel.SaveSignature();
+                PickupTicketViewModel viewOrderDetailsViewModel = (PickupTicketViewModel)BindingContext;
+                viewOrderDetailsViewModel.SignatureImage = capturedImage;
+                bool success = await viewOrderDetailsViewModel.SaveSignature();
                 if (success)
                 {
                     await DisplayAlert("FocalPoint Mobile", "Signature added successfully", "OK");
@@ -189,6 +152,22 @@ namespace FocalPoint.Modules.Dispatching.Views
                 {
                     await DisplayAlert("FocalPoint Mobile", "Failed to add Signature", "OK");
                 }
+                await Navigation.PopAsync();
+                await Navigation.PopAsync();
+            });
+
+            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
+            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
+            {
+                viewModel.SelectedItem = details.Item1;
+                if (details.Item2)
+                {
+                    await CheckPopupValues();
+                    //viewModel.SelectedItemChecked(true, true);
+                    await viewModel.UpdateItem();
+                }
+                //else
+                    //viewModel.SelectedItemChecked(false, true);
             });
         }
 
@@ -214,24 +193,22 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             _continue = false;
             base.OnDisappearing();
-            bool locked = await viewModel.AttemptLock(false.ToString());
-            if (locked == false)
+            try
             {
-                await DisplayAlert("FocalPoint", "Pickup Ticket Locked by Store", "OK");
-                return;
+                await viewModel.AttemptLock(false.ToString());
             }
-
+            catch { }
         }
 
         async protected void CheckBoxTapped(object sender, EventArgs args)
         {
             var imageSender = (Image)sender;
             var parent = (Grid)imageSender.Parent;
-            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
+            ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)parent.BindingContext;
 
             PickupTicketViewModel viewModel = BindingContext as PickupTicketViewModel;
             bool isChecked;
-            viewModel.SelectedDetail.Checked = isChecked = !viewModel.SelectedDetail.Checked;
+            viewModel.SelectedItem.Checked = isChecked = !viewModel.SelectedItem.Checked;
 
             if (isChecked)
             {
@@ -239,11 +216,12 @@ namespace FocalPoint.Modules.Dispatching.Views
                 if (!isSuccess)
                     return;
             }
-            viewModel.SelectedItemChecked(isChecked);
+            //viewModel.SelectedItemChecked(isChecked);
             try
             {
                 viewModel.Indicator = true;
-                bool update = await ((PickupTicketViewModel)BindingContext).PickupTicketItemCount();
+                bool update = await viewModel.PickupTicketItemCount(viewModel.SelectedItem);
+                await viewModel.UpdateItem();
                 if (!update)
                 {
                     await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
@@ -283,42 +261,21 @@ namespace FocalPoint.Modules.Dispatching.Views
         private async void DetailLine_Tapped(object sender, EventArgs e)
         {
             var parent = (Grid)sender;
-            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
-            await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
+            ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)parent.BindingContext;
+            await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedItem));
         }
 
         private async Task RefreshTicket()
         {
-           await viewModel.RefreshTicket();
+            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedItem.PuTNo.ToString());
+
+            viewModel.Init(detailedTicket);
         }
 
         private async void MobilePickupClick(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new PickupDetailMobileSelect(((PickupTicketViewModel)this.BindingContext).Ticket));
         }
-
-        public Command CogCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    string option = await this.DisplayActionSheet("Options", OrderCogOptions.Cancel, null,
-                            OrderCogOptions.CaptureSignature);
-
-                    if (option == OrderCogOptions.Cancel)
-                        return;
-
-                    if (option == OrderCogOptions.CaptureSignature)
-                        await Signature();
-                });
-            }
-        }
-
-        private async Task Signature()
-        {
-            await viewModel.SignatureCommand(this.Navigation);
-        }
-
     }
 }

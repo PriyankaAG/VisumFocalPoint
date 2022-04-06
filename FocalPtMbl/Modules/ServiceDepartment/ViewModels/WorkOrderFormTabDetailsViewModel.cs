@@ -1,6 +1,8 @@
 ﻿using FocalPoint.Data.API;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.ViewModels;
+using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -10,7 +12,7 @@ using Xamarin.Forms;
 
 namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 {
-    public class WorkOrderFormTabDetailsViewModel : CommonViewModel
+    public class WorkOrderFormTabDetailsViewModel : ThemeBaseViewModel
     {
         readonly WorkOrder order;
         public WorkOrderFormTabDetailsViewModel(WorkOrder workOrder)
@@ -21,7 +23,6 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             foreach (var dtl in workOrder.WorkOrderDtls)
                 this.Details.Add(dtl);
             this.order = workOrder;
-            SetEntityDetails(DocKinds.WorkOrder, workOrder.WONo, "W");
         }
         /// <summary>
         /// Header
@@ -31,7 +32,18 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         {
             get => order.WONo;
         }
-
+        public string _signatureImage;
+        public string SignatureImage
+        {
+            get => _signatureImage;
+            set => SetProperty(ref _signatureImage, value);
+        }
+        private string _waiverCapturedImage;
+        public string WaiverCapturedImage
+        {
+            get => _waiverCapturedImage;
+            set => SetProperty(ref _waiverCapturedImage, value);
+        }
         public string WODscr
         {
             get => this.order.WODscr;
@@ -65,19 +77,19 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WOODte
         {
-            get => this.order.WOODte.ToString();
+            get => this.order.WOODte.ToFormattedDate();
         }
         public string WOCDte
         {
-            get => this.order.WOCDte.ToString();
+            get => this.order.WOCDte.ToFormattedDate();
         }
         public string WOPDte
         {
-            get => this.order.WOPDte.ToString();
+            get => this.order.WOPDte.ToFormattedDate();
         }
         public string WOPUDte
         {
-            get => this.order.WOPUDte.ToString();
+            get => this.order.WOPUDte.ToFormattedDate();
         }
 
         private SignatureMessageOutputDTO _signatureMessageOutputDTO;
@@ -92,7 +104,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string WODelDte
         {
-            get => this.order.WODelDte.ToString();
+            get => this.order.WODelDte.ToFormattedDate();
         }
         public decimal WODelAmt
         {
@@ -412,6 +424,90 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         internal bool EmailExists()
         {
             return false;
+        }
+
+        public async Task SignatureCommand(INavigation navigation)
+        {
+            SignatureMessageInputDTO singnatureMessageInputDTO = new SignatureMessageInputDTO
+            {
+                DocKind = (int)DocKinds.WorkOrder,
+                RecordID = WONo,
+                Stat = "W"//OrderEdit, used when editing an existing Order
+            };
+            SignatureMessageOutputDTO = await GeneralComponent.GetSignatureMessageDTO(singnatureMessageInputDTO);
+            if (SignatureMessageOutputDTO != null)
+            {
+                if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO.Waiver))
+                {
+                    OpenSignatureWaiverPage(navigation);
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO.Terms))
+                    {
+                        OpenSignatureTermsView(navigation);
+                    }
+                    else
+                    {
+                        OpenSignaturePage(navigation, false);
+                    }
+                }
+            }
+            else
+            {
+                OpenSignaturePage(navigation, false);
+            }
+        }
+
+        public void OpenSignatureTermsView(INavigation navigation)
+        {
+            //var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(false, WONo, "Terms & Conditions", SignatureMessageOutputDTO.Terms);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(false, WONo.ToString(), "Terms & Conditions");
+            var orderSignatureTermsView = new SignatureTermsView();
+            orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
+            navigation.PushAsync(orderSignatureTermsView);
+        }
+
+        public void OpenSignatureWaiverPage(INavigation navigation)
+        {
+            //var orderSignatureTermsViewModel = new OrderSignatureTermsViewModel(true, WONo, SignatureMessageOutputDTO.WaiverDscr, SignatureMessageOutputDTO.Waiver);
+            var orderSignatureTermsViewModel = new SignatureTermsViewModel(true, WONo.ToString(), SignatureMessageOutputDTO.WaiverDscr);
+            var orderSignatureTermsView = new SignatureTermsView();
+            orderSignatureTermsView.BindingContext = orderSignatureTermsViewModel;
+            navigation.PushAsync(orderSignatureTermsView);
+        }
+
+        public void OpenSignaturePage(INavigation navigation, bool isWaiver)
+        {
+            //OrderSignatureViewModel orderSignatureViewModel = new OrderSignatureViewModel(order, isWaiver, "Sign above for Terms & Conditions");
+            SignatureViewModel orderSignatureViewModel = new SignatureViewModel(isWaiver, "Sign above for Terms & Conditions");
+            var orderSignatureView = new SignatureView();
+            orderSignatureView.BindingContext = orderSignatureViewModel;
+            navigation.PushAsync(orderSignatureView);
+        }
+
+        public async Task<bool> SaveSignature()
+        {
+            SignatureInputDTO signatureInputDTO = new SignatureInputDTO();
+            signatureInputDTO.DocKind = (int)DocKinds.WorkOrder;
+            signatureInputDTO.RecordID = WONo;
+            signatureInputDTO.Stat = "W";//OrderEdit, used when editing an existing Order
+            signatureInputDTO.Format = 4;//Base64 String of Image
+            signatureInputDTO.Signature = SignatureImage;
+            signatureInputDTO.Waiver = WaiverCapturedImage;
+            return await GeneralComponent.SaveSignature(signatureInputDTO);
+        }
+
+        public void IsNeedToRedirectTermsOrSignature(INavigation navigation)
+        {
+            if (!string.IsNullOrWhiteSpace(SignatureMessageOutputDTO?.Terms))
+            {
+                OpenSignatureTermsView(navigation);
+            }
+            else
+            {
+                OpenSignaturePage(navigation, false);
+            }
         }
     }
 }

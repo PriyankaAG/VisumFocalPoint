@@ -13,32 +13,34 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 {
     public class PickupTicketViewModel : CommonViewModel
     {
-        public PickupTicket Ticket { get; set; }
-
         #region constructor
         public PickupTicketViewModel(PickupTicket pickupTicket)
         {
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            Init(pickupTicket);
+            ticket = pickupTicket;
+            Init();
+            //Init(pickupTicket);
             SetEntityDetails(DocKinds.PickupTicket, pickupTicket.PuTNo, "R");
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
         }
-
-        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
-        {
-            return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
-        }
-
-        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
-        {
-            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders.ToListPickupTicketOrder());
-        }
-
         #endregion
 
         #region Properties
+        private PickupTicket ticket = null;
+        public PickupTicket Ticket
+        {
+            get
+            {
+                return ticket;
+            }
+            set
+            {
+                ticket = value;
+                Init();
+            }
+        }
         public IPickupTicketEntityComponent PickupTicketEntityComponent { get; set; }
 
         private ObservableCollection<PickupTicketItem> details = new ObservableCollection<PickupTicketItem>();
@@ -64,15 +66,17 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged("Orders");
             }
         }
-        
+        internal void setSelectedDetail(int index)
+        {
+            SelectedItem = Details[index];
+        }
         public decimal Totals
         {
             get
             {
-                return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
+                return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlOutQty + SelectedItem.PuDtlSoldQty + SelectedItem.PuDtlStolenQty + SelectedItem.PuDtlLostQty + SelectedItem.PuDtlDmgdQty;
             }
         }
-
         public string Address1
         {
             get => Ticket.Address1;
@@ -85,24 +89,21 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             get => Ticket.CityStateZip == null || Ticket.CityStateZip.Trim().Equals(",") ? "" : Ticket.CityStateZip;
         }
-
         public string CustomerName
         {
             get => this.Ticket.CustomerName;
         }
-
         public string OrderNumberT
         {
             get => this.Ticket.OrderNumberT;
         }
-
         public string Phone
         {
-            get => this.Ticket.Phone;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone);
         }
         public string Phone2
         {
-            get => this.Ticket.Phone2;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone2);
         }
         public string PhoneType
         {
@@ -114,7 +115,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuCDte
         {
-            get => this.Ticket.PuCDte.ToString();
+            get => this.Ticket.PuCDte.ToFormattedDate();
         }
         public string PuContact
         {
@@ -122,7 +123,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuEDte
         {
-            get => this.Ticket.PuEDte.ToString();
+            get => this.Ticket.PuEDte.ToFormattedDate();
         }
         public string PuEEmpid
         {
@@ -143,7 +144,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public string PuPDte
         {
-            get => this.Ticket.PuPDte.ToString();
+            get => this.Ticket.PuPDte.ToFormattedDate();
         }
         public string PuTNo
         {
@@ -157,10 +158,61 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
-        public PickupTicketItem SelectedDetail { get; set; }
+        public PickupTicketItem SelectedItem { get; set; }
         #endregion
 
         #region Methods
+
+        private void Init()
+        {
+            UpdateItems();
+
+            OnPropertyChanged(nameof(Ticket));
+            OnPropertyChanged(nameof(Details));
+            OnPropertyChanged(nameof(ToBeCounted));
+        }
+
+        private void UpdateItems()
+        {
+            if (ticket.Details == null || ticket.Details.Count() == 0)
+            {
+                //Assume there have been counted/completed - confirm with Kirk
+                Details.Clear();
+                return;
+            }
+            foreach (var item in ticket.Details)
+            {
+                this.SelectedItem = item;
+                item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+                item.ImageName = LoadImageString(item);
+
+                var existing = Details.FirstOrDefault(x => x.PuDtlTNo == item.PuDtlTNo);
+                if (existing == null)
+                {
+                    //Add it
+                    Details.Add(item);
+                    continue;
+                }
+
+                if (item.UTCCountDte > existing.UTCCountDte)
+                {
+                    int selectedIndex = Details.IndexOf(this.SelectedItem);
+                    //Always overwrite - even if modified locally
+                    Details.Remove(existing);
+                    Details.Insert(selectedIndex, item);
+                    continue;
+                }
+            }
+            var tmp = ticket.Details;
+            for (int i = Details.Count() - 1; i >= 0; i--)
+            {
+                if (tmp.Exists(x => x.PuDtlTNo == Details[i].PuDtlTNo))
+                    continue;
+
+                Details.RemoveAt(i);
+            }
+        }
+
         public void Init(PickupTicket pickupTicket)
         {
             Ticket = pickupTicket;
@@ -169,7 +221,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Details = null;
             foreach (var item in pickupTicket.Details)
             {
-                SelectedDetail = item;
+                this.SelectedItem = item;
                 item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
@@ -181,38 +233,27 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         internal List<string> GetPopUpCount()
         {
             List<string> popUpList = new List<string>();
-            if (SelectedDetail.OrderDtlMeterType != "N")
+            if (SelectedItem.OrderDtlMeterType != "N")
                 popUpList.Add("Input Meter");
-            if (SelectedDetail.OrderDtlFuelType != "N")
+            if (SelectedItem.OrderDtlFuelType != "N")
                 popUpList.Add("Add Fuel");
-            if (SelectedDetail.PuDtlCounted)
+            if (SelectedItem.PuDtlCounted)
                 popUpList.Add("Select Count");
 
             return popUpList;
         }
-
-        async internal Task<bool> PickupTicketCounted()
-        {
-            var requestObj = new PickupTicketCounted
-            {
-                PuTNo = Convert.ToInt32(this.PuTNo),
-                UTCDte = DateTime.Now
-            };
-            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
-        }
-
         internal string LoadImageString(PickupTicketItem item)
         {
             var str = string.Empty;
             var classId = string.Empty;
             if (Totals > 0)
             {
-                SelectedDetail.Checked = true;
+                this.SelectedItem.Checked = true;
 
                 if (Totals > item.PuDtlQty)
                     classId = "RedCheckedBox";
                 else if (this.Totals == item.PuDtlQty)
-                    classId = "CheckedBox";
+                    classId = "GreenCheckedBox";
                 else
                     classId = "YellowCheckedBox";
             }
@@ -225,87 +266,102 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             str = string.Format("{0}.png", classId);
             return str;
         }
-
-        internal Task<bool> PickupTicketItemCount()
-        {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail.ToPickupTicketItemDTO());
-        }
-
         internal void setPopupValue(string popupString, string result)
         {
             switch (popupString)
             {
                 case "Input Meter":
-                    SelectedDetail.PuDtlMeterIn = Convert.ToDouble(result);
+                    SelectedItem.PuDtlMeterIn = Convert.ToDouble(result);
                     break;
                 case "Select Count":
-                    SelectedDetail.LastCntOutQty = Convert.ToDecimal(result);
+                    SelectedItem.LastCntOutQty = Convert.ToDecimal(result);
                     break;
                 case "Add Fuel":
-                    SelectedDetail.PuDtlTank = Convert.ToDouble(result);
+                    SelectedItem.PuDtlTank = Convert.ToDouble(result);
                     break;
                 default:
                     break;
             }
         }
+        internal async Task UpdateItem()
+        {
+            PickupTicketItem updatedItem = await UpdateItem(SelectedItem);
+            if (updatedItem != null)
+            {
+                bool isAtEndOfIndex = false;
+                int selectedIndex = Details.IndexOf(SelectedItem);
+                if (Details.Count - 1 == selectedIndex)
+                    isAtEndOfIndex = true;
+                Details.Remove(SelectedItem);
+                if (isAtEndOfIndex)
+                    Details.Add(SelectedItem);
+                else
+                    Details.Insert(selectedIndex, SelectedItem);
+            }
+        }
+
+
         internal double GetPopupType(string popupString)
         {
             double value = 0;
             switch (popupString)
             {
                 case "Input Meter":
-                    value = SelectedDetail.PuDtlMeterIn;
+                    value = SelectedItem.PuDtlMeterIn;
                     break;
                 case "Select Count":
-                    value = (double)SelectedDetail.LastCntOutQty;
+                    value = (double)SelectedItem.LastCntOutQty;
                     break;
                 case "Add Fuel":
-                    value = (double)SelectedDetail.PuDtlTank;
+                    value = (double)SelectedItem.PuDtlTank;
                     break;
                 default:
                     break;
             }
             return value;
         }
-
-        internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
+        internal void SelectedItemChecked(PickupTicketItem ticketItem, bool isChecked, bool isFromCountAdjustment = false)
         {
             try
             {
                 bool isAtEndOfIndex = false;
-                int selectedIndex = this.Details.IndexOf(SelectedDetail);
+                var item = Details.FirstOrDefault(x => x.PuDtlTNo == ticketItem.PuDtlTNo);
+                int selectedIndex = this.Details.IndexOf(item);
+
                 if (Details.Count - 1 == selectedIndex)
                     isAtEndOfIndex = true;
-                this.Details.Remove(SelectedDetail);
+                this.Details.Remove(item);
+
+                SelectedItem = ticketItem;
                 //then change the selected detail to reflect those changes
                 if (isChecked)
                 {
                     if (!isFromCountAdjustment)
-                        SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                    SelectedDetail.PuDtlCounted = true;
+                        SelectedItem.PuDtlCntQty = SelectedItem.PuDtlQty;
+                    SelectedItem.ImageName = LoadImageString(item);
+                    SelectedItem.UTCCountDte = DateTime.UtcNow;
+                    SelectedItem.PuDtlCounted = true;
                 }
                 else
                 {
-                    SelectedDetail.PuDtlCntQty = 0;
-                    SelectedDetail.PuDtlOutQty = 0;
-                    SelectedDetail.PuDtlSoldQty = 0;
-                    SelectedDetail.PuDtlStolenQty = 0;
-                    SelectedDetail.PuDtlLostQty = 0;
-                    SelectedDetail.PuDtlDmgdQty = 0;
-                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                    SelectedDetail.PuDtlCounted = false;
+                    SelectedItem.PuDtlCntQty = 0;
+                    SelectedItem.PuDtlOutQty = 0;
+                    SelectedItem.PuDtlSoldQty = 0;
+                    SelectedItem.PuDtlStolenQty = 0;
+                    SelectedItem.PuDtlLostQty = 0;
+                    SelectedItem.PuDtlDmgdQty = 0;
+                    SelectedItem.ImageName = LoadImageString(SelectedItem);
+                    SelectedItem.UTCCountDte = DateTime.UtcNow;
+                    SelectedItem.PuDtlCounted = false;
                 }
 
                 if (isAtEndOfIndex)
-                    Details.Add(SelectedDetail);
+                    Details.Add(SelectedItem);
                 else
-                    Details.Insert(selectedIndex, SelectedDetail);
+                    Details.Insert(selectedIndex, SelectedItem);
 
-                OnPropertyChanged(nameof(SelectedDetail));
-                //OnPropertyChanged(nameof(Details));
+                OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(Details));
                 OnPropertyChanged(nameof(ToBeCounted));
             }
             catch (Exception ex)
@@ -314,15 +370,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
-        internal void setSelectedDetail(int index)
-        {
-            SelectedDetail = Details[index];
-        }
-
         internal async Task RefreshTicket()
         {
             var PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedDetail.PuTNo.ToString());
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedItem.PuTNo.ToString());
             Init(detailedTicket);
         }
 
@@ -334,7 +385,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenPhoneDialer(phoneNumber);
+                await Utils.Utils.OpenPhoneDialer(phoneNumber);
             }
             catch (Exception exception)
             {
@@ -355,7 +406,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenMapApplication(address);
+                await Utils.Utils.OpenMapApplication(address);
             }
             catch (Exception exception)
             {
@@ -376,7 +427,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         {
             try
             {
-                await Ultils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
+                await Utils.Utils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
             }
             catch (Exception exception)
             {
@@ -399,6 +450,59 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             {
                 throw ex;
             }
+        }
+        internal Task<PickupTicket> GetTicketInfo(string PuTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicket(PuTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders);
+        }
+        async internal Task<bool> PickupTicketCounted()
+        {
+            var requestObj = new PickupTicketCounted
+            {
+                PuTNo = Convert.ToInt32(this.PuTNo),
+                UTCDte = DateTime.Now
+            };
+            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
+        }
+        internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
+        }
+        internal async Task<PickupTicketItem> UpdateItem(PickupTicketItem item)
+        {
+            try
+            {
+                var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(item.PuDtlTNo);
+                if (updatedItem == null)
+                    return null;
+
+                return updatedItem;
+            }
+            catch { }
+
+            return item;
         }
         #endregion
     }

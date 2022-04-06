@@ -10,9 +10,10 @@ namespace FocalPoint.Components.Interface
         Task<PickupTicket> GetPickupTicket(string ticketNumber);
         Task<bool> LockPickupTicket(string ticketNumber, string apiLocked);
         Task<PickupTicket> GetPickupTicketDetails(string ticketNumber);
-        Task<bool> PostPickupTicketItemCount(PickupTicketItemDTO pickupTicketDTO);
+        Task<bool> PostPickupTicketItemCount(PickupTicketItem pickupTicketDTO);
         Task<bool> PostPickupTicketCounted(PickupTicketCounted request);
         Task<List<PickupTicketOrder>> GetPickupTicketOrder(int puTNo);
-        Task<bool> PostPickupTicketCreate(PickupTicketOrderDTO lstPickupTicketOrders);
+        Task<bool> PostPickupTicketCreate(List<PickupTicketOrder>lstPickupTicketOrders);
+        Task<PickupTicketItem> GetPickupTicketItem(int puDtlNo);
     }
 }

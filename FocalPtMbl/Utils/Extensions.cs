@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Utils
 {
     public static class Extensions
     {
-        public static PickupTicketOrderDTO ToListPickupTicketOrder(this List<PickupTicketOrder> ticketOrder)
+        public static string ToFormattedDate(this DateTime? date)
         {
-            return new PickupTicketOrderDTO { Items = ticketOrder };
+            return date == null ? "" : ((DateTime)date).ToString("MM/dd/yyyy h:mm tt");
         }
-        public static PickupTicketItemDTO ToPickupTicketItemDTO(this PickupTicketItem pickupTicket)
+        public static string ToFormattedDate(this DateTime date)
         {
-            return new PickupTicketItemDTO { Item = pickupTicket };
+            return date.ToString("MM/dd/yyyy h:mm tt");
         }
     }
 }

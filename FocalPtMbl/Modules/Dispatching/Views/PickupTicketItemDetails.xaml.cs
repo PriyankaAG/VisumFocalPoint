@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.Dispatching.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -37,7 +38,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             //LastCountGrid.IsVisible = !focused;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        private async void Submit_Clicked(object sender, EventArgs e)
         {
 
             var vm = (PickupTicketItemDetailsViewModel)this.BindingContext;
@@ -47,13 +48,13 @@ namespace FocalPoint.Modules.Dispatching.Views
                 await DisplayAlert("FocalPoint", "Picked up must be equal to Accounted For", "Ok");
                 return;
             }
-            var result = await CheckPopupValues(vm.SelectedDetail);
+            /*var result = await CheckPopupValues(vm.SelectedDetail);
             if (!result)
             {
                 vm.SelectedDetail = viewModel.OriginalPickupItem;
                 await Navigation.PopAsync();
                 return;
-            }
+            }*/
             try
             {
                 viewModel.Indicator = true;
@@ -63,11 +64,11 @@ namespace FocalPoint.Modules.Dispatching.Views
                     await DisplayAlert("FocalPoint", "Item Counted by Another, last Counts Reloaded", "Ok");
                     vm.SelectedDetail = viewModel.OriginalPickupItem;
                     await Navigation.PopAsync();
-                    viewModel.UpdateTicket();
+                    viewModel.UpdateTicket(false);
                     return;
                 }
                 await Navigation.PopAsync();
-                viewModel.UpdateTicket();
+                viewModel.UpdateTicket(true);
             }
             catch (Exception ex)
             {
@@ -100,6 +101,15 @@ namespace FocalPoint.Modules.Dispatching.Views
                     return false;
             }
             return true;
+        }
+
+        private void Text_Unfocused(object sender, FocusEventArgs e)
+        {
+            var entry = (TextEdit)sender;
+            if (string.IsNullOrEmpty(entry.Text))
+            {
+                entry.Text = "0";
+            }
         }
     }
 }

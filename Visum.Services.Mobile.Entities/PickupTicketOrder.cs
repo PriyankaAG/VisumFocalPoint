@@ -17,9 +17,4 @@ namespace Visum.Services.Mobile.Entities
         public decimal OrderDtlQty { get; set; }
         public decimal PuDtlQty { get; set; }
     }
-
-    public class PickupTicketOrderDTO
-    {
-        public List<PickupTicketOrder> Items{ get; set; }
-    }
 }

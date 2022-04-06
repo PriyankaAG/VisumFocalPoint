@@ -15,6 +15,7 @@ namespace FocalPoint.Modules.Dispatching.Views
     public partial class PickupDetailMobileSelect : ContentPage
     {
         readonly PickupTicketViewModel viewModel;
+        bool success = false;
         public PickupDetailMobileSelect(PickupTicket puTicket)
         {
             viewModel = new PickupTicketViewModel(puTicket);
@@ -53,11 +54,22 @@ namespace FocalPoint.Modules.Dispatching.Views
             }
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MessagingCenter.Send(this, "MobileTicket", success);
+        }
+
         async private void Button_Clicked(object sender, EventArgs e)
         {
             var vm = BindingContext as PickupTicketViewModel;
             try
             {
+                if (vm.Orders.All(x => x.PuDtlQty == 0))
+                {
+                    await DisplayAlert("FocalPoint", "Please select at least 1 Pickup item.", "Ok");
+                    return;
+                }
                 foreach (var order in vm.Orders)
                 {
                     if (order.PuDtlQty < 0)
@@ -72,10 +84,18 @@ namespace FocalPoint.Modules.Dispatching.Views
                         return;
                     }
                 }
-                var success = await vm.PickupTicketCreate(vm.Orders.ToList());
-                if (!success)
+
+                var selectedOrders = vm.Orders.Where(x => x.PuDtlQty > 0);
+                if (selectedOrders == null || !selectedOrders.Any())
+                {
+                    await DisplayAlert("FocalPoint", "No Orders selected.", "OK");
+                    return;
+                }
+                success = await vm.PickupTicketCreate(selectedOrders.ToList());
+                if (success)
+                    await Navigation.PopAsync();
+                else
                     await DisplayAlert("FocalPoint", "Failed to create the Pickup Tickets.", "Ok");
-                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
