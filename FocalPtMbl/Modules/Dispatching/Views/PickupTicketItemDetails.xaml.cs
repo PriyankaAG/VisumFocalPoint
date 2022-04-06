@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.Dispatching.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -100,6 +101,15 @@ namespace FocalPoint.Modules.Dispatching.Views
                     return false;
             }
             return true;
+        }
+
+        private void Text_Unfocused(object sender, FocusEventArgs e)
+        {
+            var entry = (TextEdit)sender;
+            if (string.IsNullOrEmpty(entry.Text))
+            {
+                entry.Text = "0";
+            }
         }
     }
 }

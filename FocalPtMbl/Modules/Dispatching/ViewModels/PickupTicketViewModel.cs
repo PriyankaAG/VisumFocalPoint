@@ -68,13 +68,13 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         internal void setSelectedDetail(int index)
         {
-            SelectedDetail = Details[index];
+            SelectedItem = Details[index];
         }
         public decimal Totals
         {
             get
             {
-                return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
+                return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlOutQty + SelectedItem.PuDtlSoldQty + SelectedItem.PuDtlStolenQty + SelectedItem.PuDtlLostQty + SelectedItem.PuDtlDmgdQty;
             }
         }
         public string Address1
@@ -158,7 +158,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
-        public PickupTicketItem SelectedDetail { get; set; }
+        public PickupTicketItem SelectedItem { get; set; }
         #endregion
 
         #region Methods
@@ -182,7 +182,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
             foreach (var item in ticket.Details)
             {
-                SelectedDetail = item;
+                this.SelectedItem = item;
                 item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
                 item.ImageName = LoadImageString(item);
 
@@ -196,9 +196,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
                 if (item.UTCCountDte > existing.UTCCountDte)
                 {
+                    int selectedIndex = Details.IndexOf(this.SelectedItem);
                     //Always overwrite - even if modified locally
                     Details.Remove(existing);
-                    Details.Add(item);
+                    Details.Insert(selectedIndex, item);
                     continue;
                 }
             }
@@ -220,7 +221,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Details = null;
             foreach (var item in pickupTicket.Details)
             {
-                SelectedDetail = item;
+                this.SelectedItem = item;
                 item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
                 item.ImageName = LoadImageString(item);
                 Details.Add(item);
@@ -232,11 +233,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         internal List<string> GetPopUpCount()
         {
             List<string> popUpList = new List<string>();
-            if (SelectedDetail.OrderDtlMeterType != "N")
+            if (SelectedItem.OrderDtlMeterType != "N")
                 popUpList.Add("Input Meter");
-            if (SelectedDetail.OrderDtlFuelType != "N")
+            if (SelectedItem.OrderDtlFuelType != "N")
                 popUpList.Add("Add Fuel");
-            if (SelectedDetail.PuDtlCounted)
+            if (SelectedItem.PuDtlCounted)
                 popUpList.Add("Select Count");
 
             return popUpList;
@@ -247,7 +248,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             var classId = string.Empty;
             if (Totals > 0)
             {
-                SelectedDetail.Checked = true;
+                this.SelectedItem.Checked = true;
 
                 if (Totals > item.PuDtlQty)
                     classId = "RedCheckedBox";
@@ -270,13 +271,13 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             switch (popupString)
             {
                 case "Input Meter":
-                    SelectedDetail.PuDtlMeterIn = Convert.ToDouble(result);
+                    SelectedItem.PuDtlMeterIn = Convert.ToDouble(result);
                     break;
                 case "Select Count":
-                    SelectedDetail.LastCntOutQty = Convert.ToDecimal(result);
+                    SelectedItem.LastCntOutQty = Convert.ToDecimal(result);
                     break;
                 case "Add Fuel":
-                    SelectedDetail.PuDtlTank = Convert.ToDouble(result);
+                    SelectedItem.PuDtlTank = Convert.ToDouble(result);
                     break;
                 default:
                     break;
@@ -284,76 +285,82 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         internal async Task UpdateItem()
         {
-            var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(SelectedDetail.PuDtlTNo);
+            PickupTicketItem updatedItem = await UpdateItem(SelectedItem);
             if (updatedItem != null)
             {
                 bool isAtEndOfIndex = false;
-                int selectedIndex = Details.IndexOf(SelectedDetail);
+                int selectedIndex = Details.IndexOf(SelectedItem);
                 if (Details.Count - 1 == selectedIndex)
                     isAtEndOfIndex = true;
-                Details.Remove(SelectedDetail);
+                Details.Remove(SelectedItem);
                 if (isAtEndOfIndex)
-                    Details.Add(SelectedDetail);
+                    Details.Add(SelectedItem);
                 else
-                    Details.Insert(selectedIndex, SelectedDetail);
+                    Details.Insert(selectedIndex, SelectedItem);
             }
         }
+
+
         internal double GetPopupType(string popupString)
         {
             double value = 0;
             switch (popupString)
             {
                 case "Input Meter":
-                    value = SelectedDetail.PuDtlMeterIn;
+                    value = SelectedItem.PuDtlMeterIn;
                     break;
                 case "Select Count":
-                    value = (double)SelectedDetail.LastCntOutQty;
+                    value = (double)SelectedItem.LastCntOutQty;
                     break;
                 case "Add Fuel":
-                    value = (double)SelectedDetail.PuDtlTank;
+                    value = (double)SelectedItem.PuDtlTank;
                     break;
                 default:
                     break;
             }
             return value;
         }
-        internal void SelectedItemChecked(bool isChecked, bool isFromCountAdjustment = false)
+        internal void SelectedItemChecked(PickupTicketItem ticketItem, bool isChecked, bool isFromCountAdjustment = false)
         {
             try
             {
                 bool isAtEndOfIndex = false;
-                int selectedIndex = this.Details.IndexOf(SelectedDetail);
+                var item = Details.FirstOrDefault(x => x.PuDtlTNo == ticketItem.PuDtlTNo);
+                int selectedIndex = this.Details.IndexOf(item);
+
                 if (Details.Count - 1 == selectedIndex)
                     isAtEndOfIndex = true;
-                this.Details.Remove(SelectedDetail);
+                this.Details.Remove(item);
+
+                SelectedItem = ticketItem;
                 //then change the selected detail to reflect those changes
                 if (isChecked)
                 {
                     if (!isFromCountAdjustment)
-                        SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                    SelectedDetail.PuDtlCounted = true;
+                        SelectedItem.PuDtlCntQty = SelectedItem.PuDtlQty;
+                    SelectedItem.ImageName = LoadImageString(item);
+                    SelectedItem.UTCCountDte = DateTime.UtcNow;
+                    SelectedItem.PuDtlCounted = true;
                 }
                 else
                 {
-                    SelectedDetail.PuDtlCntQty = 0;
-                    SelectedDetail.PuDtlOutQty = 0;
-                    SelectedDetail.PuDtlSoldQty = 0;
-                    SelectedDetail.PuDtlStolenQty = 0;
-                    SelectedDetail.PuDtlLostQty = 0;
-                    SelectedDetail.PuDtlDmgdQty = 0;
-                    SelectedDetail.ImageName = LoadImageString(SelectedDetail);
-                    SelectedDetail.UTCCountDte = DateTime.UtcNow;
-                    SelectedDetail.PuDtlCounted = false;
+                    SelectedItem.PuDtlCntQty = 0;
+                    SelectedItem.PuDtlOutQty = 0;
+                    SelectedItem.PuDtlSoldQty = 0;
+                    SelectedItem.PuDtlStolenQty = 0;
+                    SelectedItem.PuDtlLostQty = 0;
+                    SelectedItem.PuDtlDmgdQty = 0;
+                    SelectedItem.ImageName = LoadImageString(SelectedItem);
+                    SelectedItem.UTCCountDte = DateTime.UtcNow;
+                    SelectedItem.PuDtlCounted = false;
                 }
 
                 if (isAtEndOfIndex)
-                    Details.Add(SelectedDetail);
+                    Details.Add(SelectedItem);
                 else
-                    Details.Insert(selectedIndex, SelectedDetail);
+                    Details.Insert(selectedIndex, SelectedItem);
 
-                OnPropertyChanged(nameof(SelectedDetail));
+                OnPropertyChanged(nameof(SelectedItem));
                 OnPropertyChanged(nameof(Details));
                 OnPropertyChanged(nameof(ToBeCounted));
             }
@@ -366,7 +373,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         internal async Task RefreshTicket()
         {
             var PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedDetail.PuTNo.ToString());
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedItem.PuTNo.ToString());
             Init(detailedTicket);
         }
 
@@ -482,6 +489,20 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
         {
             return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
+        }
+        internal async Task<PickupTicketItem> UpdateItem(PickupTicketItem item)
+        {
+            try
+            {
+                var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(item.PuDtlTNo);
+                if (updatedItem == null)
+                    return null;
+
+                return updatedItem;
+            }
+            catch { }
+
+            return item;
         }
         #endregion
     }

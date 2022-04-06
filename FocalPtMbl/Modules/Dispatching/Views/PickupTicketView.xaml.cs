@@ -1,10 +1,6 @@
-﻿using DevExpress.XamarinForms.CollectionView;
-using FocalPoint.Modules.Dispatching.ViewModels;
-using FocalPoint.Modules.FrontCounter.ViewModels;
+﻿using FocalPoint.Modules.Dispatching.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.ViewModels;
-using FocalPtMbl;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,7 +27,7 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             if (e.SelectedItem != null)
             {
-                ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)e.SelectedItem;
+                ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)e.SelectedItem;
             }
         }
         readonly PickupTicketViewModel viewModel;
@@ -85,9 +81,9 @@ namespace FocalPoint.Modules.Dispatching.Views
         private void TapGestureRecognizer_Tapped_4(object sender, EventArgs e)
         {
             bool isChecked = false;
-            if (((PickupTicketViewModel)this.BindingContext).SelectedDetail.ImageName != "UnCheckedBox.png")
+            if (((PickupTicketViewModel)this.BindingContext).SelectedItem.ImageName != "UnCheckedBox.png")
                 isChecked = true;
-            ((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
+            //((PickupTicketViewModel)this.BindingContext).SelectedItemChecked(isChecked);
         }
 
         async protected override void OnAppearing()
@@ -163,15 +159,15 @@ namespace FocalPoint.Modules.Dispatching.Views
             MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
             MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
             {
-                viewModel.SelectedDetail = details.Item1;
+                viewModel.SelectedItem = details.Item1;
                 if (details.Item2)
                 {
                     await CheckPopupValues();
-                    viewModel.SelectedItemChecked(true, true);
+                    //viewModel.SelectedItemChecked(true, true);
                     await viewModel.UpdateItem();
                 }
-                else
-                    viewModel.SelectedItemChecked(false, true);
+                //else
+                    //viewModel.SelectedItemChecked(false, true);
             });
         }
 
@@ -208,11 +204,11 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             var imageSender = (Image)sender;
             var parent = (Grid)imageSender.Parent;
-            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
+            ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)parent.BindingContext;
 
             PickupTicketViewModel viewModel = BindingContext as PickupTicketViewModel;
             bool isChecked;
-            viewModel.SelectedDetail.Checked = isChecked = !viewModel.SelectedDetail.Checked;
+            viewModel.SelectedItem.Checked = isChecked = !viewModel.SelectedItem.Checked;
 
             if (isChecked)
             {
@@ -220,11 +216,11 @@ namespace FocalPoint.Modules.Dispatching.Views
                 if (!isSuccess)
                     return;
             }
-            viewModel.SelectedItemChecked(isChecked);
+            //viewModel.SelectedItemChecked(isChecked);
             try
             {
                 viewModel.Indicator = true;
-                bool update = await viewModel.PickupTicketItemCount(viewModel.SelectedDetail);
+                bool update = await viewModel.PickupTicketItemCount(viewModel.SelectedItem);
                 await viewModel.UpdateItem();
                 if (!update)
                 {
@@ -265,14 +261,14 @@ namespace FocalPoint.Modules.Dispatching.Views
         private async void DetailLine_Tapped(object sender, EventArgs e)
         {
             var parent = (Grid)sender;
-            ((PickupTicketViewModel)BindingContext).SelectedDetail = (PickupTicketItem)parent.BindingContext;
-            await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedDetail));
+            ((PickupTicketViewModel)BindingContext).SelectedItem = (PickupTicketItem)parent.BindingContext;
+            await Navigation.PushAsync(new PickupTicketItemDetails(((PickupTicketViewModel)this.BindingContext).SelectedItem));
         }
 
         private async Task RefreshTicket()
         {
             var PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedDetail.PuTNo.ToString());
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(viewModel.SelectedItem.PuTNo.ToString());
 
             viewModel.Init(detailedTicket);
         }

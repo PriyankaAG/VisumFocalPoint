@@ -33,32 +33,32 @@
                 <Label Text="Counted:" FontSize="Medium" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black" 
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0" 
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit x:Name="Counted" Text="{Binding Counted}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0" ></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="Counted" Text="{Binding Counted}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand"  VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0" ></dxe:TextEdit>
 
                 <Label Text="Still Out:" FontSize="Medium" FontAttributes="Bold" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black"
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0" 
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit Text="{Binding StillOut}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
+                        <dxe:TextEdit Text="{Binding StillOut}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
 
                 <Label Text="Sold:" FontSize="Medium" FontAttributes="Bold" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black"
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0"  
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit Text="{Binding Sold}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
+                        <dxe:TextEdit Text="{Binding Sold}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
 
                 <Label Text="Stolen:" FontSize="Medium" FontAttributes="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black"
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0"  
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit Text="{Binding Stolen}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
+                        <dxe:TextEdit Text="{Binding Stolen}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
 
                 <Label Text="Lost:" FontSize="Medium" FontAttributes="Bold" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black"
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0"  
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit Text="{Binding Lost}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
+                        <dxe:TextEdit Text="{Binding Lost}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
 
                 <Label Text="Damaged:" FontSize="Medium" FontAttributes="Bold" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" TextColor="Black"
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Margin="10,0,0,0" Padding="10,0"  
                        BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <dxe:TextEdit Text="{Binding Damaged}" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
+                        <dxe:TextEdit Text="{Binding Damaged}" Unfocused="Text_Unfocused" ClearIconVisibility="Never" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" Margin="5,0,10,0"></dxe:TextEdit>
 
                 <Label Text="{Binding Totals, StringFormat='Accounted For: {0}'}" FontAttributes="Bold" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Medium" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  BackgroundColor="{DynamicResource BackgroundThemeColor}"/>
             </Grid>

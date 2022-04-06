@@ -51,7 +51,8 @@ namespace FocalPoint.Modules.Dispatching.Views
                 await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
                 return;
             }
-            await Navigation.PushAsync(new PickupTicketView(detailedTicket));
+            //await Navigation.PushAsync(new PickupTicketView(detailedTicket));
+            await Navigation.PushAsync(new PickupTicketPage(detailedTicket));
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {
