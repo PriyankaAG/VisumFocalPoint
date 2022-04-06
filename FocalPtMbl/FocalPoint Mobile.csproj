@@ -42,6 +42,15 @@
 		<EmbeddedResource Update="Modules\Common\View\OrderImagePage.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\PickupTicketTabs\PickupTicketDetailPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\PickupTicketTabs\PickupTicketHeaderPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\PickupTicketTabs\PickupTicketNotesPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Dispatching\Views\DispatchesPageView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -50,6 +59,9 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketItemDetails.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>

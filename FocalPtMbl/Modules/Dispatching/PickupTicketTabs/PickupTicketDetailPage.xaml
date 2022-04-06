@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketDetailPage"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid>
+                <StackLayout>
+                    <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+
+                    <Label Text="Mobile Pickup - Click Here to Select Items to Pickup" IsVisible="{Binding IsSelectPickupItemVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="MobilePickupClick" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <ListView
+                                 x:Name="collectionView"
+                                 HasUnevenRows="true"
+                                ItemsSource="{Binding Details, Mode=TwoWay}"  
+                               SelectedItem="{Binding SelectedDetail, Mode=TwoWay}"
+                                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                 ItemSelected="ItemSelected"
+                                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid BindingContext="{Binding .}"  BackgroundColor="White">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="35*" />
+                                            <ColumnDefinition Width="25*" />
+                                            <ColumnDefinition Width="20*" />
+                                            <ColumnDefinition Width="20*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="35"/>
+                                            <RowDefinition Height="30"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="DetailLine_Tapped" NumberOfTapsRequired="1" />
+                                        </Grid.GestureRecognizers>
+                                        <Label Text="{Binding OrderDtlDscr}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" HorizontalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                        </Label>
+                                        <Label Text="{Binding OrderDtlDscr2, StringFormat='  {0}'}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3"  Margin="10,0" HorizontalTextAlignment="Start" VerticalTextAlignment="Start" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                                        </Label>
+                                        <Label Text="{Binding OrderDtlQty, StringFormat='Out: {0}'}" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                        </Label>
+                                        <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                        </Label>
+                                        <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                        </Label>
+                                        <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
+                                            <Image.VerticalOptions>
+                                                <OnPlatform x:TypeArguments="LayoutOptions"
+                                            Android="FillAndExpand"
+                                            iOS="EndAndExpand"/>
+                                            </Image.VerticalOptions>
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="CheckBoxTapped" NumberOfTapsRequired="1" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                        <BoxView Grid.Row="3" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

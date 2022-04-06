@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
@@ -14,6 +16,7 @@ namespace FocalPoint
         const string PickupTicket = "PickupTicket/{0}";
         const string PickupTickets = "PickupTickets/";
         const string PickupTicketDetails = "PickupTickets/{0}";
+        const string PickupTicketItem = "PickupTicket/Item/{0}";
         const string PickupTicketLock = "PickupTicket/Lock/{0}/{1}";
         const string PickupTicketItemCount = "PickupTicket/ItemCount";
         const string PickupTicketCounted = "PickupTicket/Counted";
@@ -27,7 +30,7 @@ namespace FocalPoint
 
         public async Task<PickupTicket> GetPickupTicket(string ticketNumber)
         {
-            PickupTicket pickupTicket = null;
+            PickupTicket pickupTicket;
             try
             {
                 pickupTicket = await apiComponent.GetAsync<PickupTicket>(string.Format(PickupTicket, ticketNumber));
@@ -35,71 +38,72 @@ namespace FocalPoint
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return pickupTicket;
         }
 
         public async Task<List<PickupTicket>> GetPickupTickets()
         {
-            List<PickupTicket> pickupTickets = null;
+            List<PickupTicket> pickupTickets;
             try
             {
                 pickupTickets = await apiComponent.GetAsync<List<PickupTicket>>(PickupTickets);
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return pickupTickets;
         }
 
         public async Task<bool> LockPickupTicket(string ticketNumber, string apiLocked)
         {
-            bool result = false;
+            bool result;
             try
             {
                 result = await apiComponent.GetAsync<bool>(string.Format(PickupTicketLock, ticketNumber, apiLocked));
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return result;
         }
 
         public async Task<PickupTicket> GetPickupTicketDetails(string ticketNumber)
         {
-            PickupTicket pickupTicket = null;
+            PickupTicket pickupTicket;
             try
             {
                 pickupTicket = await apiComponent.GetAsync<PickupTicket>(string.Format(PickupTicketDetails, ticketNumber));
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return pickupTicket;
         }
 
-        public async Task<bool> PostPickupTicketItemCount(PickupTicketItemDTO pickupTicketDTO)
+        public async Task<bool> PostPickupTicketItemCount(PickupTicketItem pickupTicket)
         {
-            bool result = false;
+            bool result;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(pickupTicketDTO);
+
+                string requestContent = JsonConvert.SerializeObject(new { Item = pickupTicket });
                 result = await apiComponent.PostAsync<bool>(PickupTicketItemCount, requestContent);
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return result;
         }
 
         public async Task<bool> PostPickupTicketCounted(PickupTicketCounted request)
         {
-            bool result = false;
+            bool result;
             try
             {
                 string requestContent = JsonConvert.SerializeObject(request);
@@ -107,7 +111,7 @@ namespace FocalPoint
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return result;
         }
@@ -115,7 +119,7 @@ namespace FocalPoint
         public async Task<List<PickupTicketOrder>> GetPickupTicketOrder(int puTNo)
         {
 
-            List<PickupTicketOrder> pickupTicketOrders = null;
+            List<PickupTicketOrder> pickupTicketOrders;
             try
             {
                 pickupTicketOrders = await apiComponent.GetAsync<List<PickupTicketOrder>>(string.Format(PickupTicketOrderItems, puTNo));
@@ -123,24 +127,39 @@ namespace FocalPoint
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return pickupTicketOrders;
         }
 
-        async public Task<bool> PostPickupTicketCreate(PickupTicketOrderDTO lstPickupTicketOrders)
+        async public Task<bool> PostPickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
         {
-            bool result = false;
+            bool result;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(lstPickupTicketOrders);
+                string requestContent = JsonConvert.SerializeObject(new { Items = pickupTicketOrders });
                 result = await apiComponent.PostAsync<bool>(PickupTicketOrderCreate, requestContent);
             }
             catch (Exception ex)
             {
-                //TODO: Log error
+                throw ex;
             }
             return result;
+        }
+
+        public async Task<PickupTicketItem> GetPickupTicketItem(int puDtlNo)
+        {
+            PickupTicketItem pickupTicketItem;
+            try
+            {
+                pickupTicketItem = await apiComponent.GetAsync<PickupTicketItem>(string.Format(PickupTicketItem, puDtlNo));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return pickupTicketItem;
         }
     }
 }

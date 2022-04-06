@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketNotesPage"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Ticket Notes" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+                <Label Text="{Binding PuNote}" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,0"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

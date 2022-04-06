@@ -18,12 +18,13 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         public PickupTicketItemDetailsViewModel(PickupTicketItem pickupTicketItem)
         {
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
-            selectedDetail = OriginalPickupItem = pickupTicketItem;
+             selectedDetail = pickupTicketItem;
+            OriginalPickupItem = (PickupTicketItem)pickupTicketItem.Clone();
             Refresh();
         }
 
         #region Properties
-        public PickupTicketItem OriginalPickupItem { get; set; }
+        public PickupTicketItem OriginalPickupItem;
         private PickupTicketItem selectedDetail;
         public PickupTicketItem SelectedDetail
         {
@@ -73,12 +74,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Refresh();
             }
         }
-
-        internal void UpdateTicket()
-        {
-            MessagingCenter.Send(this, "ItemDetails", SelectedDetail);
-        }
-
         public decimal Stolen
         {
             get => selectedDetail.PuDtlStolenQty;
@@ -147,13 +142,19 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         internal Task<bool> PickupTicketItemCount()
         {
-            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail.ToPickupTicketItemDTO());
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(SelectedDetail);
         }
         internal void Refresh()
         {
             //OnPropertyChanged("Image");
             OnPropertyChanged(nameof(SelectedDetail));
             OnPropertyChanged(nameof(Totals));
+        }
+
+        internal void UpdateTicket(bool isSuccess)
+        {
+            //MessagingCenter.Send(this, "ItemDetails", SelectedDetail);
+            MessagingCenter.Send(this, "ItemDetails", new Tuple<PickupTicketItem, bool>(SelectedDetail, isSuccess));
         }
         #endregion
     }
