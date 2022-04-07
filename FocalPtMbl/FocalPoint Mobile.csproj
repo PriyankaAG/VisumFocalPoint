@@ -66,6 +66,9 @@
 		<EmbeddedResource Update="Modules\Dispatching\Views\PickupTicketsSelectView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Dispatching\Views\ScheduleDispatchingPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Dispatching\Views\TruckPageView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
