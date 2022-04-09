@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -24,14 +26,17 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged(nameof(Recent));
             }
         }
+        public List<PickupTicket> Tickets { get; set; }
         public PickupTicket SelectedTicket { get; internal set; }
         public IPickupTicketEntityComponent PickupTicketEntityComponent { get; set; }
+
         #endregion
 
         #region Constructor
         public PickupTicketsSelectViewModel()
         {
             PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            GetPickupTicketInfo();
         }
         #endregion
 
@@ -44,6 +49,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 PickupTicketEntityComponent.GetPickupTickets().ContinueWith(task =>
                 {
                     var pickupTicketList = task.Result;
+                    Tickets = task.Result;
                     if (recent == null)
                     {
                         Recent = new ObservableCollection<PickupTicket>(pickupTicketList);
@@ -64,11 +70,20 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
             }
         }
-        internal void GetSearchedTicketInfo(object SearchText)
+        internal void GetSearchedTicketInfo(string SearchText)
         {
             try
             {
-                GetPickupTicketInfo();
+                if (Tickets == null) return;
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    Tickets.ForEach(x => Recent.Add(x));
+                    return;
+                }
+                var filteredRecords = Tickets.Where(x => x.PuTNo.ToString().Contains(SearchText)).ToList();
+
+                Recent.Clear();
+                filteredRecords.ForEach(x => Recent.Add(x));
             }
             catch (Exception ex)
             {
@@ -92,6 +107,12 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             {
                 Indicator = false;
             }
+        }
+        internal PickupTicket GetTicketInfo(object item)
+        {
+            if (item is PickupTicket pTicket)
+                return pTicket;
+            return new PickupTicket();
         }
         #endregion
     }
