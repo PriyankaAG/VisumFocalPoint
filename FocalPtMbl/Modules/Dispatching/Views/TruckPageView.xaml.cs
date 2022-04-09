@@ -84,8 +84,6 @@ namespace FocalPoint.Modules.Dispatching.Views
 
         private void DateEdit_DateChanged(object sender, EventArgs e)
         {
-            var propcheck = startDate.Date;
-
             if (_old != _vm.DispatchVm.SearchDate)
             {
                 _vm.DispatchVm.Search();
