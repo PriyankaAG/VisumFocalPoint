@@ -24,6 +24,23 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 OnPropertyChanged(nameof(trucks));
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+
 
         DateTime _searchDate;
         public DateTime SearchDate
@@ -144,6 +161,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         public DispatchesPageViewModel(List<Truck> trucks)
         {
+            this.Title = "Dispatching";
             this.SearchDate = DateTime.Now.Date;
             DispatchingEntityComponent = new DispatchingEntityComponent();
 

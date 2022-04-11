@@ -27,9 +27,12 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-            <Style x:Key="TabbedPageStyle" TargetType="TabbedPage">
+
+            <Style x:Key="TabbedPageStyle" TargetType="TabbedPage" ApplyToDerivedTypes="True">
                 <Setter Property="BarBackgroundColor" Value="White"/>
                 <Setter Property="SelectedTabColor" Value="Blue"/>
+                <Setter Property="WidthRequest" Value="200"/>
+                <Setter Property="MinimumWidthRequest" Value="200"/>
                 <Setter Property="UnselectedTabColor" Value="Black"/>
             </Style>
         </ResourceDictionary>

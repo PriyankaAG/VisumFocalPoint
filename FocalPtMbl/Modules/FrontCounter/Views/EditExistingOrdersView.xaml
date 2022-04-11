@@ -37,7 +37,7 @@
             <ContentPage Title="Open Orders" Icon="Order.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" TextChanged="Search_TextChanged"></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" Unfocused="TextEdit_Completed" Completed="TextEdit_Completed"></dxe:TextEdit>
 
                         <dxcv:DXCollectionView x:Name="collectionView" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                            ItemsSource="{Binding OpenOrders}"
@@ -121,7 +121,7 @@
             <ContentPage Title="Reservations" Icon="Order_Resv.png"  BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Margin="10,0"  TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Unfocused="TextEdit_Completed" Completed="TextEdit_Completed" Margin="10,0" Text=""></dxe:TextEdit>
 
                         <dxcv:DXCollectionView x:Name="collectionView2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                            ItemsSource="{Binding OpenReserv}"
@@ -204,7 +204,7 @@
             <ContentPage Title="Quotes" Icon="Order_Quote.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared"  Margin="10,0" TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Unfocused="TextEdit_Completed" Completed="TextEdit_Completed" Margin="10,0" Text=""></dxe:TextEdit>
 
 
                         <dxcv:DXCollectionView x:Name="collectionView3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"

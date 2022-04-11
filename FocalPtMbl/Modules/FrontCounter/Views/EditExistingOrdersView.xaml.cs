@@ -95,18 +95,51 @@ namespace FocalPoint.Modules.FrontCounter.Views
         //}
         private void TextEdit_Cleared(object sender, EventArgs e)
         {
-            if (sender == searchorderText)
+            ((EditExistingOrdersViewModel)this.BindingContext).Indicator = true;
+            ClearNow(sender);
+        }
+        private async Task ClearNow(object sender)
+        {
+            _ = Task.Run(() =>
             {
-                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(1);
-            }
-            else if (sender == searchreservationText)
-            { 
-                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(2);
-            }
-            else if (sender == searchquotesText)
-            { 
-                ((EditExistingOrdersViewModel)this.BindingContext).ClearSearchOrder(3);
-            }
+                if (sender == searchorderText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 1, true);
+                }
+                else if (sender == searchreservationText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
+                }
+                else if (sender == searchquotesText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
+                }
+                    ((EditExistingOrdersViewModel)this.BindingContext).Indicator = false;
+            });
+        }
+        private void TextEdit_Completed(object sender, EventArgs e)
+        {
+            ((EditExistingOrdersViewModel)this.BindingContext).Indicator = true;
+            SearchNow(sender);
+        }
+        private async Task SearchNow(object sender)
+        {
+            _ = Task.Run(() =>
+            {
+                if (sender == searchorderText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 1, true);
+                }
+                else if (sender == searchreservationText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 2, true);
+                }
+                else if (sender == searchquotesText)
+                {
+                    ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 3, true);
+                }
+                    ((EditExistingOrdersViewModel)this.BindingContext).Indicator = false;
+            });
         }
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
