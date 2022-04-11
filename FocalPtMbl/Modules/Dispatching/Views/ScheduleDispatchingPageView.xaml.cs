@@ -1,5 +1,4 @@
-﻿using DevExpress.XamarinForms.Navigation;
-using FocalPoint.Modules.Dispatching.ViewModels;
+﻿using FocalPoint.Modules.Dispatching.ViewModels;
 using FocalPtMbl;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.Modules.Dispatching.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ScheduleDispatchingPageView
+    public partial class ScheduleDispatchingPageView : TabbedPage
     {
         DispatchesPageViewModel _vm = new DispatchesPageViewModel(null);
 
@@ -23,14 +22,13 @@ namespace FocalPoint.Modules.Dispatching.Views
             InitializeComponent();
             this.BindingContext = _vm;
 
-            ((DispatchesPageViewModel)this.BindingContext).Indicator = true;
-
-            LoadData();
-
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            ((DispatchesPageViewModel)this.BindingContext).Indicator = true;
+
+            LoadData();
 
         }
 
@@ -43,25 +41,13 @@ namespace FocalPoint.Modules.Dispatching.Views
 
             _vm.Search();
 
-            //this.Children.Clear();
+            this.Children.Clear();
 
             Device.BeginInvokeOnMainThread(() =>
             {
-                //var actInd = this.Items[0].Content.FindByName<ActivityIndicator>("activityIndicator");
-                //actInd.IsRunning = false;
-                //actInd.IsVisible = false;
-
-
                 var ind = new TruckPageViewModel(_vm, null);
-                var objView = new TruckPageView(ind);
-                objView.MinimumWidthRequest = 100;
-                var pi = new TabPageItem();
-                pi.Content = objView;
-                pi.HeaderVisibleElements = HeaderElements.Text;
-
-                this.Items.Add(pi);
-
-                this.UpdateChildrenLayout();
+                this.Children.Add(new TruckPageView(ind));
+                OnPropertyChanged("Children");
             });
 
             foreach (var t in _vm.TruckViewModels)
@@ -70,28 +56,10 @@ namespace FocalPoint.Modules.Dispatching.Views
                 {
                     var objView = new TruckPageView(t);
                     objView.MinimumWidthRequest = 100;
-                    var pi = new TabPageItem();
-                    pi.Content = objView;
-                    pi.HeaderVisibleElements = HeaderElements.Text;
-                    this.Items.Add(pi);
-
-
+                    this.Children.Add(objView);
                 });
             }
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                //this.SelectedItemIndex = 1;
-                //Task.Delay(1000).ContinueWith(task =>
-                //{
-                //    this.SelectedItemIndex = 0;
-                //});
-
-                this.Items.RemoveAt(0);
-                this.ForceLayout();
-                OnPropertyChanged("Items");
-            });
-
-            OnPropertyChanged("Items");
+            OnPropertyChanged("Children");
             ((DispatchesPageViewModel)this.BindingContext).Indicator = false;
         }
     }

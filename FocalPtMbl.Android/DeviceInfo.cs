@@ -26,8 +26,7 @@ namespace FocalPtMbl.Droid
         public string Manufacturer => this.manufacturer;
         public DeviceInfo()
         {
-            //this.deviceId = GetPhoneUId();
-            this.deviceId = "8c525f3f9538c39c";
+            this.deviceId = GetPhoneUId();
             this.modelNumber = string.Empty;
             this.manufacturer = string.Empty;
         }

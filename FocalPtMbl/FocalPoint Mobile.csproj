@@ -16,10 +16,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Utils\Serializer.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.2.0" />
 		<PackageReference Include="DevExpress.XamarinForms.Charts" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="20.2.6" />
@@ -81,9 +77,6 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\FrontCounter\Views\DispatchingPageMainView.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>

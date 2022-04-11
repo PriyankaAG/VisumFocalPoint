@@ -1,27 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.Dispatching.Views.ScheduleDispatchingPageView"
-            xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
-             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
-             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
-             HeaderPanelPosition="Top"
-             IsSelectedItemIndicatorVisible="True"
-             SelectedItemHeaderTextColor="OrangeRed"
-             SelectedItemHeaderBackgroundColor="Transparent"
-             ItemHeaderWidth="*"
-             ItemHeaderMinWidth="120"
-             ItemHeaderMaxWidth="360"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-    <dxn:TabPageItem>
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="NEW TAB">
-
-                <ActivityIndicator x:Name="activityIndicator" IsRunning="True" IsVisible="True" Color="Blue"  
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             Style="{StaticResource TabbedPageStyle}">
+    <ContentPage Title="">
+        
+        <ActivityIndicator x:Name="activityIndicator" IsRunning="True" IsVisible="True" Color="Blue"  
                        BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
 
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-</dxn:TabPage>
+    </ContentPage>
+</TabbedPage>
