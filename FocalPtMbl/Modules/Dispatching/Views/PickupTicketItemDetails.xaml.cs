@@ -43,10 +43,21 @@ namespace FocalPoint.Modules.Dispatching.Views
 
             var vm = (PickupTicketItemDetailsViewModel)this.BindingContext;
             vm.SelectedDetail.UTCCountDte = DateTime.UtcNow;
-            if (!vm.IsAccountedEqualToPickedUp())
+            var countedResult = vm.IsCountedGreaterThanToBeCounted();
+            switch (countedResult)
             {
-                await DisplayAlert("FocalPoint", "Picked up must be equal to Accounted For", "Ok");
-                return;
+                case true:
+                    await DisplayAlert("FocalPoint", "Line is over counted, please adjust your counts", "Ok");
+                    return;
+                case false:
+                    var isConfirm = await DisplayAlert("FocalPoint", "Line is under counted, do  you want to mark the remaining still out?", "Yes", "No");
+                    if (isConfirm)
+                    {
+                        vm.StillOut = vm.ToBePickedUp - vm.Totals;
+                    }
+                    break;
+                case null:
+                    break;
             }
             /*var result = await CheckPopupValues(vm.SelectedDetail);
             if (!result)

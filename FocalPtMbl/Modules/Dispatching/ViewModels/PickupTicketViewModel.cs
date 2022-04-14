@@ -77,6 +77,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlOutQty + SelectedItem.PuDtlSoldQty + SelectedItem.PuDtlStolenQty + SelectedItem.PuDtlLostQty + SelectedItem.PuDtlDmgdQty;
             }
         }
+        public decimal Counted 
+        {
+            get { return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlDmgdQty; }
+        }
         public string Address1
         {
             get => Ticket.Address1;
@@ -183,7 +187,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             foreach (var item in ticket.Details)
             {
                 this.SelectedItem = item;
-                item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+                item.CurrentTotalCnt = item.TotalCounted  = GetTotalCount(item);
                 item.ImageName = LoadImageString(item);
 
                 var existing = Details.FirstOrDefault(x => x.PuDtlTNo == item.PuDtlTNo);
@@ -211,6 +215,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
 
                 Details.RemoveAt(i);
             }
+        }
+
+        internal void SetTotalCount(PickupTicketItem item)
+        {
+            item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
         }
 
         public void Init(PickupTicket pickupTicket)
@@ -333,6 +342,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 this.Details.Remove(item);
 
                 SelectedItem = ticketItem;
+                SelectedItem.TotalCounted = GetTotalCount(SelectedItem);
                 //then change the selected detail to reflect those changes
                 if (isChecked)
                 {
@@ -503,6 +513,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             catch { }
 
             return item;
+        }
+        internal decimal GetTotalCount(PickupTicketItem item)
+        {
+            return item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+
         }
         #endregion
     }

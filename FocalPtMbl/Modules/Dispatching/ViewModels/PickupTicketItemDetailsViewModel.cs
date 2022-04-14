@@ -92,6 +92,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Refresh();
             }
         }
+
         public decimal Damaged
         {
             get => selectedDetail.PuDtlDmgdQty;
@@ -136,9 +137,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         #endregion
 
         #region Methods
-        internal bool IsAccountedEqualToPickedUp()
+        internal bool? IsCountedGreaterThanToBeCounted()
         {
-            return Totals == ToBePickedUp;
+            return Totals > ToBePickedUp ? true : Totals < ToBePickedUp ? false : (bool?)null;
         }
         internal Task<bool> PickupTicketItemCount()
         {

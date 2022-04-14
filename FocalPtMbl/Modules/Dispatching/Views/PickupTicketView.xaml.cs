@@ -138,37 +138,6 @@ namespace FocalPoint.Modules.Dispatching.Views
             //    Task.Run(async () => await RefreshTicket());
             //    return true;
             //});
-            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
-            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async (sender, capturedImage) =>
-            {
-                PickupTicketViewModel viewOrderDetailsViewModel = (PickupTicketViewModel)BindingContext;
-                viewOrderDetailsViewModel.SignatureImage = capturedImage;
-                bool success = await viewOrderDetailsViewModel.SaveSignature();
-                if (success)
-                {
-                    await DisplayAlert("FocalPoint Mobile", "Signature added successfully", "OK");
-                }
-                else
-                {
-                    await DisplayAlert("FocalPoint Mobile", "Failed to add Signature", "OK");
-                }
-                await Navigation.PopAsync();
-                await Navigation.PopAsync();
-            });
-
-            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
-            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
-            {
-                viewModel.SelectedItem = details.Item1;
-                if (details.Item2)
-                {
-                    await CheckPopupValues();
-                    //viewModel.SelectedItemChecked(true, true);
-                    await viewModel.UpdateItem();
-                }
-                //else
-                    //viewModel.SelectedItemChecked(false, true);
-            });
         }
 
         private void CheckForLockPeriodically()
