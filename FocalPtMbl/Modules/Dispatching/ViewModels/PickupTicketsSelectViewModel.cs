@@ -77,10 +77,13 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 if (Tickets == null) return;
                 if (string.IsNullOrEmpty(SearchText))
                 {
+                    Recent.Clear();
                     Tickets.ForEach(x => Recent.Add(x));
                     return;
                 }
-                var filteredRecords = Tickets.Where(x => x.PuTNo.ToString().Contains(SearchText)).ToList();
+                var filteredRecords = Tickets.Where(x => x.PuTNo.ToString().Contains(SearchText) ||
+                                                    (x.CustomerName != null && x.CustomerName.ToLower().Contains(SearchText)) ||
+                                                    (x.OrderNumberT != null && x.OrderNumberT.ToLower().Contains(SearchText))).ToList();
 
                 Recent.Clear();
                 filteredRecords.ForEach(x => Recent.Add(x));

@@ -23,7 +23,7 @@ namespace FocalPoint.Modules.Dispatching.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(searchText.Text);
+            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(searchText.Text.ToLower());
         }
         protected override void OnDisappearing()
         {
@@ -51,7 +51,7 @@ namespace FocalPoint.Modules.Dispatching.Views
         private void Search_TextChanged(object sender, EventArgs e)
         {
             var enteredText = (sender as TextEdit).Text;
-            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(enteredText);
+            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(enteredText.ToLower());
         }
         private void Search_TextCleared(object sender, EventArgs e)
         {
