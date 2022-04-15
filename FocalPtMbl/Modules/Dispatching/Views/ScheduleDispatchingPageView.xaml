@@ -2,7 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.Dispatching.Views.ScheduleDispatchingPageView"
-            Title="Dispatcherrrr"
+            Title="Dispatching"
              Style="{StaticResource TabbedPageStyle}">
     <ContentPage Title="">
         

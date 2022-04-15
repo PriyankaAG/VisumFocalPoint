@@ -22,8 +22,6 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             InitializeComponent();
 
-            WidthRequest = 100;
-
             ProcessData(vm);
 
         }
@@ -44,7 +42,6 @@ namespace FocalPoint.Modules.Dispatching.Views
                 this.Title = _vm.Truck.TruckID;
                 listView.ItemsSource = _vm.Dispatches;
             }
-            //this.IconImageSource = "Order_return_32.png";
         }
         protected override void OnAppearing()
         {

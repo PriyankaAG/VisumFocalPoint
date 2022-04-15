@@ -10,11 +10,15 @@ using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
     public class EditExistingOrdersViewModel : ThemeBaseViewModel
     {
+        public ICommand SearchTextCommand { get; }
+        public string TextToSearch { get; set; }
+
         ObservableCollection<Order> openOrders = new ObservableCollection<Order>();
         private ObservableCollection<Order> OpenOrders_Original = new ObservableCollection<Order>();
         public ObservableCollection<Order> OpenOrders
@@ -268,6 +272,23 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
+            SearchTextCommand = new Command<string>(async textToSearch => await Search(textToSearch));
+        }
+        private async Task Search(string textToSearch)
+        {
+            try
+            {
+                Indicator = true; 
+                //Need to figure out how to send 2 parameters, one for text second for orderType
+                GetSearchedOrdersInfo(textToSearch, 1, true);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+            }
         }
 
         HttpClient clientHttp;
@@ -309,5 +330,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 }
             }
         }
+
     }
 }
