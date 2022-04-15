@@ -92,7 +92,6 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                 Refresh();
             }
         }
-
         public decimal Damaged
         {
             get => selectedDetail.PuDtlDmgdQty;
@@ -147,14 +146,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         internal void Refresh()
         {
-            //OnPropertyChanged("Image");
             OnPropertyChanged(nameof(SelectedDetail));
             OnPropertyChanged(nameof(Totals));
         }
-
         internal void UpdateTicket(bool isSuccess)
         {
-            //MessagingCenter.Send(this, "ItemDetails", SelectedDetail);
             MessagingCenter.Send(this, "ItemDetails", new Tuple<PickupTicketItem, bool>(SelectedDetail, isSuccess));
         }
         #endregion

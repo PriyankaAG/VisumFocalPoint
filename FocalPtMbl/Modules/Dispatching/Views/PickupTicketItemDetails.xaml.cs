@@ -34,7 +34,6 @@ namespace FocalPoint.Modules.Dispatching.Views
         void SetForEntry(bool focused)
         {
             ((PickupTicketItemDetailsViewModel)this.BindingContext).Refresh();
-
             //LastCountGrid.IsVisible = !focused;
         }
 
@@ -59,27 +58,20 @@ namespace FocalPoint.Modules.Dispatching.Views
                 case null:
                     break;
             }
-            /*var result = await CheckPopupValues(vm.SelectedDetail);
-            if (!result)
-            {
-                vm.SelectedDetail = viewModel.OriginalPickupItem;
-                await Navigation.PopAsync();
-                return;
-            }*/
             try
             {
                 viewModel.Indicator = true;
-                var countRes = await viewModel.PickupTicketItemCount();
-                if (!countRes)
+                var isSuccess = await viewModel.PickupTicketItemCount();
+                if (isSuccess)
                 {
-                    await DisplayAlert("FocalPoint", "Item Counted by Another, last Counts Reloaded", "Ok");
-                    vm.SelectedDetail = viewModel.OriginalPickupItem;
                     await Navigation.PopAsync();
-                    viewModel.UpdateTicket(false);
+                    viewModel.UpdateTicket(true);
+                }
+                else
+                {
+                    await DisplayAlert("FocalPoint", "There was an error updating the Pickup Ticket Item.", "Ok");
                     return;
                 }
-                await Navigation.PopAsync();
-                viewModel.UpdateTicket(true);
             }
             catch (Exception ex)
             {

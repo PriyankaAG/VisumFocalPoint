@@ -17,6 +17,7 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
         PickupTicketViewModel viewModel;
         bool _continue = true;
         bool _refresh = true;
+        bool _refreshing = false;
 
         public PickupTicketDetailPage()
         {
@@ -29,7 +30,7 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
             if (_refresh)
             {
                 await RefreshTicket(true);
-                if(!viewModel.IsSelectPickupItemVisible)
+                if (!viewModel.IsSelectPickupItemVisible)
                 {
                     Device.StartTimer(TimeSpan.FromSeconds(30), () =>
                     {
@@ -41,44 +42,43 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
             else
                 _refresh = true;
 
-            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
-            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
-            {
-                await ItemDetailsCallback(details);
-            });
-
-            MessagingCenter.Unsubscribe<PickupDetailMobileSelect, bool>(this, "MobileTicket");
-            MessagingCenter.Subscribe<PickupDetailMobileSelect, bool>(this, "MobileTicket", async (sender, isSuccess) =>
-            {
-                if(isSuccess)
-                {
-                    await RefreshTicket(true);
-                }
-            });
+            SubscribeEvents();
         }
-
-        private async Task ItemDetailsCallback(Tuple<PickupTicketItem, bool> details)
-        {
-            viewModel.SelectedItem = details.Item1;
-            if (details.Item2)
-            {
-                await CheckPopupValues();
-                var updatedItem = await viewModel.UpdateItem(details.Item1);
-                viewModel.SelectedItemChecked(updatedItem, true, true);
-                //await viewModel.UpdateItem();
-            }
-            else
-                viewModel.SelectedItemChecked(viewModel.SelectedItem, false, true);
-        }
-
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             _continue = false;
         }
+        private void SubscribeEvents()
+        {
+            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
+            MessagingCenter.Unsubscribe<PickupDetailMobileSelect, bool>(this, "MobileTicket");
 
-        bool _refreshing = false;
+            MessagingCenter.Subscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails", async (sender, details) =>
+            {
+                await ItemDetailsCallback(details);
+            });
 
+            MessagingCenter.Subscribe<PickupDetailMobileSelect, bool>(this, "MobileTicket", async (sender, isSuccess) =>
+            {
+                if (isSuccess)
+                    await RefreshTicket(true);
+            });
+        }
+        private async Task ItemDetailsCallback(Tuple<PickupTicketItem, bool> details)
+        {
+            MessagingCenter.Unsubscribe<PickupTicketItemDetailsViewModel, Tuple<PickupTicketItem, bool>>(this, "ItemDetails");
+            viewModel.SelectedItem = details.Item1;
+            if (details.Item2)
+            {
+                await CheckPopupValues();
+                var updatedItem = await viewModel.GetUpdatedItem(details.Item1);
+                if (updatedItem != null)
+                    viewModel.UpdateSelectedItem(updatedItem, true);
+            }
+            else
+                viewModel.UpdateSelectedItem(viewModel.SelectedItem, false);
+        }
         async Task RefreshTicket(bool progress = false)
         {
             if (_refreshing)
@@ -110,7 +110,6 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
 
             }
         }
-
         private void ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
@@ -122,13 +121,12 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
         {
             var parent = (Grid)sender;
             viewModel.SelectedItem = (PickupTicketItem)parent.BindingContext;
-            viewModel.SelectedItem = await viewModel.UpdateItem(viewModel.SelectedItem);
+            viewModel.SelectedItem = await viewModel.GetUpdatedItem(viewModel.SelectedItem);
             await Navigation.PushAsync(new PickupTicketItemDetails(viewModel.SelectedItem));
         }
         async protected void CheckBoxTapped(object sender, EventArgs args)
         {
-            var imageSender = (Image)sender;
-            var parent = (Grid)imageSender.Parent;
+            var parent = (Grid)((Image)sender).Parent;
             viewModel.SelectedItem = (PickupTicketItem)parent.BindingContext;
 
             bool isChecked;
@@ -140,13 +138,11 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
                 if (!isSuccess)
                     return;
             }
-            viewModel.SelectedItemChecked(viewModel.SelectedItem,isChecked);
             try
             {
                 viewModel.Indicator = true;
-                bool update = await viewModel.PickupTicketItemCount(viewModel.SelectedItem);
-                viewModel.SelectedItem = await viewModel.UpdateItem(viewModel.SelectedItem);
-                if (!update)
+                bool update = await viewModel.GetPickupTicketItemCount(isChecked);
+                if (update == false)
                 {
                     await DisplayAlert("FocalPoint", isChecked ? "Item Counted by Another, Counts Reloaded." :
                         "Item Counted by Another, Last Counts Reloaded.", "OK");
@@ -161,7 +157,6 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
                 viewModel.Indicator = false;
             }
         }
-
         async Task<bool> CheckPopupValues()
         {
             List<string> popUpCount = viewModel.GetPopUpCount();
@@ -176,7 +171,6 @@ namespace FocalPoint.Modules.Dispatching.PickupTicketTabs
             }
             return true;
         }
-
         private async void MobilePickupClick(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new PickupDetailMobileSelect(viewModel.Ticket));
