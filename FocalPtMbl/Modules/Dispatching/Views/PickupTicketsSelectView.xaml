@@ -13,7 +13,7 @@
     </ContentPage.BindingContext>
     <Grid>
     <StackLayout>
-        <dxe:TextEdit LabelText="Search" PlaceholderText="Ticket Search" ClearIconClicked="TextEdit_Cleared" Completed="TextEdit_Completed" Text="" Margin="10,0"></dxe:TextEdit>
+            <dxe:TextEdit x:Name="searchText" LabelText="Search" PlaceholderText="Ticket Search" ClearIconClicked="Search_TextCleared" TextChanged="Search_TextChanged" Text="" Margin="10,0"></dxe:TextEdit>
         <dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Recent}"
                            SelectedItem="{Binding SelectedTicket}"
