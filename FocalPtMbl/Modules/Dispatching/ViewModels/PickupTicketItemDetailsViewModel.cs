@@ -136,9 +136,9 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         #endregion
 
         #region Methods
-        internal bool IsAccountedEqualToPickedUp()
+        internal bool? IsCountedGreaterThanToBeCounted()
         {
-            return Totals == ToBePickedUp;
+            return Totals > ToBePickedUp ? true : Totals < ToBePickedUp ? false : (bool?)null;
         }
         internal Task<bool> PickupTicketItemCount()
         {
@@ -146,14 +146,11 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         }
         internal void Refresh()
         {
-            //OnPropertyChanged("Image");
             OnPropertyChanged(nameof(SelectedDetail));
             OnPropertyChanged(nameof(Totals));
         }
-
         internal void UpdateTicket(bool isSuccess)
         {
-            //MessagingCenter.Send(this, "ItemDetails", SelectedDetail);
             MessagingCenter.Send(this, "ItemDetails", new Tuple<PickupTicketItem, bool>(SelectedDetail, isSuccess));
         }
         #endregion

@@ -97,6 +97,9 @@ namespace Visum.Services.Mobile.Entities
         [DataMember]
         public string ImageName { get; set; }
 
+        [IgnoreDataMember]
+        public decimal TotalCounted { get; set; }
+
         [IgnoreDataMember()]
         public bool Checked { get; set; }
 

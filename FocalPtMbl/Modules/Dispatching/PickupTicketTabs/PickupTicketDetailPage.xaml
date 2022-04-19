@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <ScrollView>
             <Grid>
-                <StackLayout>
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
                     <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
 
                     <Label Text="Mobile Pickup - Click Here to Select Items to Pickup" IsVisible="{Binding IsSelectPickupItemVisible}" HorizontalOptions="CenterAndExpand" VerticalOptions="FillAndExpand" >
@@ -47,7 +47,7 @@
                                         </Label>
                                         <Label Text="{Binding PuDtlQty, StringFormat='Qty: {0}'}" Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
                                         </Label>
-                                        <Label Text="{Binding PuDtlCntQty, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
+                                        <Label Text="{Binding TotalCounted, StringFormat='Counted: {0}'}" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="End" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" >
                                         </Label>
                                         <Image Source="{Binding ImageName}" Margin="0, 5, 0, 0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3">
                                             <Image.VerticalOptions>
@@ -66,9 +66,8 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
                 </StackLayout>
-                <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
-                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
             </Grid>
         </ScrollView>
     </ContentPage.Content>

@@ -34,7 +34,6 @@ namespace FocalPoint.Modules.Dispatching.Views
         void SetForEntry(bool focused)
         {
             ((PickupTicketItemDetailsViewModel)this.BindingContext).Refresh();
-
             //LastCountGrid.IsVisible = !focused;
         }
 
@@ -43,32 +42,36 @@ namespace FocalPoint.Modules.Dispatching.Views
 
             var vm = (PickupTicketItemDetailsViewModel)this.BindingContext;
             vm.SelectedDetail.UTCCountDte = DateTime.UtcNow;
-            if (!vm.IsAccountedEqualToPickedUp())
+            var countedResult = vm.IsCountedGreaterThanToBeCounted();
+            switch (countedResult)
             {
-                await DisplayAlert("FocalPoint", "Picked up must be equal to Accounted For", "Ok");
-                return;
+                case true:
+                    await DisplayAlert("FocalPoint", "Line is over counted, please adjust your counts", "Ok");
+                    return;
+                case false:
+                    var isConfirm = await DisplayAlert("FocalPoint", "Line is under counted, do  you want to mark the remaining still out?", "Yes", "No");
+                    if (isConfirm)
+                    {
+                        vm.StillOut = vm.ToBePickedUp - vm.Totals;
+                    }
+                    break;
+                case null:
+                    break;
             }
-            /*var result = await CheckPopupValues(vm.SelectedDetail);
-            if (!result)
-            {
-                vm.SelectedDetail = viewModel.OriginalPickupItem;
-                await Navigation.PopAsync();
-                return;
-            }*/
             try
             {
                 viewModel.Indicator = true;
-                var countRes = await viewModel.PickupTicketItemCount();
-                if (!countRes)
+                var isSuccess = await viewModel.PickupTicketItemCount();
+                if (isSuccess)
                 {
-                    await DisplayAlert("FocalPoint", "Item Counted by Another, last Counts Reloaded", "Ok");
-                    vm.SelectedDetail = viewModel.OriginalPickupItem;
                     await Navigation.PopAsync();
-                    viewModel.UpdateTicket(false);
+                    viewModel.UpdateTicket(true);
+                }
+                else
+                {
+                    await DisplayAlert("FocalPoint", "There was an error updating the Pickup Ticket Item.", "Ok");
                     return;
                 }
-                await Navigation.PopAsync();
-                viewModel.UpdateTicket(true);
             }
             catch (Exception ex)
             {
