@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              x:Class="FocalPoint.Modules.FrontCounter.Views.EditExistingOrdersView"
-            xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.EditExistingOrdersView"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:behaviors="clr-namespace:FocalPoint.Behaviors"
              HeaderPanelPosition="Top"
              IsSelectedItemIndicatorVisible="True"
              SelectedItemHeaderTextColor="OrangeRed"
@@ -40,11 +41,11 @@
                     <StackLayout>
                         <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" ClearIconClicked="TextEdit_Cleared" Text="{Binding TextToSearch}" Margin="10,0">
                             <dxe:TextEdit.Behaviors>
-                                <xct:EventToCommandBehavior
+                                <behaviors:EventToCommandBehavior
                                     EventName="Unfocused"
                                     Command="{Binding SearchTextCommand}"
                                     CommandParameter="{Binding TextToSearch}"/>
-                                <xct:EventToCommandBehavior
+                                <behaviors:EventToCommandBehavior
                                     EventName="Completed"
                                     Command="{Binding SearchTextCommand}"
                                     CommandParameter="{Binding TextToSearch}"/>
