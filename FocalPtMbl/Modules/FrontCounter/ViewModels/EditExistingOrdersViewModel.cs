@@ -16,8 +16,12 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
     public class EditExistingOrdersViewModel : ThemeBaseViewModel
     {
-        public ICommand SearchTextCommand { get; }
-        public string TextToSearch { get; set; }
+        public ICommand SearchCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public string OrderToSearch { get; set; }
+        public string ReservationToSearch { get; set; }
+        public string QuotesToSearch { get; set; }
 
         ObservableCollection<Order> openOrders = new ObservableCollection<Order>();
         private ObservableCollection<Order> OpenOrders_Original = new ObservableCollection<Order>();
@@ -272,22 +276,55 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
-            SearchTextCommand = new Command<string>(async textToSearch => await Search(textToSearch));
+            SearchCommand = new Command<string>((a) => Search(a));
+            ClearCommand = new Command<string>((a) => Clear(a));
         }
-        private async Task Search(string textToSearch)
+        private void Clear(string ordType)
         {
-            try
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+
+            switch (orderType)
             {
-                Indicator = true; 
-                //Need to figure out how to send 2 parameters, one for text second for orderType
-                GetSearchedOrdersInfo(textToSearch, 1, true);
+                case 1:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
             }
-            catch (Exception exception)
+
+        }
+        private void Search(string ordType)
+        {
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+            switch (orderType)
             {
-                //TODO: Log Error
-            }
-            finally
-            {
+                case 1:
+                    GetSearchedOrdersInfo(OrderToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
+                    Indicator = false;
+                    break;
             }
         }
 

@@ -10,8 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Behaviors\**" />
 		<Compile Remove="Modules\Common\ViewModel\**" />
+		<EmbeddedResource Remove="Behaviors\**" />
 		<EmbeddedResource Remove="Modules\Common\ViewModel\**" />
+		<None Remove="Behaviors\**" />
 		<None Remove="Modules\Common\ViewModel\**" />
 	</ItemGroup>
 
