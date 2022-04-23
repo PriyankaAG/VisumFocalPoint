@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
@@ -8,7 +7,6 @@ using System.Text;
 using System.Windows.Input;
 using DevExpress.XamarinForms.DataForm;
 using FocalPoint.Data;
-using FocalPoint.Data.API;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -16,7 +14,6 @@ using Newtonsoft.Json;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -228,45 +225,33 @@ namespace FocalPoint.MainMenu.ViewModels
                     {
                         //string content = response.Content.ReadAsStringAsync().Result;
                         var response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
-                        var content2 = response.Content.ReadAsStringAsync().Result.ToString();
-                        var token = JsonConvert.DeserializeObject<Guid>(content2).ToString();
-                        //token = "30284c8c-c03c-4c0b-834e-4bb1fdd5f151";
-                        if (token == "00000000-0000-0000-0000-000000000000")
+                        if (response.IsSuccessStatusCode)
                         {
-                            //invalid token
-                            return 3;
+                            var content2 = response.Content.ReadAsStringAsync().Result.ToString();
+                            var token = JsonConvert.DeserializeObject<Guid>(content2);
+                            //token = "30284c8c-c03c-4c0b-834e-4bb1fdd5f151";
+                            if (token == Guid.Empty)
+                            {
+                                return 3;
+                            }
+                            else
+                            {
+                                CurToken = token.ToString();
+                                return 5;
+                            }
                         }
                         else
-                        {
-                            CurToken = token;
-                            return 5;
-                        }
-
-                        //}
-                        //else 86400000ms DNS query, check to see if on same network and use local instead of public connection. 
-                        //{
-                        //    //invalid version
-                        //    return 2;
-                        //    //  await App.Current.MainPage.DisplayAlert("Version Incompatibale with Server", "OK");
-                        //}
-                         ;//JsonSerializer.Deserialize<List<TodoItem>>(content, serializerOptions);
+                            return -1;
                     }
-                    /*else
-                    {
-                        //invalid connection
-                        return 1;
-                    }*/
                 }
-                //placeholder
-                return 1;
+                return -1;
             }
             catch (Exception ex)
             {
                 //await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                 Console.WriteLine(ex.Message);
-                return 0;
+                return -1;
             }
-            //viewModel.ValidationResultText = $"Login {Login} is correct";
         }
 
         internal string GetTerminalFromArray(string loginTerminal)
@@ -316,8 +301,7 @@ namespace FocalPoint.MainMenu.ViewModels
             // if store was selected but no terminal remove the headder and readd the new one
             if (ClientHTTP.DefaultRequestHeaders.Contains("StoreNo"))
                 ClientHTTP.DefaultRequestHeaders.Remove("StoreNo");
-            if (!ClientHTTP.DefaultRequestHeaders.Contains("StoreNo"))
-                ClientHTTP.DefaultRequestHeaders.Add("StoreNo", StoreLoginNo);
+            ClientHTTP.DefaultRequestHeaders.Add("StoreNo", StoreLoginNo);
 
             string baseURL = this.Model.ConnectionURL + ":" + this.Model.ConnectionPort;
             if (!baseURL.Contains("https://"))
@@ -341,7 +325,7 @@ namespace FocalPoint.MainMenu.ViewModels
             return CurrentTerminals.ToArray();
         }
 
-        internal bool CheckLicenses(DataFormView dataForm)
+        internal int CheckLicenses()
         {
             string baseURL = this.Model.ConnectionURL + ":" + this.Model.ConnectionPort;
             if (!baseURL.Contains("https://"))
@@ -351,56 +335,38 @@ namespace FocalPoint.MainMenu.ViewModels
             string FingerPrint = getFingerPrint();
             short Type = GetDeviceType();
             string Phone = "";
-            //      var stringContent3 = new StringContent(
-            //JsonConvert.SerializeObject(new { FingerPrint, Type, Username, Phone }),
-            //Encoding.UTF8,
-            //"application/json");
-            var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
 
-            //FingerPrint = getFingerPrint();
-            //Type = GetDeviceType();
-            //Phone = getPhone();
-            ////add headers to client AMG popup which store and terminal to connect to
-            /*if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                ClientHTTP.DefaultRequestHeaders.Remove("Token");
-            if (!ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);*/
+            var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
             if (ClientHTTP.DefaultRequestHeaders.Contains("User"))
                 ClientHTTP.DefaultRequestHeaders.Remove("User");
-            if (!ClientHTTP.DefaultRequestHeaders.Contains("User"))
-                ClientHTTP.DefaultRequestHeaders.Add("User", CurToken);
+            ClientHTTP.DefaultRequestHeaders.Add("User", CurToken);
 
-            var response = ClientHTTP.PostAsync(uri3, stringContent3).GetAwaiter().GetResult();
-
-            var content = response.Content.ReadAsStringAsync().Result.ToString();
-            var token = JsonConvert.DeserializeObject<Guid>(content).ToString();
-            if (token == "00000000-0000-0000-0000-000000000000")
+            try
             {
-                return false;
+                var response = ClientHTTP.PostAsync(uri3, stringContent3).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content.ReadAsStringAsync().Result.ToString();
+                    var token = JsonConvert.DeserializeObject<Guid>(content);
+                    if (token == Guid.Empty)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
+                            ClientHTTP.DefaultRequestHeaders.Remove("Token");
+                        ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
+                        return 1;
+                    }
+                }
+                return -1;
             }
-            else
+            catch (Exception ex)
             {
-                if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                    ClientHTTP.DefaultRequestHeaders.Remove("Token");
-                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
-                return true;
+                Console.WriteLine(ex.Message);
+                return -1;
             }
-            /*if (response.IsSuccessStatusCode)
-            {
-                // string content3 = response.Content.ReadAsStringAsync().Result;
-                // var conLimit = JsonConvert.DeserializeObject<bool>(content3);
-                //if (conLimit == false)
-                // {
-
-                return true;
-            }
-            else
-            {
-                //invalid users
-                return false;
-            }*/
-            return false;
-
         }
         internal bool LoginSecurity()
         {
