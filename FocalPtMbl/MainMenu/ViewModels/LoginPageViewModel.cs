@@ -223,18 +223,14 @@ namespace FocalPoint.MainMenu.ViewModels
                                           "application/json");
 
                     //var response =  viewModel.ClientHTTP.PostAsync(uri, stringContent).Result;
-                    var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-                    if (response.IsSuccessStatusCode)
+                    //var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                    //if (response.IsSuccessStatusCode)
                     {
-                        //"{\"APIHighVersion\":1,\"APILowVersion\":1,\"FocalPtVersion\":{\"_Build\":3,\"_Major\":2,\"_Minor\":55,\"_Revision\":-1},\"LocalIP\":\"172.24.64.1\"}"
-                        string content = response.Content.ReadAsStringAsync().Result;
-                        //var compatible = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.CompatibleResults>(content); //JsonSerializer.Deserialize<List<CompatibleResults>>(content);
-                        //if (compatible.APIHighVersion <= 3 && compatible.APILowVersion >= 1)
-                        //{
-                        response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
+                        //string content = response.Content.ReadAsStringAsync().Result;
+                        var response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
                         var content2 = response.Content.ReadAsStringAsync().Result.ToString();
                         var token = JsonConvert.DeserializeObject<Guid>(content2).ToString();
-                        //token = "35cb7e13-526d-401b-9295-0a5f16c0dee2";
+                        //token = "30284c8c-c03c-4c0b-834e-4bb1fdd5f151";
                         if (token == "00000000-0000-0000-0000-000000000000")
                         {
                             //invalid token
@@ -255,11 +251,11 @@ namespace FocalPoint.MainMenu.ViewModels
                         //}
                          ;//JsonSerializer.Deserialize<List<TodoItem>>(content, serializerOptions);
                     }
-                    else
+                    /*else
                     {
                         //invalid connection
                         return 1;
-                    }
+                    }*/
                 }
                 //placeholder
                 return 1;
@@ -351,26 +347,45 @@ namespace FocalPoint.MainMenu.ViewModels
             if (!baseURL.Contains("https://"))
                 baseURL = "https://" + baseURL;
             Uri uri3 = new Uri(string.Format(baseURL + "/Mobile/V1/ConnectionLimit"));
-            string Username = this.Model.Login;
+            //string Username = this.Model.Login;
             string FingerPrint = getFingerPrint();
             short Type = GetDeviceType();
             string Phone = "";
-            var stringContent3 = new StringContent(
-      JsonConvert.SerializeObject(new { FingerPrint, Type, Username, Phone }),
-      Encoding.UTF8,
-      "application/json");
+            //      var stringContent3 = new StringContent(
+            //JsonConvert.SerializeObject(new { FingerPrint, Type, Username, Phone }),
+            //Encoding.UTF8,
+            //"application/json");
+            var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
 
-            FingerPrint = getFingerPrint();
-            Type = GetDeviceType();
-            Phone = getPhone();
-            //add headers to client AMG popup which store and terminal to connect to
-            if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
+            //FingerPrint = getFingerPrint();
+            //Type = GetDeviceType();
+            //Phone = getPhone();
+            ////add headers to client AMG popup which store and terminal to connect to
+            /*if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
                 ClientHTTP.DefaultRequestHeaders.Remove("Token");
             if (!ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
+                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);*/
+            if (ClientHTTP.DefaultRequestHeaders.Contains("User"))
+                ClientHTTP.DefaultRequestHeaders.Remove("User");
+            if (!ClientHTTP.DefaultRequestHeaders.Contains("User"))
+                ClientHTTP.DefaultRequestHeaders.Add("User", CurToken);
 
             var response = ClientHTTP.PostAsync(uri3, stringContent3).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+
+            var content = response.Content.ReadAsStringAsync().Result.ToString();
+            var token = JsonConvert.DeserializeObject<Guid>(content).ToString();
+            if (token == "00000000-0000-0000-0000-000000000000")
+            {
+                return false;
+            }
+            else
+            {
+                if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
+                    ClientHTTP.DefaultRequestHeaders.Remove("Token");
+                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
+                return true;
+            }
+            /*if (response.IsSuccessStatusCode)
             {
                 // string content3 = response.Content.ReadAsStringAsync().Result;
                 // var conLimit = JsonConvert.DeserializeObject<bool>(content3);
@@ -383,7 +398,7 @@ namespace FocalPoint.MainMenu.ViewModels
             {
                 //invalid users
                 return false;
-            }
+            }*/
             return false;
 
         }
@@ -427,7 +442,8 @@ namespace FocalPoint.MainMenu.ViewModels
                 httpClientCache.Store = StoreLoginNo;
                 httpClientCache.Terminal = TerminalNo;
                 httpClientCache.Token = CurToken;
-                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, CurToken, ClientHTTP);
+                httpClientCache.User = CurToken;
+                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, CurToken, CurToken, ClientHTTP);
                 this.clientHttp = httpClientCache.GetHttpClientAsync();
                 return true;
             }

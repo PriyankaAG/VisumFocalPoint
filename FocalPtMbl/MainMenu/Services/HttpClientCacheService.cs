@@ -61,12 +61,13 @@ namespace FocalPoint.MainMenu.Services
         /// Gets or set the Token to use when making HTTP Clients
         /// </summary>
         public string Token { get; set; }
+        public string User { get; set; }
 
-        public void AddClient(string baseURL,  string store, string terminal, string token,HttpClient client)
+        public void AddClient(string baseURL,  string store, string terminal, string token, string user, HttpClient client)
         {
            lock(this.sync)
             {
-                var config = new HttpConfig(baseURL, store, terminal, token);
+                var config = new HttpConfig(baseURL, store, terminal, token, user);
                 mClients.Add(config.UniqueKey, new Tuple<HttpConfig, HttpClient>(config, client));
                 this.mClientSequence.Add(config);
             }
@@ -107,7 +108,8 @@ namespace FocalPoint.MainMenu.Services
                     this.BaseUrl,
                     this.Store,
                     this.Terminal,
-                    this.Token));
+                    this.Token,
+                    this.User));
         }
         public HttpClient GetHttpClientAsync(HttpConfig config)
         {
@@ -136,6 +138,7 @@ namespace FocalPoint.MainMenu.Services
                     httpClient.DefaultRequestHeaders.Add("Token", config.Token);
                     httpClient.DefaultRequestHeaders.Add("StoreNo", config.Store);
                     httpClient.DefaultRequestHeaders.Add("TerminalNo", config.Terminal);
+                    httpClient.DefaultRequestHeaders.Add("User", config.User);
 
                     mClients[config.UniqueKey] = new Tuple<HttpConfig, HttpClient>(config, httpClient);
                     mClientSequence.Add(config);
