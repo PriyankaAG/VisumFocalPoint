@@ -23,6 +23,9 @@ namespace FocalPoint.Data.DataModel
         [MaxLength(35), Column("UserToken")]
         public string UserToken { get; set; }
 
+        [MaxLength(35), Column("User")]
+        public string User { get; set; }
+
         [Column("HomeStore")]
         public int HomeStore { get; set; }
 

@@ -4,8 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DevExpress.XamarinForms.DataForm;
+using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
 using FocalPoint.Data;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.Utils;
@@ -65,6 +68,7 @@ namespace FocalPoint.MainMenu.ViewModels
         public ISettingsComponent SettingsComponent;
 
         public LoginInfo Model { get; set; }
+        public ILoginComponent LoginComponent { get; set; }
 
         public LoginPageViewModel()
         {
@@ -73,6 +77,7 @@ namespace FocalPoint.MainMenu.ViewModels
             //secureClientHttp = new HttpClient();
             buttonCommand = new ValidationCommand(this);
             SettingsComponent = new SettingsComponent();
+            LoginComponent = new LoginComponent();
             CheckForSettings();
         }
         /// <summary>
@@ -179,19 +184,20 @@ namespace FocalPoint.MainMenu.ViewModels
                 }
             }
         }
-        private string curToken = "";
-        public string CurToken
+        private string user = "";
+        public string User
         {
-            get { return curToken; }
+            get { return user; }
             set
             {
-                if (curToken != value)
+                if (user != value)
                 {
-                    curToken = value;
-                    OnPropertyChanged("CurToken");
+                    user = value;
+                    OnPropertyChanged(nameof(User));
                 }
             }
         }
+        public string Token { get; set; }
         public int AttemptLogin(DataFormView dataForm)
         {
             try
@@ -219,6 +225,7 @@ namespace FocalPoint.MainMenu.ViewModels
                                           Encoding.UTF8,
                                           "application/json");
 
+                    //var token1 = LoginComponent.UserLogin(uri2.ToString(),JsonConvert.SerializeObject(new { Username, Password }));
                     //var response =  viewModel.ClientHTTP.PostAsync(uri, stringContent).Result;
                     //var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
                     //if (response.IsSuccessStatusCode)
@@ -236,7 +243,7 @@ namespace FocalPoint.MainMenu.ViewModels
                             }
                             else
                             {
-                                CurToken = token.ToString();
+                                User = token.ToString();
                                 return 5;
                             }
                         }
@@ -339,7 +346,7 @@ namespace FocalPoint.MainMenu.ViewModels
             var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
             if (ClientHTTP.DefaultRequestHeaders.Contains("User"))
                 ClientHTTP.DefaultRequestHeaders.Remove("User");
-            ClientHTTP.DefaultRequestHeaders.Add("User", CurToken);
+            ClientHTTP.DefaultRequestHeaders.Add("User", User);
 
             try
             {
@@ -354,9 +361,10 @@ namespace FocalPoint.MainMenu.ViewModels
                     }
                     else
                     {
+                        Token = token.ToString();
                         if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
                             ClientHTTP.DefaultRequestHeaders.Remove("Token");
-                        ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
+                        ClientHTTP.DefaultRequestHeaders.Add("Token", Token);
                         return 1;
                     }
                 }
@@ -399,17 +407,18 @@ namespace FocalPoint.MainMenu.ViewModels
                 DataManager.Settings.ApiUri = baseURL + "/Mobile/V1/";
                 DataManager.Settings.HomeStore = int.Parse(StoreLoginNo);
                 DataManager.Settings.Terminal = int.Parse(TerminalNo);
-                DataManager.Settings.UserToken = CurToken;
+                DataManager.Settings.UserToken = Token;
+                DataManager.Settings.User = User;
                 // NEEDS SQLite_Android.cs Implementation  DataManager.SaveSettings();
                 DataManager.SaveSettings();
 
-                var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
+                var httpClientCache = DependencyService.Resolve<IHttpClientCacheService>();
                 httpClientCache.BaseUrl = (baseURL + "/Mobile/V1/");
                 httpClientCache.Store = StoreLoginNo;
                 httpClientCache.Terminal = TerminalNo;
-                httpClientCache.Token = CurToken;
-                httpClientCache.User = CurToken;
-                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, CurToken, CurToken, ClientHTTP);
+                httpClientCache.Token = Token;
+                httpClientCache.User = User;
+                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, Token, User, ClientHTTP);
                 this.clientHttp = httpClientCache.GetHttpClientAsync();
                 return true;
             }

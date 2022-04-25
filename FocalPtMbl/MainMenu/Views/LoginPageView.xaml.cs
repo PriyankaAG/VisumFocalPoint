@@ -192,11 +192,9 @@ namespace FocalPoint.MainMenu.Views
                 if (UpdateValid == 5)
                 {
                     int checkLicence = ((LoginPageViewModel)this.BindingContext).CheckLicenses();
-                    if (checkLicence == 1) 
-                    {
+                    if (checkLicence == 1)
                         await ProcessLogin();
-                    }
-                    else if(checkLicence == 0)
+                    else if (checkLicence == 0)
                         await Application.Current.MainPage.DisplayAlert("Number of users", "There are not enough licenses for the amount of mobile licenses active", "OK");
                     else
                         await Application.Current.MainPage.DisplayAlert("Focal Point", "Something went wrong. Please try again.", "OK");
@@ -229,7 +227,7 @@ namespace FocalPoint.MainMenu.Views
                 }*/
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await DisplayAlert("Focal Point", "Something went wrong. Please try again.", "OK");
             }

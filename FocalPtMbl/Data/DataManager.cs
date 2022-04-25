@@ -228,7 +228,7 @@ namespace FocalPoint.Data
             httpClientCache.Store = Settings.HomeStore.ToString();
             httpClientCache.Terminal = Settings.Terminal.ToString();
             httpClientCache.Token = Settings.UserToken;
-            httpClientCache.User = Settings.UserToken;
+            httpClientCache.User = Settings.User;
         }
 
         public static void LoadHttpClientCache()
@@ -239,7 +239,7 @@ namespace FocalPoint.Data
             httpClientCache.Store = Settings.HomeStore.ToString();
             httpClientCache.Terminal = Settings.Terminal.ToString();
             httpClientCache.Token = Settings.UserToken;
-            httpClientCache.User = Settings.UserToken;
+            httpClientCache.User = Settings.User;
 
         }
 
