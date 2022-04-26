@@ -7,11 +7,12 @@ using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.Views;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
 
 
 namespace FocalPtMbl
@@ -25,7 +26,7 @@ namespace FocalPtMbl
         public DataManager Database;
         public App()
         {
-            
+
             //ioc
             //Ioc.RegisterServices();
             DependencyService.RegisterSingleton<ICrypt>(new Crypt());
@@ -78,18 +79,17 @@ namespace FocalPtMbl
                 DevExpress.XamarinForms.Editors.Initializer.Init();
                 DevExpress.XamarinForms.Navigation.Initializer.Init();
                 InitializeComponent();
-                ThemeLoader.Instance.LoadTheme();                
-                if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken))
+                ThemeLoader.Instance.LoadTheme();
+                if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
                 {
                     LoadMainPage();
                 }
                 else
                 {
-                    
                     basePage.Navigation.PushModalAsync(new LoginPageView());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -108,6 +108,50 @@ namespace FocalPtMbl
             ThemeLoader.Instance.LoadTheme();
         }
 
+        internal bool IsLicensesValid()
+        {
+            string FingerPrint = DependencyService.Resolve<IDeviceInfo>().DeviceId;
+            short Type = Utils.GetDeviceType();
+            string Phone = "";
+
+            var httpClientCache = DependencyService.Resolve<IHttpClientCacheService>();
+            var clientHttp = httpClientCache.GetHttpClientAsync();
+            var uri = DataManager.Settings.ApiUri + "ConnectionLimit";
+
+            if (clientHttp.DefaultRequestHeaders.Contains("User"))
+                clientHttp.DefaultRequestHeaders.Remove("User");
+            clientHttp.DefaultRequestHeaders.Add("User", DataManager.Settings.User);
+
+            if (clientHttp.DefaultRequestHeaders.Contains("Token"))
+                clientHttp.DefaultRequestHeaders.Remove("Token");
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
+                var response = clientHttp.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content.ReadAsStringAsync().Result.ToString();
+                    var token = JsonConvert.DeserializeObject<Guid>(content);
+                    if (token == Guid.Empty)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        var Token = token.ToString();
+                        clientHttp.DefaultRequestHeaders.Add("Token", Token);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
         //public async void ProcessNotificationIfNeed(Guid reminderId, int recurrenceIndex)
         //{
         //    if (reminderId == Guid.Empty)
@@ -116,7 +160,7 @@ namespace FocalPtMbl
         //    RemindersDemo remindersDemo = (openedPages.Any() ? openedPages.Last() : await this.navigationService.PushPage(SchedulerData.GetItem(typeof(RemindersDemo)))) as RemindersDemo;
         //    remindersDemo?.OpenAppointmentEditForm(reminderId, recurrenceIndex);
         //}
-        protected override async void OnStart()
+        protected override void OnStart()
         {
             base.OnStart();
             bool lightTheme = true;//await DependencyService.Get<IEnvironment>().IsLightOperatingSystemTheme();
@@ -127,7 +171,7 @@ namespace FocalPtMbl
         {
         }
 
-        protected override async void OnResume()
+        protected override void OnResume()
         {
             base.OnResume();
             //if (!this.themeIsSetting)

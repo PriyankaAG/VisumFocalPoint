@@ -213,7 +213,7 @@ namespace FocalPoint.MainMenu.ViewModels
                     string Password = this.Model.Password; //"+Eg/bz+kAL5rp1moMUdS7B5o1MQZPNxbvi3bdu05huI=";
                     Password = DependencyService.Get<ICrypt>().Encrypt("VISLLc0404", Password);
 
-                    Uri uri = new Uri(string.Format(baseURL + "/Mobile/Compatible"));
+                    //Uri uri = new Uri(string.Format(baseURL + "/Mobile/Compatible"));
                     Uri uri2 = new Uri(string.Format(baseURL + "/Mobile/Login"));
                     var stringContent = new StringContent(
                                                           JsonConvert.SerializeObject(3.0),
@@ -340,7 +340,7 @@ namespace FocalPoint.MainMenu.ViewModels
             Uri uri3 = new Uri(string.Format(baseURL + "/Mobile/V1/ConnectionLimit"));
             //string Username = this.Model.Login;
             string FingerPrint = getFingerPrint();
-            short Type = GetDeviceType();
+            short Type = Utils.Utils.GetDeviceType();
             string Phone = "";
 
             var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
@@ -457,28 +457,6 @@ namespace FocalPoint.MainMenu.ViewModels
                 return "";
             }
             return "";
-        }
-
-        private short GetDeviceType()
-        {
-            var idiom = DeviceInfo.Idiom;
-            if (idiom == DeviceIdiom.Phone)
-            {
-                return 1;
-            }
-            else if (idiom == DeviceIdiom.Tablet)
-            {
-                return 3;
-            }
-            else if (idiom == DeviceIdiom.Desktop)
-            {
-                return 5;
-            }
-            else if (idiom == DeviceIdiom.Unknown)
-            {
-                return 7;
-            }
-            return 7;
         }
 
         private string getFingerPrint()

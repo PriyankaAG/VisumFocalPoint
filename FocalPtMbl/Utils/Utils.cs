@@ -161,5 +161,27 @@ namespace FocalPoint.Utils
                 throw;
             }
         }
+
+        public static short GetDeviceType()
+        {
+            var idiom = DeviceInfo.Idiom;
+            if (idiom == DeviceIdiom.Phone)
+            {
+                return 1;
+            }
+            else if (idiom == DeviceIdiom.Tablet)
+            {
+                return 3;
+            }
+            else if (idiom == DeviceIdiom.Desktop)
+            {
+                return 5;
+            }
+            else if (idiom == DeviceIdiom.Unknown)
+            {
+                return 7;
+            }
+            return 7;
+        }
     }
 }
