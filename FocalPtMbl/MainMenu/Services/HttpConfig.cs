@@ -12,6 +12,7 @@ namespace FocalPoint.MainMenu.Services
         readonly string store;
         readonly string terminal;
         readonly string uniqueKey;
+        readonly string user;
 
         // BaseUrl, Timeout, Headers, Auth info, etc
         //int Timeout = 1000;
@@ -19,14 +20,15 @@ namespace FocalPoint.MainMenu.Services
         //string headerextra2 = string.Empty;
         //string headerextra3 = string.Empty;
 
-        public HttpConfig(string baseUrl, string store, string terminal, string token)
+        public HttpConfig(string baseUrl, string store, string terminal, string token, string user)
         {
             this.baseUrl = baseUrl;
             this.store = store;
             this.terminal = terminal;
             this.token = token;
+            this.user = user;
 
-            this.uniqueKey = $"{this.baseUrl}\\{this.store}\\{this.terminal}\\{this.token}";
+            this.uniqueKey = $"{this.baseUrl}\\{this.store}\\{this.terminal}\\{this.token}\\{this.user}";
         }
 
         /// <summary>
@@ -44,5 +46,7 @@ namespace FocalPoint.MainMenu.Services
         public string Store => store;
 
         public string Terminal => terminal;
+     
+        public string User => user;
     }
 }

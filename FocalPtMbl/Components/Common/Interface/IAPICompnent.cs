@@ -12,6 +12,7 @@ namespace FocalPoint
         Task<T> PostAsync<T>(string url, string requestContent);
 
         Task<HttpResponseMessage> PostAsync(string url, string requestConentString);
-        
+
+        Task<T> SendAsync<T>(string url, string requestConentString, bool isLoginMethod);
     }
 }

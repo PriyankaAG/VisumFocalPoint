@@ -9,6 +9,7 @@ using Xamarin.Forms.Xaml;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.MainMenu.Views;
 using Xamarin.Essentials;
+using FocalPtMbl.MainMenu.ViewModels;
 
 namespace FocalPtMbl.MainMenu.Views
 {
@@ -36,10 +37,8 @@ namespace FocalPtMbl.MainMenu.Views
             bool loggedOut = await App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");
             if (loggedOut)
             {
-
+                ((AboutPageViewModel)this.BindingContext).Logoff();
                 await Navigation.PushModalAsync(new LoginPageView());
-
-                // await Navigation.PushModalAsync(new SplashPage());
             }
         }
         private async void Settings_Clicked(object sender, EventArgs e)

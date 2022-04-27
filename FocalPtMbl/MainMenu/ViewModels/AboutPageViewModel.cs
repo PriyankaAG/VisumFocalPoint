@@ -1,4 +1,6 @@
-﻿using FocalPoint.Utils;
+﻿using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
+using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
@@ -23,12 +25,15 @@ namespace FocalPtMbl.MainMenu.ViewModels
         public string CompanyPhone = "(763)244-8050";
         public ICommand OpenWebCommand { get; }
 
+        public ILoginComponent LoginComponent { get; set; }
+
         public AboutPageViewModel(IOpenUriService openService)
         {
             InitVersion();
             OpenWebCommand = new DelegateCommand<String>((p) => openService.Open(p));
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
+            LoginComponent = new LoginComponent();
         }
         void InitVersion()
         {
@@ -56,6 +61,7 @@ namespace FocalPtMbl.MainMenu.ViewModels
         }
 
         #endregion OpenPhoneDialer
+
         #region OpenEmailApplication
 
         public ICommand OpenEmailApplicationCommand { get; }
@@ -76,5 +82,16 @@ namespace FocalPtMbl.MainMenu.ViewModels
         }
 
         #endregion OpenEmailApplication
+
+        internal async void Logoff()
+        {
+            try
+            {
+                bool isLoggedOut = await LoginComponent.Logoff();
+            }
+            catch 
+            { 
+            }
+        }
     }
 }
