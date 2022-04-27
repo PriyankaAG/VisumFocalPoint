@@ -42,8 +42,6 @@ namespace FocalPoint.Modules.Dispatching.Views
                 this.Title = _vm.Truck.TruckID;
                 listView.ItemsSource = _vm.Dispatches;
             }
-
-            this.IconImageSource = "dot.png";
         }
         protected override void OnAppearing()
         {

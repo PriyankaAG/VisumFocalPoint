@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              x:Class="FocalPoint.Modules.FrontCounter.Views.EditExistingOrdersView"
-            xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.EditExistingOrdersView"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              HeaderPanelPosition="Top"
              IsSelectedItemIndicatorVisible="True"
              SelectedItemHeaderTextColor="OrangeRed"
@@ -37,7 +38,18 @@
             <ContentPage Title="Open Orders" Icon="Order.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" TextChanged="Search_TextChanged"></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" Text="{Binding OrderToSearch}" Margin="10,0">
+                            <dxe:TextEdit.Behaviors>
+                                <xct:EventToCommandBehavior
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="1"
+                                    EventName="Unfocused" />
+                                <xct:EventToCommandBehavior
+                                    Command="{Binding ClearCommand}"
+                                    CommandParameter="1"
+                                    EventName="ClearIconClicked" />
+                            </dxe:TextEdit.Behaviors>
+                        </dxe:TextEdit>
 
                         <dxcv:DXCollectionView x:Name="collectionView" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                            ItemsSource="{Binding OpenOrders}"
@@ -121,7 +133,18 @@
             <ContentPage Title="Reservations" Icon="Order_Resv.png"  BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Margin="10,0"  TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" Text="{Binding ReservationToSearch}" Margin="10,0" >
+                            <dxe:TextEdit.Behaviors>
+                                <xct:EventToCommandBehavior
+                                    EventName="Unfocused"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="2"/>
+                                <xct:EventToCommandBehavior
+                                    Command="{Binding ClearCommand}"
+                                    CommandParameter="2"
+                                    EventName="ClearIconClicked" />
+                            </dxe:TextEdit.Behaviors>
+                        </dxe:TextEdit>
 
                         <dxcv:DXCollectionView x:Name="collectionView2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
                            ItemsSource="{Binding OpenReserv}"
@@ -204,7 +227,18 @@
             <ContentPage Title="Quotes" Icon="Order_Quote.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <Grid>
                     <StackLayout>
-                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared"  Margin="10,0" TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" Text="{Binding QuotesToSearch}" Margin="10,0">
+                            <dxe:TextEdit.Behaviors>
+                                <xct:EventToCommandBehavior
+                                    EventName="Unfocused"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="3"/>
+                                <xct:EventToCommandBehavior
+                                    Command="{Binding ClearCommand}"
+                                    CommandParameter="3"
+                                    EventName="ClearIconClicked" />
+                            </dxe:TextEdit.Behaviors>
+                        </dxe:TextEdit>
 
 
                         <dxcv:DXCollectionView x:Name="collectionView3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"

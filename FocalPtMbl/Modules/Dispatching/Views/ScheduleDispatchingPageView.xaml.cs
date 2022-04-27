@@ -21,14 +21,14 @@ namespace FocalPoint.Modules.Dispatching.Views
         {
             InitializeComponent();
             this.BindingContext = _vm;
+            ((DispatchesPageViewModel)this.BindingContext).Indicator = true;
+
+            LoadData();
 
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            ((DispatchesPageViewModel)this.BindingContext).Indicator = true;
-
-            LoadData();
 
         }
 

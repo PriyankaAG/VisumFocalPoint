@@ -10,8 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Behaviors\**" />
 		<Compile Remove="Modules\Common\ViewModel\**" />
+		<EmbeddedResource Remove="Behaviors\**" />
 		<EmbeddedResource Remove="Modules\Common\ViewModel\**" />
+		<None Remove="Behaviors\**" />
 		<None Remove="Modules\Common\ViewModel\**" />
 	</ItemGroup>
 
@@ -26,6 +29,7 @@
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
 		<PackageReference Include="Xamarin.Controls.SignaturePad.Forms" Version="3.0.0" />
 		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
 		<PackageReference Include="Xamarin.Essentials" Version="1.7.1" />

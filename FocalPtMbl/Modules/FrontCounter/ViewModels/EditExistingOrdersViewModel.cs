@@ -10,11 +10,19 @@ using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
     public class EditExistingOrdersViewModel : ThemeBaseViewModel
     {
+        public ICommand SearchCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public string OrderToSearch { get; set; }
+        public string ReservationToSearch { get; set; }
+        public string QuotesToSearch { get; set; }
+
         ObservableCollection<Order> openOrders = new ObservableCollection<Order>();
         private ObservableCollection<Order> OpenOrders_Original = new ObservableCollection<Order>();
         public ObservableCollection<Order> OpenOrders
@@ -268,6 +276,56 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
+            SearchCommand = new Command<string>((a) => Search(a));
+            ClearCommand = new Command<string>((a) => Clear(a));
+        }
+        private void Clear(string ordType)
+        {
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+
+            switch (orderType)
+            {
+                case 1:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+            }
+
+        }
+        private void Search(string ordType)
+        {
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+            switch (orderType)
+            {
+                case 1:
+                    GetSearchedOrdersInfo(OrderToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+            }
         }
 
         HttpClient clientHttp;
@@ -309,5 +367,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 }
             }
         }
+
     }
 }
