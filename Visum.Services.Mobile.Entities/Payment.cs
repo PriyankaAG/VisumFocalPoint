@@ -33,7 +33,7 @@ namespace Visum.Services.Mobile.Entities
         public bool PaymentVoid { get; set; }
 
         [DataMember]
-        public string PaymentSource { get; set; }
+        public short PaymentSource { get; set; }
 
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)
