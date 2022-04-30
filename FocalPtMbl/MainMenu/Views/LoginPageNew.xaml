@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views" x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#a2dae7" Offset="0.1" />
+            <GradientStop Color="#71ceff" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <ContentPage.Resources>
+        
+        <ResourceDictionary>
+            <Style x:Key="ButtonStyle1" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#fff17b" />
+                <Setter Property="FontSize" Value="Default" />
+                <Setter Property="TextColor" Value="#000" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <BoxView HeightRequest="50" />
+            <Image HorizontalOptions="Center" WidthRequest="300" Source="logo.png" />
+            <Label HorizontalOptions="Center" Text="Rental software solution for your day-to-day operations" />
+
+            <StackLayout Margin="30,60,30,0" VerticalOptions="Start">
+                <controls:CustomEditor Image="ic_cloud_list_24dp.xml" PlaceHolder="Host Name" Margin="0,5" />
+                <controls:CustomEditor Image="ic_person_black_24dp.xml" PlaceHolder="Port Number" Margin="0,5" />
+                <controls:CustomEditor Image="ic_person_black_24dp.xml" PlaceHolder="UserName" Margin="0,5" />
+                <controls:CustomEditor Image="ic_lock_24dp.xml" PlaceHolder="Password" IsPassword="true" Margin="0,5" />
+                <RadioButton Content="Keep me signed in" IsChecked="False" />
+                <Button Text="Login" Margin="0,20,0,0" BackgroundColor="#fff17b" FontSize="Default" TextColor="#000" HeightRequest="40" Style="{StaticResource ButtonStyle1}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

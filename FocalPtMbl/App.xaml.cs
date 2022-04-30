@@ -60,7 +60,6 @@ namespace FocalPtMbl
             //set URI strings here if dev https://stackoverflow.com/questions/8732307/does-xaml-have-a-conditional-compiler-directive-for-debug-mode
             //DataManager.Settings.ApiUri = "https://visumaaron-local.fpsdns.com:56883/Mobile/V1/";
 
-
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
@@ -86,7 +85,8 @@ namespace FocalPtMbl
                 }
                 else
                 {
-                    basePage.Navigation.PushModalAsync(new LoginPageView());
+                    //basePage.Navigation.PushModalAsync(new LoginPageView());
+                    basePage.Navigation.PushModalAsync(new LoginPageNew());
                 }
             }
             catch (Exception ex)

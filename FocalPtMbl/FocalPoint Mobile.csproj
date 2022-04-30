@@ -40,6 +40,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="MainMenu\Controls\CustomEditor.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</EmbeddedResource>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers" x:Name="customEntryView" 
+             x:Class="FocalPoint.MainMenu.Views.CustomEditor">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin">
+                    <Setter.Value>
+                        <OnPlatform Android="0" iOS="10" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ImageStyle" TargetType="Image">
+                <Setter Property="HeightRequest">
+                    <Setter.Value>
+                        <OnIdiom Phone="30" Tablet="35" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="WidthRequest">
+                    <Setter.Value>
+                        <OnIdiom Phone="30" Tablet="35" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="End" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Frame x:Name="frameView" Padding="10,0" CornerRadius="5">
+            <!--<Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="frameViewTapped" />
+            </Frame.GestureRecognizers>-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="90*" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="imagePropertyName" Grid.Row="0" Grid.Column="0" Source="{Binding Image, Source={x:Reference customEntryView}}"
+                       />
+                <customrenderers:CustomEntry x:Name="entryPropertyValue" Grid.Row="0" Text="{Binding CustomTextValue, Source={x:Reference customEntryView}}" 
+                       Grid.Column="1" Style="{StaticResource EntryStyle}"
+                       Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" IsPassword="{Binding IsPassword, Source={x:Reference customEntryView}}" />
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>
