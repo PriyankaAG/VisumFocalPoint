@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Windows.Input;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace FocalPoint.MainMenu.Views
@@ -26,8 +27,8 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(CustomTextValue), typeof(string), typeof(CustomEditor), default(string), BindingMode.TwoWay);
-        public string CustomTextValue
+        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomEditor), default(string), BindingMode.TwoWay);
+        public string Text
         {
             get
             {
@@ -68,9 +69,37 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
+        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(CustomEditor), Keyboard.Default, BindingMode.TwoWay);
+        public Keyboard Keyboard
+        {
+            get
+            {
+                return (Keyboard)GetValue(KeyboardProperty);
+            }
+
+            set
+            {
+                SetValue(KeyboardProperty, value);
+            }
+        }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(CustomEditor), null, BindingMode.TwoWay);
+        public ICommand Command
+        {
+            get
+            {
+                return (ICommand)GetValue(CommandProperty);
+            }
+
+            set
+            {
+                SetValue(CommandProperty, value);
+            }
+        }
+
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            CustomTextValue = e.NewTextValue;
+            Text = e.NewTextValue;
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -85,6 +114,11 @@ namespace FocalPoint.MainMenu.Views
             {
                 entry.Text = Text;
             }*/
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //entryPropertyValue?.TextChanged.Invoke(entry, e);
         }
     }
 }
