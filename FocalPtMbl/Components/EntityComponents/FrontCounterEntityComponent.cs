@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Components.Interface;
 using System;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Components.EntityComponents
 {
@@ -15,18 +16,18 @@ namespace FocalPoint.Components.EntityComponents
             apiComponent = new APIComponent();
         }
 
-        public Task<> GetDashboardDetails(DateTime searchDate)
+        public async Task<OrderDashboard> GetDashboardDetails(DateTime searchDate)
         {
-            Guid result;
+            OrderDashboard orderDashboardDetail;
             try
             {
-                result = await apiComponent.GetAsync<Guid>(string.Format(url, searchDate));
+                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, searchDate));
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return result;
+            return orderDashboardDetail;
         }
     }
 }
