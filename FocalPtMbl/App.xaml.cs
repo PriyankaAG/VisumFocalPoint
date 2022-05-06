@@ -79,7 +79,8 @@ namespace FocalPtMbl
                 DevExpress.XamarinForms.Navigation.Initializer.Init();
                 InitializeComponent();
                 ThemeLoader.Instance.LoadTheme();
-                if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
+                //if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
+                if (DataManager.Settings.IsSignedIn && IsLicensesValid())
                 {
                     LoadMainPage();
                 }

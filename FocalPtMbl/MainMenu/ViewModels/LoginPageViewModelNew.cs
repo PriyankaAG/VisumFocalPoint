@@ -143,6 +143,17 @@ namespace FocalPoint.MainMenu.ViewModels
                 OnPropertyChanged(nameof(UserPassword));
             }
         }
+
+        private bool _isSignedIn;
+        public bool IsSignedIn 
+        {
+            get { return _isSignedIn; }
+            set 
+            {
+                _isSignedIn = value;
+                OnPropertyChanged(nameof(IsSignedIn));
+            }
+        }
         #endregion
 
         #region Commands
@@ -382,6 +393,7 @@ namespace FocalPoint.MainMenu.ViewModels
                 DataManager.Settings.Terminal = int.Parse(TerminalNo);
                 DataManager.Settings.UserToken = Token;
                 DataManager.Settings.User = User;
+                DataManager.Settings.IsSignedIn = IsSignedIn;
                 // NEEDS SQLite_Android.cs Implementation  DataManager.SaveSettings();
                 DataManager.SaveSettings();
 

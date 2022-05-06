@@ -28,6 +28,7 @@ namespace FocalPoint.MainMenu.Views
             navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
             activityIndicator = new ActivityIndicator { IsRunning = false };
         }
+
         protected override bool OnBackButtonPressed()
         {
             return false;

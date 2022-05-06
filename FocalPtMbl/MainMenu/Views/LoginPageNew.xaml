@@ -1,10 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views" 
-             xmlns:viewModel="clr-namespace:FocalPoint.MainMenu.ViewModels" 
-             xmlns:behaviors="clr-namespace:FocalPoint.MainMenu.Behaviors" 
-             xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views" xmlns:viewModel="clr-namespace:FocalPoint.MainMenu.ViewModels" xmlns:behaviors="clr-namespace:FocalPoint.MainMenu.Behaviors" xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
     <ContentPage.BindingContext>
         <viewModel:LoginPageViewModelNew />
     </ContentPage.BindingContext>
@@ -32,8 +27,7 @@
                     <Label HorizontalOptions="Center" Text="Rental software solution for your day-to-day operations" />
                 </StackLayout >
                 <StackLayout Grid.Row="1" Margin="30,60,30,60">
-                    <controls:CustomEditor x:Name="HostName" Image="ic_cloud_list_24dp.xml" Text="{Binding HostName.Value}" Padding="2" 
-                                           PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}">
+                    <controls:CustomEditor x:Name="HostName" Image="ic_cloud_list_24dp.xml" Text="{Binding HostName.Value}" Padding="2" PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}">
                         <controls:CustomEditor.Triggers>
                             <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding HostName.IsValid}" Value="False">
                                 <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
@@ -69,7 +63,11 @@
                     </controls:CustomEditor>
                     <Label Text="{Binding UserPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserPassword.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
 
-                    <RadioButton x:Name="SignedInRadioButton" Content="Keep me signed in" IsChecked="False" />
+                    <!--<RadioButton x:Name="SignedInRadioButton" Content="Keep me signed in" IsChecked="True" />-->
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="IsSignedInCheckbox" IsChecked="{Binding IsSignedIn}" HorizontalOptions="Start" VerticalOptions="Center" Margin="0" />
+                        <Label Text="Keep me signed in" FontSize="Medium" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    </StackLayout>
                     <Button Text="Login" Margin="0,20,0,0" BackgroundColor="#fff17b" FontSize="Default" TextColor="#000" HeightRequest="40" Clicked="LoginButton_Clicked" />
                 </StackLayout>
             </Grid>
