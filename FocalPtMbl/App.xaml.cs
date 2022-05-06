@@ -82,14 +82,14 @@ namespace FocalPtMbl
                 InitializeComponent();
                 ThemeLoader.Instance.LoadTheme();
                 //if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
-                if (DataManager.Settings.IsSignedIn && IsLicensesValid())
+                if (DataManager.Settings?.IsSignedIn ?? false && IsLicensesValid())
                 {
                     LoadMainPage();
                 }
                 else
                 {
                     //basePage.Navigation.PushModalAsync(new LoginPageView());
-                    basePage.Navigation.PushModalAsync(new LoginPageNew());
+                    MainPage.Navigation.PushModalAsync(new LoginPageNew());
                 }
             }
             catch (Exception ex)
