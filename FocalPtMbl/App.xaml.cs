@@ -1,4 +1,5 @@
 ﻿using DevExpress.XamarinForms.Core.Themes;
+using FocalPoint;
 using FocalPoint.Data;
 using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
@@ -63,15 +64,16 @@ namespace FocalPtMbl
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
-            MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            //MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
+            //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+            //BasePage basePage = new BasePage();
+            //basePage.MainContent.BindingContext = mainPageViewModel;
+            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
             try
             {
-                MainPage = basePage;
-                this.navigationService.SetNavigator(basePage.NavPage);
+                FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+                MainPage = frontCounterDashboard;
+                //this.navigationService.SetNavigator(basePage.NavPage);
                 DevExpress.XamarinForms.CollectionView.Initializer.Init();
                 DevExpress.XamarinForms.DataForm.Initializer.Init();
                 DevExpress.XamarinForms.DataGrid.Initializer.Init(); //
@@ -99,13 +101,14 @@ namespace FocalPtMbl
         private void LoadMainPage()
         {
             DataManager.LoadHttpClientCache();
-            MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
+            //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
             AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
             BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
-            Xamarin.Forms.Application.Current.MainPage = basePage;
-            this.navigationService.SetNavigator(basePage.NavPage);
+            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+            //basePage.MainContent.BindingContext = mainPageViewModel;
+            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            Xamarin.Forms.Application.Current.MainPage = frontCounterDashboard;
+            //this.navigationService.SetNavigator(basePage.NavPage);
             ThemeLoader.Instance.LoadTheme();
         }
 

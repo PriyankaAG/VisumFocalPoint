@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 
@@ -86,6 +87,9 @@ namespace Visum.Services.Mobile.Entities
 
         [DataMember]
         public string ShipToPhone { get; set; }
+
+        [DataMember]
+        public List<DispatchDtl> OriginDtls { get; set; } = new List<DispatchDtl>();
 
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)

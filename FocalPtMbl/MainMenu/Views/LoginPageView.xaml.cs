@@ -279,12 +279,13 @@ namespace FocalPoint.MainMenu.Views
                 {
                     //goto main page
                     MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-                    AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                    BasePage basePage = new BasePage();
-                    basePage.MainContent.BindingContext = mainPageViewModel;
-                    basePage.DrawerContent.BindingContext = aboutPageViewModel;
-                    Application.Current.MainPage = basePage;
-                    this.navigationService.SetNavigator(basePage.NavPage);
+                    //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+                    //BasePage basePage = new BasePage();
+                    //basePage.MainContent.BindingContext = mainPageViewModel;
+                    //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+                    FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+                    Application.Current.MainPage = frontCounterDashboard;
+                    //this.navigationService.SetNavigator(basePage.NavPage);
                     ThemeLoader.Instance.LoadTheme();
                     //end loading
                     activityIndicator.IsRunning = false;

@@ -88,6 +88,9 @@
 		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterDashboard.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -123,6 +126,9 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Themes\Dimensions.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
 
