@@ -283,10 +283,10 @@ namespace FocalPoint.MainMenu.Views
                     //BasePage basePage = new BasePage();
                     //basePage.MainContent.BindingContext = mainPageViewModel;
                     //basePage.DrawerContent.BindingContext = aboutPageViewModel;
-                    FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
-                    await frontCounterDashboardViewModel.GetDashboardDetail();
+                    //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+                    //await frontCounterDashboardViewModel.GetDashboardDetail();
                     FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
-                    frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+                   // frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
                     Application.Current.MainPage = frontCounterDashboard;
                     //this.navigationService.SetNavigator(basePage.NavPage);
                     ThemeLoader.Instance.LoadTheme();

@@ -113,10 +113,10 @@ namespace FocalPtMbl
 
         public FrontCounterDashboard GetFrontCounterDashboard()
         {
-            FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
-            frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+            //frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
             FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
-            frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+            //frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
             return frontCounterDashboard;
         }
 
