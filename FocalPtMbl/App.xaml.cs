@@ -4,6 +4,7 @@ using FocalPoint.Data;
 using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -71,8 +72,7 @@ namespace FocalPtMbl
             //basePage.DrawerContent.BindingContext = aboutPageViewModel;
             try
             {
-                FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
-                MainPage = frontCounterDashboard;
+                MainPage = GetFrontCounterDashboard();
                 //this.navigationService.SetNavigator(basePage.NavPage);
                 DevExpress.XamarinForms.CollectionView.Initializer.Init();
                 DevExpress.XamarinForms.DataForm.Initializer.Init();
@@ -104,12 +104,20 @@ namespace FocalPtMbl
             //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
             AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
             BasePage basePage = new BasePage();
-            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
             //basePage.MainContent.BindingContext = mainPageViewModel;
             //basePage.DrawerContent.BindingContext = aboutPageViewModel;
-            Xamarin.Forms.Application.Current.MainPage = frontCounterDashboard;
+            Xamarin.Forms.Application.Current.MainPage = GetFrontCounterDashboard();
             //this.navigationService.SetNavigator(basePage.NavPage);
             ThemeLoader.Instance.LoadTheme();
+        }
+
+        public FrontCounterDashboard GetFrontCounterDashboard()
+        {
+            FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+            frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+            frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+            return frontCounterDashboard;
         }
 
         internal bool IsLicensesValid()
