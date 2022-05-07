@@ -6,7 +6,6 @@
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
              xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" 
              x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
     <ContentPage.BindingContext>
         <viewModel:LoginPageViewModelNew />
