@@ -185,7 +185,13 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
     </Style>
-
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#fff17b" />
+        <Setter Property="CornerRadius" Value="2" />
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="TextColor" Value="{StaticResource LabelDefaultColor}" />
+        <Setter Property="HeightRequest" Value="40" />
+    </Style>
 
     <!--<Style TargetType="dxc:ChartView">
         <Setter Property="Theme" Value="Light"/>

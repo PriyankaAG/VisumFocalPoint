@@ -25,6 +25,7 @@
 		<PackageReference Include="DevExpress.XamarinForms.Editors" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.Grid" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.Navigation" Version="20.2.6" />
+		<PackageReference Include="IntelliAbb.Xamarin.Controls" Version="1.0.148" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
