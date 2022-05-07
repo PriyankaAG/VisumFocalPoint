@@ -27,12 +27,6 @@ namespace FocalPoint.MainMenu.Views
             navigationService = new NavigationService();
             navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
             activityIndicator = new ActivityIndicator { IsRunning = false };
-            //IsSignedInCheckbox.CheckedChanged += IsSignedInCheckbox_CheckedChanged1;
-        }
-
-        private void IsSignedInCheckbox_CheckedChanged1(object sender, CheckedChangedEventArgs e)
-        {
-            viewModel.IsSignedIn = !viewModel.IsSignedIn;
         }
 
         protected override bool OnBackButtonPressed()
@@ -148,14 +142,9 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private void IsSignedInCheckbox_IsCheckedChanged(object sender, TappedEventArgs e)
         {
             viewModel.IsSignedIn = !viewModel.IsSignedIn;
-        }
-
-        private void IsSignedInCheckbox_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
-
         }
     }
 }

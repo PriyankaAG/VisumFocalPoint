@@ -6,6 +6,7 @@
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
              xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" 
              x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
     <ContentPage.BindingContext>
         <viewModel:LoginPageViewModelNew />
@@ -18,12 +19,12 @@
     </ContentPage.Background>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
-            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <styles:LightTheme />
                 <styles:DarkTheme />
             </ResourceDictionary.MergedDictionaries>
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>

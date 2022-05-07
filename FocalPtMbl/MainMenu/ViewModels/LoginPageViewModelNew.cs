@@ -144,16 +144,7 @@ namespace FocalPoint.MainMenu.ViewModels
             }
         }
 
-        private bool _isSignedIn;
-        public bool IsSignedIn 
-        {
-            get { return _isSignedIn; }
-            set 
-            {
-                _isSignedIn = value;
-                OnPropertyChanged(nameof(IsSignedIn));
-            }
-        }
+        public bool IsSignedIn { get; set; }
         #endregion
 
         #region Commands
