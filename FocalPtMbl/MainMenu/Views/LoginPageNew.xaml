@@ -88,11 +88,8 @@
                         <Label Text="{Binding UserPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserPassword.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Grid.Row="4">
-                        <CheckBox x:Name="IsSignedInCheckbox" CheckedChanged="IsSignedInCheckbox_CheckedChanged" IsChecked="{Binding IsSignedIn}" VerticalOptions="Center" Margin="0">
-                            <!--<CheckBox.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
-                            </CheckBox.GestureRecognizers>-->
-                        </CheckBox>
+                        <ia:Checkbox x:Name="IsSignedInCheckbox" OutlineColor="#fff17b" FillColor="#fff17b" CheckColor="#fff17b" Shape="Circle" IsCheckedChanged="IsSignedInCheckbox_IsCheckedChanged" />
+
                         <Label Text="Keep me signed in" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
                     </StackLayout>
                     <Button Text="Login" Grid.Row="5" Style="{DynamicResource PrimaryButton}" BackgroundColor="#fff17b" Clicked="LoginButton_Clicked" Margin="0,10,0,10"/>
