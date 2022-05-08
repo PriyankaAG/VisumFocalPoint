@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderPaymentsSelectView"
+              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxg="http://schemas.devexpress.com/xamarin/2014/forms/datagrid"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderPaymentsSelectViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="130"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <BoxView Margin="0,0,0,0" Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{DynamicResource MainPageBackgroundColor}" HeightRequest="5"/>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="36" TextColor="Black" FontAttributes="Bold" Text="Balance Due "/>
+            <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" FontSize="36" TextColor="Black" FontAttributes="Bold" Text="$0.00 "/>
+            <dxe:SimpleButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+            <dxe:SimpleButton Grid.Row="2" Grid.Column="2" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Card On File " Clicked="SimpleButton_Clicked"/>
+            <dxe:SimpleButton Grid.Row="2" Grid.Column="3" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="eCheck On File" Clicked="SimpleButton_Clicked" />
+
+
+
+            <dxe:ComboBoxEdit Grid.Row="3" Grid.ColumnSpan="4" LabelText="PaymentType" ItemsSource="{Binding CurrentPaymentTypes}"
+                          SelectionChanged="ComboBoxEdit_SelectionChanged">
+            </dxe:ComboBoxEdit>
+            <dxcv:DXCollectionView x:Name="collectionView"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime"
+                           Tap="collectionView_Tap"
+                                   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+                                   Orientation="Horizontal">
+                <!--Define the item template.-->
+
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="96"/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="44"/>
+                            </Grid.RowDefinitions>
+                            <!--<StackLayout Grid.Column="0" 
+                             Padding="18,1,18,7"
+                             Orientation="Vertical">-->
+
+                            <Image Grid.Row="0" Grid.Column="0"  Source="{Binding ImageName}"
+                           Margin="0,2"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding PaymentName}"
+                           Margin="0,2,0,0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                           TextColor="#3A3A3A"/>
+                            <!--<Label Grid.Row="2" Grid.Column="0" FontAttributes="Bold" Text="Payment ID:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PaymentID}"
+                               TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="0" FontAttributes="Bold" Text="Payment Kind:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PaymentKind}"
+                               Margin="0,2,0,0"
+                               TextColor="#3A3A3A" />-->
+                            <BoxView Margin="0,0,0,0" Grid.Column="1" Grid.RowSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5" WidthRequest="5"/>
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+
+                <!--Specify margins.-->
+                <dxcv:DXCollectionView.Margin>
+                    <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                </dxcv:DXCollectionView.Margin>
+            </dxcv:DXCollectionView>
+
+            <dxcv:DXCollectionView x:Name="collectionView2"
+                           ItemsSource="{Binding Recent}"
+                           IndicatorColor="Lime"
+                           Tap="collectionView_Tap"
+                                   Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
+                                   Orientation="Vertical">
+                <!--Define the item template.-->
+
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="10"/>
+                            </Grid.RowDefinitions>
+                            <!--<StackLayout Grid.Column="0" 
+                             Padding="18,1,18,7"
+                             Orientation="Vertical">-->
+
+                            <Image Grid.Row="0" Grid.Column="0"  Source="{Binding ImageName}"
+                           Margin="0,2"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding PaymentName}"
+                           Margin="0,2,0,0"
+                           TextColor="#3A3A3A" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                            <!--<Label Grid.Row="2" Grid.Column="0" FontAttributes="Bold" Text="Payment ID:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PaymentID}"
+                               TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="0" FontAttributes="Bold" Text="Payment Kind:"
+                           Margin="0,2"
+                           TextColor="#3A3A3A"/>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PaymentKind}"
+                               Margin="0,2,0,0"
+                               TextColor="#3A3A3A" />-->
+                            <BoxView Margin="0,0,0,0" Grid.Row="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"  HeightRequest="5" WidthRequest="5"/>
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+
+                <!--Define the group header template.-->
+                <dxcv:DXCollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="2, 0, 18, 10">
+                            <Label FontFamily="Roboto-Medium"
+                       Margin="0,20,0,1"
+                       TextColor="#55575c"
+                       Text="{Binding Value}"/>
+                            <BoxView BackgroundColor="Black" 
+                         HeightRequest="1"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.GroupHeaderTemplate>
+
+                <!--Specify margins.-->
+                <dxcv:DXCollectionView.Margin>
+                    <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
+                </dxcv:DXCollectionView.Margin>
+            </dxcv:DXCollectionView>
+            <!--<dxe:TextEdit IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Payment" IsVisible="{Binding isSugPaymentVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Prefix="$" Keyboard="Numeric" LabelText="Payment" IsVisible="{Binding isPaymentVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Deposit" IsVisible="{Binding isSugDepositVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Prefix="$" Keyboard="Numeric" LabelText="Deposit" IsVisible="{Binding isDepositVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Suggested Security" IsVisible="{Binding isSecurityVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Prefix="$" Keyboard="Numeric" LabelText="Total Received" IsVisible="{Binding isTotalReceivedVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Total Amount" IsVisible="{Binding isTotalAmtVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit Prefix="$" Keyboard="Numeric" LabelText="Change Due" IsVisible="{Binding isChangeDueVisible}" TextChanged="TextEdit_TextChanged" />
+            <dxe:TextEdit IsReadOnly="True" Prefix="$" Keyboard="Numeric" LabelText="Amount To Receive" IsVisible="{Binding isAmountToReceiveVisible}" TextChanged="TextEdit_TextChanged" />-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

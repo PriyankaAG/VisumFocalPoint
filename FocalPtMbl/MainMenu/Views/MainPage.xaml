@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPtMbl.MainMenu.Views.MainPage"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:FocalPoint="clr-namespace:FocalPtMbl" 
+             xmlns:FocalPointCTRL="clr-namespace:FocalPtMbl.MainMenu.Controls" 
+             xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Core" 
+             xmlns:views="clr-namespace:FocalPtMbl.MainMenu.Views" 
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" 
+             ios:Page.UseSafeArea="true"
+             x:Name="mainPage" 
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.Resources >
+        <ResourceDictionary>
+            <DataTemplate x:Key="headerTemplate">
+                <StackLayout
+                        Margin="0,0,0,0"
+                        BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                    <!--<Label
+                            Text="{Binding Title}"
+                            FontSize="Medium"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            HeightRequest="5"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            BackgroundColor="{DynamicResource BackgroundThemeColor}"/-->
+                    <BoxView Color="{DynamicResource MainPageBackgroundColor}"
+                                    HeightRequest="20" /> 
+                </StackLayout>
+            </DataTemplate>
+            <DataTemplate x:Key="itemTemplate">
+                <Frame
+                        Padding="10,0,10,10"
+                        HasShadow="False"
+                        BorderColor="{DynamicResource MainPageBackgroundColor}"
+                        CornerRadius="0"
+                        BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                    <AbsoluteLayout
+                            BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                            HeightRequest="160"
+                            Padding="0,0,0,0">
+                        <Label
+                                AbsoluteLayout.LayoutBounds="15,10"
+                                HeightRequest="27"
+                                Text="{Binding Title}"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                TextColor="{DynamicResource TextThemeColor}"
+                                FontSize="20"
+                                BackgroundColor="Transparent"/>
+                        <dxe:SimpleButton
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                AbsoluteLayout.LayoutBounds="0.957,0.146"
+                                Text="MORE"
+                                TextColor="Blue"
+                                FontSize="16"
+                                HeightRequest="22"
+                                WidthRequest="54"
+                                Padding="0"
+                                Command="{Binding BindingContext.NavigationControlCommand, Source={Reference mainPage}}"
+                                CommandParameter="{Binding Module}"
+                                BackgroundColor="Transparent"/>
+                        <dxcv:DXCollectionView
+                                    AbsoluteLayout.LayoutBounds="0,30"
+                                    Margin="10"
+                                    ItemsSource="{Binding PageItems}"
+                                    Orientation="Horizontal"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="FillAndExpand"
+                                    HeightRequest="110"
+                                    IsScrollBarVisible="false"
+                                    BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                            <dxcv:DXCollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <views:GroupItemView TappedControlShortcut="Pagetem_TappedControlShortcut"/>
+                                </DataTemplate>
+                            </dxcv:DXCollectionView.ItemTemplate>
+                        </dxcv:DXCollectionView>
+                    </AbsoluteLayout>
+                </Frame>
+            </DataTemplate>
+
+            <FocalPoint:CollectionViewHeaderTemplateSelector x:Key="itemTemplateSelector"
+                                            HeaderTemplate="{StaticResource headerTemplate}"
+                                            ItemTemplate="{StaticResource itemTemplate}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Grid
+            Margin="0"
+            ColumnSpacing="0"
+            RowSpacing="0"
+            BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <Grid.ColumnDefinitions>
+                <forms:ColumnDefinition Width="auto" />
+                <forms:ColumnDefinition Width="130" />
+                <forms:ColumnDefinition Width="*" />
+                <forms:ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <FocalPointCTRL:IconView 
+                Grid.Column="0"
+                HeightRequest="24"
+                WidthRequest="24"
+                HorizontalOptions="StartAndExpand"
+                Source="info"
+                VerticalOptions="CenterAndExpand">
+                <FocalPointCTRL:IconView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnInfoClicked" />
+                </FocalPointCTRL:IconView.GestureRecognizers>
+            </FocalPointCTRL:IconView>
+            <FocalPointCTRL:IconView
+                Grid.Column="3"
+                HeightRequest="24"
+                WidthRequest="24"
+                Source="theme_palette"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="CenterAndExpand">
+                <FocalPointCTRL:IconView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ThemeCommand}" CommandParameter="{Binding}" />
+                </FocalPointCTRL:IconView.GestureRecognizers>
+                <FocalPointCTRL:IconView.Margin>
+                    <OnPlatform x:TypeArguments="Thickness" Android="0,0,16,0" iOS="0"/>
+                </FocalPointCTRL:IconView.Margin>
+            </FocalPointCTRL:IconView>
+            <Image Grid.Column="1" HorizontalOptions="End" Source="Icon_Small.png"/>
+            <Label 
+                Grid.Column="2"
+                Text="{Binding TitleText}"
+                FontSize="Large"
+                FontFamily="Univia-Pro Medium"
+                HorizontalOptions="StartAndExpand"
+                TextColor="{DynamicResource TextThemeColor}"
+                BackgroundColor="{DynamicResource BackgroundThemeColor}"
+                >
+                <Label.Margin>
+                    <OnPlatform x:TypeArguments="Thickness" Android="4,0,0,0" iOS="4,4,0,0"/>
+                </Label.Margin>
+            </Label>
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <dxcv:DXCollectionView
+            SelectionMode="None"
+            Grid.Row="0" Grid.Column="0"
+            IsScrollBarVisible="false"
+            ItemTemplate="{StaticResource itemTemplateSelector}"
+            ItemsSource="{Binding Items}">
+        </dxcv:DXCollectionView>        
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

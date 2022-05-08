@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Dispatching.Views.DispatchScheduleView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <!--<Grid.RowDefinitions>
+                <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
+            </Grid.RowDefinitions>-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="65*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="  Truck  "
+         Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+         TextColor="Black"
+         XAlign="Start"
+         YAlign="Center"/>
+            </Grid>
+
+            <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <!--<Grid.RowDefinitions>
+                <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
+            </Grid.RowDefinitions>-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="65*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="Description:  " TextColor="Black" XAlign="End" YAlign="Center" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Truck.TruckDscr}" TextColor="Black" YAlign="Center"   BackgroundColor="White"/>
+            </Grid>
+
+            <BoxView   HeightRequest="4" HorizontalOptions="FillAndExpand" />
+
+            <ListView
+             x:Name="listView"
+             HasUnevenRows="true"
+             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+             ItemSelected="listView_ItemSelected">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                            <StackLayout
+               Padding="10,2,10,2"
+               Spacing="0"
+               Orientation="Vertical"
+               HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
+
+                                <Label TextColor="Black" Text="{Binding Line1}"  LineBreakMode="TailTruncation" />
+                                <Label TextColor="Black" Text="{Binding Line2}"  LineBreakMode="TailTruncation" />
+                                <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}"   LineBreakMode="TailTruncation" />
+
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

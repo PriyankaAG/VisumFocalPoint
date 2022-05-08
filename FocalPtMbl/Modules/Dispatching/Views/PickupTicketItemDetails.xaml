@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Dispatching.Views.PickupTicketItemDetails"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.Dispatching.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.BindingContext>
+        <viewModel:PickupTicketItemDetailsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid RowSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                <!--<Grid.RowDefinitions>
+                <RowDefinition Height="{x:Static local:Constants.DefaultPageGridRowHeight}" />
+            </Grid.RowDefinitions>-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="{Binding PuDtlQty, StringFormat='To Be Counted: {0}'}" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  />
+                <dxe:TextEdit  LabelText="Counted:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" ></dxe:TextEdit>
+                <dxe:TextEdit  LabelText="Still Out:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" ></dxe:TextEdit>
+                <dxe:TextEdit  LabelText="Sold:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" ></dxe:TextEdit>
+                <dxe:TextEdit  LabelText="Lost:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" ></dxe:TextEdit>
+                <dxe:TextEdit  LabelText="Damaged:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" BackgroundColor="White" Keyboard="Numeric" ></dxe:TextEdit>
+
+                <Label Text="{Binding Totals, StringFormat='Accounted For: {0}'}" FontAttributes="Bold" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+
+            </Grid>
+
+            <BoxView Color="Black"                       
+             HeightRequest="2"
+             VerticalOptions="Center"
+             HorizontalOptions="FillAndExpand" Margin="0, 0, 0, 0" />
+
+            <Label Text="Last Counted" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" FontAttributes="Bold" />
+
+            <BoxView Color="Black"                       
+             HeightRequest="2"
+             VerticalOptions="Center"
+             HorizontalOptions="FillAndExpand" Margin="0, 0, 0, 0" />
+
+
+            <!--<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">-->
+
+
+            <Grid RowSpacing="0" x:Name="LastCountGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="UserID:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="1" Grid.Column="0" Text="Time:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="2" Grid.Column="0" Text="Counted:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="3" Grid.Column="0" Text="Still Out:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="4" Grid.Column="0" Text="Sold:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="5" Grid.Column="0" Text="Stolen:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="6" Grid.Column="0" Text="Lost:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+                <Label Grid.Row="7" Grid.Column="0" Text="Damaged:" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="End"   />
+
+
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding LastCntEmpID, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding LastCntDte, StringFormat='{0:MM/dd/yyyy h:mm tt}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding LastCntQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="3" Grid.Column="1" Text="{Binding LastCntOutQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="4" Grid.Column="1" Text="{Binding LastCntSoldQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="5" Grid.Column="1" Text="{Binding LastCntStolenQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="6" Grid.Column="1" Text="{Binding LastCntLostQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+                <Label Grid.Row="7" Grid.Column="1" Text="{Binding LastCntDmgdQty, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start"   />
+
+            </Grid>
+
+            <Button Text="Submit Count" HorizontalOptions="FillAndExpand" Margin="20, 5, 20, 5" Clicked="Button_Clicked"/>
+
+            <!--</StackLayout>-->
+
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

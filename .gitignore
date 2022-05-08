@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FocalPtMbl/bin
+/FocalPtMbl/obj
+/FocalPtMbl.Android/bin
+/FocalPtMbl.Android/obj
+/FocalPtMbl.iOS/bin
+/FocalPtMbl.iOS/obj
+/Visum.Services.Mobile.Entities/bin
+/Visum.Services.Mobile.Entities/obj
+/.vs/VSWorkspaceState.json
+/.vs/FocalPoint Mobile/DesignTimeBuild/.dtbcache
+/.vs/FocalPoint Mobile/v15/Server/sqlite3/storage.ide-wal
+/.vs/FocalPoint Mobile/v15/Server/sqlite3/storage.ide-shm
+/.vs/FocalPoint Mobile/v15/Server/sqlite3/storage.ide
+/.vs/FocalPoint Mobile/v15/Server/sqlite3/db.lock
+/.vs/FocalPoint Mobile/v16/.suo
+/.vs/FocalPoint Mobile/v15/.suo

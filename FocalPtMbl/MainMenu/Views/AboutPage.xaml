@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScrollView  
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:menu="clr-namespace:FocalPtMbl.MainMenu.Controls"
+    xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+    x:Class="FocalPtMbl.MainMenu.Views.AboutPage"
+    x:Name="scrollView"
+    Padding="0"
+    Margin="0"
+    HorizontalOptions="Fill"
+    VerticalOptions="Fill"
+    Orientation="Vertical"
+    VerticalScrollBarVisibility="Never">
+    <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}">
+        <!--<ContentView                
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="237"
+                WidthRequest="340">
+            <Grid>
+                <menu:IconView
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Source="about_header"/>
+                <Label
+                        VerticalOptions="End"
+                        HorizontalOptions="End"
+                        Margin="6,4"
+                        TextColor="{DynamicResource SecondaryTextColor}"
+                        FontSize="12">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="{Binding Version}" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Grid>
+        </ContentView>-->
+        <StackLayout 
+                Orientation="Vertical"
+                Spacing="20">
+            <StackLayout.Padding>
+                <OnIdiom x:TypeArguments="Thickness" Tablet="40,20,40,40" Phone="30,20,30,40"/>
+            </StackLayout.Padding>
+            <Image Source="FPlogo_Mobile.png" HorizontalOptions="Center" VerticalOptions="Center">
+                
+            </Image>
+            <!--<Label  FontSize="26" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="{DynamicResource TextThemeColor}">
+                --><!--<Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="FocalPoint Mobile" />
+                        </FormattedString.Spans>
+                    </FormattedString>-->
+                <!--</Label.FormattedText>--><!--
+            </Label>-->
+            <!--<Label TextColor="{DynamicResource TextThemeColor}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="FocalPoint is a trademark or registered trademark of Visum LLC." />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>-->
+            <Grid Margin="0" RowSpacing="20" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+
+                </Grid.RowDefinitions>
+                <!--<Grid Grid.Row="0" Margin="0" Padding="0" ColumnSpacing="20">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding CompanyUrl}"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <menu:IconView
+                            Source="product_page"
+                            Grid.Column="0"/>
+                    <Label
+                            x:Name="companyLabel"
+                            Text="Visum's Web Page"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="1"
+                            VerticalOptions="Center"/>
+                </Grid>
+                <Grid Grid.Row="1" Margin="0" Padding="0" ColumnSpacing="20">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding ContactUrl}"/>
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <menu:IconView
+                            Source="documentation"
+                            Grid.Column="0"/>
+                    <Label
+                            Text="Contact us"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="1"
+                            VerticalOptions="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" Margin="0" Padding="0" ColumnSpacing="20">
+                    --><!--<Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding GoogleUrl}"/>
+                    </Grid.GestureRecognizers>--><!--
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <menu:IconView
+                            Source="source_code"
+                            Grid.Column="0"/>
+                    <Label
+                            Text="Google"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="1"
+                            VerticalOptions="Center"/>
+                </Grid>-->
+                <Grid Grid.Row="0" Margin="0" Padding="0" ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        ImageSource="time_frame_48.png"
+                            Text="Time Clock"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="0"
+                        HeightRequest="50"
+                        WidthRequest="800"
+                        BackgroundColor="{DynamicResource ButtonThemeColor}"
+                            VerticalOptions="Fill" Clicked="TimeClock_Clicked"
+                        HorizontalOptions="StartAndExpand"/>
+                </Grid>
+                <Grid Grid.Row="1" Margin="0" Padding="0" ColumnSpacing="20">
+                    <!--<Grid.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding GoogleUrl}"/>
+                    </Grid.GestureRecognizers>-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--<menu:IconView
+                            Source="source_code"
+                            Grid.Column="0"/>-->
+                    <!--<Label
+                            Text="Google"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="1"
+                            VerticalOptions="Center"/>-->
+                    <Button
+                        ImageSource="process_48.png"
+                            Text="Settings"
+                        WidthRequest="800"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="0"
+                         BackgroundColor="{DynamicResource ButtonThemeColor}"
+                            VerticalOptions="Fill" Clicked="Settings_Clicked" 
+                        HorizontalOptions="Fill"/>
+                </Grid>
+                <Grid Grid.Row="2" Margin="0" Padding="0" ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        ImageSource="store_houses_48.png"
+                            Text="Change Store"
+                        WidthRequest="800"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="0"
+                        BackgroundColor="{DynamicResource ButtonThemeColor}"
+                            VerticalOptions="Fill" Clicked="ChangeStore_Clicked" 
+                        HorizontalOptions="StartAndExpand"/>
+                </Grid>
+                <Grid Grid.Row="3" Margin="0" Padding="0" ColumnSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        ImageSource="sign_out_48.png"
+                            Text="Logout"
+                        WidthRequest="800"
+                         BackgroundColor="{DynamicResource ButtonThemeColor}"
+                            TextColor="{DynamicResource TextThemeColor}"
+                            Grid.Column="0"
+                            VerticalOptions="Fill" Clicked="Logout_Clicked" 
+                        HorizontalOptions="StartAndExpand"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="0" Margin="0" Padding="10" ColumnSpacing="20">
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Visum LLC" Grid.Row="0" />
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="901 159th Avenue NE" Grid.Row="1" />
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Ham Lake. MN 55304" Grid.Row="2" />
+                <Label FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text ="(763)244-8050" Grid.Row="3" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text ="www.Visum-Corp.com" Grid.Row="4" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding CompanyUrl}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text ="Support@Visum-Corp.com" Grid.Row="5" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1"/>
+                </Label.GestureRecognizers>
+                </Label>
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Server API Version 1" Grid.Row="6" />
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Server Version 2.55.02" Grid.Row="7" />
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Database Version 1" Grid.Row="8" />
+                <Label TextColor="{DynamicResource TextThemeColor}" FontSize="Micro" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" Text ="Mobile Version 1" Grid.Row="9" />
+            </Grid>
+        </StackLayout>
+    </StackLayout>
+</ScrollView>

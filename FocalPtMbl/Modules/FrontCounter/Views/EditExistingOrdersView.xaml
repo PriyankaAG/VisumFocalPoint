@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="FocalPoint.Modules.FrontCounter.Views.EditExistingOrdersView"
+            xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             HeaderPanelPosition="Top"
+             IsSelectedItemIndicatorVisible="True"
+             SelectedItemHeaderTextColor="OrangeRed"
+             SelectedItemHeaderBackgroundColor="Transparent"
+             ItemHeaderWidth="*"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <dxn:TabPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="DeepSkyBlue" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </dxn:TabPage.Resources>
+    <dxn:TabPage.BindingContext>
+        <viewModel:EditExistingOrdersViewModel/>
+    </dxn:TabPage.BindingContext>
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Open Orders" Icon="Order.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <Grid>
+                    <StackLayout>
+                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Text="" Margin="10,0" TextChanged="Search_TextChanged"></dxe:TextEdit>
+
+                        <dxcv:DXCollectionView x:Name="collectionView" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                           ItemsSource="{Binding OpenOrders}"
+                           IndicatorColor="Lime"
+                           IsEnabled="{Binding OrdersEnabled}"
+                           SelectionMode="Single"
+                           Tap="ItemSelected">
+                            <!--Define the item template.-->
+
+                            <dxcv:DXCollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="5"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="{Binding OrderNumberT, StringFormat='{0}  '}" />
+                                                        <Span Text="{Binding Customer.CustomerName, StringFormat='  {0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="0" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Out Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Due Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Amount: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderAmount, StringFormat='{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxcv:DXCollectionView.ItemTemplate>
+                        </dxcv:DXCollectionView>
+                    </StackLayout>
+                    <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Grid>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Reservations" Icon="Order_Resv.png"  BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <Grid>
+                    <StackLayout>
+                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared" Margin="10,0"  TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+
+                        <dxcv:DXCollectionView x:Name="collectionView2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                           ItemsSource="{Binding OpenReserv}"
+                           IndicatorColor="Lime"
+                           Tap="ItemSelected">
+                            <!--Define the item template.-->
+
+                            <dxcv:DXCollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="5"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="{Binding OrderNumberT, StringFormat='{0}  '}" />
+                                                        <Span Text="{Binding Customer.CustomerName, StringFormat='  {0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="0" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Out Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Due Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Amount: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderAmount, StringFormat='{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxcv:DXCollectionView.ItemTemplate>
+                        </dxcv:DXCollectionView>
+                    </StackLayout>
+                    <ActivityIndicator x:Name="activityIndicatorReservation" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Grid>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+
+    <dxn:TabPageItem >
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Quotes" Icon="Order_Quote.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <Grid>
+                    <StackLayout>
+                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" ClearIconClicked="TextEdit_Cleared"  Margin="10,0" TextChanged="Search_TextChanged" Text=""></dxe:TextEdit>
+
+
+                        <dxcv:DXCollectionView x:Name="collectionView3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                           ItemsSource="{Binding OpenQuote}"
+                           IndicatorColor="Lime"
+                           Tap="ItemSelected">
+                            <!--Define the item template.-->
+
+                            <dxcv:DXCollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="22"/>
+                                            <RowDefinition Height="5"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="{Binding OrderNumberT, StringFormat='{0}  '}" />
+                                                        <Span Text="{Binding Customer.CustomerName, StringFormat='  {0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="0" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Out Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" LineBreakMode="WordWrap" MaxLines="2" Margin="10,0"  TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Due Date: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" TextColor="#3A3A3A">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Amount: "
+                                                            FontAttributes="Bold"/>
+                                                        <Span Text="{Binding OrderAmount, StringFormat='{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                         HeightRequest="5"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </dxcv:DXCollectionView.ItemTemplate>
+                        </dxcv:DXCollectionView>
+                    </StackLayout>
+                    <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                </Grid>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+
+</dxn:TabPage>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.QuickOrderHeaderView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+    <ContentPage.BindingContext>
+        <viewModel:QuickOrderHeaderViewModel/>
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" LabelText="Length" PropertyChanged="ComboBoxEdit_PropertyChanged_1" ItemsSource="{Binding Lengths}"/>
+
+        <dxe:DateEdit DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Out Date" ReturnType="Default" Date="{Binding StartDate}"></dxe:DateEdit>
+        <dxe:TimeEdit TimeChanged="TimeEdit_TimeChanged" Grid.Row="1" Grid.Column="2"  Grid.ColumnSpan="2" LabelText="Time" Time="{Binding StartDate}"></dxe:TimeEdit>
+        <dxe:DateEdit DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="2" LabelText="Due Date" Date="{Binding EndDate}"></dxe:DateEdit>
+        <dxe:TimeEdit TimeChanged="TimeEdit_TimeChanged_1" Grid.Row="2" Grid.Column="2"  Grid.ColumnSpan="2" LabelText="Time" Time ="{Binding EndDate}"></dxe:TimeEdit>
+        <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="2" LabelText="Tax" PropertyChanged="ComboBoxEdit_PropertyChanged" ItemsSource="{Binding States}" />
+        <dxe:TextEdit Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" LabelText="ExemptID" TextChanged="TextEdit_TextChanged"></dxe:TextEdit>
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+        <dxe:SimpleButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Save" Clicked="SimpleButton_Clicked" />
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.CustomerLupView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxdf="http://schemas.devexpress.com/xamarin/2014/forms/dataform"
+             xmlns:dxp="http://schemas.devexpress.com/xamarin/2014/forms/popup"
+             BackgroundColor="{DynamicResource BackgroundThemeColor}"
+             ios:Page.UseSafeArea="True">
+
+    <ContentPage.Resources>
+        <Style TargetType="dxe:TextEdit">
+            <Setter Property="ClearIconVisibility" Value="Always" />
+        </Style>
+        <Style TargetType="dxe:SimpleButton">
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <dxdf:DataFormView
+            CommitMode="Manually"
+            
+            ValidationMode="PropertyChanged"
+            DataObject="{Binding Model}"
+            x:Name="dataForm"
+            EditorLabelColor="#8a8d93"
+            EditorBoxMode="Filled"
+            EditorHorizontalSpacing="3"
+            ReserveBottomTextLine="True"
+            ContentPadding="0"
+            EditorPadding="0"
+            ValidateProperty="DataFormOnValidateProperty"
+            Margin="0,0,3,0">
+            <dxdf:DataFormCustomItem FieldName="DOB" 
+                            IsLabelVisible="False" x:Name="dfItem" 
+                                     RowOrder="2"
+                            GroupName="Personal Info" >
+                <dxe:DateEdit PlaceholderText="DOB" 
+                    Date="{Binding DOB, Mode=TwoWay}"
+                    />
+            </dxdf:DataFormCustomItem>
+            <dxdf:DataFormCustomItem FieldName="Experation" 
+                            IsLabelVisible="False" x:Name="dfItem2" 
+                                     RowOrder="1"
+                            GroupName="Personal Info" >
+                <dxe:DateEdit PlaceholderText="Experation"
+                    Date="{Binding Experation, Mode=TwoWay}"
+                    />
+            </dxdf:DataFormCustomItem>
+        </dxdf:DataFormView>
+        <dxe:SimpleButton Grid.Row="1" TextColor="White" Padding="22" BackgroundColor="#2088ff" Text="SUBMIT" Clicked="SimpleButton_Clicked" />
+
+        <!--<dxp:DXPopup IsOpen="True">
+            <StackLayout WidthRequest="200" BackgroundColor="AliceBlue">
+                <Label Text="This is the DevExpress Popup component for Xamarin.Forms.
+                                &#10;Tap outside the popup to hide it."
+                        Margin="5, 5"/>
+            </StackLayout>
+        </dxp:DXPopup>-->
+    </Grid>
+</ContentPage>

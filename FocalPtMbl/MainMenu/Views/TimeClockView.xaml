@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.MainMenu.Views.TimeClockView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
+             xmlns:dxdf="http://schemas.devexpress.com/xamarin/2014/forms/dataform"
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+             ios:Page.UseSafeArea="True">
+
+    <ContentPage.Resources>
+        <Style TargetType="dxe:TextEdit">
+            <Setter Property="ClearIconVisibility" Value="Always" />
+        </Style>
+        <Style TargetType="dxe:SimpleButton">
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label TextColor="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Time Clock" BackgroundColor="{DynamicResource BackgroundThemeColor}" FontSize="20"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+        <Label TextColor="Black" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding DateString}" FontSize="20"  VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label TextColor="Black" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding TimeString}" FontSize="20" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
+        <!--User and store-->
+
+        <dxe:ComboBoxEdit Grid.Row="3"  Grid.ColumnSpan="2" LabelText="User" ItemsSource="{Binding CurrentUsers}"
+                  DisplayMember="FullName"
+                  ValueMember="UserID" 
+                  SelectionChanged="User_SelectionChanged">
+        </dxe:ComboBoxEdit>
+        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}"
+                          SelectedItem="{Binding SelectedStore}"
+                  DisplayMember="CmpName"
+                  ValueMember="CmpNo" 
+                          Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                          SelectionChanged="Store_SelectionChanged"
+                          ClearIconClicked="ComboBoxEdit_ClearIconClicked">
+            <dxe:ComboBoxEdit.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Padding="10" Text="{Binding CmpName}" FontAttributes="Bold" />
+                        <Label Padding="10" Grid.Column="1" Text="{Binding CmpNo}" />
+                    </Grid>
+                </DataTemplate>
+            </dxe:ComboBoxEdit.ItemTemplate>
+
+        </dxe:ComboBoxEdit>
+
+        <Label TextColor="Black" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding TimeClockStatus}" FontSize="20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
+        <Label TextColor="Black" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding LastActivity}" FontSize="16" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
+        <dxe:SimpleButton IconVisible="True" Icon="TimeClockIn" Grid.Row="7" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Clock In" Clicked="ClockIn_Clicked" />
+        <dxe:SimpleButton IconVisible="True" Icon="TimeClockOut" Grid.Row="8" Grid.ColumnSpan="2"  TextColor="White" BackgroundColor="#2088ff" Text="Clock Out" Clicked="ClockOut_Clicked" />
+        <dxe:SimpleButton IconVisible="True"  Grid.Row="9" Grid.ColumnSpan="2"  TextColor="White" BackgroundColor="#2088ff" Text="Back" Clicked="SimpleButton_Clicked" />
+    </Grid>
+</ContentPage>
