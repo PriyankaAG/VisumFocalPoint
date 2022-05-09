@@ -67,13 +67,12 @@ namespace FocalPtMbl
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
-            MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-
             //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
             //BasePage basePage = new BasePage();
             //basePage.MainContent.BindingContext = mainPageViewModel;
             //basePage.DrawerContent.BindingContext = aboutPageViewModel;
 
+            MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
             MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
             MainMenuFlyout basePage = new MainMenuFlyout();
             basePage.MainPageObject.BindingContext = mainPageViewModel;
@@ -81,7 +80,7 @@ namespace FocalPtMbl
 
             try
             {
-                MainPage = GetFrontCounterDashboard();
+                MainPage = basePage;
                 //this.navigationService.SetNavigator(basePage.NavPage);
                 DevExpress.XamarinForms.CollectionView.Initializer.Init();
                 DevExpress.XamarinForms.DataForm.Initializer.Init();
@@ -123,15 +122,8 @@ namespace FocalPtMbl
             Xamarin.Forms.Application.Current.MainPage = basePage;
             this.navigationService.SetNavigator(basePage.NavPage);
 
-
-            //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            //basePage.MainContent.BindingContext = mainPageViewModel;
-            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
-            Xamarin.Forms.Application.Current.MainPage = GetFrontCounterDashboard();
-            //this.navigationService.SetNavigator(basePage.NavPage);
             ThemeLoader.Instance.LoadTheme();
+
             DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
         }
 
@@ -234,10 +226,11 @@ namespace FocalPtMbl
             if (changePermissions)
             {
                 MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-                AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                BasePage basePage = new BasePage();
-                basePage.MainContent.BindingContext = mainPageViewModel;
-                basePage.DrawerContent.BindingContext = aboutPageViewModel;
+                MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+                MainMenuFlyout basePage = new MainMenuFlyout();
+                basePage.MainPageObject.BindingContext = mainPageViewModel;
+                basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+
                 MainPage = basePage;
             }
         }

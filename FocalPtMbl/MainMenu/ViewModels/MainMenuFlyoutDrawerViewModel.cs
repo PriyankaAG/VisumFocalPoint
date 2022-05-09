@@ -27,7 +27,9 @@ namespace FocalPoint.MainMenu.ViewModels
 
         NavigationService NavService;
 
-        public MainMenuFlyoutDrawerViewModel(IOpenUriService openService, NavigationService _navService ) : base(openService)
+        public INavigation NavigationObject { get; set; }
+
+        public MainMenuFlyoutDrawerViewModel(IOpenUriService openService, NavigationService _navService) : base(openService)
         {
             NavService = _navService;
 
@@ -175,8 +177,17 @@ namespace FocalPoint.MainMenu.ViewModels
         { }
         public void OnManageProfile()
         { }
-        public void OnLogOut()
-        { }
+        public async void OnLogOut()
+        {
+            bool loggedOut = await FocalPtMbl.App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");
+            if (loggedOut)
+            {
+                Logoff();
+
+                if (NavigationObject != null)
+                    await NavigationObject.PushModalAsync(new LoginPageNew());
+            }
+        }
 
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;

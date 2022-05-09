@@ -124,11 +124,18 @@ namespace FocalPoint.MainMenu.Views
                 if (viewModel.LoginSecurity())
                 {
                     //goto main page
-                    MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-                    AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                    BasePage basePage = new BasePage();
-                    basePage.MainContent.BindingContext = mainPageViewModel;
-                    basePage.DrawerContent.BindingContext = aboutPageViewModel;
+                    //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
+                    //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+                    //BasePage basePage = new BasePage();
+                    //basePage.MainContent.BindingContext = mainPageViewModel;
+                    //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+
+                    MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
+                    MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+                    MainMenuFlyout basePage = new MainMenuFlyout();
+                    basePage.MainPageObject.BindingContext = mainPageViewModel;
+                    basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+
                     Application.Current.MainPage = basePage;
                     this.navigationService.SetNavigator(basePage.NavPage);
                     ThemeLoader.Instance.LoadTheme();
