@@ -10,26 +10,10 @@
              HeaderPanelPosition="Top"
              IsSelectedItemIndicatorVisible="True"
              SelectedItemHeaderTextColor="OrangeRed"
-             SelectedItemHeaderBackgroundColor="Transparent"
+             SelectedItemHeaderIconColor ="Transparent"
+             ItemHeaderIconColor="Transparent"
              ItemHeaderWidth="*"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-    <dxn:TabPage.Resources>
-        <Style TargetType="Grid">
-            <Setter Property="VisualStateManager.VisualStateGroups">
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="DeepSkyBlue" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-    </dxn:TabPage.Resources>
     <dxn:TabPage.BindingContext>
         <viewModel:EditExistingOrdersViewModel/>
     </dxn:TabPage.BindingContext>

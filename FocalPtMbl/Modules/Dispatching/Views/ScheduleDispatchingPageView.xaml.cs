@@ -59,8 +59,26 @@ namespace FocalPoint.Modules.Dispatching.Views
                     this.Children.Add(objView);
                 });
             }
+
             OnPropertyChanged("Children");
             ((DispatchesPageViewModel)this.BindingContext).Indicator = false;
+
+
+            //When used a FlyOut menu the onAppearing for the first page did not get called
+            //unless we navigater from one tab to another
+            //One workaround is to call OnAppearing code manually for first child
+            await Task.Delay(1000).ContinueWith((a) =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    (this.Children[0] as TruckPageView).AddEvents();
+                });
+            });
+        }
+
+        protected override void OnCurrentPageChanged()
+        {
+            base.OnCurrentPageChanged();
         }
     }
 }

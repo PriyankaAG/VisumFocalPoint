@@ -103,6 +103,39 @@ namespace FocalPtMbl.MainMenu.Services
             return await Task.FromResult(page);
         }
 
+        public async Task<Page> PushPageFromMenu(Type pageToPush)
+        {
+            Page page = null;
+
+            if (!this.isPagePushed && pageToPush != null)
+            {
+                // ErrorDialogPage errorDialogPage = this.navigator.CurrentPage as ErrorDialogPage;
+                try
+                {
+                    page = (Page)Activator.CreateInstance(pageToPush);
+                    //page.Title = item.PageTitle;
+
+                    if (page != null)
+                    {
+                        this.isPagePushed = true;
+                        await PushAsync(page);
+                    }
+
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    throw e;
+#else
+                        throw e;
+#endif
+                    //                    if (errorDialogPage != null)
+                    //                       errorDialogPage.ShowError(e);
+                }
+            }
+            return await Task.FromResult(page);
+        }
+
         public IEnumerable<Page> GetOpenedPages<T>() where T : Page
         {
             return this.navigator.Navigation.NavigationStack.Where((p) => p.GetType() == typeof(T));

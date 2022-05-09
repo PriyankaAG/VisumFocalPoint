@@ -2,10 +2,12 @@
 using FocalPoint.Data;
 using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
+using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
 using Newtonsoft.Json;
 using System;
@@ -65,10 +67,17 @@ namespace FocalPtMbl
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
             MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
+
+            //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+            //BasePage basePage = new BasePage();
+            //basePage.MainContent.BindingContext = mainPageViewModel;
+            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+            MainMenuFlyout basePage = new MainMenuFlyout();
+            basePage.MainPageObject.BindingContext = mainPageViewModel;
+            basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+
             try
             {
                 MainPage = basePage;
@@ -88,6 +97,8 @@ namespace FocalPtMbl
                 {
                     basePage.Navigation.PushModalAsync(new LoginPageView());
                 }
+
+                DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
             }
             catch (Exception ex)
             {
@@ -98,14 +109,18 @@ namespace FocalPtMbl
         private void LoadMainPage()
         {
             DataManager.LoadHttpClientCache();
+            MainMenuFlyout basePage = new MainMenuFlyout();
+
             MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), navigationService);
+
+            basePage.MainPageObject.BindingContext = mainPageViewModel;
+            basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+
             Xamarin.Forms.Application.Current.MainPage = basePage;
             this.navigationService.SetNavigator(basePage.NavPage);
             ThemeLoader.Instance.LoadTheme();
+            DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
         }
 
         internal bool IsLicensesValid()
