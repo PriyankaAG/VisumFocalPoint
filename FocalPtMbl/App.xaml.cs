@@ -81,7 +81,7 @@ namespace FocalPtMbl
             try
             {
                 MainPage = basePage;
-                //this.navigationService.SetNavigator(basePage.NavPage);
+                this.navigationService.SetNavigator(basePage.NavPage);
                 DevExpress.XamarinForms.CollectionView.Initializer.Init();
                 DevExpress.XamarinForms.DataForm.Initializer.Init();
                 DevExpress.XamarinForms.DataGrid.Initializer.Init(); //

@@ -84,7 +84,8 @@ namespace FocalPtMbl.MainMenu.Services
 
                     if (page != null)
                     {
-                        this.isPagePushed = true;
+                        //In case of flyout menu page disappear may not be caled while menu is clicked
+                        //this.isPagePushed = true;
                         await PushAsync(page);
                     }
 
@@ -117,7 +118,8 @@ namespace FocalPtMbl.MainMenu.Services
 
                     if (page != null)
                     {
-                        this.isPagePushed = true;
+                        //In case of flyout menu page disappear may not be caled while menu is clicked
+                        //this.isPagePushed = true;
                         await PushAsync(page);
                     }
 
