@@ -1,6 +1,4 @@
 ﻿
-using System.Collections.Generic;
-
 namespace Visum.Services.Mobile.Entities
 {
     public class PickupTicketOrder

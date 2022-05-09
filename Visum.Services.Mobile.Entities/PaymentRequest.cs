@@ -20,6 +20,8 @@ namespace Visum.Services.Mobile.Entities
         public int PaymentTNo { get; set; }
         public decimal PaymentAmt { get; set; } // PaymentAmt - CashBackAmt = Amount Applied
         public decimal CashBackAmt { get; set; } // Not all Types supported
+        public decimal TaxAmt { get; set; } 
+        public int OnFileNo { get; set; }
 
         public PaymentRequestOther Other { get; set; }
         public PaymentRequestCheck Check { get; set; }
@@ -56,6 +58,7 @@ namespace Visum.Services.Mobile.Entities
             Business = 1
         }
 
+        public string AccountHolder { get; set; }
         public string AccountNumber { get; set; }
         public string RoutingNumber { get; set; }
         public AccountTypes AccountType { get; set; }
@@ -69,7 +72,6 @@ namespace Visum.Services.Mobile.Entities
     // "CC"
     public class PaymentRequestCard
     {
-        public bool OnLine { get; set; }
         public string CardHolder { get; set; }
         public string LastFour { get; set; }
         public string Expiration { get; set; }
@@ -77,8 +79,8 @@ namespace Visum.Services.Mobile.Entities
         public string Street { get; set; }
         public string Zipcode { get; set; }
         public bool StoreInfo { get; set; }
-        public int InfoID { get; set; }
         public string ManualToken { get; set; }
+        public bool OnLine { get; set; }
     }
 
 }

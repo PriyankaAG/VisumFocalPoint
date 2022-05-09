@@ -51,5 +51,7 @@ namespace FocalPoint.Data.DataModel
         public int ApiSvcVersion { get; set; }
         [Column("ApiUri")]
         public string ApiUri { get; set; }
+        [Column("IsSignedIn")]
+        public bool IsSignedIn{ get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using DevExpress.XamarinForms.Core.Themes;
+using FocalPoint;
 using FocalPoint.Data;
 using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -62,7 +64,6 @@ namespace FocalPtMbl
             //set URI strings here if dev https://stackoverflow.com/questions/8732307/does-xaml-have-a-conditional-compiler-directive-for-debug-mode
             //DataManager.Settings.ApiUri = "https://visumaaron-local.fpsdns.com:56883/Mobile/V1/";
 
-
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
@@ -80,8 +81,8 @@ namespace FocalPtMbl
 
             try
             {
-                MainPage = basePage;
-                this.navigationService.SetNavigator(basePage.NavPage);
+                MainPage = GetFrontCounterDashboard();
+                //this.navigationService.SetNavigator(basePage.NavPage);
                 DevExpress.XamarinForms.CollectionView.Initializer.Init();
                 DevExpress.XamarinForms.DataForm.Initializer.Init();
                 DevExpress.XamarinForms.DataGrid.Initializer.Init(); //
@@ -89,13 +90,15 @@ namespace FocalPtMbl
                 DevExpress.XamarinForms.Navigation.Initializer.Init();
                 InitializeComponent();
                 ThemeLoader.Instance.LoadTheme();
-                if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
+                //if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
+                if (DataManager.Settings?.IsSignedIn ?? false && IsLicensesValid())
                 {
                     LoadMainPage();
                 }
                 else
                 {
-                    basePage.Navigation.PushModalAsync(new LoginPageView());
+                    //basePage.Navigation.PushModalAsync(new LoginPageView());
+                    MainPage.Navigation.PushModalAsync(new LoginPageNew());
                 }
 
                 DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
@@ -119,8 +122,26 @@ namespace FocalPtMbl
 
             Xamarin.Forms.Application.Current.MainPage = basePage;
             this.navigationService.SetNavigator(basePage.NavPage);
+
+
+            //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
+            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+            BasePage basePage = new BasePage();
+            //basePage.MainContent.BindingContext = mainPageViewModel;
+            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            Xamarin.Forms.Application.Current.MainPage = GetFrontCounterDashboard();
+            //this.navigationService.SetNavigator(basePage.NavPage);
             ThemeLoader.Instance.LoadTheme();
             DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
+        }
+
+        public FrontCounterDashboard GetFrontCounterDashboard()
+        {
+            //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+            //frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+            //frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+            return frontCounterDashboard;
         }
 
         internal bool IsLicensesValid()

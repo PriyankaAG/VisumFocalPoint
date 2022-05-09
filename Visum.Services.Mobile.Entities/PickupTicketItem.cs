@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Visum.Services.Mobile.Entities
 {

@@ -38,7 +38,7 @@ namespace FocalPtMbl.MainMenu.Views
             if (loggedOut)
             {
                 ((AboutPageViewModel)this.BindingContext).Logoff();
-                await Navigation.PushModalAsync(new LoginPageView());
+                await Navigation.PushModalAsync(new LoginPageNew());
             }
         }
         private async void Settings_Clicked(object sender, EventArgs e)

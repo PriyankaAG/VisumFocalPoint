@@ -1,17 +1,17 @@
 ﻿using DevExpress.XamarinForms.DataForm;
 using FocalPoint.MainMenu.ViewModels;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using System.Net.Http;
+using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPtMbl;
-using Xamarin.Essentials;
+using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.Views;
-using FocalPtMbl.MainMenu.Services;
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace FocalPoint.MainMenu.Views
 {
@@ -279,12 +279,16 @@ namespace FocalPoint.MainMenu.Views
                 {
                     //goto main page
                     MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-                    AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                    BasePage basePage = new BasePage();
-                    basePage.MainContent.BindingContext = mainPageViewModel;
-                    basePage.DrawerContent.BindingContext = aboutPageViewModel;
-                    Application.Current.MainPage = basePage;
-                    this.navigationService.SetNavigator(basePage.NavPage);
+                    //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+                    //BasePage basePage = new BasePage();
+                    //basePage.MainContent.BindingContext = mainPageViewModel;
+                    //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+                    //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+                    //await frontCounterDashboardViewModel.GetDashboardDetail();
+                    FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+                   // frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+                    Application.Current.MainPage = frontCounterDashboard;
+                    //this.navigationService.SetNavigator(basePage.NavPage);
                     ThemeLoader.Instance.LoadTheme();
                     //end loading
                     activityIndicator.IsRunning = false;
