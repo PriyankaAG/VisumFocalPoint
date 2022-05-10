@@ -5,7 +5,6 @@ using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
-using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -18,7 +17,11 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
-
+[assembly: ExportFont("Roboto-Bold.ttf", Alias = "Roboto-Bold")]
+[assembly: ExportFont("Roboto-Medium.ttf", Alias = "Roboto-Medium")]
+[assembly: ExportFont("Roboto-Regular.ttf", Alias = "Roboto-Regular")]
+[assembly: ExportFont("Roboto-Light.ttf", Alias = "Roboto-Light")]
+[assembly: ExportFont("Roboto-Italic.ttf", Alias = "Roboto-Italic")]
 namespace FocalPtMbl
 {
     public partial class App : Xamarin.Forms.Application

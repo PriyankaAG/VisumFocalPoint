@@ -130,20 +130,7 @@
     <Compile Include="ThemeLoaderImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\font\Roboto-Black.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-BlackItalic.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Bold.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-BoldItalic.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Italic.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Light.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-LightItalic.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Medium.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-MediumItalic.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Regular.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-Thin.ttf" />
-    <AndroidAsset Include="Assets\font\Roboto-ThinItalic.ttf" />
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <AndroidResource Include="Resources\drawable\.editorconfig" />
   </ItemGroup>
