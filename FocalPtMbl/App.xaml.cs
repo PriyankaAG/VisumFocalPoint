@@ -76,11 +76,11 @@ namespace FocalPtMbl
             //basePage.DrawerContent.BindingContext = aboutPageViewModel;
 
             MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
             MainMenuFlyout basePage = new MainMenuFlyout();
             basePage.MainPageObject.BindingContext = mainPageViewModel;
-            basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
-
+            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
+            
             try
             {
                 MainPage = basePage;
@@ -117,10 +117,10 @@ namespace FocalPtMbl
             MainMenuFlyout basePage = new MainMenuFlyout();
 
             MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), navigationService);
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
 
             basePage.MainPageObject.BindingContext = mainPageViewModel;
-            basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
 
             Xamarin.Forms.Application.Current.MainPage = basePage;
             this.navigationService.SetNavigator(basePage.NavPage);
@@ -229,10 +229,10 @@ namespace FocalPtMbl
             if (changePermissions)
             {
                 MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-                MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+                MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
                 MainMenuFlyout basePage = new MainMenuFlyout();
                 basePage.MainPageObject.BindingContext = mainPageViewModel;
-                basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+                basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
 
                 MainPage = basePage;
             }

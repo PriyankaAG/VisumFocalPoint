@@ -19,11 +19,14 @@ namespace FocalPoint.MainMenu.Views
 
             ListView = MenuItemsListView;
         }
-
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            (this.BindingContext as MainMenuFlyoutDrawerViewModel).NavigationObject = Navigation;
+            (BindingContext as MainMenuFlyoutDrawerViewModel).NavigationObject = Navigation;
         }
     }
 }

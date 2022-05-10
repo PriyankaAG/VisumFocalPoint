@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels.Services;
@@ -12,11 +13,9 @@ namespace FocalPoint.MainMenu.Views
 {
     public class MainMenuFlyoutFlyoutMenuItem
     {
-        NavigationService NavService;
-        public MainMenuFlyoutFlyoutMenuItem(NavigationService _navService)
+        public MainMenuFlyoutFlyoutMenuItem()
         {
             TargetType = typeof(MainMenuFlyoutFlyoutMenuItem);
-            NavService = _navService;
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -61,30 +60,22 @@ namespace FocalPoint.MainMenu.Views
 
     public class MainMenuFlyoutSubItem
     {
-        NavigationService NavService;
-        public MainMenuFlyoutSubItem(NavigationService _navService)
+        public MainMenuFlyoutSubItem()
         {
-            NavService = _navService;
         }
+        public string Title { get; set; }
         public string SubItemText { get; set; }
         public Type SubText_TargetType { get; set; }
         public bool IsVisible { get; set; } = false;
-        public ICommand TapSubItemCommand => new Command(() => ExecuteClickCommand());
+        public ICommand TapSubItemCommand => new Command(() =>
+        {
+            ExecuteClickCommand();
+        });
         protected async void ExecuteClickCommand()
         {
             var NavSer = DependencyService.Resolve<INavigationService>();
 
-            Page page;
-            if (SubText_TargetType == typeof(MainPage))
-            {
-                page = Application.Current.MainPage;
-                //page.Title = item.Title;
-                //Detail = ((MainMenuFlyout)Application.Current.MainPage).navPage;
-            }
-            else
-            {
-                await NavSer.PushPageFromMenu(SubText_TargetType);
-            }
+            await NavSer.PushPageFromMenu(SubText_TargetType, Title);
         }
     }
 }

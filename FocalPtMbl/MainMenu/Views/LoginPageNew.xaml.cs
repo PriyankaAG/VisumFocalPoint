@@ -131,10 +131,10 @@ namespace FocalPoint.MainMenu.Views
                     //basePage.DrawerContent.BindingContext = aboutPageViewModel;
 
                     MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-                    MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener(), this.navigationService);
+                    MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
                     MainMenuFlyout basePage = new MainMenuFlyout();
                     basePage.MainPageObject.BindingContext = mainPageViewModel;
-                    basePage.FlyoutPageDrawerObect.BindingContext = drawerPageViewModel;
+                    basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
 
                     Application.Current.MainPage = basePage;
                     this.navigationService.SetNavigator(basePage.NavPage);

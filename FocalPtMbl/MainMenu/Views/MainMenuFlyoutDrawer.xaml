@@ -46,50 +46,31 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Image Margin="0,15,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Start"/>
                             <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" FontSize="16" FontAttributes="Bold" FontFamily="Roboto-Bold" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text ="{Binding Title}" TextColor="#5a607f"/>
-                            <Label Margin="10,10,0,0" Grid.Row="1" Grid.Column="1" FontSize="15" FontFamily="Roboto-Regular" IsVisible="{Binding SubMenuItems[0].IsVisible}"
+                            <StackLayout BindableLayout.ItemsSource="{Binding SubMenuItems}" Grid.Row="1" Grid.Column="1"
+                                        Orientation="Vertical" Margin="0" Padding="0">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Margin="10,10,0,0" FontSize="15" FontFamily="Roboto-Regular" IsVisible="{Binding IsVisible}"
                                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center" LineBreakMode="WordWrap"  >
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding SubMenuItems[0].SubItemText, StringFormat='&#x2022; {0}'}"
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding SubItemText, StringFormat='&#x2022; {0}'}"
                                               TextColor="#0058ff">
-                                            <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SubMenuItems[0].TapSubItemCommand}"/>
-                                            </Span.GestureRecognizers>
-                                        </Span>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Margin="10,10,0,0" Grid.Row="2" Grid.Column="1" FontSize="15" FontFamily="Roboto-Regular" IsVisible="{Binding SubMenuItems[1].IsVisible}" 
-                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding SubMenuItems[1].SubItemText, StringFormat='&#x2022; {0}'}"
-                                              TextColor="#0058ff">
-                                            <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SubMenuItems[1].TapSubItemCommand}" />
-                                            </Span.GestureRecognizers>
-                                        </Span>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Margin="10,10,0,0" Grid.Row="3" Grid.Column="1" FontSize="15" FontFamily="Roboto-Regular" IsVisible="{Binding SubMenuItems[2].IsVisible}" 
-                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding SubMenuItems[2].SubItemText, StringFormat='&#x2022; {0}'}"
-                                              TextColor="#0058ff">
-                                            <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SubMenuItems[2].TapSubItemCommand}"/>
-                                            </Span.GestureRecognizers>
-                                        </Span>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
+                                                        <Span.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding TapSubItemCommand}"/>
+                                                        </Span.GestureRecognizers>
+                                                    </Span>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+
+                            </StackLayout>
+                             
                             <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" BackgroundColor="#f99600" Padding="1" 
                                    HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="30" HeightRequest="30" 
                                    CornerRadius="5" Margin="0,0,10,0" IsVisible="{Binding IsBadgeVisible}">

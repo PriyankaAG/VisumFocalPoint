@@ -6,7 +6,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.Administrative.Views;
+using FocalPoint.Modules.CustomerRelations.Views;
 using FocalPoint.Modules.Dispatching.Views;
+using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.FrontCounter.Views.Rentals;
+using FocalPoint.Modules.Inventory.Views;
+using FocalPoint.Modules.ServiceDepartment.Views;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
@@ -25,144 +31,136 @@ namespace FocalPoint.MainMenu.ViewModels
         public ICommand ManageProfileCommand { get; }
         public ICommand LogOutCommand { get; }
 
-        NavigationService NavService;
-
         public INavigation NavigationObject { get; set; }
 
-        public MainMenuFlyoutDrawerViewModel(IOpenUriService openService, NavigationService _navService) : base(openService)
+        public MainMenuFlyoutDrawerViewModel(IOpenUriService openService) : base(openService)
         {
-            NavService = _navService;
-
             MenuItems = new ObservableCollection<MainMenuFlyoutFlyoutMenuItem>(new[]
             {
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) {
+                    new MainMenuFlyoutFlyoutMenuItem() {
                         Id = 0,
                         Title = "Dashboard",
                         Icon = "dashboard.png",
                         TargetType = typeof(MainPage) ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Daily Revenue",
                                 SubItemText = "Daily Revenue",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(DailyRevenueView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Cash Drawer",
                                 SubItemText = "Cash Drawer",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(CashDrawerSummaryView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Rental Valuation",
                                 SubItemText = "Rental Valuation",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(RentalValuationSummaryView)
                             },
                         }
                     },
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) {
+                    new MainMenuFlyoutFlyoutMenuItem() {
                         Id = 1,
                         Title = "Front Counter" ,
                         Icon = "storefront.png"  ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Quick Rental",
                                 SubItemText = "Quick Rental",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(QuickOrderCreationOutlineView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "View Orders",
                                 SubItemText = "View Orders",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(EditExistingOrdersView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Returns",
                                 SubItemText = "Returns",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(ReturnsView)
                             },
                         }
                     },
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) {
+                    new MainMenuFlyoutFlyoutMenuItem() {
                         Id = 2,
                         Title = "Dispatch" ,
                         Icon = "dispatch.png",
-                        BadgeCount = 5,
                         TargetType = typeof(ScheduleDispatchingPageView) ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Dispatching",
                                 SubItemText = "Dispatching",
                                 IsVisible = true,
                                 SubText_TargetType = typeof(ScheduleDispatchingPageView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Pickup Tickets",
                                 SubItemText = "Pickup Tickets",
                                 IsVisible = true,
                                 SubText_TargetType = typeof(PickupTicketsSelectView)
-                            },
-                            new MainMenuFlyoutSubItem(NavService) {
-                                IsVisible = false
                             }
                         }
                     },
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) {
+                    new MainMenuFlyoutFlyoutMenuItem() {
                         Id = 3,
                         Title = "Service Department" ,
                         Icon = "service_department.png" ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "View Work Orders",
                                 SubItemText = "View Work Order",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
-                            },
-                            new MainMenuFlyoutSubItem(NavService) {
-                                IsVisible = false
-                            },
-                            new MainMenuFlyoutSubItem(NavService) {
-                                IsVisible = false
+                                SubText_TargetType = typeof(WorkOrderFormView)
                             }
                         }
                     },
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) {
+                    new MainMenuFlyoutFlyoutMenuItem() {
                         Id = 4,
                         Title = "Customer Relations" ,
                         Icon = "customer_relations.png"  ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Customers",
                                 SubItemText = "Customers",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
-                            },
-                            new MainMenuFlyoutSubItem(NavService) {
-                                IsVisible = false
-                            },
-                            new MainMenuFlyoutSubItem(NavService) {
-                                IsVisible = false
+                                SubText_TargetType = typeof(CustomerSimpleView)
                             }
                         }
                     },
-                    new MainMenuFlyoutFlyoutMenuItem(NavService) { Id = 5,
+                    new MainMenuFlyoutFlyoutMenuItem() { Id = 5,
                         Title = "Inventory" ,
-                        BadgeCount = 11,
                         Icon = "inventory.png"  ,
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Rental File List",
                                 SubItemText = "Rental File List",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(OpenRentalsView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Vendors",
                                 SubItemText = "Vendors",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(VendorsView)
                             },
-                            new MainMenuFlyoutSubItem(NavService) {
+                            new MainMenuFlyoutSubItem() {
+                                Title = "Rental Availability",
                                 SubItemText = "Rental Availability",
                                 IsVisible = true,
-                                SubText_TargetType = typeof(MainPage)
+                                SubText_TargetType = typeof(RentalsView)
                         },
                         }
                     }
@@ -170,7 +168,6 @@ namespace FocalPoint.MainMenu.ViewModels
             TimeClockCommand = new Command(() => OnTimeClock());
             ManageProfileCommand = new Command(() => OnManageProfile());
             LogOutCommand = new Command(() => OnLogOut());
-            NavService = _navService;
         }
 
         public void OnTimeClock()
