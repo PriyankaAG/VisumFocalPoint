@@ -12,14 +12,7 @@ namespace Visum.Services.Mobile.Entities
         public decimal WeekAmt { get; set; }
         public int MonthCnt { get; set; }
         public decimal MonthAmt { get; set; }
-        public int OpenCnt { get; set; }
-        public int OpenEquipCnt { get; set; }
-        public List<Order> OpenOrders { get; set; } = new List<Order>();
-        public int RsrvCnt { get; set; }
-        public int RsrvEquipCnt { get; set; }
-        public List<Order> RsrvOrders { get; set; } = new List<Order>();
-        public int ReturnCnt { get; set; }
-        public int ReturnEquipCnt { get; set; }
-        public List<Order> ReturnOrders { get; set; } = new List<Order>();
+        public List<OrderDashboardOverview> Overviews { get; set; } = new List<OrderDashboardOverview>();
+        public DashboardUtilization Utilization { get; set; }
     }
 }

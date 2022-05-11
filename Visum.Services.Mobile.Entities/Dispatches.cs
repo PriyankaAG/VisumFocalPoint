@@ -80,13 +80,13 @@ namespace Visum.Services.Mobile.Entities
         public string OriginContact { get; set; }
 
         [DataMember]
-        public string OriginPhone { get; set; }
+        public double? OriginPhone { get; set; }
 
         [DataMember]
         public string ShipToContact { get; set; }
 
         [DataMember]
-        public string ShipToPhone { get; set; }
+        public double? ShipToPhone { get; set; }
 
         [DataMember]
         public List<DispatchDtl> OriginDtls { get; set; } = new List<DispatchDtl>();
