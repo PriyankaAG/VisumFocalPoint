@@ -14,11 +14,15 @@ namespace FocalPoint.MainMenu.Views
     {
         public NavigationPage NavPage => navPage;
         public MainPage MainPageObject => mainPage;
-        public MainMenuFlyoutDrawer FlyoutPageDrawerObect => FlyoutPageDrawer;
+        public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
         public MainMenuFlyout()
         {
             InitializeComponent();
             FlyoutPageDrawer.ListView.ItemSelected += ListView_ItemSelected;
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
         }
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -33,17 +37,11 @@ namespace FocalPoint.MainMenu.Views
                 page = Application.Current.MainPage;
                 page.Title = item.Title;
                 Detail = ((MainMenuFlyout)Application.Current.MainPage).navPage;
-            }
-            else
-            {
-                page = (Page)Activator.CreateInstance(item.TargetType);
-                page.Title = item.Title;
-                Detail = new NavigationPage(page);
+                IsPresented = false;
+
+                FlyoutPageDrawer.ListView.SelectedItem = null;
             }
 
-            IsPresented = false;
-
-            FlyoutPageDrawer.ListView.SelectedItem = null;
         }
     }
 }

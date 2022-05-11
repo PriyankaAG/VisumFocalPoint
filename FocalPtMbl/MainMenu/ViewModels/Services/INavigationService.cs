@@ -9,7 +9,7 @@ namespace FocalPtMbl.MainMenu.ViewModels.Services
     public interface INavigationService
     {
         Task<Page> PushPage(object viewModel);
-        Task<Page> PushPageFromMenu(Type pageToPush);
+        Task<Page> PushPageFromMenu(Type pageToPush, string pageTitle);
 
 
         Task Push(Object viewModel);
