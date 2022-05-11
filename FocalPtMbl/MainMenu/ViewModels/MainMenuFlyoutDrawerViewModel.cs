@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows.Input;
+﻿using FocalPoint.Data;
 using FocalPoint.MainMenu.Views;
 using FocalPoint.Modules.Administrative.Views;
 using FocalPoint.Modules.CustomerRelations.Views;
@@ -13,10 +7,14 @@ using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.FrontCounter.Views.Rentals;
 using FocalPoint.Modules.Inventory.Views;
 using FocalPoint.Modules.ServiceDepartment.Views;
-using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -180,6 +178,7 @@ namespace FocalPoint.MainMenu.ViewModels
             if (loggedOut)
             {
                 Logoff();
+                DataManager.ClearSettings();
                 await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
             }
         }

@@ -231,6 +231,13 @@ namespace FocalPoint.Data
             httpClientCache.User = Settings.User;
         }
 
+
+        public static void ClearSettings()
+        {
+            Settings = new Settings();
+            SaveSettings();
+        }
+
         public static void LoadHttpClientCache()
         {
             // Update the HttpClientCache properties
