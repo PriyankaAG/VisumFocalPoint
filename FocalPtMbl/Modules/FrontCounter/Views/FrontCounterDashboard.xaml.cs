@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FocalPoint.Modules.FrontCounter.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,9 @@ namespace FocalPoint
         public FrontCounterDashboard()
         {
             InitializeComponent();
+            FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+            frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            BindingContext = frontCounterDashboardViewModel;
         }
     }
 }
