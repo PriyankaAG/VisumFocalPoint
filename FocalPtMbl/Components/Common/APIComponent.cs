@@ -1,4 +1,5 @@
 ﻿using FocalPoint.Data;
+using FocalPoint.MainMenu.Views;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -39,6 +40,10 @@ namespace FocalPoint
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
                     typedRequestContent = JsonConvert.DeserializeObject<T>(content);
                 }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
                 else
                 {
                     //TODO: Handle failure API's, add logs to server
@@ -62,6 +67,10 @@ namespace FocalPoint
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
                     typedRequestContent = JsonConvert.DeserializeObject<T>(content);
                 }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
                 else
                 {
                     //TODO: Handle failure API's, add logs to server
@@ -84,6 +93,10 @@ namespace FocalPoint
                 {
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
                     typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
                 }
                 else
                 {
@@ -157,6 +170,15 @@ namespace FocalPoint
         private string GetLoginURL(string url)
         {
             return baseURL.Replace("V1/", "") + url;
+        }
+
+        private void HandleTokenExpired()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
+                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
+            });
         }
     }
 }

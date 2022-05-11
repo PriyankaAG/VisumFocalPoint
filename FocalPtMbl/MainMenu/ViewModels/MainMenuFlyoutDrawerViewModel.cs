@@ -183,9 +183,7 @@ namespace FocalPoint.MainMenu.ViewModels
             if (loggedOut)
             {
                 Logoff();
-
-                if (NavigationObject != null)
-                    await NavigationObject.PushModalAsync(new LoginPageNew());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
             }
         }
 
