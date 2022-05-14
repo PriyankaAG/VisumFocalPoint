@@ -95,6 +95,19 @@
     <Color x:Key="BoxViewFooterBackgroundColor">#e4eaf6</Color>
     <Color x:Key="EntryDefaultTextColor">#424242</Color>
 
+    <Color x:Key="MenuDrawerBackColor">#ffffff</Color>
+    <Color x:Key="MenuDrawerHeaderTextColor">#2f4757</Color>
+    <Color x:Key="MenuDrawerSeparatorColor">#707070</Color>
+    <Color x:Key="MenuDrawerItemHeaderColor">#5a607f</Color>
+    <Color x:Key="MenuDrawerFooterLineColor">#cecece</Color>
+    <Color x:Key="MenuDrawerFooterButtonColor">#57B8FF</Color>
+    <Color x:Key="MenuDrawerFooterButtonTextColor">#ffffff</Color>
+    <Color x:Key="MenuItemDefaultBackColor">#00000000</Color>
+    <Color x:Key="MenuItemDefaultTextColor">#0058ff</Color>
+    <Color x:Key="MenuItemSelectedBackColor">#57b8ff</Color>
+    <Color x:Key="MenuItemSelectedTextColor">#ffffff</Color>
+    
+
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
         <Setter Property="BarTextColor" Value="{StaticResource TextThemeColor}" />
@@ -200,7 +213,7 @@
         <Setter Property="TextColor" Value="#000"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
-
+    
     <!--<Style TargetType="dxc:ChartView">
         <Setter Property="Theme" Value="Light"/>
     </Style>
