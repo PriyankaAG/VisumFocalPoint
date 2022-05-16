@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter"
+             BackgroundColor="Yellow">
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>-->
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Hello World"/>
+        </StackLayout>
+        <!--<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+
+            --><!--<Grid Margin="10,10,10,0" Grid.Row="0" RowSpacing="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Close Order Summary" HorizontalOptions="Center"/>
+                <Grid Grid.Row="1" Grid.Column="0" ColumnSpacing="15">
+                    <StackLayout Grid.Column="0" Spacing="0" Padding="0.5">
+                        <Grid BackgroundColor="{DynamicResource FrameBorderColor}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Style="{DynamicResource LabelDefault}" HorizontalOptions="Center" Text="Today"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="icon.png" Style="{DynamicResource ImageDefault}"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
+                                    <Label Style="{DynamicResource LabelDefaultBold}" Text="35 Orders"/>
+                                    <Label Style="{DynamicResource LabelDefault}" Text="$1.1K"/>
+                                </StackLayout>
+                            </Grid>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="0" Spacing="0" Padding="0.5">
+                        <Grid BackgroundColor="{DynamicResource FrameBorderColor}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Style="{DynamicResource LabelDefault}" HorizontalOptions="Center" Text="Today"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="icon.png" Style="{DynamicResource ImageDefault}"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
+                                    <Label Style="{DynamicResource LabelDefaultBold}" Text="35 Orders"/>
+                                    <Label Style="{DynamicResource LabelDefault}" Text="$1.1K"/>
+                                </StackLayout>
+                            </Grid>
+                        </Grid>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="0" Spacing="0" Padding="0.5">
+                        <Grid BackgroundColor="{DynamicResource FrameBorderColor}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Style="{DynamicResource LabelDefault}" HorizontalOptions="Center" Text="Today"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="icon.png" Style="{DynamicResource ImageDefault}"/>
+                                <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
+                                    <Label Style="{DynamicResource LabelDefaultBold}" Text="35 Orders"/>
+                                    <Label Style="{DynamicResource LabelDefault}" Text="$1.1K"/>
+                                </StackLayout>
+                            </Grid>
+                        </Grid>
+                    </StackLayout>
+
+                </Grid>
+                --><!--<controls:DashboardListView Grid.Row="2" Header="Rental Counter" ListData="{Binding RentalCounterList}"/>-->
+                <!--<controls:DashboardListView Grid.Row="3" Header="Work Orders" ListData="{Binding WorkOrderList}"/>
+                <controls:DashboardListView Grid.Row="4" Header="Grand Total (Revenue For The Day)" ListData="{Binding GrandTotalList}"/>--><!--
+            </Grid>--><!--
+
+            <Grid Grid.Row="1" Style="{DynamicResource GridFooterDefault}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Image Source="icon.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Quick Rental"/>
+                </StackLayout>
+                <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="2">
+                    <Image Source="icon.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Return Orders"/>
+                </StackLayout>
+                <BoxView Grid.Column="3" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="4">
+                    <Image Source="icon.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Dispatch"/>
+                </StackLayout>
+                <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="6">
+                    <Image Source="icon.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Service Dept"/>
+                </StackLayout>
+            </Grid>
+        </Grid>-->
+    </ContentPage.Content>
+</ContentPage>

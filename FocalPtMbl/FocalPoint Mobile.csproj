@@ -19,6 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Modules\FrontCounter\ViewModels\FrontCounterDashboardViewModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Assets\font\Roboto-Black.ttf" />
 	  <None Remove="Assets\font\Roboto-BlackItalic.ttf" />
 	  <None Remove="Assets\font\Roboto-Bold.ttf" />
@@ -71,6 +75,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="MainMenu\Controls\DashboardListView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyout.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -125,7 +132,7 @@
 		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterDashboard.xaml">
+		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounter.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">

@@ -66,9 +66,15 @@ namespace FocalPoint.MainMenu.ViewModels
                         Id = 1,
                         Title = "Front Counter" ,
                         Icon = "storefront.png"  ,
-                        TargetType=typeof(FrontCounterDashboard),
+                        TargetType=typeof(FrontCounter),
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
+                             new MainMenuFlyoutSubItem() {
+                                Title = "Dashboard",
+                                SubItemText = "Front Counter Dashboard",
+                                IsVisible = true,
+                                SubText_TargetType = typeof(FrontCounter)
+                            },
                             new MainMenuFlyoutSubItem() {
                                 Title = "Quick Rental",
                                 SubItemText = "Quick Rental",

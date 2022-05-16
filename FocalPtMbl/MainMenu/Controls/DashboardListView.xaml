@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="DashBoardDetailListView" 
+             x:Class="FocalPoint.MainMenu.Controls.DashboardListView">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="{Binding Header, Source={x:Reference DashBoardDetailListView}}"/>
+            <Grid Grid.Row="1" BackgroundColor="Gray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Title"/>
+                <Label Grid.Column="1" Text="Count" />
+                <Label Grid.Column="2" Text="Merch."/>
+                <Label Grid.Column="3" Text="Labor" />
+                <Label Grid.Column="4" Text="Gross" />
+                <Label Grid.Column="5" Text="Avg. Tran" />
+            </Grid>
+            <!--<Grid Grid.Row="2" BindableLayout.ItemsSource="{Binding ListData, Source={x:Reference DashBoardDetailListView}}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding Dscr}"/>
+                            <Label Grid.Column="1" Text="{Binding OrderCnt}" />
+                            <Label Grid.Column="2" Text="{Binding MerchAmt}"/>
+                            <Label Grid.Column="3" Text="{Binding LaborAmt}"/>
+                            <Label Grid.Column="4" Text="{Binding GrossAmt}"/>
+                            <Label Grid.Column="5" Text="{Binding AvgTranAmt}"/>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </Grid>-->
+        </Grid>
+    </ContentView.Content>
+</ContentView>
