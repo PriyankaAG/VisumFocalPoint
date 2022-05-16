@@ -27,8 +27,8 @@
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
                     <Image Margin="20,20,20,5" Grid.Row="0" Source="FPlogo_Mobile.png" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Label Margin="5,5,5,15" Grid.Row="1" FontSize="13" FontFamily="Roboto-Regular" HorizontalTextAlignment="Center" 
-                           VerticalTextAlignment="Center" Text="Rental software solution for your day-to-day operations" TextColor="{DynamicResource MenuDrawerHeaderTextColor}">
+                    <Label Margin="5,5,5,15" Grid.Row="1" HorizontalTextAlignment="Center" 
+                           VerticalTextAlignment="Center" Text="Rental software solution for your day-to-day operations" Style="{DynamicResource MainMenuHeaderDescription}">
                     </Label>
                     <BoxView Color="{DynamicResource MenuDrawerSeparatorColor}" Grid.Row="2"/>
                     <BoxView Color="{DynamicResource MenuDrawerBackColor}" Grid.Row="3"/>
@@ -47,7 +47,8 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Image Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Start"/>
-                            <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" FontSize="16" FontFamily="Roboto-Bold" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text ="{Binding Title}" TextColor="{DynamicResource MenuDrawerItemHeaderColor}"/>
+                            <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                   Text ="{Binding Title}" Style="{DynamicResource MainMenuItemTitle}"/>
                             <StackLayout BindableLayout.ItemsSource="{Binding SubMenuItems}" Grid.Row="1" Grid.Column="1"
                                 Orientation="Vertical" Margin="0" Padding="0,5">
                                 <BindableLayout.ItemTemplate>
@@ -58,8 +59,8 @@
                                            BackgroundColor="{DynamicResource MenuItemDefaultBackColor}"
                                            Margin="10,0,10,0"
                                            Padding="0">
-                                            <Label Margin="10,5,10,5" FontSize="16" FontFamily="Roboto-Regular" IsVisible="{Binding IsVisible}"
-                                               VerticalTextAlignment="Center" LineBreakMode="WordWrap" Text="{Binding SubItemText, Mode=TwoWay}" TextColor="{DynamicResource MenuItemDefaultTextColor}" >
+                                            <Label Margin="10,5,10,5" IsVisible="{Binding IsVisible}"
+                                               VerticalTextAlignment="Center" LineBreakMode="WordWrap" Text="{Binding SubItemText, Mode=TwoWay}" Style="{DynamicResource MainMenuItemSubItem}" >
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding TapSubItemCommand}"/>
                                                 </Label.GestureRecognizers>
@@ -96,7 +97,7 @@
             <Frame Grid.Column="0" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8" >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center" IsVisible="{Binding IsTimeClockVisible}">
                     <Image Source="time_clock.png" HeightRequest="40" WidthRequest="40" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Time Clock" TextColor="{DynamicResource MenuDrawerFooterButtonTextColor}"/>
+                    <Label HorizontalTextAlignment="Center" Text ="Time Clock" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TimeClockCommand}"/>
@@ -105,7 +106,7 @@
             <Frame Grid.Column="1" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
                     <Image Source="manage_profile.png" HeightRequest="40" WidthRequest="40" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Manage Profile" TextColor="{DynamicResource MenuDrawerFooterButtonTextColor}"/>
+                    <Label HorizontalTextAlignment="Center" Text ="Manage Profile" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageProfileCommand}"/>
@@ -114,7 +115,7 @@
             <Frame Grid.Column="2" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
                     <Image Source="logout.png" HeightRequest="40" WidthRequest="40" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Log Out" TextColor="{DynamicResource MenuDrawerFooterButtonTextColor}"/>
+                    <Label HorizontalTextAlignment="Center" Text ="Log Out" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogOutCommand}"/>

@@ -213,7 +213,30 @@
         <Setter Property="TextColor" Value="#000"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
-    
+
+    <Style x:Key="MainMenuHeaderDescription" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerHeaderTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerItemHeaderColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemSubItem" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuItemDefaultTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuFooterOptions" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerFooterButtonTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
     <!--<Style TargetType="dxc:ChartView">
         <Setter Property="Theme" Value="Light"/>
     </Style>
