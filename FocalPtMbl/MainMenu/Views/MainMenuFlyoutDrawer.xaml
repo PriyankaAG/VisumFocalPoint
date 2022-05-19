@@ -16,7 +16,7 @@
               SelectionMode="Single"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
-                <Grid BackgroundColor="#ffffff">
+                <Grid BackgroundColor="{DynamicResource MenuDrawerBackColor}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
@@ -27,61 +27,65 @@
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
                     <Image Margin="20,20,20,5" Grid.Row="0" Source="FPlogo_Mobile.png" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Label Margin="5,5,5,15" Grid.Row="1" FontSize="13" FontFamily="Roboto-Regular" HorizontalTextAlignment="Center" 
-                           VerticalTextAlignment="Center" Text="Rental software solution for your day-to-day operations" TextColor="#2f4757">
+                    <Label Margin="5,5,5,15" Grid.Row="1" HorizontalTextAlignment="Center" 
+                           VerticalTextAlignment="Center" Text="Rental software solution for your day-to-day operations" Style="{DynamicResource MainMenuHeaderDescription}">
                     </Label>
-                    <BoxView Color="Silver" Grid.Row="2"/>
-                    <BoxView Color="#ffffff" Grid.Row="3"/>
+                    <BoxView Color="{DynamicResource MenuDrawerSeparatorColor}" Grid.Row="2"/>
+                    <BoxView Color="{DynamicResource MenuDrawerBackColor}" Grid.Row="3"/>
                 </Grid>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid BackgroundColor="{Binding RowColor}" RowSpacing="0" Padding="10,0,0,20">
+                        <Grid BackgroundColor="{Binding RowColor}" RowSpacing="0" Padding="10,0,0,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="45"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Image Margin="0,15,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Start"/>
-                            <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" FontSize="16" FontAttributes="Bold" FontFamily="Roboto-Bold" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text ="{Binding Title}" TextColor="#5a607f"/>
+                            <Image Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Start"/>
+                            <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                   Text ="{Binding Title}" Style="{DynamicResource MainMenuItemTitle}"/>
                             <StackLayout BindableLayout.ItemsSource="{Binding SubMenuItems}" Grid.Row="1" Grid.Column="1"
-                                        Orientation="Vertical" Margin="0" Padding="0">
+                                Orientation="Vertical" Margin="0" Padding="0,5">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Margin="10,10,0,0" FontSize="15" FontFamily="Roboto-Regular" IsVisible="{Binding IsVisible}"
-                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center" LineBreakMode="WordWrap"  >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding SubItemText, StringFormat='&#x2022; {0}'}"
-                                              TextColor="#0058ff">
-                                                        <Span.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding TapSubItemCommand}"/>
-                                                        </Span.GestureRecognizers>
-                                                    </Span>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
+                                        <Frame CornerRadius="5" 
+                                           VerticalOptions="Center"
+                                           HasShadow="False"
+                                           BackgroundColor="{DynamicResource MenuItemDefaultBackColor}"
+                                           Margin="10,0,10,0"
+                                           Padding="0">
+                                            <Label Margin="10,5,10,5" IsVisible="{Binding IsVisible}"
+                                               VerticalTextAlignment="Center" LineBreakMode="WordWrap" Text="{Binding SubItemText, Mode=TwoWay}" Style="{DynamicResource MainMenuItemSubItem}" >
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TapSubItemCommand}"/>
+                                                </Label.GestureRecognizers>
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{DynamicResource MenuItemSelectedTextColor}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource MenuItemSelectedBackColor}" />
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+                                        </Frame>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
 
                             </StackLayout>
-                             
-                            <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" BackgroundColor="#f99600" Padding="1" 
-                                   HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="30" HeightRequest="30" 
-                                   CornerRadius="5" Margin="0,0,10,0" IsVisible="{Binding IsBadgeVisible}">
-                                <Label WidthRequest="18" Text="{Binding BadgeCountDisplay}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="White"></Label>
-                            </Frame>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Row="1" ColumnSpacing="3" BackgroundColor="#cecece">
+        <Grid Grid.Row="1" ColumnSpacing="1" BackgroundColor="{DynamicResource MenuDrawerFooterLineColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -90,28 +94,28 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Frame Grid.Column="0" BackgroundColor="#57B8FF" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8" >
-                <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
-                    <Image Source="time_clock.png" HeightRequest="45" WidthRequest="45" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Time Clock" TextColor="White"/>
+            <Frame Grid.Column="0" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8" >
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center" IsVisible="{Binding IsTimeClockVisible}">
+                    <Image Source="time_clock.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Time Clock" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TimeClockCommand}"/>
                 </Frame.GestureRecognizers>
             </Frame>
-            <Frame Grid.Column="1" BackgroundColor="#57B8FF" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
+            <Frame Grid.Column="1" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
-                    <Image Source="manage_profile.png" HeightRequest="45" WidthRequest="45" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Manage Profile" TextColor="White"/>
+                    <Image Source="manage_profile.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Manage Profile" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageProfileCommand}"/>
                 </Frame.GestureRecognizers>
             </Frame>
-            <Frame Grid.Column="2" BackgroundColor="#57B8FF" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
+            <Frame Grid.Column="2" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
-                    <Image Source="logout.png" HeightRequest="45" WidthRequest="45" />
-                    <Label FontSize="14" FontFamily="Roboto-Bold" HorizontalTextAlignment="Center" Text ="Log Out" TextColor="White"/>
+                    <Image Source="logout.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Log Out" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
