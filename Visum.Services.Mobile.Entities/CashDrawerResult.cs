@@ -11,12 +11,13 @@ namespace Visum.Services.Mobile.Entities
         public decimal CashDCashIn { get; set; }
         public decimal CashDCashOut { get; set; }
         public decimal CashDCheckIn { get; set; }
-        public decimal CheckOut { get; set; }
+        public decimal CashDCCIn { get; set; }
         public decimal CashDCheckOut { get; set; }
         public decimal CashDCCOut { get; set; }
         public decimal CashDOtherIn { get; set; }
         public decimal CashDOtherOut { get; set; }
         public decimal RefundIn { get; set; }
         public decimal RefundOut { get; set; }
+        public decimal TotalDrawer { get; set; }
     }
 }

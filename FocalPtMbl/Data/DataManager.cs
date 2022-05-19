@@ -38,7 +38,7 @@ namespace FocalPoint.Data
 
         public SQLite.SQLiteConnection GetConnection()
         {
-            SQLiteConnection sqlitConnection;            
+            SQLiteConnection sqlitConnection;
             sqlitConnection = new SQLite.SQLiteConnection(DatabasePath);
             return sqlitConnection;
         }
@@ -97,28 +97,6 @@ namespace FocalPoint.Data
             return _postCodes != null;
         }
 
-
-        public enum SecurityAreas
-        {
-            MBL = 325,
-            MBL_Cust = 326,
-            MBL_Cust_Balance = 327,
-            MBL_Cust_Notes = 328,
-            MBL_Rental = 329,
-            MBL_Rental_Revenue = 371,
-            MBL_Snapshot = 330,
-            MBL_Snapshot_Revenue = 331,
-            MBL_Vendor = 369,
-            MBL_Vendor_Balance = 370,
-            MBL_Snapshot_CashDrawer = 372,
-            MBL_Snapshot_RentalVal = 373,
-            MBL_Orders = 382,
-            MBL_Dispatching = 383,
-            MBL_WorkOrders = 384,
-            MBL_TimeCLock = 436,
-            MBL_TimeClock_BehalfOf = 437,
-        }
-
         //private static SQLiteConnection _SQLCon;
         //public static SQLiteConnection SQLCon
         //{
@@ -157,12 +135,20 @@ namespace FocalPoint.Data
             SQLCon.CreateTable<Store>();
             SQLCon.CreateTable<Vendor>();
         }
-
-        public static bool UserIsAllowed(SecurityAreas Area)
+        public static void ResetSecurityTable()
+        {
+            SQLCon.DropTable<FocalPoint.Data.DataModel.Security>();
+            SQLCon.CreateTable<FocalPoint.Data.DataModel.Security>();
+        }
+        public static int InsertAllSecurities(List<FocalPoint.Data.DataModel.Security> securityAreas)
+        {
+            return DataManager.SQLCon.InsertAll(securityAreas);
+        }
+        public static bool UserIsAllowed(Visum.Services.Mobile.Entities.Security.Areas Area)
         {
             var rtn = SQLCon.Query<Security>("SELECT * FROM tblSecurity WHERE SecArea = ?", Area);
 
-            return (rtn == null || !rtn.Any()) ? false : rtn[0].SecAllowed;
+            return (rtn == null || !rtn.Any()) ? false : rtn[0].Allowed;
         }
 
         // Cheesey...
@@ -228,6 +214,14 @@ namespace FocalPoint.Data
             httpClientCache.Store = Settings.HomeStore.ToString();
             httpClientCache.Terminal = Settings.Terminal.ToString();
             httpClientCache.Token = Settings.UserToken;
+            httpClientCache.User = Settings.User;
+        }
+
+
+        public static void ClearSettings()
+        {
+            Settings = new Settings();
+            SaveSettings();
         }
 
         public static void LoadHttpClientCache()
@@ -238,6 +232,7 @@ namespace FocalPoint.Data
             httpClientCache.Store = Settings.HomeStore.ToString();
             httpClientCache.Terminal = Settings.Terminal.ToString();
             httpClientCache.Token = Settings.UserToken;
+            httpClientCache.User = Settings.User;
 
         }
 

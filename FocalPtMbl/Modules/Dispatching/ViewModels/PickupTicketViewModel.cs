@@ -1,287 +1,502 @@
-﻿using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Components.Interface;
+using FocalPoint.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint.Modules.Dispatching.ViewModels
 {
-    public class PickupTicketViewModel : ThemeBaseViewModel
+    public class PickupTicketViewModel : CommonViewModel
     {
-        readonly PickupTicket order;
-        //private PickupTicketItem SelectedTicket = new PickupTicketItem();
-        private ObservableCollection<PickupTicketItem> details = new ObservableCollection<PickupTicketItem>();
-        HttpClient clientHttp;
-        public HttpClient ClientHTTP
+        #region constructor
+        public PickupTicketViewModel(PickupTicket pickupTicket)
         {
-            get { return clientHttp; }
+            PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            ticket = pickupTicket;
+            Init();
+            SetEntityDetails(DocKinds.PickupTicket, pickupTicket.PuTNo, "R");
+            OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
+            OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(address));
+            OpenEmailApplicationCommand = new Command<string>(async address => await OpenEmailApplicationTask(address));
         }
+        #endregion
+
+        #region Properties
+        private PickupTicket ticket = null;
+        public PickupTicket Ticket
+        {
+            get
+            {
+                return ticket;
+            }
+            set
+            {
+                ticket = value;
+                Init();
+            }
+        }
+        public IPickupTicketEntityComponent PickupTicketEntityComponent { get; set; }
+
+        private ObservableCollection<PickupTicketItem> details = new ObservableCollection<PickupTicketItem>();
         public ObservableCollection<PickupTicketItem> Details
         {
             get => this.details;
             set
             {
-                if (details.Count < 0)
-                    this.details = value;
-                else
-                {
-                    this.details.Clear();
-                    this.details = value;
-                }
+                this.details = value;
                 OnPropertyChanged(nameof(Details));
             }
-
+        }
+        ObservableCollection<PickupTicketOrder> _orders = new ObservableCollection<PickupTicketOrder>();
+        public ObservableCollection<PickupTicketOrder> Orders
+        {
+            get
+            {
+                return _orders;
+            }
+            set
+            {
+                _orders = value;
+                OnPropertyChanged("Orders");
+            }
         }
         public decimal Totals
         {
             get
             {
-                return SelectedDetail.PuDtlCntQty + SelectedDetail.PuDtlOutQty + SelectedDetail.PuDtlSoldQty + SelectedDetail.PuDtlStolenQty + SelectedDetail.PuDtlLostQty + SelectedDetail.PuDtlDmgdQty;
+                return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlOutQty + SelectedItem.PuDtlSoldQty + SelectedItem.PuDtlStolenQty + SelectedItem.PuDtlLostQty + SelectedItem.PuDtlDmgdQty;
             }
         }
-
-        internal List<string> GetPopUpCount()
+        public decimal Counted
         {
-            List<string> popUpList = new List<string>();
-            if (SelectedDetail.PuDtlMeterIn != null && SelectedDetail.OrderDtlMeterType != "N")
-                popUpList.Add("Input Meter");
-            if (SelectedDetail.OrderDtlFuelType != "N")
-                popUpList.Add("Add Fuel");
-            if (SelectedDetail.PuDtlCounted)
-                popUpList.Add("Select Count");
-
-                return popUpList;
+            get { return SelectedItem.PuDtlCntQty + SelectedItem.PuDtlDmgdQty; }
         }
-
-        //ImageSource _image = null;
-        //public ImageSource Image
-        //{
-        //    get
-        //    {
-        //        var str = string.Format("FocalPoint.Images.{0}.png", classId);
-
-        //        _image = ImageSource.FromResource(str);
-        //        _image.ClassId = classId;
-
-        //        return _image;
-        //    }
-        //}
-        private ObservableCollection<PickupTicketItem> selectedDetails = new ObservableCollection<PickupTicketItem>();
-        public ObservableCollection<PickupTicketItem> SelectedDetails
-        {
-            get => this.details;
-            set
-            {
-                if (details.Count < 0)
-                    this.details = value;
-                else
-                {
-                    this.details.Clear();
-                    this.details = value;
-                }
-                OnPropertyChanged(nameof(Details));
-            }
-
-        }
-
-        internal string GetImageString()
-        {
-            var str = string.Empty;
-            var classId = string.Empty;
-            if (Totals > 0)
-            {
-                //SelectedTicket.Checked = true;
-
-                if (Totals > SelectedDetail.PuDtlQty)
-                    classId = "RedCheckedBox";
-                else if (this.Totals == SelectedDetail.PuDtlQty)
-                    classId = "CheckedBox";
-                else
-                    classId = "YellowCheckedBox";
-            }
-            else
-            {
-                classId = "UnCheckedBox";
-            }
-
-
-                str = string.Format("{0}.png", classId);
-            return str;
-            }
-        internal string LoadImageString(PickupTicketItem pickupTicketItem)
-        {
-            var str = string.Empty;
-            var classId = string.Empty;
-            if (Totals > 0)
-            {
-                //SelectedTicket.Checked = true;
-
-                if (Totals > pickupTicketItem.PuDtlQty)
-                    classId = "RedCheckedBox";
-                else if (this.Totals == pickupTicketItem.PuDtlQty)
-                    classId = "CheckedBox";
-                else
-                    classId = "YellowCheckedBox";
-            }
-            else
-            {
-                classId = "UnCheckedBox";
-            }
-
-
-            str = string.Format("{0}.png", classId);
-            return str;
-        }
-
-        internal void PickupTicketItemToSubmit()
-        {
-            //if (SelectedPickupTicketItems.Contains(SelectedDetail))
-            //    SelectedPickupTicketItems.Remove(SelectedDetail);
-            //else
-            //    SelectedPickupTicketItems.Add(SelectedDetail);
-        }
-        
-
-        public PickupTicketViewModel(PickupTicket pickupTicket)
-        {
-            var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
-            this.clientHttp = httpClientCache.GetHttpClientAsync();
-            order = pickupTicket;
-            if (pickupTicket.Details != null)
-            {
-                foreach (var dtl in pickupTicket.Details)
-                {
-                    dtl.CurrentTotalCnt = dtl.PuDtlCntQty + dtl.PuDtlOutQty + dtl.PuDtlSoldQty + dtl.PuDtlStolenQty + dtl.PuDtlLostQty + dtl.PuDtlDmgdQty;
-                    dtl.ImageName = LoadImageString(dtl);
-                    this.Details.Add(dtl);
-                }
-                this.order = pickupTicket;
-            }
-        }
-
-        internal void SelectedItemChecked(bool isChecked)
-        {
-            bool isAtEndOfIndex = false; 
-            int selectedIndex = this.Details.IndexOf(SelectedDetail);
-            if (Details.Count - 1 == selectedIndex)
-                isAtEndOfIndex = true;
-            this.Details.Remove(SelectedDetail);
-            //then change the selected detail to reflect those changes
-            if (!isChecked)
-            {
-                SelectedDetail.PuDtlCntQty = SelectedDetail.PuDtlQty;
-                SelectedDetail.ImageName = GetImageString();
-            }
-            else
-            {
-                SelectedDetail.PuDtlCntQty = 0;
-                SelectedDetail.PuDtlOutQty = 0;
-                SelectedDetail.PuDtlSoldQty = 0;
-                SelectedDetail.PuDtlStolenQty = 0;
-                SelectedDetail.PuDtlLostQty = 0;
-                SelectedDetail.PuDtlDmgdQty = 0;
-                SelectedDetail.ImageName = GetImageString();
-            }
-            if (isAtEndOfIndex)
-            {
-                this.Details.Add(SelectedDetail);
-                OnPropertyChanged(nameof(Details));
-                //this.Details.
-            }
-            else
-                this.Details.Insert(selectedIndex, SelectedDetail);
-            //this.Details.
-        }
-
-        internal void SelectedItemEdit()
-        {
-            //throw new NotImplementedException();
-        }
-
         public string Address1
         {
-            get => this.order.Address1;
+            get => Ticket.Address1;
         }
         public string Address2
         {
-            get => this.order.Address2;
+            get => this.Ticket.Address2;
         }
         public string CityStateZip
         {
-            get => this.order.CityStateZip;
+            get => Ticket.CityStateZip == null || Ticket.CityStateZip.Trim().Equals(",") ? "" : Ticket.CityStateZip;
         }
-
         public string CustomerName
         {
-            get => this.order.CustomerName;
+            get => this.Ticket.CustomerName;
         }
-
         public string OrderNumberT
         {
-            get => this.order.OrderNumberT;
+            get => this.Ticket.OrderNumberT;
         }
-
         public string Phone
         {
-            get => this.order.Phone;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone);
         }
         public string Phone2
         {
-            get => this.order.Phone2;
+            get => Utils.Utils.ConvertPhone(Ticket.Phone2);
         }
         public string PhoneType
         {
-            get => this.order.PhoneType;
+            get => this.Ticket.PhoneType;
         }
         public string PhoneType2
         {
-            get => this.order.PhoneType2;
+            get => this.Ticket.PhoneType2;
         }
         public string PuCDte
         {
-            get => this.order.PuCDte.ToString();
+            get => this.Ticket.PuCDte.ToFormattedDate();
         }
         public string PuContact
         {
-            get => this.order.PuContact;
+            get => this.Ticket.PuContact;
         }
         public string PuEDte
         {
-            get => this.order.PuEDte.ToString();
+            get => this.Ticket.PuEDte.ToFormattedDate();
         }
         public string PuEEmpid
         {
-            get => this.order.PuEEmpid;
+            get => this.Ticket.PuEEmpid;
         }
-        public string PuMobile
+        public bool PuMobile
         {
-            get => this.order.PuMobile.ToString();
+            get => this.Ticket.PuMobile;
+        }
+        public bool IsSelectPickupItemVisible
+        {
+            //get => true;
+            get => Ticket.PuMobile && Ticket.Details.Count == 0;
         }
         public string PuNote
         {
-            get => this.order.PuNote;
+            get => this.Ticket.PuNote;
         }
         public string PuPDte
         {
-            get => this.order.PuPDte.ToString();
+            get => this.Ticket.PuPDte.ToFormattedDate();
         }
         public string PuTNo
         {
-            get => this.order.PuTNo.ToString();
+            get => this.Ticket.PuTNo.ToString();
         }
-        private PickupTicketItem selectedDetail = new PickupTicketItem();
-        public PickupTicketItem SelectedDetail
+        public int ToBeCounted
         {
-            get => this.selectedDetail;
-            set
+            get
             {
-                this.selectedDetail = value;
-                OnPropertyChanged(nameof(SelectedDetail));
+                return Details.Count(x => x.PuDtlCounted == false);
+            }
+        }
+        public PickupTicketItem SelectedItem { get; set; }
+        #endregion
+
+        #region Methods
+        private void Init()
+        {
+            UpdateItems();
+
+            OnPropertyChanged(nameof(Ticket));
+            OnPropertyChanged(nameof(Details));
+            OnPropertyChanged(nameof(ToBeCounted));
+        }
+        private void UpdateItems()
+        {
+            if (ticket.Details == null || ticket.Details.Count() == 0)
+            {
+                //Assume there have been counted/completed - confirm with Kirk
+                Details.Clear();
+                return;
+            }
+            foreach (var item in ticket.Details)
+            {
+                this.SelectedItem = item;
+                item.CurrentTotalCnt = item.TotalCounted = GetTotalCount(item);
+                item.ImageName = LoadImageString(item);
+
+                var existing = Details.FirstOrDefault(x => x.PuDtlTNo == item.PuDtlTNo);
+                if (existing == null)
+                {
+                    //Add it
+                    Details.Add(item);
+                    continue;
+                }
+
+                if (item.UTCCountDte > existing.UTCCountDte)
+                {
+                    int selectedIndex = Details.IndexOf(this.SelectedItem);
+                    //Always overwrite - even if modified locally
+                    Details.Remove(existing);
+                    Details.Insert(selectedIndex, item);
+                    continue;
+                }
+            }
+            var tmp = ticket.Details;
+            for (int i = Details.Count() - 1; i >= 0; i--)
+            {
+                if (tmp.Exists(x => x.PuDtlTNo == Details[i].PuDtlTNo))
+                    continue;
+
+                Details.RemoveAt(i);
+            }
+        }
+        public void Init(PickupTicket pickupTicket)
+        {
+            Ticket = pickupTicket;
+            Details.Clear();
+            if (pickupTicket.Details == null)
+                Details = null;
+            foreach (var item in pickupTicket.Details)
+            {
+                this.SelectedItem = item;
+                item.CurrentTotalCnt = item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+                item.ImageName = LoadImageString(item);
+                Details.Add(item);
+            }
+            Ticket = pickupTicket;
+        }
+        internal List<string> GetPopUpCount()
+        {
+            List<string> popUpList = new List<string>();
+            if (SelectedItem.OrderDtlMeterType != "N")
+                popUpList.Add("Input Meter");
+            if (SelectedItem.OrderDtlFuelType != "N")
+                popUpList.Add("Add Fuel");
+            if (SelectedItem.PuDtlCounted)
+                popUpList.Add("Select Count");
+
+            return popUpList;
+        }
+        internal string LoadImageString(PickupTicketItem item)
+        {
+            string classId;
+            if (Totals > 0)
+            {
+                this.SelectedItem.Checked = true;
+
+                if (Totals > item.PuDtlQty)
+                    classId = "RedCheckedBox";
+                else if (this.Totals == item.PuDtlQty)
+                    classId = "GreenCheckedBox";
+                else
+                    classId = "YellowCheckedBox";
+            }
+            else
+            {
+                classId = "UnCheckedBox";
             }
 
+
+            string str = string.Format("{0}.png", classId);
+            return str;
         }
+        internal void setPopupValue(string popupString, string result)
+        {
+            switch (popupString)
+            {
+                case "Input Meter":
+                    SelectedItem.PuDtlMeterIn = Convert.ToDouble(result);
+                    break;
+                case "Select Count":
+                    SelectedItem.LastCntOutQty = Convert.ToDecimal(result);
+                    break;
+                case "Add Fuel":
+                    SelectedItem.PuDtlTank = Convert.ToDouble(result);
+                    break;
+                default:
+                    break;
+            }
+        }
+        internal double GetPopupType(string popupString)
+        {
+            double value = 0;
+            switch (popupString)
+            {
+                case "Input Meter":
+                    value = SelectedItem.PuDtlMeterIn;
+                    break;
+                case "Select Count":
+                    value = (double)SelectedItem.LastCntOutQty;
+                    break;
+                case "Add Fuel":
+                    value = (double)SelectedItem.PuDtlTank;
+                    break;
+                default:
+                    break;
+            }
+            return value;
+        }
+        internal void UpdateSelectedItem(PickupTicketItem ticketItem, bool isSuccess)
+        {
+            try
+            {
+                bool isAtEndOfIndex = false;
+                var item = Details.FirstOrDefault(x => x.PuDtlTNo == ticketItem.PuDtlTNo);
+                if (item == null) return;
+                int selectedIndex = this.Details.IndexOf(item);
+
+                if (Details.Count - 1 == selectedIndex)
+                    isAtEndOfIndex = true;
+                this.Details.Remove(item);
+
+                SetSelectedItemValues(ticketItem, isSuccess);
+
+                if (isAtEndOfIndex)
+                    Details.Add(SelectedItem);
+                else
+                    Details.Insert(selectedIndex, SelectedItem);
+
+                OnPropertyChanged(nameof(SelectedItem));
+                OnPropertyChanged(nameof(Details));
+                OnPropertyChanged(nameof(ToBeCounted));
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+        private void SetSelectedItemValues(PickupTicketItem ticketItem, bool isSuccess)
+        {
+            SelectedItem = ticketItem;
+            if (!isSuccess)
+            {
+                ResetCounts();
+            }
+            SelectedItem.TotalCounted = GetTotalCount(SelectedItem);
+            SelectedItem.ImageName = LoadImageString(SelectedItem);
+            SelectedItem.UTCCountDte = DateTime.UtcNow;
+        }
+        private void ResetCounts()
+        {
+            SelectedItem.PuDtlCntQty = SelectedItem.PuDtlOutQty = SelectedItem.PuDtlSoldQty = SelectedItem.PuDtlStolenQty =
+                            SelectedItem.PuDtlLostQty = SelectedItem.PuDtlDmgdQty = 0;
+        }
+        internal void SetSelectedItemCounts(bool isChecked)
+        {
+            if (isChecked)
+                SelectedItem.PuDtlCntQty = SelectedItem.PuDtlQty;
+            else
+                ResetCounts();
+            SelectedItem.UTCCountDte = DateTime.UtcNow;
+        }
+        internal async Task RefreshTicket()
+        {
+            var PickupTicketEntityComponent = new PickupTicketEntityComponent();
+            var detailedTicket = await PickupTicketEntityComponent.GetPickupTicket(SelectedItem.PuTNo.ToString());
+            Init(detailedTicket);
+        }
+
+        #region OpenPhoneDialer
+
+        public ICommand OpenPhoneDialerCommand { get; }
+
+        private async Task OpenPhoneDialerTask(string phoneNumber)
+        {
+            try
+            {
+                await Utils.Utils.OpenPhoneDialer(phoneNumber);
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenPhoneDialer
+
+        #region OpenMapApplication
+
+        public ICommand OpenMapApplicationCommand { get; }
+
+        private async Task OpenMapApplicationTask(string address)
+        {
+            try
+            {
+                await Utils.Utils.OpenMapApplication(address);
+            }
+            catch (Exception exception)
+            {
+                //TODO: log error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenMapApplication
+
+        #region OpenEmailApplication
+
+        public ICommand OpenEmailApplicationCommand { get; }
+
+        private async Task OpenEmailApplicationTask(string emailAddress)
+        {
+            try
+            {
+                await Utils.Utils.OpenEmailApplication(string.Empty, string.Empty, new List<string> { emailAddress });
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log error
+            }
+            finally
+            {
+            }
+        }
+
+        #endregion OpenEmailApplication
+
+        async internal Task<bool> AttemptLock(string apiLocked)
+        {
+            try
+            {
+                return await PickupTicketEntityComponent.LockPickupTicket(Ticket.PuTNo.ToString(), apiLocked);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        internal Task<PickupTicket> GetTicketInfo(string PuTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicket(PuTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<List<PickupTicketOrder>> PickupTicketOrder(int puTNo)
+        {
+            try
+            {
+                return PickupTicketEntityComponent.GetPickupTicketOrder(puTNo);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        internal Task<bool> PickupTicketCreate(List<PickupTicketOrder> pickupTicketOrders)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketCreate(pickupTicketOrders);
+        }
+        async internal Task<bool> PickupTicketCounted()
+        {
+            var requestObj = new PickupTicketCounted
+            {
+                PuTNo = Convert.ToInt32(this.PuTNo),
+                UTCDte = DateTime.Now
+            };
+            return await PickupTicketEntityComponent.PostPickupTicketCounted(requestObj);
+        }
+        internal Task<bool> PickupTicketItemCount(PickupTicketItem selectedDetail)
+        {
+            return PickupTicketEntityComponent.PostPickupTicketItemCount(selectedDetail);
+        }
+        internal async Task<PickupTicketItem> GetUpdatedItem(PickupTicketItem item)
+        {
+            try
+            {
+                var updatedItem = await PickupTicketEntityComponent.GetPickupTicketItem(item.PuDtlTNo);
+                if (updatedItem == null)
+                    return null;
+
+                return updatedItem;
+            }
+            catch { }
+
+            return item;
+        }
+        internal decimal GetTotalCount(PickupTicketItem item)
+        {
+            return item.PuDtlCntQty + item.PuDtlOutQty + item.PuDtlSoldQty + item.PuDtlStolenQty + item.PuDtlLostQty + item.PuDtlDmgdQty;
+
+        }
+        internal async Task<bool> GetPickupTicketItemCount(bool isChecked)
+        {
+            SetSelectedItemCounts(isChecked);
+            bool update = await PickupTicketItemCount(SelectedItem);
+
+            var updatedItem = await GetUpdatedItem(SelectedItem);
+            if (updatedItem != null)
+                UpdateSelectedItem(updatedItem, true);
+
+            return update;
+        }
+        #endregion
     }
 }

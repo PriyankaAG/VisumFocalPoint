@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DevExpress.XamarinForms.DataForm;
+using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
 using FocalPoint.Data;
-using FocalPoint.Data.API;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -16,7 +17,6 @@ using Newtonsoft.Json;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -26,7 +26,7 @@ namespace FocalPoint.MainMenu.ViewModels
         const string leftColumnWidth = "0"; //was 40
 
         //[DataFormDisplayOptions(LabelWidth = leftColumnWidth, LabelIcon = "")]
-        [DataFormDisplayOptions(IsLabelVisible =false)]
+        [DataFormDisplayOptions(IsLabelVisible = false)]
         [DataFormItemPosition(RowOrder = 0)]
         [DataFormTextEditor(InplaceLabelText = "Host", Keyboard = "Email")]
         [Required(ErrorMessage = "Host incorrect or Unavailable")]
@@ -65,9 +65,10 @@ namespace FocalPoint.MainMenu.ViewModels
     {
         ICommand buttonCommand = null;
         HttpClient clientHttp = new HttpClient();
-       // HttpClient secureClientHttp;
+        public ISettingsComponent SettingsComponent;
 
         public LoginInfo Model { get; set; }
+        public ILoginComponent LoginComponent { get; set; }
 
         public LoginPageViewModel()
         {
@@ -75,6 +76,21 @@ namespace FocalPoint.MainMenu.ViewModels
             clientHttp = PreparedClient();
             //secureClientHttp = new HttpClient();
             buttonCommand = new ValidationCommand(this);
+            SettingsComponent = new SettingsComponent();
+            LoginComponent = new LoginComponent();
+            CheckForSettings();
+        }
+        /// <summary>
+        /// Checks whether the user had logged in previously and has a HOST and a PORT saved 
+        /// onto his device.
+        /// </summary>
+        private async void CheckForSettings()
+        {
+            Model.ConnectionURL = await SettingsComponent.GetSecure(Utils.Utils.HOSTKEY);
+            Model.ConnectionPort = await SettingsComponent.GetSecure(Utils.Utils.PORTKEY);
+
+            if (string.IsNullOrEmpty(Model.ConnectionPort))
+                Model.ConnectionPort = "56883";
         }
         private HttpClient PreparedClient()
         {
@@ -168,19 +184,20 @@ namespace FocalPoint.MainMenu.ViewModels
                 }
             }
         }
-        private string curToken = "";
-        public string CurToken
+        private string user = "";
+        public string User
         {
-            get { return curToken; }
+            get { return user; }
             set
             {
-                if (curToken != value)
+                if (user != value)
                 {
-                    curToken = value;
-                    OnPropertyChanged("CurToken");
+                    user = value;
+                    OnPropertyChanged(nameof(User));
                 }
             }
         }
+        public string Token { get; set; }
         public int AttemptLogin(DataFormView dataForm)
         {
             try
@@ -196,8 +213,8 @@ namespace FocalPoint.MainMenu.ViewModels
                     string Password = this.Model.Password; //"+Eg/bz+kAL5rp1moMUdS7B5o1MQZPNxbvi3bdu05huI=";
                     Password = DependencyService.Get<ICrypt>().Encrypt("VISLLc0404", Password);
 
-                    Uri uri = new Uri(string.Format(baseURL + "/Mobile/Compatible"));
-                    Uri uri2 = new Uri(string.Format(baseURL+"/Mobile/Login"));
+                    //Uri uri = new Uri(string.Format(baseURL + "/Mobile/Compatible"));
+                    Uri uri2 = new Uri(string.Format(baseURL + "/Mobile/Login"));
                     var stringContent = new StringContent(
                                                           JsonConvert.SerializeObject(3.0),
                                                           Encoding.UTF8,
@@ -208,60 +225,45 @@ namespace FocalPoint.MainMenu.ViewModels
                                           Encoding.UTF8,
                                           "application/json");
 
+                    //var token1 = LoginComponent.UserLogin(uri2.ToString(),JsonConvert.SerializeObject(new { Username, Password }));
                     //var response =  viewModel.ClientHTTP.PostAsync(uri, stringContent).Result;
-                    var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-                    if (response.IsSuccessStatusCode)
+                    //var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                    //if (response.IsSuccessStatusCode)
                     {
-                        //"{\"APIHighVersion\":1,\"APILowVersion\":1,\"FocalPtVersion\":{\"_Build\":3,\"_Major\":2,\"_Minor\":55,\"_Revision\":-1},\"LocalIP\":\"172.24.64.1\"}"
-                        string content = response.Content.ReadAsStringAsync().Result;
-                        //var compatible = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.CompatibleResults>(content); //JsonSerializer.Deserialize<List<CompatibleResults>>(content);
-                        //if (compatible.APIHighVersion <= 3 && compatible.APILowVersion >= 1)
-                        //{
-                            response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
+                        //string content = response.Content.ReadAsStringAsync().Result;
+                        var response = ClientHTTP.PostAsync(uri2, stringContent2).Result;
+                        if (response.IsSuccessStatusCode)
+                        {
                             var content2 = response.Content.ReadAsStringAsync().Result.ToString();
-                            var token = JsonConvert.DeserializeObject<Guid>(content2).ToString();
-                            //token = "35cb7e13-526d-401b-9295-0a5f16c0dee2";
-                            if (token == "00000000-0000-0000-0000-000000000000")
+                            var token = JsonConvert.DeserializeObject<Guid>(content2);
+                            //token = "30284c8c-c03c-4c0b-834e-4bb1fdd5f151";
+                            if (token == Guid.Empty)
                             {
-                                //invalid token
                                 return 3;
                             }
                             else
                             {
-                                CurToken = token;
+                                User = token.ToString();
                                 return 5;
                             }
-
-                        //}
-                        //else 86400000ms DNS query, check to see if on same network and use local instead of public connection. 
-                        //{
-                        //    //invalid version
-                        //    return 2;
-                        //    //  await App.Current.MainPage.DisplayAlert("Version Incompatibale with Server", "OK");
-                        //}
-                         ;//JsonSerializer.Deserialize<List<TodoItem>>(content, serializerOptions);
-                    }
-                    else
-                    {
-                        //invalid connection
-                        return 1;
+                        }
+                        else
+                            return -1;
                     }
                 }
-                //placeholder
-                return 1;
+                return -1;
             }
             catch (Exception ex)
             {
                 //await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
                 Console.WriteLine(ex.Message);
-                return 0;
+                return -1;
             }
-            //viewModel.ValidationResultText = $"Login {Login} is correct";
         }
 
         internal string GetTerminalFromArray(string loginTerminal)
         {
-            if(terminalDict.ContainsKey(loginTerminal))
+            if (terminalDict.ContainsKey(loginTerminal))
             {
                 return terminalDict[loginTerminal].TerminalNo.ToString();
             }
@@ -306,8 +308,7 @@ namespace FocalPoint.MainMenu.ViewModels
             // if store was selected but no terminal remove the headder and readd the new one
             if (ClientHTTP.DefaultRequestHeaders.Contains("StoreNo"))
                 ClientHTTP.DefaultRequestHeaders.Remove("StoreNo");
-            if (!ClientHTTP.DefaultRequestHeaders.Contains("StoreNo"))
-                ClientHTTP.DefaultRequestHeaders.Add("StoreNo", StoreLoginNo);
+            ClientHTTP.DefaultRequestHeaders.Add("StoreNo", StoreLoginNo);
 
             string baseURL = this.Model.ConnectionURL + ":" + this.Model.ConnectionPort;
             if (!baseURL.Contains("https://"))
@@ -331,47 +332,49 @@ namespace FocalPoint.MainMenu.ViewModels
             return CurrentTerminals.ToArray();
         }
 
-        internal bool CheckLicenses(DataFormView dataForm)
+        internal int CheckLicenses()
         {
             string baseURL = this.Model.ConnectionURL + ":" + this.Model.ConnectionPort;
             if (!baseURL.Contains("https://"))
                 baseURL = "https://" + baseURL;
             Uri uri3 = new Uri(string.Format(baseURL + "/Mobile/V1/ConnectionLimit"));
-            string Username = this.Model.Login;
+            //string Username = this.Model.Login;
             string FingerPrint = getFingerPrint();
-            short Type = GetDeviceType();
+            short Type = Utils.Utils.GetDeviceType();
             string Phone = "";
-            var stringContent3 = new StringContent(
-      JsonConvert.SerializeObject(new { FingerPrint, Type, Username, Phone }),
-      Encoding.UTF8,
-      "application/json");
 
-            FingerPrint = getFingerPrint();
-            Type = GetDeviceType();
-            Phone = getPhone();
-            //add headers to client AMG popup which store and terminal to connect to
-            if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                ClientHTTP.DefaultRequestHeaders.Remove("Token");
-            if (!ClientHTTP.DefaultRequestHeaders.Contains("Token"))
-                ClientHTTP.DefaultRequestHeaders.Add("Token", CurToken);
+            var stringContent3 = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
+            if (ClientHTTP.DefaultRequestHeaders.Contains("User"))
+                ClientHTTP.DefaultRequestHeaders.Remove("User");
+            ClientHTTP.DefaultRequestHeaders.Add("User", User);
 
-            var response = ClientHTTP.PostAsync(uri3, stringContent3).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                // string content3 = response.Content.ReadAsStringAsync().Result;
-                // var conLimit = JsonConvert.DeserializeObject<bool>(content3);
-                //if (conLimit == false)
-                // {
-                
-                    return true;
+                var response = ClientHTTP.PostAsync(uri3, stringContent3).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content.ReadAsStringAsync().Result.ToString();
+                    var token = JsonConvert.DeserializeObject<Guid>(content);
+                    if (token == Guid.Empty)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        Token = token.ToString();
+                        if (ClientHTTP.DefaultRequestHeaders.Contains("Token"))
+                            ClientHTTP.DefaultRequestHeaders.Remove("Token");
+                        ClientHTTP.DefaultRequestHeaders.Add("Token", Token);
+                        return 1;
+                    }
+                }
+                return -1;
             }
-            else
+            catch (Exception ex)
             {
-                //invalid users
-                return false;
+                Console.WriteLine(ex.Message);
+                return -1;
             }
-            return false;
-
         }
         internal bool LoginSecurity()
         {
@@ -381,7 +384,7 @@ namespace FocalPoint.MainMenu.ViewModels
             Uri uriSec = new Uri(string.Format(baseURL + "/Mobile/V1/LoginSecurity"));
             List<Security> secAreas = new List<Security>();
 
-           var response = ClientHTTP.GetAsync(uriSec).GetAwaiter().GetResult();
+            var response = ClientHTTP.GetAsync(uriSec).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result.ToString();
@@ -404,24 +407,25 @@ namespace FocalPoint.MainMenu.ViewModels
                 DataManager.Settings.ApiUri = baseURL + "/Mobile/V1/";
                 DataManager.Settings.HomeStore = int.Parse(StoreLoginNo);
                 DataManager.Settings.Terminal = int.Parse(TerminalNo);
-                DataManager.Settings.UserToken = CurToken;
+                DataManager.Settings.UserToken = Token;
+                DataManager.Settings.User = User;
                 // NEEDS SQLite_Android.cs Implementation  DataManager.SaveSettings();
                 DataManager.SaveSettings();
 
-                var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
+                var httpClientCache = DependencyService.Resolve<IHttpClientCacheService>();
                 httpClientCache.BaseUrl = (baseURL + "/Mobile/V1/");
                 httpClientCache.Store = StoreLoginNo;
                 httpClientCache.Terminal = TerminalNo;
-                httpClientCache.Token = CurToken;
-                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, CurToken, ClientHTTP);
+                httpClientCache.Token = Token;
+                httpClientCache.User = User;
+                httpClientCache.AddClient(baseURL, StoreLoginNo, TerminalNo, Token, User, ClientHTTP);
                 this.clientHttp = httpClientCache.GetHttpClientAsync();
                 return true;
             }
             return false;
         }
 
-
-    private string getPhone()
+        private string getPhone()
         {
             var idiom = DeviceInfo.Idiom;
             if (idiom == DeviceIdiom.Phone)
@@ -432,9 +436,9 @@ namespace FocalPoint.MainMenu.ViewModels
                 {
                     try
                     {
-                    //    TelephonyManager mgr =
-                    //Android.App.Application.Context.GetSystemService(Context.TelephonyService) as TelephonyManager;
-                    //    return mgr.Line1Number;
+                        //    TelephonyManager mgr =
+                        //Android.App.Application.Context.GetSystemService(Context.TelephonyService) as TelephonyManager;
+                        //    return mgr.Line1Number;
                     }
                     catch (Exception ex)
                     {
@@ -455,35 +459,13 @@ namespace FocalPoint.MainMenu.ViewModels
             return "";
         }
 
-        private short GetDeviceType()
-        {
-            var idiom = DeviceInfo.Idiom;
-            if(idiom == DeviceIdiom.Phone)
-            {
-                return 1;
-            }
-            else if (idiom == DeviceIdiom.Tablet)
-            {
-                return 3;
-            }
-            else if (idiom == DeviceIdiom.Desktop)
-            {
-                return 5;
-            }
-            else if (idiom == DeviceIdiom.Unknown)
-            {
-                return 7;
-            }
-            return 7;
-        }
-
         private string getFingerPrint()
         {
             //string id = string.Empty;
             //    if (!string.IsNullOrWhiteSpace(id))
             //        return id;
 
-           return DependencyService.Resolve<IDeviceInfo>().DeviceId;
+            return DependencyService.Resolve<IDeviceInfo>().DeviceId;
 
             //var platform = DeviceInfo.Platform;
             //if (platform == DevicePlatform.Android)
@@ -510,6 +492,12 @@ namespace FocalPoint.MainMenu.ViewModels
             //}
 
             //return id;
+        }
+
+        internal void SetSecures()
+        {
+            SettingsComponent.SetSecure(Utils.Utils.HOSTKEY, Model.ConnectionURL);
+            SettingsComponent.SetSecure(Utils.Utils.PORTKEY, Model.ConnectionPort);
         }
     }
     public class ValidationCommand : ICommand

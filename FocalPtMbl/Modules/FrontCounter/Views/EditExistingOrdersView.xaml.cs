@@ -3,6 +3,7 @@ using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +14,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
     public partial class EditExistingOrdersView
     {
         private bool inNavigation;
-        private string selectedComboItem="";
+        private string selectedComboItem = "";
 
         public EditExistingOrdersView()
         {
@@ -28,10 +29,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //CustomerAdd = new CustomerLupView();
             this.inNavigation = false;
-            //((QuickOrderDetailsViewModel)this.BindingContext).GetCustomersInfo();
-            //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
 
         protected override void OnDisappearing()
@@ -44,9 +42,6 @@ namespace FocalPoint.Modules.FrontCounter.Views
             ((EditExistingOrdersViewModel)this.BindingContext).Indicator = true;
             ((EditExistingOrdersViewModel)this.BindingContext).OrdersEnabled = false;
             _ = OpenDetails(args);
-
-            //if (args.Item != null)
-            //    await OpenDetailPage(GetOrderInfo(args.Item));
         }
 
         private Order GetOrderInfo(object item)
@@ -78,74 +73,6 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 }
             });
         }
-
-        //async Task<Task> OpenDetailPage(Order order)
-        //{
-        //    if (order == null)
-        //        return Task.CompletedTask;
-
-        //    if (this.inNavigation)
-        //        return Task.CompletedTask;
-
-        //    this.inNavigation = true;
-        //    ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
-        //    Order SelectedOrder= await viewOrderEntityComponent.GetOrderDetails(order.OrderNo);
-        //    //Goto New Order Page
-        //    return Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder));
-        //}
-        private void TextEdit_Completed(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text,1, true);
-        }
-        private void TextEdit_Cleared(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("",1, true);
-        }
-        private void ContentPage_Appearing(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextEdit_Completed_1(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 2, true);
-        }
-        private void TextEdit_Cleared_1(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
-        }
-
-
-
-
-        private void SimpleButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SimpleButton_Clicked_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SimpleButton_Clicked_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SimpleButton_Clicked_3(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextEdit_Completed_2(object sender, EventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo((sender as TextEdit).Text, 3, true);
-        }
-        private void TextEdit_Cleared_2(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
-        }
-
     }
+
 }

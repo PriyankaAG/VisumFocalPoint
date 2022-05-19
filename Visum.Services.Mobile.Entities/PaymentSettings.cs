@@ -6,6 +6,9 @@ namespace Visum.Services.Mobile.Entities
 {
     public class PaymentSettings
     {
+        public short POSType { get; set; }
+        public string POSPublicKey { get; set; }
+
         public bool POSEnabled { get; set; }
         public bool ACHEnabled { get; set; }
         public bool CardOnFile { get; set; }

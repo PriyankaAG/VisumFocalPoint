@@ -59,7 +59,7 @@ namespace Visum.Services.Mobile.Entities
         public bool PuDtlCounted { get; set; }
 
         [DataMember]
-        public byte[] RowVersion { get; set; }
+        public int[] RowVersion { get; set; }
 
         public DateTime? UTCCountDte { get; set; }
         [DataMember(Name = "UTCCountDte")]
@@ -94,6 +94,12 @@ namespace Visum.Services.Mobile.Entities
         [DataMember]
         public string ImageName { get; set; }
 
+        [IgnoreDataMember]
+        public decimal TotalCounted { get; set; }
+
+        [IgnoreDataMember()]
+        public bool Checked { get; set; }
+
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)
         {
@@ -101,6 +107,11 @@ namespace Visum.Services.Mobile.Entities
                 this.strUTCCountDte = this.UTCCountDte.Value.ToString("g", CultureInfo.InvariantCulture);
             if (this.LastCntDte != null)
                 this.strLastCntDte = this.LastCntDte.Value.ToString("g", CultureInfo.InvariantCulture);
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
 
         [OnDeserialized]

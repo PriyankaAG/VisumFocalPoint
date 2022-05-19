@@ -24,6 +24,6 @@
     <item name="colorPrimary">#018daf </item>
     <item name="colorPrimaryDark">#1976D2</item>
 
-    <item name="android:windowBackground">@drawable/Splash</item>
+    <item name="android:windowBackground">@drawable/SplashNew</item>
   </style>
 </resources>

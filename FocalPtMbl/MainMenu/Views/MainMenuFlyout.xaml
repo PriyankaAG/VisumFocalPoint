@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="FocalPoint.MainMenu.Views.MainMenuFlyout"
+            xmlns:views="clr-namespace:FocalPtMbl.MainMenu.Views" 
+            xmlns:pages="clr-namespace:FocalPoint.MainMenu.Views"
+            Padding="0"
+            FlyoutLayoutBehavior="Default"
+            WidthRequest="340"
+            BackgroundColor="Transparent">
+    <FlyoutPage.Flyout>
+        <pages:MainMenuFlyoutDrawer x:Name="FlyoutPageDrawer" />
+    </FlyoutPage.Flyout>
+    <FlyoutPage.Detail>
+        <NavigationPage x:Name="navPage">
+            <x:Arguments>
+                <views:MainPage x:Name="mainPage"/>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

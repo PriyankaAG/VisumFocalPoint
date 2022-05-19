@@ -1,19 +1,27 @@
 ﻿using DevExpress.XamarinForms.Core.Themes;
+using FocalPoint;
 using FocalPoint.Data;
 using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
+using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
 
-
+[assembly: ExportFont("Roboto-Bold.ttf", Alias = "Roboto-Bold")]
+[assembly: ExportFont("Roboto-Medium.ttf", Alias = "Roboto-Medium")]
+[assembly: ExportFont("Roboto-Regular.ttf", Alias = "Roboto-Regular")]
+[assembly: ExportFont("Roboto-Light.ttf", Alias = "Roboto-Light")]
+[assembly: ExportFont("Roboto-Italic.ttf", Alias = "Roboto-Italic")]
 namespace FocalPtMbl
 {
     public partial class App : Xamarin.Forms.Application
@@ -25,7 +33,7 @@ namespace FocalPtMbl
         public DataManager Database;
         public App()
         {
-            
+
             //ioc
             //Ioc.RegisterServices();
             DependencyService.RegisterSingleton<ICrypt>(new Crypt());
@@ -59,15 +67,20 @@ namespace FocalPtMbl
             //set URI strings here if dev https://stackoverflow.com/questions/8732307/does-xaml-have-a-conditional-compiler-directive-for-debug-mode
             //DataManager.Settings.ApiUri = "https://visumaaron-local.fpsdns.com:56883/Mobile/V1/";
 
-
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
+            //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
+            //BasePage basePage = new BasePage();
+            //basePage.MainContent.BindingContext = mainPageViewModel;
+            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
+
             MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
+            MainMenuFlyout basePage = new MainMenuFlyout();
+            basePage.MainPageObject.BindingContext = mainPageViewModel;
+            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
+            
             try
             {
                 MainPage = basePage;
@@ -78,18 +91,21 @@ namespace FocalPtMbl
                 DevExpress.XamarinForms.Editors.Initializer.Init();
                 DevExpress.XamarinForms.Navigation.Initializer.Init();
                 InitializeComponent();
-                ThemeLoader.Instance.LoadTheme();                
-                if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken))
+                ThemeLoader.Instance.LoadTheme();
+                //if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
+                if (DataManager.Settings?.IsSignedIn ?? false && IsLicensesValid())
                 {
                     LoadMainPage();
                 }
                 else
                 {
-                    
-                    basePage.Navigation.PushModalAsync(new LoginPageView());
+                    //basePage.Navigation.PushModalAsync(new LoginPageView());
+                    MainPage.Navigation.PushModalAsync(new LoginPageNew());
                 }
+
+                DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -98,14 +114,73 @@ namespace FocalPtMbl
         private void LoadMainPage()
         {
             DataManager.LoadHttpClientCache();
+            MainMenuFlyout basePage = new MainMenuFlyout();
+
             MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-            AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            BasePage basePage = new BasePage();
-            basePage.MainContent.BindingContext = mainPageViewModel;
-            basePage.DrawerContent.BindingContext = aboutPageViewModel;
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
+
+            basePage.MainPageObject.BindingContext = mainPageViewModel;
+            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
+
             Xamarin.Forms.Application.Current.MainPage = basePage;
             this.navigationService.SetNavigator(basePage.NavPage);
+
             ThemeLoader.Instance.LoadTheme();
+
+            DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
+        }
+
+        public FrontCounterDashboard GetFrontCounterDashboard()
+        {
+            //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
+            //frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+            //frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
+            return frontCounterDashboard;
+        }
+
+        internal bool IsLicensesValid()
+        {
+            string FingerPrint = DependencyService.Resolve<IDeviceInfo>().DeviceId;
+            short Type = Utils.GetDeviceType();
+            string Phone = "";
+
+            var httpClientCache = DependencyService.Resolve<IHttpClientCacheService>();
+            var clientHttp = httpClientCache.GetHttpClientAsync();
+            var uri = DataManager.Settings.ApiUri + "ConnectionLimit";
+
+            if (clientHttp.DefaultRequestHeaders.Contains("User"))
+                clientHttp.DefaultRequestHeaders.Remove("User");
+            clientHttp.DefaultRequestHeaders.Add("User", DataManager.Settings.User);
+
+            if (clientHttp.DefaultRequestHeaders.Contains("Token"))
+                clientHttp.DefaultRequestHeaders.Remove("Token");
+
+            try
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(new { FingerPrint, Type, Phone }), Encoding.UTF8, "application/json");
+                var response = clientHttp.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content.ReadAsStringAsync().Result.ToString();
+                    var token = JsonConvert.DeserializeObject<Guid>(content);
+                    if (token == Guid.Empty)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        var Token = token.ToString();
+                        clientHttp.DefaultRequestHeaders.Add("Token", Token);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
 
         //public async void ProcessNotificationIfNeed(Guid reminderId, int recurrenceIndex)
@@ -116,7 +191,7 @@ namespace FocalPtMbl
         //    RemindersDemo remindersDemo = (openedPages.Any() ? openedPages.Last() : await this.navigationService.PushPage(SchedulerData.GetItem(typeof(RemindersDemo)))) as RemindersDemo;
         //    remindersDemo?.OpenAppointmentEditForm(reminderId, recurrenceIndex);
         //}
-        protected override async void OnStart()
+        protected override void OnStart()
         {
             base.OnStart();
             bool lightTheme = true;//await DependencyService.Get<IEnvironment>().IsLightOperatingSystemTheme();
@@ -127,7 +202,7 @@ namespace FocalPtMbl
         {
         }
 
-        protected override async void OnResume()
+        protected override void OnResume()
         {
             base.OnResume();
             //if (!this.themeIsSetting)
@@ -154,10 +229,11 @@ namespace FocalPtMbl
             if (changePermissions)
             {
                 MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-                AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                BasePage basePage = new BasePage();
-                basePage.MainContent.BindingContext = mainPageViewModel;
-                basePage.DrawerContent.BindingContext = aboutPageViewModel;
+                MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
+                MainMenuFlyout basePage = new MainMenuFlyout();
+                basePage.MainPageObject.BindingContext = mainPageViewModel;
+                basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
+
                 MainPage = basePage;
             }
         }

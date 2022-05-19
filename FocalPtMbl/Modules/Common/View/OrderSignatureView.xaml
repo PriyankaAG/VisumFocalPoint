@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.SignatureView"
+             xmlns:controls="clr-namespace:SignaturePad.Forms;assembly=SignaturePad.Forms"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <controls:SignaturePadView
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+	            x:Name="signatureView"
+                CaptionText="{Binding SignatureFor}"                
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+	StrokeWidth="3"
+	StrokeColor="Black"
+	BackgroundColor="White" />
+            <Button Text="Save" Clicked="Button_Clicked" Grid.Row="1" Grid.Column="0"></Button>
+            <Button Text="Cancel" Clicked="Button_Clicked_1" Grid.Row="1" Grid.Column="1"></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

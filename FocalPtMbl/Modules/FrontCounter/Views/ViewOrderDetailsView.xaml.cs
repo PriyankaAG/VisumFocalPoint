@@ -2,6 +2,7 @@
 using FocalPoint.Models;
 using FocalPoint.Modules.Common.View;
 using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPoint.Modules.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,8 +24,9 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             this.Title = "View Orders";
             InitializeComponent();
-            ((ViewOrderDetailsViewModel)this.BindingContext).SelectedOrder = selectedOrder;
-
+            ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)this.BindingContext;
+            viewOrderDetailsViewModel.SelectedOrder = selectedOrder;
+            viewOrderDetailsViewModel.SetEntityDetails(DocKinds.Order, selectedOrder.OrderNo, "E");
             this.ImageListView.ItemSelected += ImageListView_ItemSelected;
 
             this.ToolbarItems.Add(new ToolbarItem()
@@ -42,16 +44,16 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             base.OnAppearing();
 
-            MessagingCenter.Unsubscribe<OrderSignatureTermsViewModel, bool>(this, "TermsDeclined");
-            MessagingCenter.Unsubscribe<OrderSignatureTermsViewModel, bool>(this, "TermsAccepted");
-            MessagingCenter.Unsubscribe<OrderSignatureViewModel, string>(this, "WaiverSignature");
-            MessagingCenter.Unsubscribe<OrderSignatureViewModel, string>(this, "Signature");
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined");
+            MessagingCenter.Unsubscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "WaiverSignature");
+            MessagingCenter.Unsubscribe<SignatureViewModel, string>(this, "Signature");
             MessagingCenter.Unsubscribe<SelectedImageGetDetailsViewModel>(this, "LoadImages");
 
-            MessagingCenter.Subscribe<OrderSignatureTermsViewModel, bool>(this, "TermsDeclined", async(sender, args) =>
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsDeclined", async(sender, args) =>
             {
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 if (signatureTermsView != null || orderSignatureView != null)
                     await Navigation.PopAsync();
                 ViewOrderDetailsViewModel viewOrderDetailsViewModel = ((ViewOrderDetailsViewModel)this.BindingContext);
@@ -66,34 +68,34 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
             });
 
-            MessagingCenter.Subscribe<OrderSignatureTermsViewModel, bool>(this, "TermsAccepted", async(sender, args) =>
+            MessagingCenter.Subscribe<SignatureTermsViewModel, bool>(this, "TermsAccepted", async(sender, args) =>
             {
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
                 if (orderSignatureView != null || signatureTermsView != null)
                     await Navigation.PopAsync();
-                ViewOrderDetailsViewModel viewOrderDetailsViewModel = ((ViewOrderDetailsViewModel)this.BindingContext);
-                viewOrderDetailsViewModel.OpenSignaturePage(this.Navigation, args);
+                ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)BindingContext;
+                viewOrderDetailsViewModel.OpenSignaturePage(Navigation, args);
             });
 
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "WaiverSignature", async (sender, capturedImage) =>
             {
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
                 if (orderSignatureView != null || signatureTermsView != null)
                     await Navigation.PopAsync();
-                ViewOrderDetailsViewModel viewOrderDetailsViewModel = ((ViewOrderDetailsViewModel)this.BindingContext);
+                ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)BindingContext;
                 viewOrderDetailsViewModel.WaiverCapturedImage = capturedImage;
-                viewOrderDetailsViewModel.IsNeedToRedirectTermsOrSignature(this.Navigation);
+                viewOrderDetailsViewModel.IsNeedToRedirectTermsOrSignature(Navigation);
             });
 
-            MessagingCenter.Subscribe<OrderSignatureViewModel, string>(this, "Signature", async(sender, capturedImage) =>
+            MessagingCenter.Subscribe<SignatureViewModel, string>(this, "Signature", async(sender, capturedImage) =>
             {
                 SignatureTermsView signatureTermsView = (SignatureTermsView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureTermsView);
-                OrderSignatureView orderSignatureView = (OrderSignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is OrderSignatureView);
+                SignatureView orderSignatureView = (SignatureView)Navigation.NavigationStack.FirstOrDefault(p => p is SignatureView);
                 if (signatureTermsView != null || orderSignatureView != null)
                     await Navigation.PopAsync();
-                ViewOrderDetailsViewModel viewOrderDetailsViewModel = ((ViewOrderDetailsViewModel)this.BindingContext);
+                ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)BindingContext;
                 viewOrderDetailsViewModel.SignatureImage = capturedImage;
                 bool success = await viewOrderDetailsViewModel.SaveSignature();
                 if (success)
@@ -325,7 +327,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
             if (this.ImageListView.SelectedItem == null)
                 return;
 
-            await Navigation.PushAsync(new OrderImagePage(this.ImageListView.SelectedItem as OrderImageViewModel));
+            await Navigation.PushAsync(new ImagePage(this.ImageListView.SelectedItem as OrderImageViewModel));
 
             ImageListView.SelectedItem = null;
         }

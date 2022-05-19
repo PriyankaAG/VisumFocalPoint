@@ -2,10 +2,8 @@
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.Dispatching.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,53 +23,39 @@ namespace FocalPoint.Modules.Dispatching.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((PickupTicketsSelectViewModel)this.BindingContext).GetPickupTicketInfo();
+            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(searchText.Text.ToLower());
         }
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            // EventPass("Back Code");
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
             {
-                ((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket = (PickupTicket)args.Item;
-                await OpenDetailPage(GetTicketInfo(args.Item));
-                if(((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket != null)
-                ((PickupTicketsSelectViewModel)this.BindingContext).UnlockTicket(((PickupTicketsSelectViewModel)this.BindingContext).SelectedTicket);
+                ((PickupTicketsSelectViewModel)BindingContext).SelectedTicket = (PickupTicket)args.Item;
+                await OpenDetailPage(((PickupTicketsSelectViewModel)BindingContext).GetTicketInfo(args.Item));
             }
         }
-        private PickupTicket GetTicketInfo(object item)
+        async Task OpenDetailPage(PickupTicket ticket)
         {
-            if (item is PickupTicket pTicket)
-                return pTicket;
-            return new PickupTicket();
-        }
-        Task OpenDetailPage(PickupTicket ticket)
-        {
-            if (ticket == null)
-                return Task.CompletedTask;
-
-            PickupTicket detailedTicket = ((PickupTicketsSelectViewModel)this.BindingContext).GetDetailedTicketInfo(ticket);
-            //MessagingCenter.Send<SelectCustomerView, string>(this, "Hi", "John");
-            //MessagingCenter.Send<SelectCustomerView, Customer>(this, "Hi", cust);
-            //EventPass(((SelectCustomerViewModel)this.BindingContext).SelectedCustomer);
-            //return Navigation.PushAsync(new PickupTicketView(detailedTicket));
-            return Navigation.PopAsync();
-        }
-        private void TextEdit_Completed(object sender, EventArgs e)
-        {
-            ((PickupTicketsSelectViewModel)this.BindingContext).GetSearchedTicketInfo((sender as TextEdit).Text);
-        }
-        private void TextEdit_Cleared(object sender, EventArgs e)
-        {
-            ((PickupTicketsSelectViewModel)this.BindingContext).GetSearchedTicketInfo("");
+            PickupTicket detailedTicket = await ((PickupTicketsSelectViewModel)BindingContext).GetDetailedTicketInfo(ticket);
+            if (detailedTicket == null)
+            {
+                await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
+                return;
+            }
+            await Navigation.PushAsync(new PickupTicketPage(detailedTicket));
         }
 
-        private void TextEdit_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)
+        private void Search_TextChanged(object sender, EventArgs e)
         {
-            ((PickupTicketsSelectViewModel)this.BindingContext).GetSearchedTicketInfo("");
+            var enteredText = (sender as TextEdit).Text;
+            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(enteredText.ToLower());
+        }
+        private void Search_TextCleared(object sender, EventArgs e)
+        {
+            ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo("");
         }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FocalPoint.Components.Common.Interface
+﻿namespace FocalPoint
 {
-    public class IComponent
+    public interface IComponent
     {
     }
 }

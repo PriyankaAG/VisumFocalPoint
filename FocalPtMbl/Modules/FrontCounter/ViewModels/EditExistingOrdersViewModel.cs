@@ -3,18 +3,28 @@ using Visum.Services.Mobile.Entities;
 using FocalPtMbl.MainMenu.ViewModels;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
     public class EditExistingOrdersViewModel : ThemeBaseViewModel
     {
+        public ICommand SearchCommand { get; }
+        public ICommand ClearCommand { get; }
+
+        public string OrderToSearch { get; set; }
+        public string ReservationToSearch { get; set; }
+        public string QuotesToSearch { get; set; }
+
         ObservableCollection<Order> openOrders = new ObservableCollection<Order>();
+        private ObservableCollection<Order> OpenOrders_Original = new ObservableCollection<Order>();
         public ObservableCollection<Order> OpenOrders
         {
             get => this.openOrders;
@@ -25,6 +35,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
         ObservableCollection<Order> openReserv = new ObservableCollection<Order>();
+        private ObservableCollection<Order> OpenReserv_Original = new ObservableCollection<Order>();
         public ObservableCollection<Order> OpenReserv
         {
             get => this.openReserv;
@@ -35,6 +46,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
         ObservableCollection<Order> openQuote = new ObservableCollection<Order>();
+        private ObservableCollection<Order> OpenQuote_Original = new ObservableCollection<Order>();
         public ObservableCollection<Order> OpenQuote
         {
             get => this.openQuote;
@@ -58,7 +70,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
-        internal void GetSearchedOrdersInfo(string text,int orderType, bool isNewSearch)
+        internal void GetSearchedOrdersInfo(string text, int orderType, bool isNewSearch)
         {
             //  Function Orders(ByVal OrderType As Integer, ByVal SearchText As String, ByVal StartIdx As Integer, ByVal MaxCnt As Integer) As Orders
             try
@@ -68,7 +80,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 //update searchText
                 int OrderType = orderType;
                 SearchText = text;
-                
+
                 if (OrderType == 1)
                 {
                     if (isNewSearch)
@@ -77,7 +89,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                         MaxCntOrd = 100;
                     }
                     StartIdx = StartIdxOrd;
-                     MaxCnt = MaxCntOrd;
+                    MaxCnt = MaxCntOrd;
 
                 }
                 if (OrderType == 2)
@@ -88,7 +100,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                         MaxCntRes = 100;
                     }
                     StartIdx = StartIdxRes;
-                     MaxCnt = MaxCntRes;
+                    MaxCnt = MaxCntRes;
                 }
                 if (OrderType == 3)
                 {
@@ -98,7 +110,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                         MaxCntQuote = 100;
                     }
                     StartIdx = StartIdxQuote;
-                     MaxCnt = MaxCntQuote;
+                    MaxCnt = MaxCntQuote;
                 }
 
                 Orders orderCntAndList = null;
@@ -114,8 +126,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
                     orderCntAndList = JsonConvert.DeserializeObject<Orders>(content);
-                    
-                    if(OrderType == 1)
+
+                    if (OrderType == 1)
                     {
                         OpenOrders.Clear();
                         foreach (var order in orderCntAndList.List)
@@ -146,6 +158,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                         MaxCntQuote = StartIdxQuote + 100;
                     }
 
+                    OpenOrders_Original = new ObservableCollection<Order>(OpenOrders);
+                    OpenReserv_Original = new ObservableCollection<Order>(OpenReserv);
+                    OpenQuote_Original = new ObservableCollection<Order>(OpenQuote);
+
                 }
             }
             catch (Exception ex)
@@ -153,23 +169,175 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 
             }
         }
+        internal void SearchForOrder(string text, int OrderType, bool isNewSearch)
+        {
+            try
+            {
+                bool resetData = false;
+                if (string.IsNullOrEmpty(text))
+                    resetData = true;
+
+                IEnumerable<Order> filteredOrderData;
+
+                if (OrderType == 1)
+                {
+                    OpenOrders.Clear();
+                    if (resetData)
+                    {
+                        filteredOrderData = OpenOrders_Original.ToList();
+                    }
+                    else
+                    {
+                        filteredOrderData = OpenOrders_Original.Where(p => p.OrderNumberT.ToString().Contains(text)).ToList();
+                    }
+                    foreach (var item in filteredOrderData)
+                    {
+                        OpenOrders.Add(item);
+                    }
+                }
+                if (OrderType == 2)
+                {
+                    OpenReserv.Clear();
+                    if (resetData)
+                    {
+                        filteredOrderData = OpenReserv_Original.ToList();
+                    }
+                    else
+                    {
+                        filteredOrderData = OpenReserv_Original.Where(p => p.OrderNumberT.ToString().Contains(text)).ToList();
+                    }
+                    foreach (var item in filteredOrderData)
+                    {
+                        OpenReserv.Add(item);
+                    }
+                }
+                if (OrderType == 3)
+                {
+                    OpenQuote.Clear();
+                    if (resetData)
+                    {
+                        filteredOrderData = OpenQuote_Original.ToList();
+                    }
+                    else
+                    {
+                        filteredOrderData = OpenQuote_Original.Where(p => p.OrderNumberT.ToString().Contains(text)).ToList();
+                    }
+                    foreach (var item in filteredOrderData)
+                    {
+                        OpenQuote.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        internal void ClearSearchOrder(int OrderType)
+        {
+            try
+            {
+                if (OrderType == 1)
+                {
+                    OpenOrders.Clear();
+                    foreach (var item in OpenOrders_Original)
+                    {
+                        OpenOrders.Add(item);
+                    }
+                }
+                if (OrderType == 2)
+                {
+                    OpenReserv.Clear();
+                    foreach (var item in OpenReserv_Original)
+                    {
+                        OpenReserv.Add(item);
+                    }
+                }
+                if (OrderType == 3)
+                {
+                    OpenQuote.Clear();
+                    foreach (var item in OpenQuote_Original)
+                    {
+                        OpenQuote.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public EditExistingOrdersViewModel()
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
+            SearchCommand = new Command<string>((a) => Search(a));
+            ClearCommand = new Command<string>((a) => Clear(a));
+        }
+        private void Clear(string ordType)
+        {
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+
+            switch (orderType)
+            {
+                case 1:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo("", orderType, true);
+                    Indicator = false;
+                    break;
+            }
+
+        }
+        private void Search(string ordType)
+        {
+            if (Indicator)
+                return;
+
+            var orderType = Convert.ToInt32(ordType);
+            Indicator = true;
+            switch (orderType)
+            {
+                case 1:
+                    GetSearchedOrdersInfo(OrderToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 2:
+                    GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+                case 3:
+                    GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
+                    Indicator = false;
+                    break;
+            }
         }
 
         HttpClient clientHttp;
-    public HttpClient ClientHTTP
-    {
-        get { return clientHttp; }
-    }
-    List<Customer> custList = new List<Customer>();
+        public HttpClient ClientHTTP
+        {
+            get { return clientHttp; }
+        }
+        List<Customer> custList = new List<Customer>();
 
-    private int StoreID = 0;
-    private string SearchText = "";
-    private int StartIdxOrd = 0;
+        private int StoreID = 0;
+        private string SearchText = "";
+        private int StartIdxOrd = 0;
         private int StartIdxRes = 0;
         private int StartIdxQuote = 0;
         private int MaxCntOrd = 100;
@@ -177,27 +345,28 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         private int MaxCntQuote = 100;
 
         public void GetOrdersInfo()
-    {
-            
+        {
+
             try
             {
 
-        }
-        catch (Exception ex)
-        {
             }
-    }
-    private Order selectedOrder;
-    public Order SelectedOrder
-    {
-        get { return selectedOrder; }
-        set
-        {
-            if (selectedOrder != value)
+            catch (Exception ex)
             {
-                    selectedOrder = value;
             }
         }
+        private Order selectedOrder;
+        public Order SelectedOrder
+        {
+            get { return selectedOrder; }
+            set
+            {
+                if (selectedOrder != value)
+                {
+                    selectedOrder = value;
+                }
+            }
+        }
+
     }
-}
 }

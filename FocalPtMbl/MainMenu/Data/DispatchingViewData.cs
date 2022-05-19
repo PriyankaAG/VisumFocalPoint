@@ -32,11 +32,11 @@ namespace FocalPoint.MainMenu.Data
             {
                 new PageItem()
                 {
-                    Title = "Schedule",
-                    ControlsPageTitle = "Schedule",
-                    PageTitle = "Schedule",
+                    Title = "Dispatching",
+                    ControlsPageTitle = "Dispatching",
+                    PageTitle = "Dispatching",
                     Description = "A Calendar View For The Delivery Schedule",
-                    Module = typeof(DispatchesPageView),
+                    Module = typeof(ScheduleDispatchingPageView),
                     Icon = "Dispatch_Schedule_32.png",
                     IconOverlayText = IconOverlayText.None
                 },

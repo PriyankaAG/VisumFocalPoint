@@ -23,6 +23,9 @@ namespace FocalPoint.Data.DataModel
         [MaxLength(35), Column("UserToken")]
         public string UserToken { get; set; }
 
+        [MaxLength(35), Column("User")]
+        public string User { get; set; }
+
         [Column("HomeStore")]
         public int HomeStore { get; set; }
 
@@ -48,5 +51,7 @@ namespace FocalPoint.Data.DataModel
         public int ApiSvcVersion { get; set; }
         [Column("ApiUri")]
         public string ApiUri { get; set; }
+        [Column("IsSignedIn")]
+        public bool IsSignedIn{ get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 		{
 			if (uncompress)
 			{
-				image.Image = Ultils.UnCompressImage(image.Image);
+				image.Image = Utils.Utils.UnCompressImage(image.Image);
 			}
 
 			OrderImage = image;
