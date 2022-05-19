@@ -78,6 +78,9 @@
 		<EmbeddedResource Update="MainMenu\Controls\DashboardListView.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\UtilizationBlock.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyout.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>

@@ -5,29 +5,92 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
 
-    public class OrderDashboardOverviewDeatail
+    public class OrderDashboardOverviewDetail : OrderDashboardOverview
     {
-        public int DscrID { get; set; }
-        public string Dscr { get; set; }
-        public int OrderCnt { get; set; }
-        public decimal RentalAmt { get; set; }
-        public decimal MerchAmt { get; set; }
-        public decimal LaborAmt { get; set; }
-        public decimal GrossAmt { get; set; }
-        public decimal AvgTranAmt { get; set; }
+        public OrderDashboardOverviewDetail(OrderDashboardOverview orderDashboardOverview)
+        {
+            this.DscrID = orderDashboardOverview.DscrID;
+            this.Dscr = orderDashboardOverview.Dscr;
+            this.OrderCnt = orderDashboardOverview.OrderCnt;
+            this.RentalAmt = orderDashboardOverview.RentalAmt;
+            this.MerchAmt = orderDashboardOverview.MerchAmt;
+            this.LaborAmt = orderDashboardOverview.LaborAmt;
+            this.GrossAmt = orderDashboardOverview.GrossAmt;
+            this.AvgTranAmt = orderDashboardOverview.AvgTranAmt;
+        }
+
+        public bool IsTotalRow => this.Dscr.Contains("ALL Counter");
+
+        public bool IsGrandTotalRow => this.Dscr.Contains("Grand Total");
+
+        public bool IsCreditRow => this.Dscr.Contains("Credits");
     }
-    public class FrontCounterViewModel: ThemeBaseViewModel
+
+    public class OverviewData : NotificationObject
+    {
+        public string Header { get; set; }
+
+
+        private ObservableCollection<OrderDashboardOverviewDetail> _orderDashboardOverviews;
+        public ObservableCollection<OrderDashboardOverviewDetail> OrderDashboardOverviews
+        {
+
+            get => _orderDashboardOverviews;
+            set
+            {
+                _orderDashboardOverviews = value;
+                OnPropertyChanged(nameof(OrderDashboardOverviews));
+            }
+        }
+    }
+
+    public class FrontCounterViewModel : ThemeBaseViewModel
     {
         public IFrontCounterEntityComponent FrontCounterEntityComponent { get; set; }
         public FrontCounterViewModel() : base("Dashboard")
         {
             FrontCounterEntityComponent = new FrontCounterEntityComponent();
             SelectedDate = DateTime.UtcNow;
+
+            IsCounterButtonSelected = true;
+
+            RentalCounterDetail = new OverviewData();
+            RentalCounterDetail.Header = "Rental Counter";
+            RentalCounterDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
+
+            WorkOrderDetail = new OverviewData();
+            WorkOrderDetail.Header = "Work Orders";
+            WorkOrderDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
+
+            GrandTotalDetail = new OverviewData();
+            GrandTotalDetail.Header = "Grand Total (Revenue For The Day)";
+            GrandTotalDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
+
+            ButtonSelectedCommand = new Command<bool>((bool isCounterSelected) => ChangeButtonStyle(isCounterSelected));
+        }
+
+        public void ChangeButtonStyle(bool isCounterSelected)
+        {
+            IsCounterButtonSelected = isCounterSelected;
+        }
+
+        private bool _isCounterButtonSelected;
+        public bool IsCounterButtonSelected
+        {
+            get => _isCounterButtonSelected;
+            set
+            {
+                _isCounterButtonSelected = value;
+                OnPropertyChanged(nameof(IsCounterButtonSelected));
+            }
         }
 
         private DateTime _selectedDate;
@@ -41,121 +104,83 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
-        //private OrderDashboard _OrderDashboardDetail;
-        //public OrderDashboard OrderDashboardDetail
-        //{
-        //    get => OrderDashboardDetail;
-        //    set
-        //    {
-        //        _OrderDashboardDetail = value;
-        //        OnPropertyChanged(nameof(OrderDashboardDetail));
-        //    }
-        //}
-
-        private ObservableCollection<OrderDashboardOverviewDeatail> _rentalCounterList;
-        public ObservableCollection<OrderDashboardOverviewDeatail> RentalCounterList
+        private OrderDashboard _orderDashboardDetail;
+        public OrderDashboard OrderDashboardDetail
         {
-            get => _rentalCounterList;
+            get => _orderDashboardDetail;
             set
             {
-                _rentalCounterList = value;
-                OnPropertyChanged(nameof(RentalCounterList));
+                _orderDashboardDetail = value;
+                OnPropertyChanged(nameof(OrderDashboardDetail));
             }
         }
 
-        //private ObservableCollection<OrderDashboardOverview> _workOrderList;
-        //public ObservableCollection<OrderDashboardOverview> WorkOrderList
-        //{
-        //    get => _workOrderList;
-        //    set
-        //    {
-        //        _workOrderList = value;
-        //        OnPropertyChanged(nameof(WorkOrderList));
-        //    }
-        //}
+        private OverviewData _rentalCounterDetail;
+        public OverviewData RentalCounterDetail
+        {
+            get => _rentalCounterDetail;
+            set
+            {
+                _rentalCounterDetail = value;
+                OnPropertyChanged(nameof(RentalCounterDetail));
+            }
+        }
 
-        //private ObservableCollection<OrderDashboardOverview> _grandTotalList;
-        //public ObservableCollection<OrderDashboardOverview> GrandTotalList
-        //{
-        //    get => _grandTotalList;
-        //    set
-        //    {
-        //        _grandTotalList = value;
-        //        OnPropertyChanged(nameof(GrandTotalList));
-        //    }
-        //}
+        private OverviewData _workOrderDetail;
+        public OverviewData WorkOrderDetail
+        {
+            get => _workOrderDetail;
+            set
+            {
+                _workOrderDetail = value;
+                OnPropertyChanged(nameof(WorkOrderDetail));
+            }
+        }
 
-        //public OrderDashboard GetDetails()
-        //{
-        //    RentalCounterList = new ObservableCollection<OrderDashboardOverview>();
+        private OverviewData _grandTotalDetail;
+        public OverviewData GrandTotalDetail
+        {
+            get => _grandTotalDetail;
+            set
+            {
+                _grandTotalDetail = value;
+                OnPropertyChanged(nameof(GrandTotalDetail));
+            }
+        }
 
-        //    RentalCounterList.Add(new OrderDashboardOverview()
-        //    {
-        //        Dscr = "Quick Sales",
-        //        AvgTranAmt = 2,
-        //        DscrID = 2,
-        //        GrossAmt = 2,
-        //        LaborAmt = 1,
-        //        MerchAmt = 1,
-        //        OrderCnt = 1,
-        //        RentalAmt = 1
-        //    });
+        public ICommand ButtonSelectedCommand { get; }
 
-        //    RentalCounterList.Add(new OrderDashboardOverview()
-        //    {
-        //        Dscr = "Quick Sales",
-        //        AvgTranAmt = 2,
-        //        DscrID = 2,
-        //        GrossAmt = 2,
-        //        LaborAmt = 1,
-        //        MerchAmt = 1,
-        //        OrderCnt = 1,
-        //        RentalAmt = 1
-        //    });
-        //    return OrderDashboardDetail;
-        //}
+        public async Task GetDashboardDetail()
+        {
+            try
+            {
+                Indicator = true;
+                OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(SelectedDate);
+                if (OrderDashboardDetail != null)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        RentalCounterDetail.OrderDashboardOverviews.Add(new OrderDashboardOverviewDetail(OrderDashboardDetail.Overviews[i]));
+                    }
 
-        //public OrderDashboard GetDashboardDetail()
-        //{
-        //    try
-        //    {
-        //        Indicator = true;
-        //        OrderDashboard orderDashboardDetail = new OrderDashboard();
-        //        orderDashboardDetail.Overviews = new System.Collections.Generic.List<OrderDashboardOverview>();
-        //        orderDashboardDetail.Overviews.Add(new OrderDashboardOverview()
-        //        {
-        //            Dscr = "Closed Orders",
-        //            AvgTranAmt = 1,
-        //            DscrID = 1,
-        //            GrossAmt = 1,
-        //            LaborAmt = 1,
-        //            MerchAmt = 1,
-        //            OrderCnt = 1,
-        //            RentalAmt = 1
-        //        });
-        //        orderDashboardDetail.Overviews.Add(new OrderDashboardOverview()
-        //        {
-        //            Dscr = "Quick Sales",
-        //            AvgTranAmt = 2,
-        //            DscrID = 2,
-        //            GrossAmt = 2,
-        //            LaborAmt = 1,
-        //            MerchAmt = 1,
-        //            OrderCnt = 1,
-        //            RentalAmt = 1
-        //        });
+                    for (int i = 5; i < 7; i++)
+                    {
+                        WorkOrderDetail.OrderDashboardOverviews.Add(new OrderDashboardOverviewDetail(OrderDashboardDetail.Overviews[i]));
+                    }
 
-        //        //OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(SelectedDate);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        //TODO: Log Error
-        //    }
-        //    finally
-        //    {
-        //        Indicator = false;
-        //    }
-        //    return OrderDashboardDetail;
-        //}
+                    OrderDashboardOverviewDetail grantalTotalOverview = (new OrderDashboardOverviewDetail(OrderDashboardDetail.Overviews[7]));
+                    GrandTotalDetail.OrderDashboardOverviews.Add(grantalTotalOverview);
+                    OnPropertyChanged(nameof(RentalCounterDetail));
+                }
+            }
+            catch (Exception e)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
     }
 }

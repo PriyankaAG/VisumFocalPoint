@@ -1,54 +1,144 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Name="DashBoardDetailListView" 
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
              x:Class="FocalPoint.MainMenu.Controls.DashboardListView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
     <ContentView.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="{Binding Header, Source={x:Reference DashBoardDetailListView}}"/>
-            <Grid Grid.Row="1" BackgroundColor="Gray">
+            <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Text="Title"/>
-                <Label Grid.Column="1" Text="Count" />
-                <Label Grid.Column="2" Text="Merch."/>
-                <Label Grid.Column="3" Text="Labor" />
-                <Label Grid.Column="4" Text="Gross" />
-                <Label Grid.Column="5" Text="Avg. Tran" />
+                <Label Grid.Column="0" Text="Title" Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="1" Text="Count" Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="2" Text="Merch." Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="3" Text="Labor" Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="4" Text="Gross" Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="5" Text="Avg. Tran" Style="{DynamicResource LabelListHeader}"/>
             </Grid>
-            <!--<Grid Grid.Row="2" BindableLayout.ItemsSource="{Binding ListData, Source={x:Reference DashBoardDetailListView}}">
+            <StackLayout Grid.Row="2"
+                        Orientation="Vertical"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        BindableLayout.ItemsSource="{Binding OrderDashboardOverviews}"
+                        Padding="5,0">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Dscr}"/>
-                            <Label Grid.Column="1" Text="{Binding OrderCnt}" />
-                            <Label Grid.Column="2" Text="{Binding MerchAmt}"/>
-                            <Label Grid.Column="3" Text="{Binding LaborAmt}"/>
-                            <Label Grid.Column="4" Text="{Binding GrossAmt}"/>
-                            <Label Grid.Column="5" Text="{Binding AvgTranAmt}"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Dscr}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding OrderCnt}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding MerchAmt}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding LaborAmt}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding GrossAmt}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Grid.Row="0" Grid.Column="5" Text="{Binding AvgTranAmt}" Style="{DynamicResource LabelListDetail}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsGrandTotalRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelGrandTotal}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsCreditRow}" Value="True">
+                                        <Setter Property="Style" Value="{DynamicResource LabelCredit}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <BoxView Grid.Row="1" Grid.ColumnSpan="6" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
                         </Grid>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
-            </Grid>-->
+            </StackLayout>
         </Grid>
     </ContentView.Content>
 </ContentView>

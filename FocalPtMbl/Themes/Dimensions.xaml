@@ -5,6 +5,7 @@
 
     <x:Double x:Key="FrameCornerRadius">1</x:Double>
     <x:Double x:Key="BoxLineDefaultHeight">50</x:Double>
+    <x:Double x:Key="BoxLineListSeperatorHeight">1</x:Double>
     
     <!-- Font Sizes -->
     
