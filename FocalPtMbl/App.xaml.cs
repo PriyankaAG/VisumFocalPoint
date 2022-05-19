@@ -5,6 +5,7 @@ using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.Payments.Views;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;

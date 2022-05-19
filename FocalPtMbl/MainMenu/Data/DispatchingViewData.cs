@@ -1,4 +1,5 @@
 ﻿using FocalPoint.Modules.Dispatching.Views;
+using FocalPoint.Modules.Payments.Views;
 using FocalPtMbl.MainMenu.Data;
 using FocalPtMbl.MainMenu.Models;
 using System;
@@ -47,7 +48,8 @@ namespace FocalPoint.MainMenu.Data
                     ControlsPageTitle = "Pickup Tickets",
                     PageTitle = "Pickup Tickets",
                     Description = "The Stores Pickup Tickets",
-                    Module = typeof(PickupTicketsSelectView),
+                    //Module = typeof(PickupTicketsSelectView),
+                    Module = typeof(PaymentPageView),
                     Icon = "laden_pickup_48.png",
                     IconOverlayText = IconOverlayText.None
                 }
