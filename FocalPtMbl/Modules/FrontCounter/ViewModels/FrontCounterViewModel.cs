@@ -12,6 +12,11 @@ using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
+    public class FrontCounterFilterResult
+    {
+        public bool IsNewDateSet { get; set; }
+        public DateTime SelectedDate { get; set; }
+    }
 
     public class OrderDashboardOverviewDetail : OrderDashboardOverview
     {
@@ -58,7 +63,9 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         public FrontCounterViewModel() : base("Dashboard")
         {
             FrontCounterEntityComponent = new FrontCounterEntityComponent();
-            SelectedDate = DateTime.UtcNow;
+            FrontCounterFilterResult = new FrontCounterFilterResult();
+            FrontCounterFilterResult.SelectedDate = DateTime.UtcNow;
+            FrontCounterFilterResult.IsNewDateSet = true;
 
             IsCounterButtonSelected = true;
 
@@ -90,17 +97,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             {
                 _isCounterButtonSelected = value;
                 OnPropertyChanged(nameof(IsCounterButtonSelected));
-            }
-        }
-
-        private DateTime _selectedDate;
-        public DateTime SelectedDate
-        {
-            get => _selectedDate;
-            set
-            {
-                _selectedDate = value;
-                OnPropertyChanged(nameof(SelectedDate));
             }
         }
 
@@ -148,6 +144,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
+        private FrontCounterFilterResult _frontCounterFilterResult;
+        public FrontCounterFilterResult FrontCounterFilterResult
+        {
+            get => _frontCounterFilterResult;
+            set
+            {
+                _frontCounterFilterResult = value;
+                OnPropertyChanged(nameof(FrontCounterFilterResult));
+            }
+        }
+
         public ICommand ButtonSelectedCommand { get; }
 
         public async Task GetDashboardDetail()
@@ -155,7 +162,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             try
             {
                 Indicator = true;
-                OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(SelectedDate);
+                OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(FrontCounterFilterResult.SelectedDate);
                 if (OrderDashboardDetail != null)
                 {
                     for (int i = 0; i < 5; i++)

@@ -171,12 +171,19 @@
         <Setter Property="TextColor" Value="#5a607f"/>
         <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
     </Style>
-    
+
+    <Style x:Key="LabelListHeader" TargetType="Label">
+        <Setter Property="TextColor" Value="#5a607f"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
     <Style x:Key="FrameStyle" TargetType="Frame">
         <Setter Property="BorderColor" Value="{StaticResource FrameBorderColor}" />
         <Setter Property="CornerRadius" Value="{StaticResource FrameCornerRadius}" />
-        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="HasShadow" Value="True" />
         <Setter Property="Padding" Value="10" />
+        <Setter Property="CornerRadius" Value="5" />
     </Style>
 
     <Style x:Key="ImageDefault" TargetType="Image">

@@ -1,5 +1,5 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,6 +47,26 @@ namespace FocalPoint.Modules.FrontCounter.Views
                     GrandTotalDetailView.IsVisible = false;
                 }
             });
+        }
+
+        private void FilterIconTapped(object sender, System.EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await OpenFilterPopup();
+            });
+
+            async Task OpenFilterPopup()
+            {
+                FrontCounterViewModel frontCounterViewModel = (BindingContext as FrontCounterViewModel);
+                var filterPage = new FrontCounterFilter(frontCounterViewModel.FrontCounterFilterResult);
+                await this.Navigation.PushAsync(filterPage);
+                frontCounterViewModel.FrontCounterFilterResult = await filterPage.Result.Task;
+                if (frontCounterViewModel.FrontCounterFilterResult.IsNewDateSet)
+                {
+                    await frontCounterViewModel.GetDashboardDetail();
+                }
+            }
         }
     }
 }

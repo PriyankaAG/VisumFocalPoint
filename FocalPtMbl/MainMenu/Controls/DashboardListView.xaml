@@ -28,12 +28,12 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Text="Title" Style="{DynamicResource LabelListHeader}"/>
-                <Label Grid.Column="1" Text="Count" Style="{DynamicResource LabelListHeader}"/>
-                <Label Grid.Column="2" Text="Merch." Style="{DynamicResource LabelListHeader}"/>
-                <Label Grid.Column="3" Text="Labor" Style="{DynamicResource LabelListHeader}"/>
-                <Label Grid.Column="4" Text="Gross" Style="{DynamicResource LabelListHeader}"/>
-                <Label Grid.Column="5" Text="Avg. Tran" Style="{DynamicResource LabelListHeader}"/>
+                <Label Grid.Column="0" Text="Title" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="1" Text="Count" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="2" Text="Merch" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="3" Text="Labor" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="4" Text="Gross" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="5" Text="Avg. Tran" Style="{DynamicResource LabelListHeader}" />
             </Grid>
             <StackLayout Grid.Row="2"
                         Orientation="Vertical"
@@ -82,7 +82,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding MerchAmt}" Style="{DynamicResource LabelListDetail}">
+                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding RentalAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
                                         <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
@@ -95,7 +95,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding LaborAmt}" Style="{DynamicResource LabelListDetail}">
+                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding MerchAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
                                         <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
@@ -108,7 +108,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding GrossAmt}" Style="{DynamicResource LabelListDetail}">
+                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding GrossAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
                                         <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />
@@ -121,7 +121,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Grid.Row="0" Grid.Column="5" Text="{Binding AvgTranAmt}" Style="{DynamicResource LabelListDetail}">
+                            <Label Grid.Row="0" Grid.Column="5" Text="{Binding AvgTranAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsTotalRow}" Value="True">
                                         <Setter Property="Style" Value="{DynamicResource LabelAllTotal}" />

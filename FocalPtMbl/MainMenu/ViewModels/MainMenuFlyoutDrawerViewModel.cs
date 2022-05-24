@@ -69,12 +69,6 @@ namespace FocalPoint.MainMenu.ViewModels
                         TargetType=typeof(FrontCounter),
                         SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
-                             new MainMenuFlyoutSubItem() {
-                                Title = "Dashboard",
-                                SubItemText = "Front Counter Dashboard",
-                                IsVisible = true,
-                                SubText_TargetType = typeof(FrontCounter)
-                            },
                             new MainMenuFlyoutSubItem() {
                                 Title = "Quick Rental",
                                 SubItemText = "Quick Rental",
