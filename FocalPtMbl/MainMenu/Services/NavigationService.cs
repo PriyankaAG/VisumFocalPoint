@@ -8,6 +8,7 @@ using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.Views;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using System.Threading.Tasks;
+using FocalPoint.MainMenu.Views;
 
 namespace FocalPtMbl.MainMenu.Services
 {
@@ -16,6 +17,7 @@ namespace FocalPtMbl.MainMenu.Services
         NavigationPage navigator;
         bool ctrlPagePushed;
         bool isPagePushed;
+        public Page MainPage { get; set; }
 
         public Dictionary<Type, Func<Page>> PageBinders { get; }
 
@@ -75,7 +77,7 @@ namespace FocalPtMbl.MainMenu.Services
                 item.Module.IsSubclassOf(typeof(Page))
             )
             {
-               // ErrorDialogPage errorDialogPage = this.navigator.CurrentPage as ErrorDialogPage;
+                // ErrorDialogPage errorDialogPage = this.navigator.CurrentPage as ErrorDialogPage;
                 try
                 {
                     var module = item.Module;
@@ -84,7 +86,8 @@ namespace FocalPtMbl.MainMenu.Services
 
                     if (page != null)
                     {
-                        this.isPagePushed = true;
+                        //In case of flyout menu page disappear may not be caled while menu is clicked
+                        //this.isPagePushed = true;
                         await PushAsync(page);
                     }
 
@@ -92,7 +95,50 @@ namespace FocalPtMbl.MainMenu.Services
                 catch (Exception e)
                 {
 #if DEBUG
-                   throw e;
+                    throw e;
+#else
+                        throw e;
+#endif
+                    //                    if (errorDialogPage != null)
+                    //                       errorDialogPage.ShowError(e);
+                }
+            }
+            return await Task.FromResult(page);
+        }
+
+        public async Task<Page> PushPageFromMenu(Type pageToPush, string pageTitle)
+        {
+            Page page = null;
+
+            if (!this.isPagePushed && pageToPush != null)
+            {
+                try
+                {
+                    if (Application.Current.MainPage is MainMenuFlyout)
+                    {
+                        if (pageToPush == typeof(FocalPtMbl.MainMenu.Views.MainPage))
+                        {
+                            (Application.Current.MainPage as MainMenuFlyout).Detail = (Application.Current.MainPage as MainMenuFlyout).NavPage;
+                        }
+                        else
+                        {
+                            page = (Page)Activator.CreateInstance(pageToPush);
+                            if (page != null)
+                            {
+                                page.Title = pageTitle;
+                                (Application.Current.MainPage as MainMenuFlyout).Detail = new NavigationPage(page);
+                            }
+                        }
+                        (Application.Current.MainPage as MainMenuFlyout).IsPresented = false;
+                        //(Application.Current.MainPage as MainMenuFlyout).FlyoutPageDrawerObject.ListView.SelectedItem = null;
+                    }
+                    else
+                        await PushAsync(page);
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    throw e;
 #else
                         throw e;
 #endif

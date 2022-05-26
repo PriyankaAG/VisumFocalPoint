@@ -109,6 +109,11 @@ namespace Visum.Services.Mobile.Entities
                 this.strLastCntDte = this.LastCntDte.Value.ToString("g", CultureInfo.InvariantCulture);
         }
 
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
         [OnDeserialized]
         private void OnDeserialized(StreamingContext ctx)
         {
@@ -117,10 +122,5 @@ namespace Visum.Services.Mobile.Entities
             if (string.IsNullOrEmpty(this.strLastCntDte) == false)
                 this.LastCntDte = DateTime.ParseExact(this.strLastCntDte, "g", CultureInfo.InvariantCulture);
         }
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
-
     }
 }

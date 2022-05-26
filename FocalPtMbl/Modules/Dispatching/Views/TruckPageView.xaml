@@ -44,7 +44,7 @@
                 YAlign ="Center"
                 Font="black" FontAttributes="Bold" FontSize="18" />
 
-                <dxe:DateEdit Margin="5,0,5,0" Date="{Binding DispatchVm.SearchDate,Mode=TwoWay}" x:Name="startDate" DisplayFormat="M/d/yyyy" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
+                <dxe:DateEdit Margin="5,0,5,0" Date="{Binding DispatchVm.SearchDate, Mode=TwoWay}" x:Name="startDate" DisplayFormat="M/d/yyyy" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
             </Grid>
 
             <Grid IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">

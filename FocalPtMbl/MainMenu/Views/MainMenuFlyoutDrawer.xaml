@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="FocalPoint.MainMenu.Views.MainMenuFlyoutDrawer"
+             Title="Flyout">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="MenuItemsListView" Grid.Row="0"
+              SeparatorVisibility="None"
+              HasUnevenRows="True"
+              VerticalOptions="FillAndExpand"
+              SelectionMode="Single"
+              ItemsSource="{Binding MenuItems}">
+            <ListView.Header>
+                <Grid BackgroundColor="{DynamicResource MenuDrawerBackColor}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Image Margin="20,20,20,5" Grid.Row="0" Source="FPlogo_Mobile.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Label Margin="5,5,5,15" Grid.Row="1" HorizontalTextAlignment="Center" 
+                           VerticalTextAlignment="Center" Text="Rental software solution for your day-to-day operations" Style="{DynamicResource MainMenuHeaderDescription}">
+                    </Label>
+                    <BoxView Color="{DynamicResource MenuDrawerSeparatorColor}" Grid.Row="2"/>
+                    <BoxView Color="{DynamicResource MenuDrawerBackColor}" Grid.Row="3"/>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid BackgroundColor="{Binding RowColor}" RowSpacing="0" Padding="10,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="0,0,0,0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="{Binding Icon}" HorizontalOptions="Center" VerticalOptions="Start"/>
+                            <Label Margin="10,12,0,0" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                   Text ="{Binding Title}" Style="{DynamicResource MainMenuItemTitle}"/>
+                            <StackLayout BindableLayout.ItemsSource="{Binding SubMenuItems}" Grid.Row="1" Grid.Column="1"
+                                Orientation="Vertical" Margin="0" Padding="0,5">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame CornerRadius="5" 
+                                           VerticalOptions="Center"
+                                           HasShadow="False"
+                                           BackgroundColor="{DynamicResource MenuItemDefaultBackColor}"
+                                           Margin="10,0,10,0"
+                                           Padding="0">
+                                            <Label Margin="10,5,10,5" IsVisible="{Binding IsVisible}"
+                                               VerticalTextAlignment="Center" LineBreakMode="WordWrap" Text="{Binding SubItemText, Mode=TwoWay}" Style="{DynamicResource MainMenuItemSubItem}" >
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TapSubItemCommand}"/>
+                                                </Label.GestureRecognizers>
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{DynamicResource MenuItemSelectedTextColor}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource MenuItemSelectedBackColor}" />
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Row="1" ColumnSpacing="1" BackgroundColor="{DynamicResource MenuDrawerFooterLineColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Column="0" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8" >
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center" IsVisible="{Binding IsTimeClockVisible}">
+                    <Image Source="time_clock.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Time Clock" Style="{DynamicResource MainMenuFooterOptions}"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TimeClockCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame Grid.Column="1" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
+                    <Image Source="manage_profile.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Manage Profile" Style="{DynamicResource MainMenuFooterOptions}"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ManageProfileCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame Grid.Column="2" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
+                <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
+                    <Image Source="logout.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="Log Out" Style="{DynamicResource MainMenuFooterOptions}"/>
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

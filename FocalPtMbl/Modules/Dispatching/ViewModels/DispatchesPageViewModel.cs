@@ -162,6 +162,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         public DispatchesPageViewModel(List<Truck> trucks)
         {
             this.Title = "Dispatching";
+            //this.SearchDate = new DateTime(2022, 04, 09);
             this.SearchDate = DateTime.Now.Date;
             DispatchingEntityComponent = new DispatchingEntityComponent();
 

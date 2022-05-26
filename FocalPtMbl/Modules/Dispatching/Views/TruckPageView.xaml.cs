@@ -23,13 +23,25 @@ namespace FocalPoint.Modules.Dispatching.Views
             InitializeComponent();
 
             ProcessData(vm);
+        }
+        public void AddEvents()
+        {
+            startDate.Focused -= StartDate_Focused;
+            startDate.Focused += StartDate_Focused;
 
+            startDate.Unfocused -= StartDate_Unfocused;
+            startDate.Unfocused += StartDate_Unfocused;
+
+            startDate.DateChanged -= DateEdit_DateChanged;
+            startDate.DateChanged += DateEdit_DateChanged;
+
+            startDate.Date = _vm.DispatchVm.SearchDate;
         }
         public void ProcessData(TruckPageViewModel vm)
         {
             _vm = vm;
             _vm.DispatchVm.SearchDate = DateTime.Now.Date;
-
+            //_vm.DispatchVm.SearchDate = new DateTime(2022, 04, 09);
             this.BindingContext = _vm;
 
             if (_vm.Truck == null)
@@ -42,16 +54,12 @@ namespace FocalPoint.Modules.Dispatching.Views
                 this.Title = _vm.Truck.TruckID;
                 listView.ItemsSource = _vm.Dispatches;
             }
+
+            startDate.Date = _vm.DispatchVm.SearchDate;
         }
         protected override void OnAppearing()
         {
-            startDate.Focused += StartDate_Focused;
-            startDate.Unfocused += StartDate_Unfocused;
-
-            startDate.DateChanged -= DateEdit_DateChanged;
-            startDate.DateChanged += DateEdit_DateChanged;
-
-            startDate.Date = _vm.DispatchVm.SearchDate;
+            AddEvents();
         }
         protected override void OnDisappearing()
         {

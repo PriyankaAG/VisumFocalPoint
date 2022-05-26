@@ -19,12 +19,43 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\font\Roboto-Black.ttf" />
+	  <None Remove="Assets\font\Roboto-BlackItalic.ttf" />
+	  <None Remove="Assets\font\Roboto-Bold.ttf" />
+	  <None Remove="Assets\font\Roboto-BoldItalic.ttf" />
+	  <None Remove="Assets\font\Roboto-Italic.ttf" />
+	  <None Remove="Assets\font\Roboto-Light.ttf" />
+	  <None Remove="Assets\font\Roboto-LightItalic.ttf" />
+	  <None Remove="Assets\font\Roboto-Medium.ttf" />
+	  <None Remove="Assets\font\Roboto-MediumItalic.ttf" />
+	  <None Remove="Assets\font\Roboto-Regular.ttf" />
+	  <None Remove="Assets\font\Roboto-Thin.ttf" />
+	  <None Remove="Assets\font\Roboto-ThinItalic.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Assets\font\Roboto-Black.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-BlackItalic.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Bold.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-BoldItalic.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Italic.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Light.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-LightItalic.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Medium.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-MediumItalic.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Regular.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-Thin.ttf" />
+	  <EmbeddedResource Include="Assets\font\Roboto-ThinItalic.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.2.0" />
 		<PackageReference Include="DevExpress.XamarinForms.Charts" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.Editors" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.Grid" Version="20.2.6" />
 		<PackageReference Include="DevExpress.XamarinForms.Navigation" Version="20.2.6" />
+		<PackageReference Include="IntelliAbb.Xamarin.Controls" Version="1.0.148" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -40,6 +71,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyout.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyoutDrawer.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\CustomEditor.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</EmbeddedResource>
@@ -82,6 +125,9 @@
 		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterDashboard.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -117,6 +163,9 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Themes\Dimensions.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
 

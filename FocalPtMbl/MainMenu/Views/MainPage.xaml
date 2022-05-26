@@ -18,15 +18,6 @@
                 <StackLayout
                         Margin="0,0,0,0"
                         BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                    <!--<Label
-                            Text="{Binding Title}"
-                            FontSize="Medium"
-                            VerticalOptions="StartAndExpand"
-                            HorizontalOptions="Fill"
-                            HorizontalTextAlignment="Center"
-                            HeightRequest="5"
-                            TextColor="{DynamicResource TextThemeColor}"
-                            BackgroundColor="{DynamicResource BackgroundThemeColor}"/-->
                     <BoxView Color="{DynamicResource MainPageBackgroundColor}"
                                     HeightRequest="20" /> 
                 </StackLayout>
@@ -95,21 +86,10 @@
             BackgroundColor="{DynamicResource BackgroundThemeColor}">
             <Grid.ColumnDefinitions>
                 <forms:ColumnDefinition Width="auto" />
-                <forms:ColumnDefinition Width="130" />
+                <forms:ColumnDefinition Width="auto" />
                 <forms:ColumnDefinition Width="*" />
                 <forms:ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <FocalPointCTRL:IconView 
-                Grid.Column="0"
-                HeightRequest="24"
-                WidthRequest="24"
-                HorizontalOptions="StartAndExpand"
-                Source="info"
-                VerticalOptions="CenterAndExpand">
-                <FocalPointCTRL:IconView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnInfoClicked" />
-                </FocalPointCTRL:IconView.GestureRecognizers>
-            </FocalPointCTRL:IconView>
             <FocalPointCTRL:IconView
                 Grid.Column="3"
                 HeightRequest="24"
