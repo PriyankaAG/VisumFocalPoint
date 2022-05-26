@@ -58,8 +58,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="today.png" Style="{DynamicResource ImageDefault}"/>
                                     <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
-                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="5 Orders"/>
-                                        <Label Style="{DynamicResource LabelCostDefault}" Text="$40.00"/>
+                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="{Binding OrderDashboardDetail.DayCnt, StringFormat='{0} Orders'}"/>
+                                        <Label Style="{DynamicResource LabelCostDefault}" Text="{Binding OrderDashboardDetail.DayAmt, StringFormat='{}{0:C}'}"/>
                                     </StackLayout>
                                 </Grid>
                             </Grid>
@@ -79,8 +79,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="thhis_week.png" Style="{DynamicResource ImageDefault}"/>
                                     <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
-                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="2 Orders"/>
-                                        <Label Style="{DynamicResource LabelCostDefault}" Text="$10.00"/>
+                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="{Binding OrderDashboardDetail.WeekCnt, StringFormat='{0} Orders'}"/>
+                                        <Label Style="{DynamicResource LabelCostDefault}" Text="{Binding OrderDashboardDetail.WeekAmt, StringFormat='{}{0:C}'}"/>
                                     </StackLayout>
                                 </Grid>
                             </Grid>
@@ -100,8 +100,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="this_month.png" Style="{DynamicResource ImageDefault}"/>
                                     <StackLayout Grid.Column="1" VerticalOptions="CenterAndExpand" Spacing="0">
-                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="50 Orders"/>
-                                        <Label Style="{DynamicResource LabelCostDefault}" Text="$350.00"/>
+                                        <Label Style="{DynamicResource LabelDefaultBold}" Text="{Binding OrderDashboardDetail.MonthCnt, StringFormat='{0} Orders'}"/>
+                                        <Label Style="{DynamicResource LabelCostDefault}" Text="{Binding OrderDashboardDetail.MonthAmt, StringFormat='{}{0:C}'}"/>
                                     </StackLayout>
                                 </Grid>
                             </Grid>

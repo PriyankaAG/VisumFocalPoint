@@ -162,7 +162,7 @@
 
     <Style x:Key="LabelFooterIcon" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource LabelFooterDefaultColor}"/>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
         <Setter Property="VerticalTextAlignment" Value="Center"/>
     </Style>

@@ -60,7 +60,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
             {
                 FrontCounterViewModel frontCounterViewModel = (BindingContext as FrontCounterViewModel);
                 var filterPage = new FrontCounterFilter(frontCounterViewModel.FrontCounterFilterResult);
-                await this.Navigation.PushAsync(filterPage);
+                await this.Navigation.PushModalAsync(filterPage);
                 frontCounterViewModel.FrontCounterFilterResult = await filterPage.Result.Task;
                 if (frontCounterViewModel.FrontCounterFilterResult.IsNewDateSet)
                 {

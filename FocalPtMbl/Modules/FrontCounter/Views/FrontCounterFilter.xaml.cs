@@ -31,10 +31,10 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
         async void OnOKClicked(object sender, EventArgs args)
         {
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
             this.Result.SetResult(new FrontCounterFilterResult()
             {
-                IsNewDateSet = false,
+                IsNewDateSet = true,
                 SelectedDate = datePicker.Date
             });
         }
