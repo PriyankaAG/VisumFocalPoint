@@ -99,6 +99,19 @@
     <Color x:Key="BoxLineListSeperatorColor">#a1a7c4</Color>
     <Color x:Key="ListHeaderBackgroundColor">#f5f6fa</Color>
 
+    <Color x:Key="MenuDrawerBackColor">#ffffff</Color>
+    <Color x:Key="MenuDrawerHeaderTextColor">#2f4757</Color>
+    <Color x:Key="MenuDrawerSeparatorColor">#707070</Color>
+    <Color x:Key="MenuDrawerItemHeaderColor">#5a607f</Color>
+    <Color x:Key="MenuDrawerFooterLineColor">#cecece</Color>
+    <Color x:Key="MenuDrawerFooterButtonColor">#57B8FF</Color>
+    <Color x:Key="MenuDrawerFooterButtonTextColor">#ffffff</Color>
+    <Color x:Key="MenuItemDefaultBackColor">#00000000</Color>
+    <Color x:Key="MenuItemDefaultTextColor">#0058ff</Color>
+    <Color x:Key="MenuItemSelectedBackColor">#57b8ff</Color>
+    <Color x:Key="MenuItemSelectedTextColor">#ffffff</Color>
+    
+
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
         <Setter Property="BarTextColor" Value="{StaticResource TextThemeColor}" />
@@ -270,6 +283,29 @@
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
     
+    <Style x:Key="MainMenuHeaderDescription" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerHeaderTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerItemHeaderColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemSubItem" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuItemDefaultTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuFooterOptions" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerFooterButtonTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
     <!--<Style TargetType="dxc:ChartView">
         <Setter Property="Theme" Value="Light"/>
     </Style>
