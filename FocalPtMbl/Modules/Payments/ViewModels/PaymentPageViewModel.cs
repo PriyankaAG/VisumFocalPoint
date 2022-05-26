@@ -15,6 +15,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public IPaymentEntityComponent PaymentEntityComponent { get; set; }
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
+        public string PaymentMethod { get; set; }
 
         private List<string> paymentTypes;
         public List<string> PaymentTypes

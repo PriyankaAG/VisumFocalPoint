@@ -6,6 +6,7 @@
   <ContentView.Content>
         <Frame x:Name="frameView" Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa">
             <StackLayout Orientation="Vertical">
+                <Label Text="Check Payment" TextColor="#131523" FontAttributes="Bold" />
                 <Grid ColumnSpacing="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

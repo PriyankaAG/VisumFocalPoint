@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.Modules.Payments.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PaymentCheckACH : ContentView
+    public partial class PaymentCreditCardPos : ContentView
     {
-        public PaymentCheckACH()
+        public PaymentCreditCardPos()
         {
             InitializeComponent();
         }
