@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.DataForm;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPoint.Modules.FrontCounter.Views;
 using FocalPtMbl;
 using FocalPtMbl.MainMenu.Services;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -285,7 +286,7 @@ namespace FocalPoint.MainMenu.Views
                     //basePage.DrawerContent.BindingContext = aboutPageViewModel;
                     //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
                     //await frontCounterDashboardViewModel.GetDashboardDetail();
-                    FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+                    FrontCounter frontCounterDashboard = new FrontCounter();
                    // frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
                     Application.Current.MainPage = frontCounterDashboard;
                     //this.navigationService.SetNavigator(basePage.NavPage);
