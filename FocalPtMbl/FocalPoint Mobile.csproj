@@ -71,6 +71,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Modules\Payments\Views\PaymentKindPage.xaml.cs">
+	    <DependentUpon>PaymentKindPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyout.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -164,12 +170,6 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\PaymentCheckACH.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\PaymentCoupon.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCard.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -182,19 +182,22 @@
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentCheck.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCardPos.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentDebitCard.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentDiscount.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\PaymentMiscellaneous.xaml">
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentMethodsPage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\PaymentOther.xaml">
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentKindPage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\PaymentPageView.xaml">
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentProcessView.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Themes\Dimensions.xaml">

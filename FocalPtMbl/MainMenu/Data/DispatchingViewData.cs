@@ -37,7 +37,8 @@ namespace FocalPoint.MainMenu.Data
                     ControlsPageTitle = "Dispatching",
                     PageTitle = "Dispatching",
                     Description = "A Calendar View For The Delivery Schedule",
-                    Module = typeof(ScheduleDispatchingPageView),
+                    //Module = typeof(ScheduleDispatchingPageView),
+                    Module = typeof(PaymentKindPage),
                     Icon = "Dispatch_Schedule_32.png",
                     IconOverlayText = IconOverlayText.None
                 },
@@ -49,7 +50,7 @@ namespace FocalPoint.MainMenu.Data
                     PageTitle = "Pickup Tickets",
                     Description = "The Stores Pickup Tickets",
                     //Module = typeof(PickupTicketsSelectView),
-                    Module = typeof(PaymentPageView),
+                    Module = typeof(PaymentMethodsPage),
                     Icon = "laden_pickup_48.png",
                     IconOverlayText = IconOverlayText.None
                 }
