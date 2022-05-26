@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             x:Name="utilizationBlockView"
+             x:Class="FocalPoint.MainMenu.Controls.UtilizationBlock">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid BackgroundColor="White" Padding="10,0,10,5" VerticalOptions="CenterAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Title, Source={x:Reference utilizationBlockView}}" Style="{DynamicResource LabelCostGreen}"/>
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Value, Source={x:Reference utilizationBlockView}}" HorizontalTextAlignment="End"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

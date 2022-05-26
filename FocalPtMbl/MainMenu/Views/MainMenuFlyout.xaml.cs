@@ -41,7 +41,16 @@ namespace FocalPoint.MainMenu.Views
 
                 FlyoutPageDrawer.ListView.SelectedItem = null;
             }
-
+            else
+            {
+                page = (Page)Activator.CreateInstance(item.TargetType);
+                if (page != null)
+                {
+                    page.Title = item.Title;
+                    Detail = new NavigationPage(page);
+                }
+                IsPresented = false;
+            }
         }
     }
 }

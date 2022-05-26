@@ -21,7 +21,9 @@ namespace FocalPoint.Components.EntityComponents
             OrderDashboard orderDashboardDetail;
             try
             {
-                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, searchDate));
+                string dateToPass = searchDate.ToUniversalTime()
+                         .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, dateToPass));
             }
             catch (Exception ex)
             {
