@@ -5,6 +5,7 @@ using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.Payments.Views;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.Services;
@@ -131,11 +132,11 @@ namespace FocalPtMbl
             DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
         }
 
-        public FrontCounterDashboard GetFrontCounterDashboard()
+        public FrontCounter GetFrontCounterDashboard()
         {
             //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
             //frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
-            FrontCounterDashboard frontCounterDashboard = new FrontCounterDashboard();
+            FrontCounter frontCounterDashboard = new FrontCounter();
             //frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
             return frontCounterDashboard;
         }

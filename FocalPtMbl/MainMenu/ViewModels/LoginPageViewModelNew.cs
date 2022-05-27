@@ -363,13 +363,13 @@ namespace FocalPoint.MainMenu.ViewModels
         internal bool LoginSecurity()
         {
             Uri uriSec = new Uri(string.Format(BaseURL + "/Mobile/V1/LoginSecurity"));
-            List<Security> secAreas = new List<Security>();
+            List<FocalPoint.Data.DataModel.Security> secAreas = new List<FocalPoint.Data.DataModel.Security>();
 
             var response = ClientHTTP.GetAsync(uriSec).GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result.ToString();
-                var allowedAreas = JsonConvert.DeserializeObject<List<Security>>(content);
+                var allowedAreas = JsonConvert.DeserializeObject<List<FocalPoint.Data.DataModel.Security>>(content);
                 secAreas.AddRange(from area in allowedAreas
                                   select area);
 
@@ -387,6 +387,13 @@ namespace FocalPoint.MainMenu.ViewModels
                 DataManager.Settings.IsSignedIn = IsSignedIn;
                 // NEEDS SQLite_Android.cs Implementation  DataManager.SaveSettings();
                 DataManager.SaveSettings();
+
+                DataManager.ResetSecurityTable();
+
+                if (secAreas.Any())
+                {
+                    var NoRowsAdded = DataManager.InsertAllSecurities(secAreas);
+                }
 
                 var httpClientCache = DependencyService.Resolve<IHttpClientCacheService>();
                 httpClientCache.BaseUrl = (BaseURL + "/Mobile/V1/");

@@ -17,6 +17,7 @@
             MBL_Cust_Customers_Balance = 327,
             MBL_Cust_Customers_EditNotes = 328,
             MBL_Inv = 492,
+            Mbl_Inv_Availability = 497,
             MBL_Inv_Rental = 329,
             MBL_Inv_Rental_Revenue = 371,
             MBL_Inv_Vendor = 369,

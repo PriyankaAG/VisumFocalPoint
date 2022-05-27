@@ -94,6 +94,23 @@
     <Color x:Key="FooterBackgroundColor">#21d59b</Color>
     <Color x:Key="BoxViewFooterBackgroundColor">#e4eaf6</Color>
     <Color x:Key="EntryDefaultTextColor">#424242</Color>
+    <Color x:Key="CostDefaultTextColor">#14b575</Color>
+    <Color x:Key="CostGreenTextColor">#055e41</Color>
+    <Color x:Key="BoxLineListSeperatorColor">#a1a7c4</Color>
+    <Color x:Key="ListHeaderBackgroundColor">#f5f6fa</Color>
+
+    <Color x:Key="MenuDrawerBackColor">#ffffff</Color>
+    <Color x:Key="MenuDrawerHeaderTextColor">#2f4757</Color>
+    <Color x:Key="MenuDrawerSeparatorColor">#707070</Color>
+    <Color x:Key="MenuDrawerItemHeaderColor">#5a607f</Color>
+    <Color x:Key="MenuDrawerFooterLineColor">#cecece</Color>
+    <Color x:Key="MenuDrawerFooterButtonColor">#57B8FF</Color>
+    <Color x:Key="MenuDrawerFooterButtonTextColor">#ffffff</Color>
+    <Color x:Key="MenuItemDefaultBackColor">#00000000</Color>
+    <Color x:Key="MenuItemDefaultTextColor">#0058ff</Color>
+    <Color x:Key="MenuItemSelectedBackColor">#57b8ff</Color>
+    <Color x:Key="MenuItemSelectedTextColor">#ffffff</Color>
+    
 
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
@@ -110,12 +127,45 @@
 
     <Style x:Key="LabelDefaultBold" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource LabelDefaultColor}"/>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>        
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>        
+    </Style>
+
+    <Style x:Key="LabelCostDefault" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource CostDefaultTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
+    <Style x:Key="LabelCostGreen" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource CostGreenTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+    </Style>
+
+    <Style x:Key="LabelAllTotal" TargetType="Label">
+        <Setter Property="TextColor" Value="#000000"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+    </Style>
+
+    <Style x:Key="LabelCredit" TargetType="Label">
+        <Setter Property="TextColor" Value="#f0142F"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+    </Style>
+
+    <Style x:Key="LabelGrandTotal" TargetType="Label">
+        <Setter Property="TextColor" Value="#055e41"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
     </Style>
 
     <Style x:Key="LabelDashboardHeader" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource LabelDefaultColor}"/>
+        <Setter Property="TextColor" Value="#5a607f"/>
         <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="LabelSubHeader" TargetType="Label">
+        <Setter Property="TextColor" Value="#5a607f"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
 
     <Style x:Key="LabelActionDefault" TargetType="Label">
@@ -125,16 +175,28 @@
 
     <Style x:Key="LabelFooterIcon" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource LabelFooterDefaultColor}"/>
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
         <Setter Property="VerticalTextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LabelListDetail" TargetType="Label">
+        <Setter Property="TextColor" Value="#5a607f"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+    </Style>
+
+    <Style x:Key="LabelListHeader" TargetType="Label">
+        <Setter Property="TextColor" Value="#5a607f"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
 
     <Style x:Key="FrameStyle" TargetType="Frame">
         <Setter Property="BorderColor" Value="{StaticResource FrameBorderColor}" />
         <Setter Property="CornerRadius" Value="{StaticResource FrameCornerRadius}" />
-        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="HasShadow" Value="True" />
         <Setter Property="Padding" Value="10" />
+        <Setter Property="CornerRadius" Value="5" />
     </Style>
 
     <Style x:Key="ImageDefault" TargetType="Image">
@@ -161,6 +223,12 @@
         <Setter Property="BackgroundColor" Value="{StaticResource BoxViewFooterBackgroundColor}"/>
         <Setter Property="HeightRequest" Value="{StaticResource BoxLineDefaultHeight}"/>
     </Style>
+
+    <Style x:Key="BoxViewListSeperatorDefault" TargetType="BoxView">
+        <Setter Property="BackgroundColor" Value="{StaticResource BoxLineListSeperatorColor}"/>
+        <Setter Property="HeightRequest" Value="{StaticResource BoxLineListSeperatorHeight}"/>
+    </Style>
+    
     <Style x:Key="EntryStyle" TargetType="Entry">
         <Setter Property="TextColor" Value="{StaticResource EntryDefaultTextColor}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -201,6 +269,43 @@
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
 
+    <Style x:Key="TabSelectedButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource TabPageFavoriteColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="TextColor" Value="#FFF"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+    
+    <Style x:Key="TabButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#FFF"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource TabPageFavoriteColor}"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+    
+    <Style x:Key="MainMenuHeaderDescription" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerHeaderTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerItemHeaderColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
+
+    <Style x:Key="MainMenuItemSubItem" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuItemDefaultTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
+
+    <Style x:Key="MainMenuFooterOptions" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MenuDrawerFooterButtonTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
     <!--<Style TargetType="dxc:ChartView">
         <Setter Property="Theme" Value="Light"/>
     </Style>

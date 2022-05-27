@@ -9,8 +9,8 @@ namespace FocalPoint.Data.DataModel
     public class Security
     {
         [PrimaryKey, Unique, Column("SecArea")]
-        public int SecArea { get; set; }
+        public int Area { get; set; }
         [Column("SecAllowed")]
-        public bool SecAllowed { get; set; }
+        public bool Allowed { get; set; }
     }
 }
