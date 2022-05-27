@@ -35,6 +35,9 @@ namespace Visum.Services.Mobile.Entities
         [DataMember]
         public short PaymentSource { get; set; }
 
+        [DataMember]
+        public string PaymentTxt { get; set; }
+
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)
         {
