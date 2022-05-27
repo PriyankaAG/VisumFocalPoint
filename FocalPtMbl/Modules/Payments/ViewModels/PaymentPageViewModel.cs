@@ -15,24 +15,37 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public IPaymentEntityComponent PaymentEntityComponent { get; set; }
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
-        public string PaymentMethod { get; set; }
 
-        private List<string> paymentTypes;
-        public List<string> PaymentTypes
+        private string paymentMethod;
+        public string PaymentMethod 
         {
-            get { return paymentTypes; }
-            set
+            get { return paymentMethod; }
+            set 
             {
-                paymentTypes = value;
-                OnPropertyChanged(nameof(PaymentTypes));
+                paymentMethod = value;
+                OnPropertyChanged(nameof(PaymentMethod));
             }
         }
         public string DepositType { get; set; }
         public string PaymnetType { get; set; }
         public bool IsOtherType { get; set; }
         public bool IsCheck { get; set; }
-        public bool IsCheckACH { get; set; }
         public bool IsCreditCard { get; set; }
+        public bool IsCreditCardPOS { get; set; }
+        public bool IsDebitCard { get; set; }
+        public bool ShowDueAndReceived { get; set; }
+        public string OtherTitle { get; set; }
+        public List<PaymentType> PaymentTypes { get; set; }
+        private PaymentType selectedPaymentType;
+        public PaymentType SelectedPaymentType
+        {
+            get => selectedPaymentType;
+            set
+            {
+                selectedPaymentType = value;
+                SetCardView(selectedPaymentType);
+            }
+        }
 
         #region const
         public PaymentPageViewModel()
@@ -41,7 +54,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             SetDepositTypes();
             //SetPaymenyTypes();
 
-            GetSettings().ContinueWith((a)=> { _settings = a.Result; });
+            GetSettings().ContinueWith((a) => { _settings = a.Result; });
         }
         #endregion
 
@@ -54,9 +67,10 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             List<PaymentType> lstPaymentTypes = await GetPaymentTypes(selectedIndex);
             if (lstPaymentTypes != null && lstPaymentTypes.Any())
-                PaymentTypes = lstPaymentTypes.Select(x => x.PaymentKind).ToList();
-            else
-                PaymentTypes = new List<string>();
+            {
+                PaymentTypes = lstPaymentTypes;
+                OnPropertyChanged(nameof(PaymentTypes));
+            }
         }
 
         private void SetDepositTypes()
@@ -64,31 +78,39 @@ namespace FocalPoint.Modules.Payments.ViewModels
             DepositTypes = Enum.GetNames(typeof(RequestTypes)).ToList();
         }
 
-        internal void SetCardView(string selectedItem)
+        internal void SetCardView(PaymentType paymentType)
         {
-            IsCheck = IsCreditCard = IsOtherType = IsCheckACH = false;
-            switch (selectedItem)
+            IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = IsDebitCard = false;
+            ShowDueAndReceived = true;
+            switch (paymentType.PaymentKind)
             {
                 case "CK":
-                    if (_settings.ACHEnabled)
-                        IsCheck = true;
-                    else
-                        IsCheckACH = true;
+                    IsCheck = true;
                     break;
                 case "CC":
                     IsCreditCard = true;
+                    ShowDueAndReceived = false;
                     break;
                 case "CP":
                 case "MS":
                 case "IR":
                 case "OT":
                 case "DS":
+                    OtherTitle = paymentType.PaymentDscr;
                     IsOtherType = true;
+                    ShowDueAndReceived = false;
+                    break;
+                case "DC":
+                    IsDebitCard = true;
                     break;
             }
             OnPropertyChanged(nameof(IsCheck));
             OnPropertyChanged(nameof(IsCreditCard));
             OnPropertyChanged(nameof(IsOtherType));
+            OnPropertyChanged(nameof(IsCreditCardPOS));
+            OnPropertyChanged(nameof(IsDebitCard));
+            OnPropertyChanged(nameof(ShowDueAndReceived));
+            OnPropertyChanged(nameof(OtherTitle));
 
             /*var otherTypes = new string[] { "CP", "MS", "IR", "OT", "DS" };
             IsOtherType = otherTypes.Contains(selectedItem);
@@ -99,6 +121,32 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public async Task<List<PaymentType>> GetPaymentTypes(int type)
         {
             return await PaymentEntityComponent.GetPaymentTypes(type);
+        }
+
+        public string GetPaymentImage(byte paymentTIcon)
+        {
+            return paymentTIcon switch
+            {
+                0 => "Blank_96.png",
+                //1 => "american_express_96.png",
+                1 => "Blank_96.png",
+                2 => "cash_96.png",
+                3 => "check_96.png",
+                4 => "Coupon_96.png",
+                5 => "credit_cards_96.png",
+                6 => "cirrus_96.png",
+                7 => "diners_club_96.png",
+                8 => "discover_96.png",
+                9 => "e_check_96.png",
+                10 => "gift_card_96.png",
+                11 => "gift_card_96.png",
+                12 => "mastercard_96.png",
+                13 => "paypal_96.png",
+                14 => "purchase_order_96.png",
+                //15 => "vis_96.png",
+                15 => "Blank_96.png",
+                _ => "Blank_96.png",
+            };
         }
 
     }

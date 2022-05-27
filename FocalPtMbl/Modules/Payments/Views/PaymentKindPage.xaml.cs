@@ -1,5 +1,6 @@
 ﻿using System;
 using FocalPoint.Modules.Payments.ViewModels;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,11 +10,11 @@ namespace FocalPoint.Modules.Payments.Views
 	public partial class PaymentKindPage : ContentPage
 	{
 		readonly PaymentPageViewModel viewModel;
-		public PaymentKindPage ()
+		public PaymentKindPage (PaymentType type)
 		{
 			InitializeComponent ();
 			BindingContext = viewModel = new PaymentPageViewModel();
-			
+			viewModel.SelectedPaymentType = type;
 		}
 
   //      private void picker_paymentType_SelectedIndexChanged(object sender, EventArgs e)

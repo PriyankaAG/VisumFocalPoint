@@ -37,8 +37,7 @@ namespace FocalPoint.MainMenu.Data
                     ControlsPageTitle = "Dispatching",
                     PageTitle = "Dispatching",
                     Description = "A Calendar View For The Delivery Schedule",
-                    //Module = typeof(ScheduleDispatchingPageView),
-                    Module = typeof(PaymentKindPage),
+                    Module = typeof(ScheduleDispatchingPageView),
                     Icon = "Dispatch_Schedule_32.png",
                     IconOverlayText = IconOverlayText.None
                 },
