@@ -6,6 +6,9 @@ using Visum.Services.Mobile.Entities;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Windows.Input;
+using MvvmHelpers.Commands;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.Modules.Payments.ViewModels
 {
@@ -29,6 +32,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public string DepositType { get; set; }
         public string PaymnetType { get; set; }
         public bool IsOtherType { get; set; }
+        public bool IsCash { get; set; }
         public bool IsCheck { get; set; }
         public bool IsCreditCard { get; set; }
         public bool IsCreditCardPOS { get; set; }
@@ -47,16 +51,42 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
+        private PaymentHistoryDetail _paymentHistory;
+        public PaymentHistoryDetail PaymentHistory
+        {
+            get => _paymentHistory;
+            set
+            {
+                _paymentHistory = value;
+                OnPropertyChanged(nameof(PaymentHistory));
+            }
+        }
+
+        private PaymentHistoryDetail _depositPaymentHistory;
+        public PaymentHistoryDetail DepositPaymentHistory
+        {
+            get => _depositPaymentHistory;
+            set
+            {
+                _depositPaymentHistory = value;
+                OnPropertyChanged(nameof(DepositPaymentHistory));
+            }
+        }
+        public ICommand PaymentTypeSelection { get; }
+
         #region const
         public PaymentPageViewModel()
         {
             PaymentEntityComponent = new PaymentEntityComponent();
-            SetDepositTypes();
-            //SetPaymenyTypes();
-
+            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             GetSettings().ContinueWith((a) => { _settings = a.Result; });
         }
         #endregion
+
+        public async void SetPaymentSelectionType(int paymentType)
+        {
+
+        }
 
         private async Task<PaymentSettings> GetSettings()
         {
@@ -65,7 +95,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
 
         public async Task SetPaymenyTypes(int selectedIndex)
         {
-            List<PaymentType> lstPaymentTypes = await GetPaymentTypes(selectedIndex);
+            List<PaymentType> lstPaymentTypes = await PaymentEntityComponent.GetPaymentTypes(selectedIndex);
             if (lstPaymentTypes != null && lstPaymentTypes.Any())
             {
                 PaymentTypes = lstPaymentTypes;
@@ -73,17 +103,15 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
-        private void SetDepositTypes()
-        {
-            DepositTypes = Enum.GetNames(typeof(RequestTypes)).ToList();
-        }
-
         internal void SetCardView(PaymentType paymentType)
         {
-            IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = IsDebitCard = false;
+            IsCash = IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = IsDebitCard = false;
             ShowDueAndReceived = true;
             switch (paymentType.PaymentKind)
             {
+                case "CA":
+                    IsCash = true;
+                    break;
                 case "CK":
                     IsCheck = true;
                     break;
@@ -104,6 +132,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsDebitCard = true;
                     break;
             }
+            OnPropertyChanged(nameof(IsCash));
             OnPropertyChanged(nameof(IsCheck));
             OnPropertyChanged(nameof(IsCreditCard));
             OnPropertyChanged(nameof(IsOtherType));
@@ -116,11 +145,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             IsOtherType = otherTypes.Contains(selectedItem);
             IsCheck = selectedItem == "CK";
             IsCreditCard = selectedItem == "CC";*/
-        }
-
-        public async Task<List<PaymentType>> GetPaymentTypes(int type)
-        {
-            return await PaymentEntityComponent.GetPaymentTypes(type);
         }
 
         public string GetPaymentImage(byte paymentTIcon)

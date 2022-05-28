@@ -1,4 +1,5 @@
-﻿using FocalPoint.Modules.Payments.ViewModels;
+﻿using System.Threading.Tasks;
+using FocalPoint.Modules.Payments.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,21 +10,18 @@ namespace FocalPoint.Modules.Payments.Views
     public partial class PaymentMethodsPage : ContentPage
     {
         readonly PaymentPageViewModel viewModel;
-        public PaymentMethodsPage()
+        public PaymentMethodsPage(int paymentType)
         {
             InitializeComponent();
             BindingContext = viewModel = new PaymentPageViewModel();
+            _ = SetPayments(paymentType);
         }
 
-        private async void picker_DepositType_SelectedIndexChanged(object sender, System.EventArgs e)
+        private async Task SetPayments(int paymentType)
         {
-            if (picker_DepositType.SelectedIndex != -1)
-            {
-                viewModel.PaymentMethod = picker_DepositType.SelectedItem.ToString();
-                await viewModel.SetPaymenyTypes(picker_DepositType.SelectedIndex);
-                if (viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
-                    AddPaymentKinds(viewModel.PaymentTypes);
-            }
+            await viewModel.SetPaymenyTypes(paymentType);
+            if (viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
+                AddPaymentKinds(viewModel.PaymentTypes);
         }
 
         private void AddPaymentKinds(System.Collections.Generic.List<Visum.Services.Mobile.Entities.PaymentType> paymentTypes)
@@ -85,6 +83,11 @@ namespace FocalPoint.Modules.Payments.Views
             PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
             await Navigation.PushAsync(new PaymentKindPage(paymentType));
 
+        }
+
+        private void CancelButton_Clicked(object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
 }

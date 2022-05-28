@@ -17,20 +17,9 @@ namespace FocalPoint.Modules.Payments.Views
 			viewModel.SelectedPaymentType = type;
 		}
 
-  //      private void picker_paymentType_SelectedIndexChanged(object sender, EventArgs e)
-  //      {
-		//	if(picker_paymentType.SelectedIndex != -1)
-  //          {
-		//		viewModel.SetCardView(picker_paymentType.SelectedItem.ToString());
-  //          }
-  //      }
-
-  //      private void picker_DepositType_SelectedIndexChanged(object sender, EventArgs e)
-  //      {
-		//	if (picker_DepositType.SelectedIndex != -1)
-		//	{
-		//		_ = viewModel.SetPaymenyTypes(picker_DepositType.SelectedIndex);
-		//	}
-		//}
+        private void CancelButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
+        }
     }
 }
