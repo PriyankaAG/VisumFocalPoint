@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 	  <Compile Remove="Modules\FrontCounter\ViewModels\FrontCounterDashboardViewModel.cs" />
+	  <Compile Remove="Modules\Payments\ViewModels\PayementViewModel.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

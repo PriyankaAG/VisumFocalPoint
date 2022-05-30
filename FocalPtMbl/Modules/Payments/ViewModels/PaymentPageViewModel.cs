@@ -1,20 +1,28 @@
-﻿using System.Threading.Tasks;
-using FocalPoint.Components.EntityComponents;
+﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
-using static Visum.Services.Mobile.Entities.PaymentRequest;
-using Visum.Services.Mobile.Entities;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Windows.Input;
 using MvvmHelpers.Commands;
-using FocalPoint.Modules.Payments.Views;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Visum.Services.Mobile.Entities;
+using static Visum.Services.Mobile.Entities.PaymentRequest;
 
 namespace FocalPoint.Modules.Payments.ViewModels
 {
+    public class PaymentHistoryDetail
+    {
+        public string Header { get; set; }
+
+        public ObservableCollection<Payment> PaymentHistory { get; set; }
+    }
+
     public class PaymentPageViewModel : CommonViewModel
     {
-        private PaymentSettings settings;
+        public Order Order { get; }
+
+        private PaymentSettings _settings;
         public IPaymentEntityComponent PaymentEntityComponent { get; set; }
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
@@ -93,14 +101,36 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public ICommand PaymentTypeSelection { get; }
 
         #region const
-        public PaymentPageViewModel()
+
+        public PaymentPageViewModel(Order order) : base("Payments")
         {
             PaymentEntityComponent = new PaymentEntityComponent();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            GetSettings().ContinueWith((a) => { _settings = a.Result; });
+            Order = order;
+            PaymentHistory = new PaymentHistoryDetail();
+            PaymentHistory.Header = "Payment History";
+            DepositPaymentHistory = new PaymentHistoryDetail();
+            DepositPaymentHistory.Header = "Deposits & Security Deposits";
+            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            SetPaymentData();
+        }
+
+        public PaymentPageViewModel() : base("Payments")
+        {
+            PaymentEntityComponent = new PaymentEntityComponent();
+            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            PaymentHistory = new PaymentHistoryDetail();
+            PaymentHistory.Header = "Payment History";
+            DepositPaymentHistory = new PaymentHistoryDetail();
+            DepositPaymentHistory.Header = "Deposits & Security Deposits";
+            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            SetPaymentData();
             ProcessOnline = true;
             //settings = await GetSettings();
             GetSettings().ContinueWith((a) => { settings = a.Result; });
         }
+
         #endregion
 
         public async void SetPaymentSelectionType(int paymentType)
@@ -201,6 +231,15 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 15 => "Blank_96.png",
                 _ => "Blank_96.png",
             };
+        }
+
+        private void SetPaymentData()
+        {
+            if (Order?.Payments?.Count > 0)
+            {
+                PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit));
+                DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit));
+            }
         }
 
     }
