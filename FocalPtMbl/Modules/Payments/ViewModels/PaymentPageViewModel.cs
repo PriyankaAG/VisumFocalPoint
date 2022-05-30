@@ -14,16 +14,16 @@ namespace FocalPoint.Modules.Payments.ViewModels
 {
     public class PaymentPageViewModel : CommonViewModel
     {
-        private PaymentSettings _settings;
+        private PaymentSettings settings;
         public IPaymentEntityComponent PaymentEntityComponent { get; set; }
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
 
         private string paymentMethod;
-        public string PaymentMethod 
+        public string PaymentMethod
         {
             get { return paymentMethod; }
-            set 
+            set
             {
                 paymentMethod = value;
                 OnPropertyChanged(nameof(PaymentMethod));
@@ -38,6 +38,24 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public bool IsCreditCardPOS { get; set; }
         public bool IsDebitCard { get; set; }
         public bool ShowDueAndReceived { get; set; }
+        public bool IsCardOnFile
+        {
+            get
+            {
+                return settings == null ? ProcessOnline : settings.CardOnFile && ProcessOnline;
+            }
+        }
+        private bool processOnline;
+        public bool ProcessOnline
+        {
+            get { return processOnline; }
+            set
+            {
+                processOnline = value;
+                OnPropertyChanged(nameof(ProcessOnline));
+                OnPropertyChanged(nameof(IsCardOnFile));
+            }
+        }
         public string OtherTitle { get; set; }
         public List<PaymentType> PaymentTypes { get; set; }
         private PaymentType selectedPaymentType;
@@ -79,7 +97,9 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             PaymentEntityComponent = new PaymentEntityComponent();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
-            GetSettings().ContinueWith((a) => { _settings = a.Result; });
+            ProcessOnline = true;
+            //settings = await GetSettings();
+            GetSettings().ContinueWith((a) => { settings = a.Result; });
         }
         #endregion
 
@@ -103,10 +123,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
-        internal void SetCardView(PaymentType paymentType)
+        internal async void SetCardView(PaymentType paymentType)
         {
             IsCash = IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = IsDebitCard = false;
             ShowDueAndReceived = true;
+
             switch (paymentType.PaymentKind)
             {
                 case "CA":
@@ -116,7 +137,15 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsCheck = true;
                     break;
                 case "CC":
-                    IsCreditCard = true;
+                    if (settings != null && settings.POSEnabled)
+                    {
+                        IsCreditCardPOS = true;
+                        //IsCardOnFile = settings.CardOnFile && ProcessOnline;
+                    }
+                    else
+                    {
+                        IsCreditCard = true;
+                    }
                     ShowDueAndReceived = false;
                     break;
                 case "CP":
@@ -140,6 +169,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(IsDebitCard));
             OnPropertyChanged(nameof(ShowDueAndReceived));
             OnPropertyChanged(nameof(OtherTitle));
+            OnPropertyChanged(nameof(IsCardOnFile));
 
             /*var otherTypes = new string[] { "CP", "MS", "IR", "OT", "DS" };
             IsOtherType = otherTypes.Contains(selectedItem);

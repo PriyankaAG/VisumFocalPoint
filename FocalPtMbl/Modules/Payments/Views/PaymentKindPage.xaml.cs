@@ -9,12 +9,10 @@ namespace FocalPoint.Modules.Payments.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PaymentKindPage : ContentPage
 	{
-		readonly PaymentPageViewModel viewModel;
-		public PaymentKindPage (PaymentType type)
+        public PaymentPageViewModel viewModel { get; set; }
+        public PaymentKindPage()
 		{
 			InitializeComponent ();
-			BindingContext = viewModel = new PaymentPageViewModel();
-			viewModel.SelectedPaymentType = type;
 		}
 
         private void CancelButton_Clicked(object sender, EventArgs e)

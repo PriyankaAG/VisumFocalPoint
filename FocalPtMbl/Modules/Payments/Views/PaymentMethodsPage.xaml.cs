@@ -49,7 +49,8 @@ namespace FocalPoint.Modules.Payments.Views
                     BackgroundColor = Color.FromHex("#f5f6fa"),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
-                    CommandParameter = paymentTypes[num]
+                    CommandParameter = paymentTypes[num],
+                    HeightRequest = 70
                 };
                 imgBtn.Clicked += ImgBtn_Clicked;
 
@@ -81,7 +82,12 @@ namespace FocalPoint.Modules.Payments.Views
         private async void ImgBtn_Clicked(object sender, System.EventArgs e)
         {
             PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
-            await Navigation.PushAsync(new PaymentKindPage(paymentType));
+            viewModel.SelectedPaymentType = paymentType;
+            PaymentKindPage paymentKindPage = new PaymentKindPage
+            {
+                BindingContext = viewModel,
+            };
+            await Navigation.PushAsync(paymentKindPage);
 
         }
 

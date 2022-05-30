@@ -7,9 +7,6 @@
              x:Class="FocalPoint.Modules.Payments.Views.PaymentMethodsPage" 
              Title="Payments" 
              BackgroundColor="#fff">
-    <ContentPage.BindingContext>
-        <viewModel:PaymentPageViewModel />
-    </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
