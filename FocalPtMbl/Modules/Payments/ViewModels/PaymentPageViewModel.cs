@@ -22,7 +22,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
     {
         public Order Order { get; }
 
-        private PaymentSettings _settings;
+        private PaymentSettings settings;
         public IPaymentEntityComponent PaymentEntityComponent { get; set; }
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
@@ -106,7 +106,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             PaymentEntityComponent = new PaymentEntityComponent();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
-            GetSettings().ContinueWith((a) => { _settings = a.Result; });
+            GetSettings().ContinueWith((a) => { settings = a.Result; });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail();
             PaymentHistory.Header = "Payment History";
@@ -114,6 +114,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             DepositPaymentHistory.Header = "Deposits & Security Deposits";
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             SetPaymentData();
+            ProcessOnline = true;
         }
 
         public PaymentPageViewModel() : base("Payments")
@@ -153,7 +154,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
-        internal async void SetCardView(PaymentType paymentType)
+        internal void SetCardView(PaymentType paymentType)
         {
             IsCash = IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = IsDebitCard = false;
             ShowDueAndReceived = true;
