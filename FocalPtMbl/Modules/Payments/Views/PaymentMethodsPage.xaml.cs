@@ -1,4 +1,6 @@
-﻿using FocalPoint.Modules.Payments.ViewModels;
+﻿using System.Threading.Tasks;
+using FocalPoint.Modules.Payments.ViewModels;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -8,120 +10,84 @@ namespace FocalPoint.Modules.Payments.Views
     public partial class PaymentMethodsPage : ContentPage
     {
         readonly PaymentPageViewModel viewModel;
-        public PaymentMethodsPage()
+        public PaymentMethodsPage(int paymentType)
         {
             InitializeComponent();
             BindingContext = viewModel = new PaymentPageViewModel();
+            _ = SetPayments(paymentType);
         }
 
-        private void picker_DepositType_SelectedIndexChanged(object sender, System.EventArgs e)
+        private async Task SetPayments(int paymentType)
         {
-            if (picker_DepositType.SelectedIndex != -1)
+            await viewModel.SetPaymenyTypes(paymentType);
+            if (viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
+                AddPaymentKinds(viewModel.PaymentTypes);
+        }
+
+        private void AddPaymentKinds(System.Collections.Generic.List<Visum.Services.Mobile.Entities.PaymentType> paymentTypes)
+        {
+            int rowCount = paymentTypes.Count <= 3 ? 1 : 1 + paymentTypes.Count / 3;
+            paymentKinds.Children.Clear();
+            paymentKinds.RowDefinitions.Clear();
+            paymentKinds.ColumnDefinitions.Clear();
+            for (int i = 0; i < rowCount; i++)
             {
-                _ = viewModel.SetPaymenyTypes(picker_DepositType.SelectedIndex);
+                paymentKinds.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            }
+            for (int j = 0; j < 3; j++)
+            {
+                paymentKinds.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+            }
+
+            int RN = 0;
+            for (int num = 0; num < paymentTypes.Count; num++)
+            {
+                var paymentIcon = paymentTypes[num].PaymentTIcon;
+                var imgBtn = new ImageButton
+                {
+                    Source = viewModel.GetPaymentImage(paymentIcon),
+                    BackgroundColor = Color.FromHex("#f5f6fa"),
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    CommandParameter = paymentTypes[num]
+                };
+                imgBtn.Clicked += ImgBtn_Clicked;
+
+                var lblText = new Label
+                {
+                    Text = paymentTypes[num].PaymentDscr,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Center
+                };
+                var stackLayout = new StackLayout { Orientation = StackOrientation.Vertical };
+                stackLayout.Children.Add(imgBtn);
+                stackLayout.Children.Add(lblText);
+                if (num % 3 == 0)
+                {
+                    paymentKinds.Children.Add(stackLayout, 0, RN);
+                }
+                else if (num % 3 == 1)
+                {
+                    paymentKinds.Children.Add(stackLayout, 1, RN);
+                }
+                else
+                {
+                    paymentKinds.Children.Add(stackLayout, 2, RN);
+                    RN++;
+                }
             }
         }
 
-        private void AddPaymentKinds()
+        private async void ImgBtn_Clicked(object sender, System.EventArgs e)
         {
-            Grid grid = new Grid
-            {
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = GridLength.Auto },
-                    new RowDefinition { Height = GridLength.Auto },
-                    new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                    new RowDefinition { Height = new GridLength(100, GridUnitType.Absolute) }
-                },
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = GridLength.Auto },
-                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(100, GridUnitType.Absolute) }
-                }
-            };
+            PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
+            await Navigation.PushAsync(new PaymentKindPage(paymentType));
 
-            grid.Children.Add(new Label
-            {
-                Text = "Grid",
-                Font = Font.BoldSystemFontOfSize(50),
-                HorizontalOptions = LayoutOptions.Center
-            }, 0, 3, 0, 1);
+        }
 
-            grid.Children.Add(new Label
-            {
-                Text = "Autosized cell",
-                TextColor = Color.White,
-                BackgroundColor = Color.Blue
-            }, 0, 1);
-
-            grid.Children.Add(new BoxView
-            {
-                Color = Color.Silver,
-                HeightRequest = 0
-            }, 1, 1);
-
-            grid.Children.Add(new BoxView
-            {
-                Color = Color.Teal
-            }, 0, 2);
-
-            grid.Children.Add(new Label
-            {
-                Text = "Leftover space",
-                TextColor = Color.Purple,
-                BackgroundColor = Color.Aqua,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center,
-            }, 1, 2);
-
-            grid.Children.Add(new Label
-            {
-                Text = "Span two rows (or more if you want)",
-                TextColor = Color.Yellow,
-                BackgroundColor = Color.Navy,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
-            }, 2, 3, 1, 3);
-
-            grid.Children.Add(new Label
-            {
-                Text = "Span 2 columns",
-                TextColor = Color.Blue,
-                BackgroundColor = Color.Yellow,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
-            }, 0, 2, 3, 4);
-
-            grid.Children.Add(new Label
-            {
-                Text = "Fixed 100x100",
-                TextColor = Color.Aqua,
-                BackgroundColor = Color.Red,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
-            }, 2, 3);
-
-            // Accomodate iPhone status bar.
-            this.Padding = new Thickness(10, Device.OnPlatform(20, 0, 0), 10, 5);
-
-            // Build the page.
-            this.Content = grid;
+        private void CancelButton_Clicked(object sender, System.EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
-}
-
-enum PaymentKind
-{
-    CA,
-    CK,
-    CC,
-    CP,
-    DC,
-    DS,
-    OT,
-    MS,
-    IR,
-    SD
 }

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentCash">
+    <ContentView.Content>
+        <ScrollView Padding="2,2">
+        <Frame x:Name="frameView" Padding="10,10" VerticalOptions="FillAndExpand" CornerRadius="5" BackgroundColor="#f5f6fa">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Check Payment" TextColor="#131523" FontAttributes="Bold" />
+                <Grid ColumnSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Row="0" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Label Text="$1" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="0" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$2" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="0" Grid.Column="2" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$5" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="0" Grid.Column="3" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$10" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$15" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="1" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$20" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="1" Grid.Column="2" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$25" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="1" Grid.Column="3" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$30" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="2" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$35" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="2" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$40" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="2" Grid.Column="2" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$45" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="2" Grid.Column="3" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$50" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="3" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$55" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="3" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$60" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="3" Grid.Column="2" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$65" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                    <Frame Grid.Row="3" Grid.Column="3" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="FillAndExpand">
+                        <Label Text="$70" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
+                        </Label>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+        </Frame>
+        </ScrollView>
+    </ContentView.Content>
+</ContentView>

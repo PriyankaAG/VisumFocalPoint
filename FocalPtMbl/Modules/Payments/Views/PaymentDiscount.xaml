@@ -4,7 +4,7 @@
   <ContentView.Content>
         <Frame x:Name="frameView" Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa">
             <StackLayout Orientation="Vertical">
-                <Label Text="Discount" TextColor="#131523" FontAttributes="Bold" />
+                <Label Text="{Binding OtherTitle}" TextColor="#131523" FontAttributes="Bold" />
                 <Grid ColumnSpacing="20" Margin="0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

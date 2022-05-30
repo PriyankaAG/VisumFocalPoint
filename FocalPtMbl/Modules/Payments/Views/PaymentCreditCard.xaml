@@ -24,7 +24,10 @@
                     </Grid.ColumnDefinitions>
                     <views:CustomEditorView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Holder's Name" PlaceHolder="Enter name" Keyboard="Text" />
                     <views:CustomEditorView Grid.Row="1" Grid.Column="0" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
-                    <views:CustomEditorView Grid.Row="1" Grid.Column="1" LabelText="Expiration Date (MM/YY)" PlaceHolder="Enter expiration date" Keyboard="Text" />
+                    <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                        <Label Text="Expiration Date (MM/YY)" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                        <DatePicker Format="d" />
+                    </StackLayout>
                     <views:CustomEditorView Grid.Row="2" Grid.Column="0" LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
                 </Grid>
             </StackLayout>

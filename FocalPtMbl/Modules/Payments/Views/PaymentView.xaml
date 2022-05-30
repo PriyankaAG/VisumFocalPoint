@@ -2,9 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls"
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls" 
+             xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" 
              x:Class="FocalPoint.Modules.Payments.Views.PaymentView"
-             Title="{Binding Title}">
+             Title="{Binding Title}" 
+             BackgroundColor="#fff">
     <ContentPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,14 +17,15 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <Grid RowSpacing="10" Padding="10">
+            <Grid RowSpacing="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Frame BackgroundColor="#f5f6fa" Grid.Row="0" Grid.Column="0" Padding="10,10">
+                <views1:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5"/>
+                <!--<Frame BackgroundColor="#f5f6fa" Grid.Row="0" Grid.Column="0" Padding="10,10" CornerRadius="5">
                     <Grid BackgroundColor="#f5f6fa" ColumnSpacing="20">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
@@ -31,9 +34,9 @@
                         <Label Grid.Row="0" Grid.Column="0" Text="Balance Due: $364" HorizontalTextAlignment="End" TextColor="#131523" VerticalOptions="Center" />
                         <Label Grid.Row="0" Grid.Column="1" Text="Suggested Deposit: 250" HorizontalTextAlignment="Start" TextColor="#131523" VerticalOptions="Center" />
                     </Grid>
-                </Frame>
+                </Frame>-->
                 <!--<Frame BackgroundColor="#f5f6fa" Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" HasShadow="True" Padding="10">-->
-                <Grid BackgroundColor="#f5f6fa"  Grid.Row="1" Grid.Column="0" ColumnSpacing="20" RowSpacing="10" Padding="10">
+                <Grid BackgroundColor="#f5f6fa" Grid.Row="1" Grid.Column="0" Margin="10,0" ColumnSpacing="20" RowSpacing="10" Padding="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="80"/>
@@ -45,36 +48,40 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.ColumnSpan="2" Text="New Payments" HorizontalOptions="Start" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
 
-                    <Frame Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
+                    <Frame x:Name="Payment" Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130" >
                         <Label Text="Payment" HorizontalOptions ="Center"   Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" >
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding PaymentTypeSelection}" CommandParameter="0"/>
+                                <!--<TapGestureRecognizer Tapped="Payment_Tapped" Command="{Binding PaymentTypeSelection}" CommandParameter="0"/>-->
+                                <TapGestureRecognizer Tapped="Payment_Tapped"/>
                             </Label.GestureRecognizers>
                         </Label>
                     </Frame>
-                    <Frame Grid.Row="1" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
+                    <Frame x:Name="Deposit" Grid.Row="1" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
                         <Label Text="Deposit" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding PaymentTypeSelection}" CommandParameter="1"/>
+                                <!--<TapGestureRecognizer Tapped="Deposit_Tapped" Command="{Binding PaymentTypeSelection}" CommandParameter="1"/>-->
+                                <TapGestureRecognizer Tapped="Deposit_Tapped"/>
                             </Label.GestureRecognizers>
                         </Label>
                     </Frame>
                     <Frame Grid.Row="2" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
                         <Label Text="Security Deposit" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PaymentTypeSelection}" CommandParameter="2"/>
+                            <!--<TapGestureRecognizer Tapped="SecurityDeposit_Tapped" Command="{Binding PaymentTypeSelection}" CommandParameter="2"/>-->
+                            <TapGestureRecognizer Tapped="SecurityDeposit_Tapped"/>
                         </Frame.GestureRecognizers>
                     </Frame>
                     <Frame Grid.Row="2" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
                         <Label Text="Security Pre-Auth" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PaymentTypeSelection}" CommandParameter="3"/>
+                            <!--<TapGestureRecognizer Tapped="Security_PreAuth_Tapped" Command="{Binding PaymentTypeSelection}" CommandParameter="3"/>-->
+                            <TapGestureRecognizer Tapped="Security_PreAuth_Tapped"/>
                         </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
                 <!--</Frame>-->
-                <views:PaymentHistoryList Grid.Row="2" Grid.Column="0" BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="150" />
-                <views:PaymentHistoryList Grid.Row="3" Grid.Column="0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150"/>
+                <views:PaymentHistoryList Grid.Row="2" Grid.Column="0" Margin="10,0"  BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="150" />
+                <views:PaymentHistoryList Grid.Row="3" Grid.Column="0" Margin="10,0"  BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150"/>
             </Grid>
         </ScrollView>
     </ContentPage.Content>
