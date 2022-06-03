@@ -36,15 +36,14 @@
                         Orientation="Vertical"
                         VerticalOptions="Start"
                         HorizontalOptions="Center"
-                        BindableLayout.ItemsSource="{Binding PaymentHistory}"
+                        BindableLayout.ItemsSource="{Binding CreditCardDetailList}"
                         Padding="5,0">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -52,15 +51,15 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="1"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PaymentSource}" Style="{DynamicResource LabelListDetail}"/>
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding InfoPaymentID}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
+                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding InfoDscr}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
+                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+                            <BoxView Grid.Row="1" Grid.ColumnSpan="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
                         </Grid>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
