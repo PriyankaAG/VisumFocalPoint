@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalMainPage" BackgroundColor="#ffffff">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" Padding="10,10,10,10" Margin="10,10,10,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" IsVisible="{Binding IsCustomerSelected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailName }" Text="{Binding SelectedCustomer.CustomerName}" MaxLines="1" LineBreakMode="TailTruncation">
+                        </Label>
+                        <Label Grid.Column="1" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" Text="{Binding CustomerPhoneFormatted}" MaxLines="2" LineBreakMode="TailTruncation">
+
+                        </Label>
+                    </Grid>
+                    <Grid Grid.Row="1" IsVisible="{Binding IsCustomerSelected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                            <Label Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailAddress}"  
+                                    Text="{Binding CustomerAddressFormatted}"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Type: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="{Binding CustomerTypeFormatted}"/>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                        </Grid.RowDefinitions>
+                        <Button Style="{DynamicResource NewQuickRentalFrameButton}" Text="Select Customer Details" VerticalOptions="Center" Clicked="Button_Clicked">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsCustomerSelected}" Value="True">
+                                    <Setter Property="Text" Value="Change Customer" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsCustomerSelected}" Value="False">
+                                    <Setter Property="Text" Value="Select Customer" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Frame>
+
+            <Frame Grid.Column="0" Grid.Row="1" Style="{DynamicResource NewQuickRentalFrameStyle}" VerticalOptions="Start" Padding="10,10,10,10" Margin="10,5,10,5">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" IsVisible="{Binding IsCustomerSelected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Out Date: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="04-05-2022 : 10:00 AM"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" IsVisible="{Binding IsCustomerSelected}" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Due Date: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="04-05-2022 : 10:00 AM"/>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Row="1" IsVisible="{Binding IsCustomerSelected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Column="0" Grid.Row="0"  Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Length: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="N/A"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Grid.Row="0"  Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Exempt ID: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="N/A"/>
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Row="2" IsVisible="{Binding IsCustomerSelected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                           Text="Tax: "/>
+                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="aaaa"/>
+                        </StackLayout>
+
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameButton}" Text="Set Rental Details"  HorizontalOptions="Fill" VerticalOptions="Center">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsCustomerSelected}" Value="True">
+                                    <Setter Property="Text" Value="Update Rental Details" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsCustomerSelected}" Value="False">
+                                    <Setter Property="Text" Value="Set Rental Details" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -83,6 +83,20 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
+        public static readonly BindableProperty CompletedProperty = BindableProperty.Create(nameof(Completed), typeof(ICommand), typeof(CustomEditor), null, BindingMode.TwoWay);
+        public ICommand Completed
+        {
+            get
+            {
+                return (ICommand)GetValue(CompletedProperty);
+            }
+
+            set
+            {
+                SetValue(CompletedProperty, value);
+            }
+        }
+
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(CustomEditor), null, BindingMode.TwoWay);
         public ICommand Command
         {
@@ -97,6 +111,19 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
+        public static readonly BindableProperty UnfocusedProperty = BindableProperty.Create(nameof(Unfocused), typeof(ICommand), typeof(CustomEditor), null, BindingMode.TwoWay);
+        public new ICommand Unfocused
+        {
+            get
+            {
+                return (ICommand)GetValue(UnfocusedProperty);
+            }
+
+            set
+            {
+                SetValue(UnfocusedProperty, value);
+            }
+        }
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Text = e.NewTextValue;
