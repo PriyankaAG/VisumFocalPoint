@@ -21,10 +21,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Subscribe<NewQuickRentalMainPage>(this, "Hi", (sender) =>
-            {
-            });
-
             this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
         }
 
