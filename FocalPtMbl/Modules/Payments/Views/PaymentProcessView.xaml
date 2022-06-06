@@ -27,9 +27,9 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:CustomEditorView Grid.Row="0" Grid.Column="0" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
-                    <views:CustomEditorView IsVisible="{Binding ShowDueAndReceived}" Grid.Row="0" Grid.Column="1" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
-                    <views:CustomEditorView IsVisible="{Binding ShowDueAndReceived}" Grid.Row="1" Grid.Column="0" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
+                    <views:CustomEditorView Grid.Row="0" Grid.Column="0" EditorText="{Binding Payment}" MaxLenth="3" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
+                    <views:CustomEditorView Grid.Row="0" Grid.Column="1" EditorText="{Binding TotalReceived}" MaxLenth="3" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
+                    <views:CustomEditorView Grid.Row="1" Grid.Column="0" EditorText="{Binding ChangeDue}" MaxLenth="3" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
                 </Grid>
             </Grid>
         </Frame>

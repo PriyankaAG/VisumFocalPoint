@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
@@ -234,7 +235,8 @@ namespace FocalPoint.Modules.FrontCounter.Views
         }
         private async void Payment_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new QuickOrderPaymentsView(((QuickOrderCreationOutlineViewModel)this.BindingContext).CurrentOrder));
+            //await Navigation.PushAsync(new QuickOrderPaymentsView(((QuickOrderCreationOutlineViewModel)this.BindingContext).CurrentOrder));
+            await Navigation.PushAsync(new PaymentView(((QuickOrderCreationOutlineViewModel)this.BindingContext).CurrentOrder));
         }
         private List<string> notifications = new List<string>();
         private async void GetOrderInfo()

@@ -9,22 +9,26 @@ namespace FocalPoint.Modules.Payments.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentMethodsPage : ContentPage
     {
-        readonly PaymentPageViewModel viewModel;
-        public PaymentMethodsPage(int paymentType)
+        PaymentPageViewModel viewModel;
+        public PaymentMethodsPage()
         {
             InitializeComponent();
-            BindingContext = viewModel = new PaymentPageViewModel();
-            _ = SetPayments(paymentType);
         }
 
-        private async Task SetPayments(int paymentType)
+        protected override void OnAppearing()
         {
-            await viewModel.SetPaymenyTypes(paymentType);
-            if (viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
+            base.OnAppearing();
+            viewModel = (PaymentPageViewModel)BindingContext;
+            SetPayments();
+        }
+        
+        private void SetPayments()
+        {
+            if (viewModel != null && viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
                 AddPaymentKinds(viewModel.PaymentTypes);
         }
 
-        private void AddPaymentKinds(System.Collections.Generic.List<Visum.Services.Mobile.Entities.PaymentType> paymentTypes)
+        private void AddPaymentKinds(System.Collections.Generic.List<PaymentType> paymentTypes)
         {
             int rowCount = paymentTypes.Count <= 3 ? 1 : 1 + paymentTypes.Count / 3;
             paymentKinds.Children.Clear();

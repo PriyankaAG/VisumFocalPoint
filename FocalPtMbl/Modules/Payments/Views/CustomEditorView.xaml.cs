@@ -45,6 +45,34 @@ namespace FocalPoint.Modules.Payments.Views
             }
         }
 
+        public static readonly BindableProperty EditorTextProperty = BindableProperty.Create(nameof(EditorText), typeof(string), typeof(CustomEditorView), default(string), BindingMode.TwoWay);
+        public string EditorText
+        {
+            get
+            {
+                return (string)GetValue(EditorTextProperty);
+            }
+
+            set
+            {
+                SetValue(EditorTextProperty, value);
+            }
+        }
+
+        public static readonly BindableProperty MaxLenthProperty = BindableProperty.Create(nameof(MaxLenth), typeof(int), typeof(CustomEditorView), default(int), BindingMode.TwoWay);
+        public int MaxLenth
+        {
+            get
+            {
+                return (int)GetValue(MaxLenthProperty);
+            }
+
+            set
+            {
+                SetValue(MaxLenthProperty, value);
+            }
+        }
+
         public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(CustomEditorView), Keyboard.Default, BindingMode.TwoWay);
         public Keyboard Keyboard
         {

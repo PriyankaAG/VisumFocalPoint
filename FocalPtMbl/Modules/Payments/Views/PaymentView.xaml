@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls" 
-             xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" 
-             x:Class="FocalPoint.Modules.Payments.Views.PaymentView"
-             Title="{Binding Title}" 
-             BackgroundColor="#fff">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" x:Class="FocalPoint.Modules.Payments.Views.PaymentView" Title="{Binding Title}" BackgroundColor="#fff">
     <ContentPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,12 +17,12 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <views1:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5"/>
+                <views1:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
                 <Grid BackgroundColor="#f5f6fa" Grid.Row="1" Grid.Column="0" Margin="10,0" ColumnSpacing="20" RowSpacing="10" Padding="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="80" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="5*" />
@@ -37,36 +30,34 @@
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.ColumnSpan="2" Text="New Payments" HorizontalOptions="Start" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
 
-                    <Frame x:Name="Payment" Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130" >
-                        <Label Text="Payment" HorizontalOptions ="Center"   Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Payment_Tapped"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                    <Frame x:Name="Payment" Grid.Row="1" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
+                        <Label Text="Payment" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Payment_Tapped" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                     <Frame x:Name="Deposit" Grid.Row="1" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
-                        <Label Text="Deposit" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Deposit_Tapped"/>
-                            </Label.GestureRecognizers>
-                        </Label>
+                        <Label Text="Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Deposit_Tapped" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                     <Frame Grid.Row="2" Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
-                        <Label Text="Security Deposit" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                        <Label Text="Security Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="SecurityDeposit_Tapped"/>
+                            <TapGestureRecognizer Tapped="SecurityDeposit_Tapped" />
                         </Frame.GestureRecognizers>
                     </Frame>
                     <Frame Grid.Row="2" Grid.Column="1" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
-                        <Label Text="Security Pre-Auth" HorizontalOptions ="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                        <Label Text="Security Pre-Auth" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Security_PreAuth_Tapped"/>
+                            <TapGestureRecognizer Tapped="Security_PreAuth_Tapped" />
                         </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
                 <!--</Frame>-->
-                <views:PaymentHistoryList Grid.Row="2" Grid.Column="0" Margin="10,0"  BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="150" />
-                <views:PaymentHistoryList Grid.Row="3" Grid.Column="0" Margin="10,0"  BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150"/>
+                <views:PaymentHistoryList Grid.Row="2" Grid.Column="0" Margin="10,0" BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="150" />
+                <views:PaymentHistoryList Grid.Row="3" Grid.Column="0" Margin="10,0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150" />
             </Grid>
         </ScrollView>
     </ContentPage.Content>

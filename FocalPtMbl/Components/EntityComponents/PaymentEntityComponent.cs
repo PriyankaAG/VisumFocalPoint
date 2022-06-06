@@ -44,7 +44,7 @@ namespace FocalPoint.Components.EntityComponents
             List<PaymentType> type;
             try
             {
-                type = await apiComponent.GetAsync<List<PaymentType>>(string.Format(PaymentTypes,paymentType));
+                type = await apiComponent.GetAsync<List<PaymentType>>(string.Format(PaymentTypes, paymentType));
             }
             catch (Exception ex)
             {
@@ -81,14 +81,13 @@ namespace FocalPoint.Components.EntityComponents
             return info;
         }
 
-        public async Task<PaymentResponse> PostPaymentProcess(int customerNo, PaymentRequest request)
+        public async Task<PaymentResponse> PostPaymentProcess(PaymentRequest request)
         {
             PaymentResponse result;
             try
             {
-
-                string requestContent = JsonConvert.SerializeObject(request);
-                result = await apiComponent.PostAsync<PaymentResponse>(string.Format(PaymentProcess,customerNo), requestContent);
+                string requestContent = JsonConvert.SerializeObject(new { Request = request });
+                result = await apiComponent.PostAsync<PaymentResponse>(PaymentProcess, requestContent);
             }
             catch (Exception ex)
             {
@@ -102,7 +101,7 @@ namespace FocalPoint.Components.EntityComponents
             bool result;
             try
             {
-                result = await apiComponent.PostAsync<bool>(string.Format(PaymentEmail, emailAddress,paymentNo),null);
+                result = await apiComponent.PostAsync<bool>(string.Format(PaymentEmail, emailAddress, paymentNo), null);
             }
             catch (Exception ex)
             {
@@ -116,8 +115,8 @@ namespace FocalPoint.Components.EntityComponents
             Payment result;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(new { pay, paymentVoid});
-                result = await apiComponent.SendAsync<Payment>("Payment", requestContent,false);
+                string requestContent = JsonConvert.SerializeObject(new { pay, paymentVoid });
+                result = await apiComponent.SendAsync<Payment>("Payment", requestContent, false);
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ namespace FocalPoint.Components.Interface
         Task<List<PaymentType>> GetPaymentTypes(int paymentType);
         Task<PaymentInfo> GetPaymentCardInfo(int customerNo);
         Task<PaymentInfo> GetPaymentACHInfo(int customerNo);
-        Task<PaymentResponse> PostPaymentProcess(int customerNo, PaymentRequest request);
+        Task<PaymentResponse> PostPaymentProcess(PaymentRequest request);
         Task<bool> PostPaymentEmail(string emailAddress, int paymentNo);
         Task<Payment> PaymentUpdate(Payment pay, bool paymentVoid);
     }

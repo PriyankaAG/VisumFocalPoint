@@ -24,14 +24,17 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <views:CustomEditorView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Holder's Name" PlaceHolder="Enter name" Keyboard="Text" />
-                    <views:CustomEditorView Grid.Row="1" Grid.Column="0" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
-                    <views:CustomEditorView Grid.Row="1" Grid.Column="1" LabelText="Expiration Date (MM/YY)" PlaceHolder="Enter expiration date" Keyboard="Text" />
-                    <views:CustomEditorView Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
-                    <views:CustomEditorView Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" Grid.ColumnSpan = "2" LabelText="AVS Street Address" PlaceHolder="Enter address" Keyboard="Text" />
-                    <views:CustomEditorView Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" LabelText="AVS Zip Code" PlaceHolder="Enter zip code" Keyboard="Text" />
+                    <views:CustomEditorView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" EditorText="{Binding CardHolderName}" MaxLenth="100"  LabelText="Holder's Name" PlaceHolder="Enter name" />
+                    <views:CustomEditorView Grid.Row="1" Grid.Column="0" EditorText="{Binding CardLast4Digits}" MaxLenth="4" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
+                    <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                        <Label Text="Expiration Date (MM/YY)" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                        <DatePicker Format="d" Date="{Binding ExpirationDate}"/>
+                    </StackLayout>
+                    <views:CustomEditorView Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" EditorText="{Binding AuthorizationCode}" MaxLenth="100"  LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
+                    <views:CustomEditorView Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" Grid.ColumnSpan="2" EditorText="{Binding AvsStreetAddress}" MaxLenth="100" LabelText="AVS Street Address" PlaceHolder="Enter address" Keyboard="Text" />
+                    <views:CustomEditorView Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" EditorText="{Binding AvsZipCode}" MaxLenth="100"  LabelText="AVS Zip Code" PlaceHolder="Enter zip code" Keyboard="Text" />
                     <StackLayout Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsCardOnFile}" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center" Margin="0,20,0,0">
-                        <ia:Checkbox x:Name="StoreCardOnFile" OutlineColor="#7477a0" CheckColor="#7477a0" Shape="Rectangle" />
+                        <ia:Checkbox x:Name="StoreCardOnFile" IsChecked="{Binding StoreCardOnFile}" IsEnabled="{Binding StoreCardOnFileEnabled}" OutlineColor="#7477a0" CheckColor="#7477a0" Shape="Rectangle" />
                         <Label Text="Store Card On File" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
                     </StackLayout>
                 </Grid>

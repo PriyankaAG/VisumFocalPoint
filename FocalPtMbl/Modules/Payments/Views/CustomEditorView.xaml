@@ -19,8 +19,10 @@
             <customrenderers:CustomEntry 
                 BackgroundColor="#fff" 
                 HorizontalOptions="Fill"  
-                Style="{DynamicResource EntryStyle}"
-                Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
+                Style="{DynamicResource EntryStyle}" 
+                MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
+                Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
+                Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
                 Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}" >
             </customrenderers:CustomEntry>
         </StackLayout>

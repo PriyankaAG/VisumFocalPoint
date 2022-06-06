@@ -9,8 +9,8 @@
                     <ColumnDefinition Width="4*" />
                     <ColumnDefinition Width="6*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Text="Amount Due: $364" HorizontalTextAlignment="End" TextColor="#131523" VerticalOptions="Center" />
-                <Label Grid.Row="0" Grid.Column="1" Text="Suggested Deposit: 250" HorizontalTextAlignment="Start" TextColor="#131523" VerticalOptions="Center" />
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding AmountDue, StringFormat='Amount Due: {0}'}" HorizontalTextAlignment="End" TextColor="#131523" VerticalOptions="Center" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding SuggestedDeposit, StringFormat='Suggested Deposit: {0}'}" HorizontalTextAlignment="Start" TextColor="#131523" VerticalOptions="Center" />
             </Grid>
         </Frame>
     </ContentView.Content>
