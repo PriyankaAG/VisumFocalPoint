@@ -13,6 +13,8 @@
     <Color x:Key="BackgroundThemeColor">#87ceff</Color>
     <Color x:Key="GridCellLinesColor">#ebebeb</Color>
 
+    <Color x:Key="BackgroundPageColor">#ffffff</Color>
+
     <Color x:Key="GridAdvancedLayoutRowBorderColor">#B6BAC1</Color>
 
     <Color x:Key="GridCustomAppearanceOddRowBackgroundColor">#F7F7F7</Color>
@@ -58,7 +60,8 @@
 
     <Color x:Key="EditorSettingsSeparatorColor">#EBEBEB</Color>
     <Color x:Key="EditorSettingsTextColor">#de000000</Color>
-
+    <Color x:Key="InfoItalicLableTextColor">#f0142F</Color>
+    
     <Color x:Key="CollectionViewGrayFontColor">#959aa0</Color>
     <Color x:Key="CollectionViewItemBorderColor">#d7dce4</Color>
     <Color x:Key="CollectionViewItemFontColor">#56585c</Color>
@@ -121,6 +124,9 @@
     <Color x:Key="CustomerDetailEmail">#7477a0</Color>
     <Color x:Key="CustomerDetailAddress">#5a607f</Color>
 
+    <Color x:Key="AddCustomerExpanderHeaderColor">#5a607f</Color>
+    <Color x:Key="CancelButtonBG">#f0142f</Color>
+    <Color x:Key="SaveButtonBG">#57b8ff</Color>
 
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
@@ -278,6 +284,20 @@
         <Setter Property="TextColor" Value="#000"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
+    
+    <Style x:Key="SaveButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource SaveButtonBG}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="TextColor" Value="#ffff"/>
+        <Setter Property="HeightRequest" Value="50"/>
+    </Style>
+    
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource CancelButtonBG}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="TextColor" Value="#ffff"/>
+        <Setter Property="HeightRequest" Value="50"/>
+    </Style>
 
     <Style x:Key="TabSelectedButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource TabPageFavoriteColor}"/>
@@ -346,4 +366,25 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
         <Setter Property="FontFamily" Value="Roboto-Medium"/>
     </Style>
+
+    <Style x:Key="AddNewCustomerHeaderLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource EditorSettingsTextColor}" />
+        <Setter Property="FontFamily" Value="Roboto-Medium"/>
+    </Style>
+
+    <Style x:Key="NewCustomerInfoLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource SmallFontSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource InfoItalicLableTextColor}" />
+        <Setter Property="FontFamily" Value="Roboto-Italic"/>
+    </Style>
+
+    <Style x:Key="NewCustomerExpanderHeaderLable" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource MediumFontSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource AddCustomerExpanderHeaderColor}" />
+        <Setter Property="FontFamily" Value="Roboto-Bold"/>
+    </Style>
+
+
+    
 </ResourceDictionary>

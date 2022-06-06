@@ -6,7 +6,8 @@
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.NewRental"
              xmlns:conv ="clr-namespace:FocalPoint.MainMenu.Converters" 
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalSelectCustomerPage" BackgroundColor="#ffffff">
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalSelectCustomerPage"
+             BackgroundColor="{StaticResource BackgroundPageColor}">
     <ContentPage.BindingContext>
         <viewModel:NewQuickRentalSelectCustomerViewModel />
     </ContentPage.BindingContext>
@@ -32,7 +33,7 @@
             </Grid.RowDefinitions>
 
             <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}"  Margin="10,2,10,2">
-                <Button Style="{DynamicResource NewQuickRentalFrameButton}" Text="ADD NEW CUSTOMER" VerticalOptions="Center" Margin="20,10,20,10" WidthRequest="100">
+                <Button Style="{DynamicResource NewQuickRentalFrameButton}" Text="ADD NEW CUSTOMER" VerticalOptions="Center" Margin="20,10,20,10" WidthRequest="100"  Clicked="Button_Clicked">
                 </Button>
             </Frame>
 
@@ -67,7 +68,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Frame BackgroundColor="#ffffff" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10,15,10,15">
+                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10,15,10,15">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="2*"/>

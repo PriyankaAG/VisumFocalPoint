@@ -26,6 +26,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
         }
 
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new NewQuickRentalAddCustomerPage());
+        }
 
         private void ItemSelected(object sender, ItemTappedEventArgs e)
         {
