@@ -23,43 +23,31 @@ namespace FocalPoint.Modules.Payments.Views
 
         private async void Payment_Tapped(object sender, EventArgs e)
         {
-            await viewModel.SetPaymenyTypes(RequestTypes.Standard);
-            PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
-            {
-                BindingContext = viewModel,
-            };
-            await Navigation.PushAsync(paymentMethodsPage);
-
+            await NavigateToPaymentMethods(sender, RequestTypes.Standard);
         }
-
         private async void Deposit_Tapped(object sender, EventArgs e)
         {
-            await viewModel.SetPaymenyTypes(RequestTypes.StandardDepost);
-            PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
-            {
-                BindingContext = viewModel,
-            };
-            await Navigation.PushAsync(paymentMethodsPage);
+            await NavigateToPaymentMethods(sender, RequestTypes.StandardDepost);
         }
-
         private async void SecurityDeposit_Tapped(object sender, EventArgs e)
         {
-            await viewModel.SetPaymenyTypes(RequestTypes.SecurityDeposit);
-            PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
-            {
-                BindingContext = viewModel,
-            };
-            await Navigation.PushAsync(paymentMethodsPage);
+            await NavigateToPaymentMethods(sender, RequestTypes.SecurityDeposit);
         }
-
         private async void Security_PreAuth_Tapped(object sender, EventArgs e)
         {
-            await viewModel.SetPaymenyTypes(RequestTypes.PreAuthDeposit);
+            await NavigateToPaymentMethods(sender, RequestTypes.PreAuthDeposit);
+        }
+        private async Task NavigateToPaymentMethods(object sender, RequestTypes request)
+        {
+            ((Frame)sender).IsEnabled = false;
+            await viewModel.SetPaymenyTypes(request);
             PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
             {
                 BindingContext = viewModel,
             };
             await Navigation.PushAsync(paymentMethodsPage);
+            ((Frame)sender).IsEnabled = true;
         }
+
     }
 }

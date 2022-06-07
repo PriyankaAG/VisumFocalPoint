@@ -86,14 +86,14 @@ namespace FocalPoint.Modules.Payments.Views
         private async void ImgBtn_Clicked(object sender, System.EventArgs e)
         {
             PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
+            ((ImageButton)sender).IsEnabled = false;
             viewModel.SelectedPaymentType = paymentType;
-            //PaymentKindPage paymentKindPage = new PaymentKindPage();
             PaymentKindPage paymentKindPage = new PaymentKindPage
             {
                 BindingContext = viewModel
             };
             await Navigation.PushAsync(paymentKindPage);
-
+            ((ImageButton)sender).IsEnabled = true;
         }
 
         private void CancelButton_Clicked(object sender, System.EventArgs e)
