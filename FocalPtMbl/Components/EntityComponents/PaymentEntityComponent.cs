@@ -53,12 +53,12 @@ namespace FocalPoint.Components.EntityComponents
             return type;
         }
 
-        public async Task<PaymentInfo> GetPaymentCardInfo(int customerNo)
+        public async Task<List<PaymentInfo>> GetPaymentCardInfo(int customerNo)
         {
-            PaymentInfo info;
+            List<PaymentInfo> info;
             try
             {
-                info = await apiComponent.GetAsync<PaymentInfo>(string.Format(PaymentCardInfo, customerNo));
+                info = await apiComponent.GetAsync<List<PaymentInfo>>(string.Format(PaymentCardInfo, customerNo));
             }
             catch (Exception ex)
             {

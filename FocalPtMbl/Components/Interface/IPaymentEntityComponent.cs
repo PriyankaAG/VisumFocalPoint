@@ -8,7 +8,7 @@ namespace FocalPoint.Components.Interface
     {
         Task<PaymentSettings> GetPaymentSettings();
         Task<List<PaymentType>> GetPaymentTypes(int paymentType);
-        Task<PaymentInfo> GetPaymentCardInfo(int customerNo);
+        Task<List<PaymentInfo>> GetPaymentCardInfo(int customerNo);
         Task<PaymentInfo> GetPaymentACHInfo(int customerNo);
         Task<PaymentResponse> PostPaymentProcess(PaymentRequest request);
         Task<bool> PostPaymentEmail(string emailAddress, int paymentNo);
