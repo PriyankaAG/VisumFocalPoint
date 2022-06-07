@@ -265,7 +265,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             var list = new List<string>();
             list.Add("$1");
             list.Add("$2");
-            for (int i = 1; i <= 15; i++)
+            for (int i = 1; i <= 20; i++)
             {
                 var num = 5 * i;
                 list.Add("$" + num + "");

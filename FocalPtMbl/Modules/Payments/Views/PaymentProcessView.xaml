@@ -8,7 +8,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Text="To Process" TextColor="#131523" FontAttributes="Bold" />
-
+                <!--<ImageButton Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Source="arrow_down.png" Clicked="ImageButton_Clicked" BackgroundColor="#f5f6fa" />-->
                 <!--<StackLayout Orientation="Horizontal">
                     <views:CustomEditorView LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
                     <views:CustomEditorView LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" HorizontalOptions="FillAndExpand" />
@@ -18,7 +18,7 @@
                     <BoxView HorizontalOptions="FillAndExpand" />
                 </StackLayout>-->
 
-                <Grid Grid.Row="1" ColumnSpacing="20" RowSpacing="12">
+                <Grid x:Name="PaymentGrid" Grid.Row="1" ColumnSpacing="20" RowSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />

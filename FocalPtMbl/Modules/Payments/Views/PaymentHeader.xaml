@@ -4,10 +4,10 @@
              x:Class="FocalPoint.Modules.Payments.Views.PaymentHeader">
   <ContentView.Content>
         <Frame BackgroundColor="#f5f6fa" CornerRadius="5" Margin="12,10,12,0" Padding="10,10">
-            <Grid BackgroundColor="#f5f6fa" ColumnSpacing="20">
+            <Grid BackgroundColor="#f5f6fa" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="5*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding AmountDue, StringFormat='Amount Due: {0}'}" HorizontalTextAlignment="End" TextColor="#131523" VerticalOptions="Center" />
                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding SuggestedDeposit, StringFormat='Suggested Deposit: {0}'}" HorizontalTextAlignment="Start" TextColor="#131523" VerticalOptions="Center" />

@@ -8,7 +8,7 @@
                     ItemsSource="{Binding CashPayments}"
                     ItemsLayout="VerticalGrid, 5"
                     SelectionMode="Single" 
-                    HeightRequest="280"
+                    HeightRequest="350"
                     SelectionChanged="CollectionView_SelectionChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

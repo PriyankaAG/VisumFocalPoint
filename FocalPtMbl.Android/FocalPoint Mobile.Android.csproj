@@ -587,6 +587,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\loyalty_96.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\arrow_up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="_RemoveMdbFiles" BeforeTargets="_Upload">
     <ItemGroup>
