@@ -15,7 +15,11 @@ namespace FocalPoint.Modules.Payments.Views
 		PaymentPageViewModel viewModel;
 		public PaymentProcessView ()
 		{
-			InitializeComponent ();
+			InitializeComponent();
+		}
+		protected override void OnBindingContextChanged()
+		{
+			base.OnBindingContextChanged();
 			viewModel = (PaymentPageViewModel)BindingContext;
 		}
 	}

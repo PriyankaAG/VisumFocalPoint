@@ -15,13 +15,6 @@ namespace FocalPoint.Modules.Payments.Views
     public partial class PaymentView : ContentPage
     {
         PaymentPageViewModel viewModel;
-        //public PaymentView()
-        //{
-        //    InitializeComponent();
-        //    //BindingContext = new PaymentViewModel();
-        //    BindingContext = viewModel = new PaymentPageViewModel();
-        //}
-
         public PaymentView(Order currentOrder)
         {
             InitializeComponent();

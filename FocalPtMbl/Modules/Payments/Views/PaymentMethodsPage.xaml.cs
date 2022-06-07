@@ -87,9 +87,10 @@ namespace FocalPoint.Modules.Payments.Views
         {
             PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
             viewModel.SelectedPaymentType = paymentType;
+            //PaymentKindPage paymentKindPage = new PaymentKindPage();
             PaymentKindPage paymentKindPage = new PaymentKindPage
             {
-                BindingContext = viewModel,
+                BindingContext = viewModel
             };
             await Navigation.PushAsync(paymentKindPage);
 

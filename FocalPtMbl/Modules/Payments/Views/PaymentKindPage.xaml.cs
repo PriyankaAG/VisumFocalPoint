@@ -9,15 +9,15 @@ namespace FocalPoint.Modules.Payments.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentKindPage : ContentPage
     {
-        public PaymentPageViewModel viewModel { get; set; }
+        PaymentPageViewModel viewModel;
         public PaymentKindPage()
         {
             InitializeComponent();
         }
 
-        protected override void OnBindingContextChanged()
+        protected override void OnAppearing()
         {
-            base.OnBindingContextChanged();
+            base.OnAppearing();
             viewModel = (PaymentPageViewModel)BindingContext;
         }
 
@@ -52,6 +52,7 @@ namespace FocalPoint.Modules.Payments.Views
                     _ = Navigation.PopAsync();
                     _ = Navigation.PopAsync();
                     _ = Navigation.PopAsync();
+                    //todo: check navigation method
                 }
                 else
                 {

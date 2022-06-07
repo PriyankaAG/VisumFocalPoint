@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.MainMenu.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PaymentCreditCard : ContentPage
+    public partial class PaymentCreditCardList : ContentPage
     {
-        public PaymentCreditCard()
+        public PaymentCreditCardList()
         {
             InitializeComponent();
         }

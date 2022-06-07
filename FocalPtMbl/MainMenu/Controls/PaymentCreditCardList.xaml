@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             x:Class="FocalPoint.MainMenu.Controls.PaymentCreditCard">
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes" 
+             x:Class="FocalPoint.MainMenu.Controls.PaymentCreditCardList">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
