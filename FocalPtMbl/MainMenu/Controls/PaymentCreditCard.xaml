@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             x:Class="FocalPoint.MainMenu.Controls.PaymentCreditCard">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Description" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="1" Text="Type" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="2" Text="Last 4 Digits" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="3" Text="Expiration Date" Style="{DynamicResource LabelListHeader}" />
+                <Label Grid.Column="4" Text="Text" Style="{DynamicResource LabelListHeader}" />
+            </Grid>
+            <StackLayout Grid.Row="2"
+                        Orientation="Vertical"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        BindableLayout.ItemsSource="{Binding CreditCardDetailList}"
+                        Padding="5,0">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
+
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding InfoPaymentID}" Style="{DynamicResource LabelListDetail}"/>
+
+                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding InfoDscr}" Style="{DynamicResource LabelListDetail}"/>
+
+                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
+
+                            <BoxView Grid.Row="1" Grid.ColumnSpan="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

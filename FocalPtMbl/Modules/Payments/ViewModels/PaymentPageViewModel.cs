@@ -19,6 +19,13 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public ObservableCollection<Payment> PaymentHistory { get; set; }
     }
 
+    public class CreditCardPaymentDetails
+    {
+        public string Header { get; set; }
+
+        public ObservableCollection<Payment> CreditCardDetailList { get; set; }
+    }
+
     public class PaymentPageViewModel : CommonViewModel
     {
         IGeneralComponent generalComponent;
@@ -205,6 +212,18 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(DepositPaymentHistory));
             }
         }
+
+        private CreditCardPaymentDetails _creditCardPaymentDetails;
+        public CreditCardPaymentDetails CreditCardPaymentDetails
+        {
+            get => _creditCardPaymentDetails;
+            set
+            {
+                _creditCardPaymentDetails = value;
+                OnPropertyChanged(nameof(CreditCardPaymentDetails));
+            }
+        }
+
         public ICommand PaymentTypeSelection { get; }
 
         #region const
@@ -219,6 +238,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
             PaymentHistory.Header = "Payment History";
             DepositPaymentHistory = new PaymentHistoryDetail();
             DepositPaymentHistory.Header = "Deposits & Security Deposits";
+            CreditCardPaymentDetails = new CreditCardPaymentDetails();
+            CreditCardPaymentDetails.Header = "Card on File";
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             SetPaymentData();
             ProcessOnline = true;
