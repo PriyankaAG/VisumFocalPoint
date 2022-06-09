@@ -92,8 +92,8 @@
                                             <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
                                                     x:Name="myPicker" Padding="1"
                                                                   ItemsSource="{Binding RentalList}"/>
-                                            <controls:CustomEditor Grid.Row="1" x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Search Existing Customer" Text="ABCD">
-                                            </controls:CustomEditor>
+                                            <controls:ImageEditoCustomControl Grid.Row="1" x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Search Existing Customer" Text="ABCD">
+                                            </controls:ImageEditoCustomControl>
                                             <Label Grid.Row="2" BackgroundColor="BurlyWood"
                                                 Padding="5"
                                                 FontSize="13"

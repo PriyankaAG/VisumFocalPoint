@@ -48,43 +48,43 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0">
-                        <controls:CustomEditor x:Name="HostName" Image="cloud.png" Padding="1" Text="{Binding HostName.Value}" PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}" >
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding HostName.IsValid}" Value="False">
+                        <controls:ImageEditoCustomControl x:Name="HostName" Image="cloud.png" Padding="1" Text="{Binding HostName.Value}" PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}" >
+                            <controls:ImageEditoCustomControl.Triggers>
+                                <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding HostName.IsValid}" Value="False">
                                     <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
                                 </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
+                            </controls:ImageEditoCustomControl.Triggers>
+                        </controls:ImageEditoCustomControl>
                         <Label Text="{Binding HostName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding HostName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                     </StackLayout>
                     <StackLayout Grid.Row="1">
-                        <controls:CustomEditor Image="port.png" Text="{Binding  PortNumber.Value}" Padding="1" PlaceHolder="Port Number" Keyboard="Numeric" Command="{Binding ValidatePortNumberCommand}">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding PortNumber.IsValid}" Value="False">
+                        <controls:ImageEditoCustomControl Image="port.png" Text="{Binding  PortNumber.Value}" Padding="1" PlaceHolder="Port Number" Keyboard="Numeric" Command="{Binding ValidatePortNumberCommand}">
+                            <controls:ImageEditoCustomControl.Triggers>
+                                <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding PortNumber.IsValid}" Value="False">
                                     <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
                                 </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
+                            </controls:ImageEditoCustomControl.Triggers>
+                        </controls:ImageEditoCustomControl>
                         <Label Text="{Binding PortNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding PortNumber.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                     </StackLayout>                    
                     <StackLayout Grid.Row="2">
-                        <controls:CustomEditor Image="user.png" Text="{Binding  UserName.Value}" Padding="1" PlaceHolder="UserName" Command="{Binding ValidateUserNameCommand}">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding UserName.IsValid}" Value="False">
+                        <controls:ImageEditoCustomControl Image="user.png" Text="{Binding  UserName.Value}" Padding="1" PlaceHolder="UserName" Command="{Binding ValidateUserNameCommand}">
+                            <controls:ImageEditoCustomControl.Triggers>
+                                <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding UserName.IsValid}" Value="False">
                                     <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
                                 </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
+                            </controls:ImageEditoCustomControl.Triggers>
+                        </controls:ImageEditoCustomControl>
                         <Label Text="{Binding UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                     </StackLayout>
                     <StackLayout Grid.Row="3">
-                        <controls:CustomEditor Image="lock.png" Text="{Binding  UserPassword.Value}" Padding="1" PlaceHolder="Password" Command="{Binding ValidatePasswordCommand}" IsPassword="true">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding UserPassword.IsValid}" Value="False">
+                        <controls:ImageEditoCustomControl Image="lock.png" Text="{Binding  UserPassword.Value}" Padding="1" PlaceHolder="Password" Command="{Binding ValidatePasswordCommand}" IsPassword="true">
+                            <controls:ImageEditoCustomControl.Triggers>
+                                <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding UserPassword.IsValid}" Value="False">
                                     <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
                                 </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
+                            </controls:ImageEditoCustomControl.Triggers>
+                        </controls:ImageEditoCustomControl>
                         <Label Text="{Binding UserPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserPassword.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Grid.Row="4">

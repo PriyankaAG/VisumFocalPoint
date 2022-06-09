@@ -5,7 +5,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
               x:Name="customEntryView" 
-             x:Class="FocalPoint.MainMenu.Views.CustomEditor">
+             x:Class="FocalPoint.MainMenu.Views.ImageEditoCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

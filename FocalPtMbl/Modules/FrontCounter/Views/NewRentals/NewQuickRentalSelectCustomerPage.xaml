@@ -41,10 +41,10 @@
                            Text="OR" Margin="10,10,10,10" HorizontalOptions="Center"/>
 
             <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" Margin="10,2,10,10">
-                <controls:CustomEditor x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Search Existing Customer" Text="{Binding TextToSearch}"
+                <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Search Existing Customer" Text="{Binding TextToSearch}"
                                        Command="{Binding TextChangedCommand}" Completed="{Binding SearchCommand}" Unfocused="{Binding UnfocusedCommand}">
 
-                </controls:CustomEditor>
+                </controls:ImageEditoCustomControl>
             </Frame>
 
             <Frame Grid.Column="0" Grid.Row="3" Style="{DynamicResource NewQuickRentalFrameStyle}" Margin="10,2,10,2">

@@ -240,7 +240,7 @@
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="Exempt ID"  Padding="1"/>
-                                        <controls:CustomEditor x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Exempt ID" />
+                                        <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Exempt ID" />
                                     </StackLayout>
                                 </Grid>
                                 </StackLayout>

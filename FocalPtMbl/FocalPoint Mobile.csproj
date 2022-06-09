@@ -76,6 +76,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="CustomControls\ImageEditoCustomControl.xaml.cs">
+	    <DependentUpon>ImageEditoCustomControl.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml.cs">
 	    <DependentUpon>FrontCounterFilter.xaml</DependentUpon>
 	  </Compile>
@@ -109,7 +112,7 @@
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyoutDrawer.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="CustomControls\CustomEditor.xaml">
+		<EmbeddedResource Update="CustomControls\ImageEditoCustomControl.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
