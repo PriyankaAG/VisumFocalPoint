@@ -163,6 +163,9 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             {
                 Indicator = true;
                 OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(FrontCounterFilterResult.SelectedDate);
+                RentalCounterDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
+                WorkOrderDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
+                GrandTotalDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
                 if (OrderDashboardDetail != null)
                 {
                     for (int i = 0; i < 5; i++)

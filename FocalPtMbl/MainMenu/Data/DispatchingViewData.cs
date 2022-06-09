@@ -1,4 +1,5 @@
 ﻿using FocalPoint.Modules.Dispatching.Views;
+using FocalPoint.Modules.Payments.Views;
 using FocalPtMbl.MainMenu.Data;
 using FocalPtMbl.MainMenu.Models;
 using System;

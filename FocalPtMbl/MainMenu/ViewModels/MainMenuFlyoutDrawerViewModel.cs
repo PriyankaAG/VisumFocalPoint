@@ -20,6 +20,7 @@ using Xamarin.Forms;
 using Visum.Services.Mobile.Entities;
 using System.Linq;
 using FocalPoint.Modules.FrontCounter.Views.NewRentals;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -79,6 +80,12 @@ namespace FocalPoint.MainMenu.ViewModels
                             SubItemText = "Rental Valuation",
                             IsVisible = true,
                             SubText_TargetType = typeof(RentalValuationSummaryView)
+                        },
+                        new MainMenuFlyoutSubItem() {
+                            Title = "Payment",
+                            SubItemText = "Payment",
+                            IsVisible = true,
+                            SubText_TargetType = typeof(PaymentView)
                         },
                     }
                 });

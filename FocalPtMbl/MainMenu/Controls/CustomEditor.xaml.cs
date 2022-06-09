@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,6 +8,8 @@ namespace FocalPoint.MainMenu.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CustomEditor : ContentView
     {
+        public event EventHandler<TextChangedEventArgs> TextChanged;
+        public event EventHandler<FocusEventArgs> Unfocused;
         public CustomEditor()
         {
             InitializeComponent();
@@ -145,7 +148,13 @@ namespace FocalPoint.MainMenu.Views
 
         private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
+            TextChanged?.Invoke(sender, e);
             //entryPropertyValue?.TextChanged.Invoke(entry, e);
+        }
+
+        private void entryPropertyValue_Unfocused(object sender, FocusEventArgs e)
+        {
+            Unfocused?.Invoke(sender, e);
         }
     }
 }

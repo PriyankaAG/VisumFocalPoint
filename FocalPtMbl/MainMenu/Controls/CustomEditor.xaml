@@ -25,6 +25,7 @@
                        Source="{Binding Image, Source={x:Reference customEntryView}}" VerticalOptions="Center"/>
                 <customrenderers:CustomEntry x:Name="entryPropertyValue" TextChanged="Entry_TextChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill"
                                              ClearButtonVisibility="WhileEditing"
+                                             Unfocused="entryPropertyValue_Unfocused"
                                              Style="{DynamicResource EntryStyle}" 
                                              Text="{Binding Text, Source={x:Reference customEntryView}}" 
                                              Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
