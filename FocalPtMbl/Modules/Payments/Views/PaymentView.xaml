@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" x:Class="FocalPoint.Modules.Payments.Views.PaymentView" Title="{Binding Title}" BackgroundColor="#fff">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes" 
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls" 
+             xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" 
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentView"
+             Title="{Binding Title}" BackgroundColor="#fff">
     <ContentPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

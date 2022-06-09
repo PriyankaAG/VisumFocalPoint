@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             xmlns:xct="clr-namespace:FocalPoint.MainMenu.Behaviors" 
              x:Name="customEntryView" 
-             x:Class="FocalPoint.Modules.Payments.Views.CustomEditorView">
+             x:Class="FocalPoint.CustomControls.EditorCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
