@@ -23,7 +23,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
     {
         public string Header { get; set; }
 
-        public ObservableCollection<Payment> CreditCardDetailList { get; set; }
+        public ObservableCollection<PaymentInfo> CreditCardDetailList { get; set; }
     }
 
     public class PaymentPageViewModel : CommonViewModel
@@ -165,11 +165,19 @@ namespace FocalPoint.Modules.Payments.ViewModels
             DepositPaymentHistory.Header = "Deposits & Security Deposits";
             CreditCardPaymentDetails = new CreditCardPaymentDetails();
             CreditCardPaymentDetails.Header = "Card on File";
+            CreditCardPaymentDetails.CreditCardDetailList = new ObservableCollection<PaymentInfo>();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             SetPaymentData();
             ProcessOnline = true;
             if (Order?.Customer != null)
                 GetLicenseStates(Order.Customer.CustomerCountry);
+            Task.Run(async () =>
+            {
+                if (Order != null)
+                {
+                    await GetCreditCardList();
+                }
+            });
         }
         #endregion
 
@@ -205,6 +213,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             return await PaymentEntityComponent.GetPaymentSettings();
         }
+
         public async Task SetPaymenyTypes(RequestTypes requestType)
         {
             RequestType = requestType;
@@ -215,6 +224,20 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(PaymentTypes));
             }
         }
+
+        private async Task GetCreditCardList()
+        {
+            CreditCardPaymentDetails.CreditCardDetailList.Clear();
+            List<PaymentInfo> paymentInfos = await PaymentEntityComponent.GetPaymentCardInfo(Order.OrderCustNo);
+            if (paymentInfos?.Count() > 0)
+            {
+                foreach (PaymentInfo payment in paymentInfos)
+                {
+                    CreditCardPaymentDetails.CreditCardDetailList.Add(payment);
+                }
+            }
+        }
+
         internal void SetCardView(PaymentType paymentType)
         {
             IsCash = IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = false;
