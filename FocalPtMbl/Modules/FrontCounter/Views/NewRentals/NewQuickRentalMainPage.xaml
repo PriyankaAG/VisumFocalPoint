@@ -263,7 +263,6 @@
                             </Binding>
                         </local:CustomDropDown.ItemsSource>
                     </local:CustomDropDown>
-
             </Grid>
         </ScrollView>
     </ContentPage.Content>

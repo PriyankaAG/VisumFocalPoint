@@ -30,9 +30,9 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:EditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0" TextChanged="Payment_TextChanged" Unfocused="Payment_Unfocused" EditorText="{Binding Payment}" MaxLenth="10" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
-                    <views:EditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" Unfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
-                    <views:EditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" Unfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
+                    <views:EditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0" TextChanged="Payment_TextChanged" TextUnfocused="Payment_Unfocused" EditorText="{Binding Payment}" MaxLenth="10" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
+                    <views:EditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" TextUnfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
+                    <views:EditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" TextUnfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
                 </Grid>
             </Grid>
         </Frame>

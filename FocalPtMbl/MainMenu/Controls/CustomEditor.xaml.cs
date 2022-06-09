@@ -9,7 +9,6 @@ namespace FocalPoint.MainMenu.Views
     public partial class CustomEditor : ContentView
     {
         public event EventHandler<TextChangedEventArgs> TextChanged;
-        public event EventHandler<FocusEventArgs> Unfocused;
         public CustomEditor()
         {
             InitializeComponent();
@@ -152,9 +151,5 @@ namespace FocalPoint.MainMenu.Views
             //entryPropertyValue?.TextChanged.Invoke(entry, e);
         }
 
-        private void entryPropertyValue_Unfocused(object sender, FocusEventArgs e)
-        {
-            Unfocused?.Invoke(sender, e);
-        }
     }
 }

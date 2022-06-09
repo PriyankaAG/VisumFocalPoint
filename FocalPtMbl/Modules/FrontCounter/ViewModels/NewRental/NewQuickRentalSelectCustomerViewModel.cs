@@ -28,6 +28,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             TextChangedCommand = new Command<string>((a) => OnTextChanged(a));
             UnfocusedCommand = new Command<string>((a) => Unfocused(a));
 
+
         }
         private void Unfocused(string ordType)
         {

@@ -13,7 +13,7 @@ namespace FocalPoint.CustomControls
 	public partial class EditorCustomControl : ContentView
 	{
         public event EventHandler<TextChangedEventArgs> TextChanged;
-        public event EventHandler<FocusEventArgs> Unfocused;
+        public event EventHandler<FocusEventArgs> TextUnfocused;
         public EditorCustomControl ()
 		{
 			InitializeComponent ();
@@ -110,7 +110,7 @@ namespace FocalPoint.CustomControls
 
         private void CustomEntry_Unfocused(object sender, FocusEventArgs e)
         {
-            Unfocused?.Invoke(sender, e);
+            TextUnfocused?.Invoke(sender, e);
         }
     }
 }

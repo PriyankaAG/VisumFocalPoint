@@ -26,8 +26,15 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label Padding="10,0,0,0" x:Name="TheDataLabel" 
+                <!--<Entry x:Name="TheDataLabel" 
                        TextColor ="LightGray" FontSize="{StaticResource DefaultFontSize}"
+                        Text="{Binding Text, Source={x:Reference customDropDownView}}" 
+                      HorizontalOptions="Fill" VerticalOptions="Center" IsReadOnly="True">
+                    
+                </Entry>-->
+
+                <Label Padding="10,0,0,0" x:Name="TheDataLabel" 
+                       TextColor ="Black" FontSize="{StaticResource DefaultFontSize}"
                         Text="{Binding Text, Source={x:Reference customDropDownView}}" 
                       LineBreakMode="TailTruncation" MaxLines="1" HorizontalOptions="Fill" VerticalOptions="Center"></Label>
 

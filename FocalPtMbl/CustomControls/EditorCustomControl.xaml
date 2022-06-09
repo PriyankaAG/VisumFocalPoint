@@ -24,8 +24,8 @@
                 Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
                 Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
                 Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
-                TextChanged="CustomEntry_TextChanged"
-                Unfocused="CustomEntry_Unfocused">
+                Unfocused="CustomEntry_Unfocused"
+                TextChanged="CustomEntry_TextChanged">
             </customrenderers:CustomEntry>
         </StackLayout>
     </ContentView.Content>
