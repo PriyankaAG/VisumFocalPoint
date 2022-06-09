@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+              x:Name="customDropDownView" 
+             x:Class="FocalPoint.CustomControls.CustomDropDown">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5,0,0,0">
+            <Grid ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Padding="10,0,0,0" x:Name="TheDataLabel" 
+                       TextColor ="LightGray" FontSize="{StaticResource DefaultFontSize}"
+                        Text="{Binding Text, Source={x:Reference customDropDownView}}" 
+                      LineBreakMode="TailTruncation" MaxLines="1" HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+
+                <Frame Grid.Row="0"  Grid.Column="1" HasShadow="False" Margin="0" Padding="2" BackgroundColor="#57b8ff" HeightRequest="40" WidthRequest="40">
+                <Image x:Name="imagePropertyName" BackgroundColor="#57b8ff" Aspect="AspectFit"
+                       Source="{Binding Image, Source={x:Reference customDropDownView}}" VerticalOptions="Center"/>
+                </Frame>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

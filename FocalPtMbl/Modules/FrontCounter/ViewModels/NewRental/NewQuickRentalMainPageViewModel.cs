@@ -69,6 +69,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 return SelectedCustomer != null;
             }
         }
+        public bool IsCustomerNotSelected
+        {
+            get
+            {
+                return SelectedCustomer == null;
+            }
+        }
         public NewQuickRentalMainPageViewModel()
         {
             SelectedCustomer = null;
@@ -79,6 +86,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             OnPropertyChanged(nameof(CustomerPhoneFormatted));
             OnPropertyChanged(nameof(CustomerAddressFormatted));
             OnPropertyChanged(nameof(CustomerTypeFormatted));
+            OnPropertyChanged(nameof(IsCustomerSelected));
+            OnPropertyChanged(nameof(IsCustomerNotSelected));
         }
     }
 }

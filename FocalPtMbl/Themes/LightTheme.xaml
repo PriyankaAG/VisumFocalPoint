@@ -244,7 +244,17 @@
         <Setter Property="BackgroundColor" Value="{StaticResource BoxLineListSeperatorColor}"/>
         <Setter Property="HeightRequest" Value="{StaticResource BoxLineListSeperatorHeight}"/>
     </Style>
-    
+    <Style x:Key="PickerStyle" TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource EntryDefaultTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin">
+            <Setter.Value>
+                <OnPlatform Android="0" iOS="10" />
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="EntryStyle" TargetType="Entry">
         <Setter Property="TextColor" Value="{StaticResource EntryDefaultTextColor}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
@@ -385,6 +395,11 @@
         <Setter Property="FontFamily" Value="Roboto-Bold"/>
     </Style>
 
+    <Style x:Key="NewRentalDetailsHeadingLables" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource CustomerDetailEmail}" />
+        <Setter Property="FontFamily" Value="Roboto-Regular"/>
+    </Style>
 
-    
+
 </ResourceDictionary>
