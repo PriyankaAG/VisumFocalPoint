@@ -22,11 +22,25 @@ namespace FocalPoint
         }
 
         HttpClient clientHttp { get; set; }
-        string baseURL; 
+        string baseURL;
 
         public HttpClient ClientHTTP
         {
             get { return clientHttp; }
+        }
+
+        public void AddStoreToHeader(string storeNo)
+        {
+            if (clientHttp.DefaultRequestHeaders.Contains("StoreNo"))
+                clientHttp.DefaultRequestHeaders.Remove("StoreNo");
+            clientHttp.DefaultRequestHeaders.Add("StoreNo", storeNo);
+        }
+
+        public void AddTerminalToHeader(string terminalNo)
+        {
+            if (clientHttp.DefaultRequestHeaders.Contains("TerminalNo"))
+                clientHttp.DefaultRequestHeaders.Remove("TerminalNo");
+            clientHttp.DefaultRequestHeaders.Add("TerminalNo", terminalNo);
         }
 
         public async Task<T> GetAsync<T>(string url)
@@ -154,7 +168,7 @@ namespace FocalPoint
                 responseMessage = await ClientHTTP.SendAsync(request);
                 responseMessage.EnsureSuccessStatusCode();
             }
-            catch 
+            catch
             {
                 throw;
             }

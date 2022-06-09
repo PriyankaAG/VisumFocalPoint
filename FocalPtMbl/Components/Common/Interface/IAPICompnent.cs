@@ -14,5 +14,8 @@ namespace FocalPoint
         Task<HttpResponseMessage> PostAsync(string url, string requestConentString);
 
         Task<T> SendAsync<T>(string url, string requestConentString, bool isLoginMethod);
+
+        void AddStoreToHeader(string storeNo);
+        void AddTerminalToHeader(string terminalNo);
     }
 }
