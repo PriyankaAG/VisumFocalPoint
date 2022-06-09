@@ -126,6 +126,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
                     orderCntAndList = JsonConvert.DeserializeObject<Orders>(content);
+                    //var ord = orderCntAndList.List.Where(x => x.Payments.Count > 0 && x.Totals.TotalDueAmt > 0);
 
                     if (OrderType == 1)
                     {

@@ -21,12 +21,12 @@ namespace FocalPoint.Modules.Payments.Views
         {
             base.OnBindingContextChanged();
             viewModel = (PaymentPageViewModel)BindingContext;
-            viewModel.Payment = viewModel.TotalReceived = viewModel.ChangeDue = 0;
+            viewModel.Payment = viewModel.TotalReceived = viewModel.ChangeDue = 0.0.ToString("c");
         }
         private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = e.CurrentSelection.FirstOrDefault();
-            var paymentValue = Convert.ToInt32(selectedItem.ToString().Trim('$'));
+            var paymentValue = Convert.ToDecimal(selectedItem.ToString().Trim('$'));
             ((PaymentPageViewModel)BindingContext).SetPayment(paymentValue);
         }
     }

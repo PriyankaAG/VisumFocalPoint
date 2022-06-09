@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             xmlns:xct="clr-namespace:FocalPoint.MainMenu.Behaviors" 
              x:Name="customEntryView" 
              x:Class="FocalPoint.Modules.Payments.Views.CustomEditorView">
     <ContentView.Resources>
@@ -23,7 +24,9 @@
                 MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
                 Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
                 Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
-                Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}" >
+                Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                TextChanged="CustomEntry_TextChanged"
+                Unfocused="CustomEntry_Unfocused">
             </customrenderers:CustomEntry>
         </StackLayout>
     </ContentView.Content>

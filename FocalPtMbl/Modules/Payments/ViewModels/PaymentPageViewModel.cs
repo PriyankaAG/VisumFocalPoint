@@ -89,9 +89,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(IsCardOnFile));
             }
         }
-
         #endregion
 
+        public string Payment { get; set; }
+        public string TotalReceived { get; set; }
+        public string ChangeDue { get; set; }
         public bool IsOtherType { get; set; }
         public bool IsCash { get; set; }
         public bool IsCheck { get; set; }
@@ -109,83 +111,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 selectedPaymentType = value;
                 SetCardView(selectedPaymentType);
-            }
-        }
-        private bool isPaymentChanged;
-        private bool isTotalReceivedChanged;
-        private bool isChangeDueChanged;
-        private int payment;
-        public int Payment
-        {
-            get { return payment; }
-            set
-            {
-                if (payment == value) return;
-                payment = value;
-                if (isTotalReceivedChanged)
-                {
-                    OnPropertyChanged(nameof(Payment));
-                    return;
-                }
-                if (isChangeDueChanged)
-                {
-                    OnPropertyChanged(nameof(Payment));
-                    isChangeDueChanged = false;
-                    return;
-                }
-                isPaymentChanged = true;
-                totalReceived = value;
-                changeDue = 0;
-                OnPropertyChanged(nameof(Payment));
-                OnPropertyChanged(nameof(TotalReceived));
-                OnPropertyChanged(nameof(ChangeDue));
-            }
-        }
-        private int totalReceived;
-        public int TotalReceived
-        {
-            get { return totalReceived; }
-            set
-            {
-                if (totalReceived == value) return;
-                totalReceived = value;
-                if (isPaymentChanged)
-                {
-                    OnPropertyChanged(nameof(TotalReceived));
-                    return;
-                }
-                isTotalReceivedChanged = true;
-                payment = 0;
-                changeDue = value;
-                OnPropertyChanged(nameof(TotalReceived));
-                OnPropertyChanged(nameof(Payment));
-                OnPropertyChanged(nameof(ChangeDue));
-            }
-        }
-        private int changeDue;
-        public int ChangeDue
-        {
-            get { return changeDue; }
-            set
-            {
-                if (changeDue == value) return;
-                changeDue = value;
-                if (isPaymentChanged)
-                {
-                    OnPropertyChanged(nameof(ChangeDue));
-                    isPaymentChanged = false;
-                    return;
-                }
-                if (isTotalReceivedChanged)
-                {
-                    OnPropertyChanged(nameof(ChangeDue));
-                    isTotalReceivedChanged = false;
-                    return;
-                }
-                isChangeDueChanged = true;
-                payment = totalReceived - changeDue;
-                OnPropertyChanged(nameof(Payment));
-                OnPropertyChanged(nameof(ChangeDue));
             }
         }
         public List<string> CashPayments
@@ -375,27 +300,27 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit));
             }
         }
-        internal void SetPayment(int value)
+        internal void SetPayment(decimal value)
         {
-            payment = 0;
-            totalReceived = changeDue = value;
-            OnPropertyChanged(nameof(Payment));
+            Payment = 0.0.ToString("c");
+            TotalReceived = ChangeDue = value.ToString("c");
             OnPropertyChanged(nameof(TotalReceived));
             OnPropertyChanged(nameof(ChangeDue));
+            OnPropertyChanged(nameof(Payment));
         }
         internal string ValidatePaymentKinds()
         {
             var validationMessage = "";
             switch (SelectedPaymentType.PaymentKind)
             {
-                case "CP":
+                /*case "CP":
                 case "MS":
                 case "IR":
                 case "OT":
                 case "DS":
                     if (string.IsNullOrEmpty(OtherNumber))
                         validationMessage = "Please enter " + SelectedPaymentType.PaymentDscr + " Number";
-                    break;
+                    break;*/
                 case "CK":
                     validationMessage = ValidateCheckDetails();
                     break;
@@ -431,8 +356,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             var message = "";
             if (string.IsNullOrEmpty(CheckNumber))
                 message = "Check Number is empty";
-            //else if (string.IsNullOrEmpty(LicenseNumber))
-            //    message = "License Number is empty";
             else if (string.IsNullOrEmpty(SelectedLicenseState.Display))
                 message = "Must select a LicenseState";
             return message;
@@ -441,10 +364,10 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
             {
-                if (TotalReceived == 0)
+                if (decimal.TryParse(TotalReceived.Trim('$'), out decimal total) && total == 0)
                     return "Cannot except a Zero Dollar Payment!";
             }
-            else if (Payment == 0)
+            else if (decimal.TryParse(Payment.Trim('$'), out decimal payment) && payment == 0)
                 return "Cannot except a Zero Dollar Payment!";
             return "";
         }
@@ -457,8 +380,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 SourceID = Order?.OrderNo ?? -1,
                 CustomerNo = Order?.OrderCustNo ?? -1,
                 PaymentTNo = SelectedPaymentType.PaymentTNo,
-                PaymentAmt = TotalReceived,
-                CashBackAmt = ChangeDue,
+                PaymentAmt = decimal.TryParse(TotalReceived.Trim('$'), out decimal total) ? total : 0,
+                CashBackAmt = decimal.TryParse(ChangeDue.Trim('$'), out decimal due) ? due : 0,
                 TaxAmt = Order?.OrderTax ?? -1,
                 OnFileNo = 0,
                 Other = GetOtherDetails(),

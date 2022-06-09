@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +12,9 @@ namespace FocalPoint.Modules.Payments.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CustomEditorView : ContentView
 	{
-		public CustomEditorView ()
+        public event EventHandler<TextChangedEventArgs> TextChanged;
+        public event EventHandler<FocusEventArgs> Unfocused;
+        public CustomEditorView ()
 		{
 			InitializeComponent ();
 		}
@@ -85,6 +87,30 @@ namespace FocalPoint.Modules.Payments.Views
             {
                 SetValue(KeyboardProperty, value);
             }
+        }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(CustomEditorView), null, BindingMode.TwoWay);
+        public ICommand Command
+        {
+            get
+            {
+                return (ICommand)GetValue(CommandProperty);
+            }
+
+            set
+            {
+                SetValue(CommandProperty, value);
+            }
+        }
+
+        private void CustomEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(sender, e);
+        }
+
+        private void CustomEntry_Unfocused(object sender, FocusEventArgs e)
+        {
+            Unfocused?.Invoke(sender, e);
         }
     }
 }

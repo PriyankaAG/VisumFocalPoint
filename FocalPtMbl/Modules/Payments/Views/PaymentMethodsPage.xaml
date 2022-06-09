@@ -29,7 +29,7 @@
                         <!--<StackLayout Margin="0,5">
                             <Picker x:Name="picker_DepositType" Title="Select a Deposit type" ItemsSource="{Binding DepositTypes}" SelectedIndexChanged="picker_DepositType_SelectedIndexChanged" />
                         </StackLayout>-->
-                        <Label Text="{Binding PaymentMethod, StringFormat='Payment Method: {0}'}" FontAttributes="Bold" TextColor="#131523" />
+                        <Label Text="{Binding PaymentMethod}" FontAttributes="Bold" TextColor="#131523" />
                         <Grid x:Name="paymentKinds" ColumnSpacing="20" RowSpacing="12">
                         </Grid>
                         <!--<ListView x:Name="paymentKinds" ItemsSource="{Binding PaymentTypesNew, Mode=TwoWay}">

@@ -23,18 +23,22 @@ namespace FocalPoint.Modules.Payments.Views
 
         private async void Payment_Tapped(object sender, EventArgs e)
         {
+            viewModel.PaymentMethod = RequestTypes.Standard.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.Standard);
         }
         private async void Deposit_Tapped(object sender, EventArgs e)
         {
+            viewModel.PaymentMethod = RequestTypes.StandardDepost.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.StandardDepost);
         }
         private async void SecurityDeposit_Tapped(object sender, EventArgs e)
         {
+            viewModel.PaymentMethod = RequestTypes.SecurityDeposit.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.SecurityDeposit);
         }
         private async void Security_PreAuth_Tapped(object sender, EventArgs e)
         {
+            viewModel.PaymentMethod = RequestTypes.PreAuthDeposit.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.PreAuthDeposit);
         }
         private async Task NavigateToPaymentMethods(object sender, RequestTypes request)
