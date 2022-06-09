@@ -11,7 +11,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" EditorText="{Binding OtherNumber}" MaxLenth="100" LabelText="Number" PlaceHolder="Enter number" Keyboard="Text" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" EditorText="{Binding OtherNumber}" MaxLenth="100" LabelText="Number" PlaceHolder="Enter number" Keyboard="Text" />
                 </Grid>
             </StackLayout>
         </Frame>

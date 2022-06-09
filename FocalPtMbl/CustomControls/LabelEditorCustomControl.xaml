@@ -4,7 +4,7 @@
              xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
              x:Name="customEntryView" 
-             x:Class="FocalPoint.CustomControls.EditorCustomControl">
+             x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

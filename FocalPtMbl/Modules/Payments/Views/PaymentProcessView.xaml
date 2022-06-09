@@ -13,11 +13,11 @@
                 <Label Grid.Row="0" Text="To Process" TextColor="#131523" FontAttributes="Bold" />
                 <!--<ImageButton Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Source="arrow_down.png" Clicked="ImageButton_Clicked" BackgroundColor="#f5f6fa" />-->
                 <!--<StackLayout Orientation="Horizontal">
-                    <views:EditorCustomControl LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
-                    <views:EditorCustomControl LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" HorizontalOptions="FillAndExpand" />
+                    <views:LabelEditorCustomControl LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
+                    <views:LabelEditorCustomControl LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <views:EditorCustomControl LabelText="Change Due" PlaceHolder="Change Due" Keyboard="Numeric" HorizontalOptions="FillAndExpand" />
+                    <views:LabelEditorCustomControl LabelText="Change Due" PlaceHolder="Change Due" Keyboard="Numeric" HorizontalOptions="FillAndExpand" />
                     <BoxView HorizontalOptions="FillAndExpand" />
                 </StackLayout>-->
 
@@ -30,9 +30,9 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:EditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0" TextChanged="Payment_TextChanged" TextUnfocused="Payment_Unfocused" EditorText="{Binding Payment}" MaxLenth="10" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
-                    <views:EditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" TextUnfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
-                    <views:EditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" TextUnfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0" TextChanged="Payment_TextChanged" TextUnfocused="Payment_Unfocused" EditorText="{Binding Payment}" MaxLenth="10" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" TextUnfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" TextUnfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
                 </Grid>
             </Grid>
         </Frame>

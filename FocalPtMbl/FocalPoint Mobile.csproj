@@ -79,8 +79,8 @@
 	  <Compile Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml.cs">
 	    <DependentUpon>FrontCounterFilter.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CustomControls\EditorCustomControl.xaml.cs">
-	    <DependentUpon>EditorCustomControl.xaml</DependentUpon>
+	  <Compile Update="CustomControls\LabelEditorCustomControl.xaml.cs">
+	    <DependentUpon>LabelEditorCustomControl.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -109,7 +109,7 @@
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyoutDrawer.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="MainMenu\Controls\CustomEditor.xaml">
+		<EmbeddedResource Update="CustomControls\CustomEditor.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
@@ -214,7 +214,7 @@
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCard.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="CustomControls\EditorCustomControl.xaml">
+		<EmbeddedResource Update="CustomControls\LabelEditorCustomControl.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\Pay.xaml">

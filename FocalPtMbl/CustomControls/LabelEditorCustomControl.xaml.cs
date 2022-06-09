@@ -10,16 +10,16 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.CustomControls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class EditorCustomControl : ContentView
+	public partial class LabelEditorCustomControl : ContentView
 	{
         public event EventHandler<TextChangedEventArgs> TextChanged;
         public event EventHandler<FocusEventArgs> TextUnfocused;
-        public EditorCustomControl ()
+        public LabelEditorCustomControl ()
 		{
 			InitializeComponent ();
 		}
 
-        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(nameof(PlaceHolder), typeof(string), typeof(EditorCustomControl), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(nameof(PlaceHolder), typeof(string), typeof(LabelEditorCustomControl), default(string), BindingMode.TwoWay);
         public string PlaceHolder
         {
             get
@@ -33,7 +33,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(nameof(LabelText), typeof(string), typeof(EditorCustomControl), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(nameof(LabelText), typeof(string), typeof(LabelEditorCustomControl), default(string), BindingMode.TwoWay);
         public string LabelText
         {
             get
@@ -47,7 +47,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty EditorTextProperty = BindableProperty.Create(nameof(EditorText), typeof(string), typeof(EditorCustomControl), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty EditorTextProperty = BindableProperty.Create(nameof(EditorText), typeof(string), typeof(LabelEditorCustomControl), default(string), BindingMode.TwoWay);
         public string EditorText
         {
             get
@@ -61,7 +61,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty MaxLenthProperty = BindableProperty.Create(nameof(MaxLenth), typeof(int), typeof(EditorCustomControl), default(int), BindingMode.TwoWay);
+        public static readonly BindableProperty MaxLenthProperty = BindableProperty.Create(nameof(MaxLenth), typeof(int), typeof(LabelEditorCustomControl), default(int), BindingMode.TwoWay);
         public int MaxLenth
         {
             get
@@ -75,7 +75,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(EditorCustomControl), Keyboard.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(LabelEditorCustomControl), Keyboard.Default, BindingMode.TwoWay);
         public Keyboard Keyboard
         {
             get
@@ -89,7 +89,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(EditorCustomControl), null, BindingMode.TwoWay);
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(LabelEditorCustomControl), null, BindingMode.TwoWay);
         public ICommand Command
         {
             get
