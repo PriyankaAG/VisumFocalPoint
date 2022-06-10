@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentManual"
+             Title="Manual Payment">
+    <ContentPage.Content>
+        <StackLayout>
+            <WebView x:Name="WebBrowser" VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Source="https://visumbanyan.fpsdns.com:8080/cardconnect/manual.html" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
