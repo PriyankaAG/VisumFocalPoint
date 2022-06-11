@@ -1,5 +1,6 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
+using FocalPoint.Data;
 using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
     public class FrontCounterFilterResult
     {
         public bool IsNewDateSet { get; set; }
+        public int StoreNo { get; set; }
         public DateTime SelectedDate { get; set; }
     }
 
@@ -65,6 +67,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             FrontCounterEntityComponent = new FrontCounterEntityComponent();
             FrontCounterFilterResult = new FrontCounterFilterResult();
             FrontCounterFilterResult.SelectedDate = DateTime.UtcNow;
+            FrontCounterFilterResult.StoreNo = DataManager.Settings.HomeStore;
             FrontCounterFilterResult.IsNewDateSet = true;
 
             IsCounterButtonSelected = true;
@@ -162,7 +165,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             try
             {
                 Indicator = true;
-                OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(FrontCounterFilterResult.SelectedDate);
+                OrderDashboardDetail = await FrontCounterEntityComponent.GetDashboardDetails(FrontCounterFilterResult.StoreNo, FrontCounterFilterResult.SelectedDate);
                 RentalCounterDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
                 WorkOrderDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
                 GrandTotalDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();

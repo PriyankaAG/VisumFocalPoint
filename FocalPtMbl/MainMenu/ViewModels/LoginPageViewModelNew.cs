@@ -13,6 +13,7 @@ using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using System.Linq;
 using FocalPoint.Data;
+using FocalPoint.Data.DataModel;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -324,8 +325,19 @@ namespace FocalPoint.MainMenu.ViewModels
                     CurrentStores.Add(store.DisplayName);
                     storeDict.Add(store.DisplayName, store);
                 }
-
+                List<Store> stores = new List<Store>();
+                foreach (Company company in storeDict.Values)
+                {
+                    stores.Add(new Store()
+                    {
+                        CmpNo = company.CmpNo,
+                        CmpName = company.CmpName,
+                        DisplayName = company.DisplayName
+                    });
+                }
+                DataManager.SaveStores(stores);
             }
+
             return CurrentStores.ToArray();
         }
         internal string[] GetTerminalArray()
