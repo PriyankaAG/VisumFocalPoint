@@ -32,13 +32,27 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         public void SubscribeEvents()
         {
-            MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer >(this, "CustomerSelected");
+            MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
             });
+        }
+
+        private void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            var data = e.SelectedIndex;
+            if (e.IsFirstRowPlaceholder && e.SelectedIndex == 0)
+            {
+                DisplayAlert("Not Allowed", "Please select a value", "Cancle");
+            }
+            else
+            {
+                var selected = myPicker.ItemsSource[e.SelectedIndex];
+                DisplayAlert("Great!!", $"You chose {selected}", "Cancle");
+            }
         }
     }
 }

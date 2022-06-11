@@ -41,6 +41,29 @@ namespace FocalPoint.CustomControls
             set { SetValue(SelectedIndexProperty, value); }
         }
 
+        public static readonly BindableProperty IsFirstRowPlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(IsFirstRowPlaceholder),
+            returnType: typeof(bool),
+            declaringType: typeof(bool),
+            defaultValue: false);
+
+        public bool IsFirstRowPlaceholder
+        {
+            get { return (bool)GetValue(IsFirstRowPlaceholderProperty); }
+            set { SetValue(IsFirstRowPlaceholderProperty, value); }
+        }
+
+        public static readonly BindableProperty EntryTextColorProperty = BindableProperty.Create(
+          propertyName: nameof(EntryTextColor),
+          returnType: typeof(string),
+          declaringType: typeof(string),
+          defaultValue: "#000000");
+
+        public string EntryTextColor
+        {
+            get { return (string)GetValue(EntryTextColorProperty); }
+            set { SetValue(EntryTextColorProperty, value); }
+        }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
@@ -86,12 +109,13 @@ namespace FocalPoint.CustomControls
             {
                 TheDataLabel.Text = ItemsSource[pos];
             }
-            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos });
+            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
         }
     }
 
     public class ItemSelectedEventArgs : EventArgs
     {
         public int SelectedIndex { get; set; }
+        public bool IsFirstRowPlaceholder { get; set; }
     }
 }
