@@ -26,20 +26,19 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <!--<Entry x:Name="TheDataLabel" 
-                       TextColor ="LightGray" FontSize="{StaticResource DefaultFontSize}"
-                        Text="{Binding Text, Source={x:Reference customDropDownView}}" 
-                      HorizontalOptions="Fill" VerticalOptions="Center" IsReadOnly="True">
-                    
-                </Entry>-->
-
-                <Label Padding="10,0,0,0" x:Name="TheDataLabel" 
-                       TextColor ="Black" FontSize="{StaticResource DefaultFontSize}"
-                        Text="{Binding Text, Source={x:Reference customDropDownView}}" 
-                      LineBreakMode="TailTruncation" MaxLines="1" HorizontalOptions="Fill" VerticalOptions="Center"></Label>
+                <customrenderers:CustomEntry 
+                    x:Name="TheDataLabel" 
+                    BackgroundColor="#fff" 
+                    HorizontalOptions="Fill"  
+                    Style="{DynamicResource EntryStyle}" 
+                    Text="{Binding Text, Source={x:Reference customDropDownView}}" 
+                    Placeholder="Select"
+                    TextColor="{Binding EntryTextColor, Source={x:Reference customDropDownView}}"
+                    IsReadOnly="True">
+                </customrenderers:CustomEntry>
 
                 <Frame Grid.Row="0"  Grid.Column="1" HasShadow="False" Margin="0" Padding="2" BackgroundColor="#57b8ff" HeightRequest="40" WidthRequest="40">
-                <Image x:Name="imagePropertyName" BackgroundColor="#57b8ff" Aspect="AspectFit"
+                    <Image x:Name="imagePropertyName" BackgroundColor="#57b8ff" Aspect="AspectFit"
                        Source="{Binding Image, Source={x:Reference customDropDownView}}" VerticalOptions="Center"/>
                 </Frame>
             </Grid>

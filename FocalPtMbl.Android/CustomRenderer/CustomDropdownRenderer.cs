@@ -78,6 +78,14 @@ namespace FocalPtMbl.Droid.CustomRenderer
             if (e.PropertyName == CustomDropDown.SelectedIndexProperty.PropertyName)
             {
                 Control.SetSelection(view.SelectedIndex);
+                if (view.SelectedIndex == 0 && view.IsFirstRowPlaceholder)
+                {
+                    view.EntryTextColor = "#60000000";
+                }
+                else
+                { 
+                    view.EntryTextColor = "#000000";
+                }
             }
             base.OnElementPropertyChanged(sender, e);
         }
