@@ -19,6 +19,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Visum.Services.Mobile.Entities;
 using System.Linq;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -79,6 +80,12 @@ namespace FocalPoint.MainMenu.ViewModels
                             IsVisible = true,
                             SubText_TargetType = typeof(RentalValuationSummaryView)
                         },
+                        new MainMenuFlyoutSubItem() {
+                            Title = "Payment",
+                            SubItemText = "Payment",
+                            IsVisible = true,
+                            SubText_TargetType = typeof(PaymentView)
+                        },
                     }
                 });
             }
@@ -100,6 +107,7 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 1,
                     Title = "Front Counter",
                     Icon = "storefront.png",
+                    TargetType = typeof(FrontCounter),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {

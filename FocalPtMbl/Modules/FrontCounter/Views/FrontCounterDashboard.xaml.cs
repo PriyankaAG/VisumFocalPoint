@@ -1,10 +1,4 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,8 +10,8 @@ namespace FocalPoint
         public FrontCounterDashboard()
         {
             InitializeComponent();
-            FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
-            frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
+            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();
+            //frontCounterDashboardViewModel.GetDashboardDetail();
             BindingContext = frontCounterDashboardViewModel;
         }
     }

@@ -29,7 +29,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
+               
                 <Label Grid.Row="0" Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Close Order Summary" HorizontalOptions="Center"/>
                 <Grid Grid.Row="1" Grid.Column="0" ColumnSpacing="15">
                     <Frame Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5">
@@ -111,26 +111,7 @@
                         <Label Grid.Row="0" Grid.Column="1" Style="{DynamicResource LabelActionDefault}" Text="View All Open Orders" HorizontalOptions="End"  HorizontalTextAlignment="End"/>
                     </Grid>
                     <Grid Grid.Row="1">
-                        <xct:Expander>
-                            <xct:Expander.Header>
-                                <Label Text="Baboon"
-                                   FontAttributes="Bold"
-                                   FontSize="Medium" /> 
-                            </xct:Expander.Header>
-                            <Grid Padding="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg"
-                                       Aspect="AspectFill"
-                                       HeightRequest="120"
-                                       WidthRequest="120" />
-                                <Label Grid.Column="1"
-                                       Text="Baboons are African and Arabian Old World monkeys belonging to the genus Papio, part of the subfamily Cercopithecinae."
-                                       FontAttributes="Italic" />   
-                            </Grid>
-                        </xct:Expander>
+                       
                     </Grid>
                 </Grid>
 
