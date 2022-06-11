@@ -18,35 +18,34 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
+            <Label Grid.Row="0" Text="{Binding CreditCardPaymentDetails.Header}" Style="{DynamicResource LabelSubHeader}"/>
             <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
-                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Text="Description" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="1" Text="Type" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="2" Text="Last 4 Digits" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="3" Text="Expiration Date" Style="{DynamicResource LabelListHeader}" />
-                <Label Grid.Column="4" Text="Text" Style="{DynamicResource LabelListHeader}" />
             </Grid>
             <StackLayout Grid.Row="2"
                         Orientation="Vertical"
                         VerticalOptions="Start"
-                        HorizontalOptions="Center"
-                        BindableLayout.ItemsSource="{Binding CreditCardDetailList}"
+                        HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding CreditCardPaymentDetails.CreditCardDetailList}"
                         Padding="5,0">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CardDetailSelectCommand}"/>
+                            </Grid.GestureRecognizers>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -57,10 +56,9 @@
 
                             <Label Grid.Column="1" Text="{Binding InfoPaymentID}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Column="2" Text="{Binding InfoDscr}" Style="{DynamicResource LabelListDetail}"/>
+                            <Label Grid.Column="2" Text="{Binding InfoText}" Style="{DynamicResource LabelListDetail}"/>
 
                             <Label Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
-                            <Label Grid.Column="4" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
 
                             <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
                         </Grid>

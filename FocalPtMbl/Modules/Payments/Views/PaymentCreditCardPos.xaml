@@ -44,7 +44,7 @@
                         <Label Text="Store Card On File" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
                     </StackLayout>
                 </Grid>
-                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0" BindingContext="{Binding CreditCardPaymentDetails, Mode=TwoWay}" HeightRequest="150" />
+                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0" BindingContext="{Binding .}" HeightRequest="150" />
             </Grid>
         </Frame>
     </ContentView.Content>

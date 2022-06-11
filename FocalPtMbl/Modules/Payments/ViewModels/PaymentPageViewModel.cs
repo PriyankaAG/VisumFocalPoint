@@ -21,6 +21,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
 
     public class CreditCardPaymentDetails
     {
+        public ICommand CardDetailSelectCommand { get; }
+
         public string Header { get; set; }
 
         public ObservableCollection<PaymentInfo> CreditCardDetailList { get; set; }
@@ -150,6 +152,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
 
         public ICommand PaymentTypeSelection { get; }
+        public ICommand CardDetailSelectCommand { get; }
 
         #region const
         public PaymentPageViewModel(Order order) : base("Payments")
@@ -157,6 +160,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             generalComponent = new GeneralComponent();
             PaymentEntityComponent = new PaymentEntityComponent();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            CardDetailSelectCommand = new Command(() => UpdateDetails());
             GetSettings().ContinueWith((a) => { settings = a.Result; });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail();
@@ -166,7 +170,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CreditCardPaymentDetails = new CreditCardPaymentDetails();
             CreditCardPaymentDetails.Header = "Card on File";
             CreditCardPaymentDetails.CreditCardDetailList = new ObservableCollection<PaymentInfo>();
-            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             SetPaymentData();
             ProcessOnline = true;
             if (Order?.Customer != null)
@@ -179,6 +182,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 }
             });
         }
+
+        private void UpdateDetails()
+        {
+        }
+
         #endregion
 
         private void GetLicenseStates(int countryCode)
@@ -422,12 +430,12 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     CardHolder = CardHolderName,
                     LastFour = CardLast4Digits,
                     Expiration = ExpirationDate.ToString(),
-                    AuthCode = ProcessOnline ? "" : AuthorizationCode,
+                    AuthCode = ProcessOnline ? null : AuthorizationCode,
                     OnLine = ProcessOnline,
-                    Street = ProcessOnline ? AvsStreetAddress : "",
-                    Zipcode = ProcessOnline ? AvsZipCode : "",
+                    Street = ProcessOnline ? AvsStreetAddress : null,
+                    Zipcode = ProcessOnline ? AvsZipCode : null,
                     StoreInfo = StoreCardOnFile,
-                    ManualToken = ""
+                    ManualToken = null
                 }
                 : null;
         }
