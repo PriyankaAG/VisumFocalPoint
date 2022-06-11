@@ -15,8 +15,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="0" EditorText="{Binding CheckNumber}" MaxLenth="100" LabelText="Check Number" PlaceHolder="Enter check number" Keyboard="Text" />
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="1" EditorText="{Binding LicenseNumber}" MaxLenth="100"  LabelText="Driver's License Number" PlaceHolder="Enter license number" Keyboard="Text" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" EditorText="{Binding CheckNumber}" MaxLenth="100" LabelText="Check Number" PlaceHolder="Enter check number" Keyboard="Text" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="1" EditorText="{Binding LicenseNumber}" MaxLenth="100"  LabelText="Driver's License Number" PlaceHolder="Enter license number" Keyboard="Text" />
                     <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical">
                         <Label Text="Drivers License State" FontSize="Default" Style="{DynamicResource LabelDefault}" />
                         <Picker ItemsSource="{Binding LicenseStates}" ItemDisplayBinding="{Binding Display}" SelectedItem="{Binding SelectedLicenseState}" Title="Select State"/>
