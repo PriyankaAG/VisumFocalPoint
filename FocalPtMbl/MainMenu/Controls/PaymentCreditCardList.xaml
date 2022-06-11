@@ -31,40 +31,42 @@
                 <Label Grid.Column="2" Text="Last 4 Digits" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="3" Text="Expiration Date" Style="{DynamicResource LabelListHeader}" />
             </Grid>
-            <StackLayout Grid.Row="2"
+            <ScrollView Grid.Row="2">
+                <StackLayout
                         Orientation="Vertical"
                         VerticalOptions="Start"
                         HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding CreditCardPaymentDetails.CreditCardDetailList}"
                         Padding="5,0">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CardDetailSelectCommand}"/>
-                            </Grid.GestureRecognizers>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="1"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Column="0" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="CreditCardDetail_Tapped" CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Column="1" Text="{Binding InfoPaymentID}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Column="1" Text="{Binding InfoPaymentID}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Column="2" Text="{Binding InfoText}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Column="2" Text="{Binding InfoText}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
-                        </Grid>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </StackLayout>
+                                <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
         </Grid>
     </ContentView.Content>
 </ContentView>

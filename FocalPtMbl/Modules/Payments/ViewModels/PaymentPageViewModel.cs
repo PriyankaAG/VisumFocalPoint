@@ -160,7 +160,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             generalComponent = new GeneralComponent();
             PaymentEntityComponent = new PaymentEntityComponent();
             PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
-            CardDetailSelectCommand = new Command(() => UpdateDetails());
+            CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo paymentInfo) => UpdateDetails(paymentInfo));
             GetSettings().ContinueWith((a) => { settings = a.Result; });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail();
@@ -183,7 +183,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             });
         }
 
-        private void UpdateDetails()
+        private void UpdateDetails(PaymentInfo paymentInfo)
         {
         }
 
