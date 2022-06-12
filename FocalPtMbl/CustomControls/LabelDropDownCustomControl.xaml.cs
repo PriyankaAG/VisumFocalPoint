@@ -10,14 +10,25 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomDropDown : ContentView
+    public partial class LabelDropDownCustomControl : ContentView
     {
-        public CustomDropDown()
+        public LabelDropDownCustomControl()
         {
             InitializeComponent();
         }
+        public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(nameof(LabelText), typeof(string), typeof(string), default(string), BindingMode.TwoWay);
+        public string LabelText
+        {
+            get
+            {
+                return (string)GetValue(LabelTextProperty);
+            }
 
-        public bool HasLabel { get; set; } = false;
+            set
+            {
+                SetValue(LabelTextProperty, value);
+            }
+        }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             propertyName: nameof(ItemsSource),
@@ -79,18 +90,6 @@ namespace FocalPoint.CustomControls
             set { SetValue(TextProperty, value); }
         }
 
-        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedItem),
-            returnType: typeof(string),
-            declaringType: typeof(string),
-            defaultValue: "");
-
-        public string SelectedItem
-        {
-            get { return (string)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
-        }
-
         public static readonly BindableProperty ImageProperty = BindableProperty.Create(
             propertyName: nameof(Image),
             returnType: typeof(string),
@@ -117,35 +116,13 @@ namespace FocalPoint.CustomControls
 
         public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
-        public CustomEntry TheEntryBox
-        {
-            get
-            {
-                return TheDataLabel;
-            }
-        }
         public void OnItemSelected(int pos)
         {
-            if (ItemsSource != null)
-            {
-                if (IsFirstRowPlaceholder && pos == 0)
-                {
-                    TheEntryBox.Text = ItemsSource[pos];
-                    SelectedItem = null;
-                }
-                else
-                {
-                    TheEntryBox.Text = ItemsSource[pos];
-                    SelectedItem = ItemsSource[pos];
-                }
-                ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
-            }
+            //if (ItemsSourceProp != null)
+            //{
+            //    TheEntryBox.Text = ItemsSourceProp[pos];
+            //}
+            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
         }
-    }
-
-    public class ItemSelectedEventArgs : EventArgs
-    {
-        public int SelectedIndex { get; set; }
-        public bool IsFirstRowPlaceholder { get; set; }
     }
 }

@@ -28,6 +28,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        public string SelectedItem { get; set; }
+
         public string CustomerPhoneFormatted
         {
             get

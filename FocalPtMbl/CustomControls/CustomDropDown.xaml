@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5,0,0,0">
+        <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
             <Grid ColumnSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -37,8 +37,8 @@
                     IsReadOnly="True">
                 </customrenderers:CustomEntry>
 
-                <Frame Grid.Row="0"  Grid.Column="1" HasShadow="False" Margin="0" Padding="2" BackgroundColor="#57b8ff" HeightRequest="40" WidthRequest="40">
-                    <Image x:Name="imagePropertyName" BackgroundColor="#57b8ff" Aspect="AspectFit"
+                <Frame Grid.Row="0"  Grid.Column="1" HasShadow="False" Margin="-2" Padding="2" BackgroundColor="{Binding HandleColor, Source={x:Reference customDropDownView}}" HeightRequest="40" WidthRequest="40">
+                    <Image x:Name="imagePropertyName" BackgroundColor="{Binding HandleColor, Source={x:Reference customDropDownView}}" Aspect="AspectFit"
                        Source="{Binding Image, Source={x:Reference customDropDownView}}" VerticalOptions="Center"/>
                 </Frame>
             </Grid>

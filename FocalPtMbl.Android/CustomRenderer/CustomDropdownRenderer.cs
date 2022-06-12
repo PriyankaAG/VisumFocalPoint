@@ -53,7 +53,14 @@ namespace FocalPtMbl.Droid.CustomRenderer
                 ArrayAdapter adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleListItem1, view.ItemsSource);
                 Control.Adapter = adapter;
                 Control.ForceHasOverlappingRendering(true);
-                Control.DropDownVerticalOffset = 150;
+                if (view.HasLabel)
+                {
+                    Control.DropDownVerticalOffset = 220;
+                }
+                else
+                {
+                    Control.DropDownVerticalOffset = 150;
+                }
 
                 if (view.SelectedIndex != -1)
                 {
@@ -83,8 +90,8 @@ namespace FocalPtMbl.Droid.CustomRenderer
                     view.EntryTextColor = "#60000000";
                 }
                 else
-                { 
-                    view.EntryTextColor = "#000000";
+                {
+                    view.EntryTextColor = "#424242";
                 }
             }
             base.OnElementPropertyChanged(sender, e);

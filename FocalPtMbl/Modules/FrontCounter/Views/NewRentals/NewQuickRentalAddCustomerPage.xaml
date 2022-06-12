@@ -52,6 +52,164 @@
                         </Grid>
 
                         <Grid Grid.Row="1">
+                            <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
+                                <xct:Expander x:Name="ExpanderName" IsExpanded="True" >
+                                    <xct:Expander.Header>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                            Padding="5"
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource NewCustomerExpanderHeaderLable}"
+                                            Text="Name"
+                                                HorizontalOptions="StartAndExpand"/>
+
+                                            <Frame BackgroundColor="#5a607f" Padding="1" 
+                                                HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
+                                                CornerRadius="50" >
+                                                <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
+                                                    <Image.Triggers>
+                                                        <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderName}}" Value="True">
+                                                            <Setter Property="Source" Value="upwhite.png" />
+                                                        </DataTrigger>
+                                                    </Image.Triggers>
+                                                </Image>
+                                                <Frame.Triggers>
+                                                    <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderName}}" Value="True">
+                                                        <Setter Property="BackgroundColor" Value="#f99600" />
+                                                    </DataTrigger>
+                                                </Frame.Triggers>
+                                            </Frame>
+                                        </StackLayout>
+                                    </xct:Expander.Header>
+                                    <xct:Expander.Content>
+                                        <Grid RowSpacing="10" Padding="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="11"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray" Margin="0,5,0,5"/>
+
+                                            <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="0" 
+                                                   EditorText="{Binding CustomerToAdd.CustomerFName}" 
+                                                   MaxLenth="100" LabelText="First Name" 
+                                                   PlaceHolder="Enter first name" Keyboard="Text" />
+
+                                            <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="1" 
+                                                   EditorText="{Binding CustomerToAdd.CustomerName}" 
+                                                   MaxLenth="100" LabelText="Middle Name" 
+                                                   PlaceHolder="Enter middle name" Keyboard="Text" />
+
+                                            <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" 
+                                                   EditorText="{Binding CustomerToAdd.CustomerLName}" 
+                                                   MaxLenth="100" LabelText="Last Name" 
+                                                   PlaceHolder="Enter last name" Keyboard="Text" />
+
+                                            <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1" 
+                                                    VerticalOptions="Start" Padding="1"
+                                                    x:Name="ReferredByPicker"
+                                                    LabelText="Referred By"
+                                                    IsFirstRowPlaceholder="True"
+                                                    ItemsSource="{Binding ReferredByList}"/>
+
+                                        </Grid>
+                                    </xct:Expander.Content>
+                                </xct:Expander>
+                            </Frame>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
+                                <xct:Expander x:Name="ExpanderAddress" >
+                                    <xct:Expander.Header>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                            Padding="5"
+                                            LineBreakMode="NoWrap"
+                                            Style="{DynamicResource NewCustomerExpanderHeaderLable}"
+                                            Text="Address"
+                                                HorizontalOptions="StartAndExpand"/>
+
+                                            <Frame BackgroundColor="#5a607f" Padding="1" 
+                                                HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
+                                                CornerRadius="50" >
+                                                <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
+                                                    <Image.Triggers>
+                                                        <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderAddress}}" Value="True">
+                                                            <Setter Property="Source" Value="upwhite.png" />
+                                                        </DataTrigger>
+                                                    </Image.Triggers>
+                                                </Image>
+                                                <Frame.Triggers>
+                                                    <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderAddress}}" Value="True">
+                                                        <Setter Property="BackgroundColor" Value="#f99600" />
+                                                    </DataTrigger>
+                                                </Frame.Triggers>
+                                            </Frame>
+                                        </StackLayout>
+                                    </xct:Expander.Header>
+                                    <xct:Expander.Content>
+                                        <Grid RowSpacing="10" Padding="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="11"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            
+                                            <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray" Margin="0,5,0,5"/>
+
+                                            <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0"
+                                                    VerticalOptions="Start" Padding="1"
+                                                    x:Name="CountryPicker"
+                                                    LabelText="Country"
+                                                    IsFirstRowPlaceholder="True"
+                                                    ItemsSource="{Binding CountryList}"/>
+                                            
+                                            <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                                   EditorText="{Binding CustomerToAdd.CustomerFName}" 
+                                                   MaxLenth="100" LabelText="Address 1" 
+                                                   PlaceHolder="Enter Address Line 1" Keyboard="Text" />
+
+                                            <local:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                                   EditorText="{Binding CustomerToAdd.CustomerName}" 
+                                                   MaxLenth="100" LabelText="Address 2" 
+                                                   PlaceHolder="Enter Address Line 2" Keyboard="Text" />
+
+                                            <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="0"
+                                                    VerticalOptions="Start" Padding="1"
+                                                    LabelText="City"
+                                                    IsFirstRowPlaceholder="True"
+                                                    ItemsSource="{Binding CityList}"/>
+
+                                            <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="1"
+                                                    VerticalOptions="Start" Padding="1"
+                                                    LabelText="State"
+                                                    IsFirstRowPlaceholder="True"
+                                                    ItemsSource="{Binding StateList}"/>
+
+                                            <local:LabelEditorCustomControl Grid.Row="5" Grid.Column="0" 
+                                                   EditorText="{Binding CustomerToAdd.CustomerLName}" 
+                                                   MaxLenth="100" LabelText="Zip" 
+                                                   PlaceHolder="Enter Zip" Keyboard="Text" />
+
+                                        </Grid>
+                                    </xct:Expander.Content>
+                                </xct:Expander>
+                            </Frame>
+                        </Grid>
+
+                        <Grid Grid.Row="3">
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True"
                                Margin="0,5,0,5" Padding="10" >
                                 <xct:Expander x:Name="Expander1">
@@ -107,82 +265,6 @@
                                         <Setter Property="BorderColor" Value="Red" />
                                     </DataTrigger>
                                 </Frame.Triggers>
-                            </Frame>
-                        </Grid>
-
-                        <Grid Grid.Row="2">
-                            <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
-                                <xct:Expander x:Name="Expander2" >
-                                    <xct:Expander.Header>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label
-                                            Padding="5"
-                                            LineBreakMode="NoWrap"
-                                            Style="{DynamicResource NewCustomerExpanderHeaderLable}"
-                                            Text="Name"
-                                                HorizontalOptions="StartAndExpand"/>
-
-                                            <Frame BackgroundColor="#5a607f" Padding="1" 
-                                                HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
-                                                CornerRadius="50" >
-                                                <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
-                                                    <Image.Triggers>
-                                                        <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander2}}" Value="True">
-                                                            <Setter Property="Source" Value="upwhite.png" />
-                                                        </DataTrigger>
-                                                    </Image.Triggers>
-                                                </Image>
-                                                <Frame.Triggers>
-                                                    <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander2}}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="#f99600" />
-                                                    </DataTrigger>
-                                                </Frame.Triggers>
-                                            </Frame>
-                                        </StackLayout>
-                                    </xct:Expander.Header>
-                                    <xct:Expander.Content>
-                                        <Label
-                                        Padding="5"
-                                        FontSize="13"
-                                        LineBreakMode="WordWrap"
-                                        Text="Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text.Aaaaaaaaa big text." />
-                                    </xct:Expander.Content>
-                                </xct:Expander>
-                            </Frame>
-                        </Grid>
-
-                        <Grid Grid.Row="3">
-                            <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
-                                <xct:Expander x:Name="Expander3" >
-                                    <xct:Expander.Header>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label
-                                            Padding="5"
-                                            LineBreakMode="NoWrap"
-                                            Style="{DynamicResource NewCustomerExpanderHeaderLable}"
-                                            Text="Address"
-                                                HorizontalOptions="StartAndExpand"/>
-
-
-                                            <Frame BackgroundColor="#5a607f" Padding="1" 
-                                                HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
-                                                CornerRadius="50" >
-                                                <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
-                                                    <Image.Triggers>
-                                                        <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander3}}" Value="True">
-                                                            <Setter Property="Source" Value="upwhite.png" />
-                                                        </DataTrigger>
-                                                    </Image.Triggers>
-                                                </Image>
-                                                <Frame.Triggers>
-                                                    <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander3}}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="#f99600" />
-                                                    </DataTrigger>
-                                                </Frame.Triggers>
-                                            </Frame>
-                                        </StackLayout>
-                                    </xct:Expander.Header>
-                                </xct:Expander>
                             </Frame>
                         </Grid>
 
