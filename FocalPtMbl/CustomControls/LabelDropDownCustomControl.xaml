@@ -17,8 +17,12 @@
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
             <Label Text="{Binding LabelText, Source={x:Reference labelDropDownView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
-            <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
-                                HasLabel="True" ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}}" >
+            <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" 
+                                  IsFirstRowPlaceholder="True"
+                                  HasLabel="True" 
+                                  SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}}" 
+                                  ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}}"
+                                  ItemSelected="myPicker_ItemSelected">
             </local:CustomDropDown>
         </StackLayout>
     </ContentView.Content>

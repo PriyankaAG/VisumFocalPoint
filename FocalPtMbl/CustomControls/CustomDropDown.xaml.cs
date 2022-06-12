@@ -115,6 +115,19 @@ namespace FocalPoint.CustomControls
             set { SetValue(HandleColorProperty, value); }
         }
 
+
+        //public static readonly BindableProperty ItemSelectedProperty = BindableProperty.Create(
+        //    propertyName: nameof(HandleColor),
+        //    returnType: typeof(EventHandler<ItemSelectedEventArgs>),
+        //    declaringType: typeof(EventHandler<ItemSelectedEventArgs>),
+        //    defaultValue: "#57b8ff");
+
+        //public event EventHandler<ItemSelectedEventArgs> ItemSelected
+        //{
+        //    get { return (EventHandler<ItemSelectedEventArgs>)GetValue(ItemSelectedProperty); }
+        //    set { SetValue(ItemSelectedProperty, value); }
+        //}
+
         public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
         public CustomEntry TheEntryBox

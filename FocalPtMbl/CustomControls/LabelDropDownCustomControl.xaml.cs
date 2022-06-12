@@ -90,6 +90,18 @@ namespace FocalPoint.CustomControls
             set { SetValue(TextProperty, value); }
         }
 
+        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedItem),
+            returnType: typeof(string),
+            declaringType: typeof(string),
+            defaultValue: "");
+
+        public string SelectedItem
+        {
+            get { return (string)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
         public static readonly BindableProperty ImageProperty = BindableProperty.Create(
             propertyName: nameof(Image),
             returnType: typeof(string),
@@ -118,11 +130,19 @@ namespace FocalPoint.CustomControls
 
         public void OnItemSelected(int pos)
         {
-            //if (ItemsSourceProp != null)
-            //{
-            //    TheEntryBox.Text = ItemsSourceProp[pos];
-            //}
-            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
+        }
+
+        private void myPicker_ItemSelected(object sender, ItemSelectedEventArgs e)
+        {
+            if (IsFirstRowPlaceholder && e.SelectedIndex == 0)
+            {
+                SelectedItem = null;
+            }
+            else
+            {
+                SelectedItem = ItemsSource[e.SelectedIndex];
+            }
+            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = e.SelectedIndex, IsFirstRowPlaceholder = e.IsFirstRowPlaceholder });
         }
     }
 }

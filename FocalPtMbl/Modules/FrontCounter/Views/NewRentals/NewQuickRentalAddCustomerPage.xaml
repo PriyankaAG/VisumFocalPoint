@@ -42,6 +42,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+                        
                         <Grid Grid.Row="0" VerticalOptions="Center">
                             <Label Style="{DynamicResource AddNewCustomerHeaderLabel}" 
                                 Text="Enter Details" MaxLines="1" LineBreakMode="TailTruncation" 
@@ -51,6 +52,7 @@
                                 HorizontalOptions="End" VerticalOptions="Center"/>
                         </Grid>
 
+                        <!--Name-->
                         <Grid Grid.Row="1">
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
                                 <xct:Expander x:Name="ExpanderName" IsExpanded="True" >
@@ -123,6 +125,7 @@
                             </Frame>
                         </Grid>
 
+                        <!--Address-->
                         <Grid Grid.Row="2">
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
                                 <xct:Expander x:Name="ExpanderAddress" >
@@ -174,6 +177,7 @@
                                                     x:Name="CountryPicker"
                                                     LabelText="Country"
                                                     IsFirstRowPlaceholder="True"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerCountry, Mode=TwoWay}"
                                                     ItemsSource="{Binding CountryList}"/>
                                             
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
@@ -190,12 +194,15 @@
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="City"
                                                     IsFirstRowPlaceholder="True"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerCity, Mode=TwoWay}"
+                                                    ItemSelected="LabelDropDownCustomControl_ItemSelected"
                                                     ItemsSource="{Binding CityList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="State"
                                                     IsFirstRowPlaceholder="True"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerState, Mode=TwoWay}"
                                                     ItemsSource="{Binding StateList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="5" Grid.Column="0" 

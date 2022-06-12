@@ -16,6 +16,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public List<string> RentalList { get; set; }
         public NewQuickRentalAddCustomerViewModel()
         {
+            CustomerToAdd = new Customer();
             ReferredByList = new string[] { "Select","AAAA", "BBBB", "CCCC" };
             CountryList = new string[] { "Select", "USA", "India" };
             StateList = new string[] { "Select", "Florida", "Georgia", "MaharashtraAAAABBBBCCCCDDDDMaharashtraAAAABBBBCCCCDDDD", "Uttar Pradesh" };

@@ -19,5 +19,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             NewQuickRentalAddCustomerViewModel theViewModel = new NewQuickRentalAddCustomerViewModel();
             BindingContext = theViewModel;
         }
+
+        private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+
+        }
     }
 }
