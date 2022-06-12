@@ -36,6 +36,12 @@ namespace FocalPoint.Modules.Payments.Views
             }
             try
             {
+                if(viewModel.SelectedPaymentType.PaymentKind == "CC" && viewModel.ProcessOnline)
+                {
+                    PaymentManual manualPayment = new PaymentManual();
+                    await Navigation.PushAsync(manualPayment);
+                    return;
+                }
                 var response = await viewModel.ProcessPayment();
                 if (response == null)
                 {

@@ -103,6 +103,20 @@ namespace FocalPoint.CustomControls
             }
         }
 
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(EditorCustomControl), true, BindingMode.TwoWay);
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)GetValue(IsEnabledProperty);
+            }
+
+            set
+            {
+                SetValue(IsEnabledProperty, value);
+            }
+        }
+
         private void CustomEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextChanged?.Invoke(sender, e);

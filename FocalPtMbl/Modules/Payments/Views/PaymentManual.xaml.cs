@@ -35,5 +35,10 @@ namespace FocalPoint.Modules.Payments.Views
             string decodedHtml = WebUtility.HtmlDecode(html1);
             //WebBrowser.Source = decodedHtml;
         }
+
+        private void WebBrowser_Navigating(object sender, WebNavigatingEventArgs e)
+        {
+            var url = e.Url;
+        }
     }
 }

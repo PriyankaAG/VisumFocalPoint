@@ -4,6 +4,7 @@ using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,6 +28,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
 
         public ObservableCollection<PaymentInfo> CreditCardDetailList { get; set; }
     }
+
 
     public class PaymentPageViewModel : CommonViewModel
     {
@@ -91,6 +93,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(IsCardOnFile));
             }
         }
+        public bool IsStoredCardSelected { get; set; }
         #endregion
 
         public string Payment { get; set; }
@@ -113,6 +116,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 selectedPaymentType = value;
                 SetCardView(selectedPaymentType);
+                //Payment = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
+                //OnPropertyChanged(Payment);
             }
         }
         public List<string> CashPayments
@@ -159,9 +164,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             generalComponent = new GeneralComponent();
             PaymentEntityComponent = new PaymentEntityComponent();
-            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
             CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo paymentInfo) => UpdateDetails(paymentInfo));
-            GetSettings().ContinueWith((a) => { settings = a.Result; });
+            GetSettings().ContinueWith((a) => 
+            {
+                settings = a.Result;
+            });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail();
             PaymentHistory.Header = "Payment History";
@@ -171,7 +178,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CreditCardPaymentDetails.Header = "Card on File";
             CreditCardPaymentDetails.CreditCardDetailList = new ObservableCollection<PaymentInfo>();
             SetPaymentData();
-            ProcessOnline = true;
+            ProcessOnline = true; //defaults to true od Credit card POS
             if (Order?.Customer != null)
                 GetLicenseStates(Order.Customer.CustomerCountry);
             Task.Run(async () =>
@@ -182,11 +189,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 }
             });
         }
-
-        private void UpdateDetails(PaymentInfo paymentInfo)
-        {
-        }
-
         #endregion
 
         private void GetLicenseStates(int countryCode)
@@ -213,13 +215,25 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
             return list;
         }
-        public async void SetPaymentSelectionType(int paymentType)
-        {
-
-        }
+        
         private async Task<PaymentSettings> GetSettings()
         {
             return await PaymentEntityComponent.GetPaymentSettings();
+        }
+        private void UpdateDetails(PaymentInfo paymentInfo)
+        {
+            CardHolderName = paymentInfo.InfoHolder;
+            CardLast4Digits = paymentInfo.InfoText;
+            if (DateTime.TryParseExact(paymentInfo.InfoExpireDte, "MMddyy", CultureInfo.InvariantCulture,
+                           DateTimeStyles.None, out DateTime date))
+                ExpirationDate = date;
+            ProcessOnline = true;
+            IsStoredCardSelected = true;
+            OnPropertyChanged(nameof(CardHolderName));
+            OnPropertyChanged(nameof(CardLast4Digits));
+            OnPropertyChanged(nameof(ExpirationDate));
+            OnPropertyChanged(nameof(ProcessOnline));
+            OnPropertyChanged(nameof(IsStoredCardSelected));
         }
 
         public async Task SetPaymenyTypes(RequestTypes requestType)
@@ -462,6 +476,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CardHolderName = CardLast4Digits = AuthorizationCode = AvsStreetAddress = AvsZipCode = "";
             StoreCardOnFile = false;
             ExpirationDate = DateTime.Now;
+            IsStoredCardSelected = false;
         }
         public void ResetCheck()
         {

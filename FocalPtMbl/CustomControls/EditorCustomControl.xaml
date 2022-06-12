@@ -17,15 +17,29 @@
         <StackLayout Orientation="Vertical">
             <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
             <customrenderers:CustomEntry 
-                BackgroundColor="#fff" 
                 HorizontalOptions="Fill"  
                 Style="{DynamicResource EntryStyle}" 
                 MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
                 Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
                 Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
-                Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}" 
+                IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}"
                 TextChanged="CustomEntry_TextChanged"
                 Unfocused="CustomEntry_Unfocused">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#fff" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#D3D3D3" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
             </customrenderers:CustomEntry>
         </StackLayout>
     </ContentView.Content>

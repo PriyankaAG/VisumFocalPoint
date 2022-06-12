@@ -5,7 +5,11 @@
              Title="Manual Payment">
     <ContentPage.Content>
         <StackLayout>
-            <WebView x:Name="WebBrowser" VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Source="https://visumbanyan.fpsdns.com:8080/cardconnect/manual.html" />
+            <WebView x:Name="WebBrowser" 
+                     VerticalOptions="FillAndExpand"  
+                     HorizontalOptions="FillAndExpand"
+                     Source="https://visumbanyan.fpsdns.com:8080/cardconnect/manual.html"
+                     Navigating="WebBrowser_Navigating"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
