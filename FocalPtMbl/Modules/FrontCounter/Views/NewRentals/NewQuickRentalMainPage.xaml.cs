@@ -50,5 +50,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
             }
         }
+
+        private void Button_Clicked_1(object sender, EventArgs e)
+        {
+            var a = myPicker.SelectedItem;
+            var b = myPicker.SelectedIndex;
+            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentalsss";
+        }
     }
 }

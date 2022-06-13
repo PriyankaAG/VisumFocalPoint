@@ -199,10 +199,10 @@
                                                     LabelText="Country"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerCountry, Mode=TwoWay}"
-                                                    ItemsSource="{Binding CountryList}"/>
+                                                    ItemsSource="{Binding CountryList, Mode=TwoWay}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                                   EditorText="{Binding CustomerToAdd.CustomerAddr1}" 
+                                                   EditorText="{Binding MyAddress1}" 
                                                    MaxLenth="100" LabelText="Address 1" 
                                                    PlaceHolder="Enter Address Line 1" Keyboard="Text" />
 
@@ -212,10 +212,11 @@
                                                    PlaceHolder="Enter Address Line 2" Keyboard="Text" />
 
                                             <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="0"
+                                                                              x:Name="theCityDropDown"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="City"
                                                     IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerCity, Mode=TwoWay}"
+                                                    SelectedItem="{Binding MyCustomerCity, Mode=TwoWay}"
                                                     ItemSelected="LabelDropDownCustomControl_ItemSelected"
                                                     ItemsSource="{Binding CityList}"/>
 
@@ -464,7 +465,7 @@
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Status"
                                                     IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerStatus, Mode=TwoWay}"
+                                                    SelectedItem="{Binding MyCustomerStatus, Mode=TwoWay}"
                                                     ItemsSource="{Binding StatusList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
@@ -815,7 +816,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0"/>
-                <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0"/>
+                <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

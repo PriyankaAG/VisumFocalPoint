@@ -320,6 +320,14 @@
                         </local:CustomDropDown.ItemsSource>
                     </local:CustomDropDown>
                 </Frame>
+
+                <Grid Grid.Row="3" Padding="10" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
+                </Grid>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

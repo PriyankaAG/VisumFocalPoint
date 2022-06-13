@@ -81,6 +81,23 @@ namespace FocalPtMbl.Droid.CustomRenderer
 
                 ArrayAdapter adapter = new ArrayAdapter(Context, Android.Resource.Layout.SimpleListItem1, view.ItemsSource);
                 Control.Adapter = adapter;
+                Control.ForceHasOverlappingRendering(true);
+                if (view.HasLabel)
+                {
+                    Control.DropDownVerticalOffset = 200;
+                }
+                else
+                {
+                    Control.DropDownVerticalOffset = 150;
+                }
+
+                if (view.SelectedIndex != -1)
+                {
+                    Control.SetSelection(view.SelectedIndex);
+                }
+
+                Control.ItemSelected -= OnItemSelected;
+                Control.ItemSelected += OnItemSelected;
             }
             if (e.PropertyName == CustomDropDown.SelectedIndexProperty.PropertyName)
             {
@@ -92,6 +109,22 @@ namespace FocalPtMbl.Droid.CustomRenderer
                 else
                 {
                     view.EntryTextColor = "#424242";
+                }
+            }
+            if (e.PropertyName == CustomDropDown.SelectedItemProperty.PropertyName)
+            {
+                if (view.ItemsSource != null && view.ItemsSource.Length > 0)
+                {
+                    if (view.ItemsSource.Any(p => p == view.SelectedItem))
+                    {
+                        var index = Array.FindIndex(view.ItemsSource, r => r == view.SelectedItem);
+                        view.SelectedIndex = index;
+                    }
+                    else
+                    {
+                        //If SelectedItem is not in combobox list then the SelectedItem should revert back to what was already selected
+                        view.SelectedItem = view.ItemsSource[view.SelectedIndex];
+                    }
                 }
             }
             base.OnElementPropertyChanged(sender, e);

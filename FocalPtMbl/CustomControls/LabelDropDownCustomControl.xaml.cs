@@ -33,7 +33,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             propertyName: nameof(ItemsSource),
             returnType: typeof(String[]),
-            declaringType: typeof(String[]),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: null);
 
         public String[] ItemsSource
@@ -45,7 +46,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(
             propertyName: nameof(SelectedIndex),
             returnType: typeof(int),
-            declaringType: typeof(int),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: -1);
 
         public int SelectedIndex
@@ -57,7 +59,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty IsFirstRowPlaceholderProperty = BindableProperty.Create(
             propertyName: nameof(IsFirstRowPlaceholder),
             returnType: typeof(bool),
-            declaringType: typeof(bool),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: false);
 
         public bool IsFirstRowPlaceholder
@@ -69,7 +72,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty EntryTextColorProperty = BindableProperty.Create(
           propertyName: nameof(EntryTextColor),
           returnType: typeof(string),
-          declaringType: typeof(string),
+          declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
           defaultValue: "#000000");
 
         public string EntryTextColor
@@ -81,7 +85,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(string),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "");
 
         public string Text
@@ -93,7 +98,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
             returnType: typeof(string),
-            declaringType: typeof(string),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "");
 
         public string SelectedItem
@@ -105,7 +111,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty ImageProperty = BindableProperty.Create(
             propertyName: nameof(Image),
             returnType: typeof(string),
-            declaringType: typeof(string),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "comboboxdropsmall");
 
         public string Image
@@ -117,7 +124,8 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty HandleColorProperty = BindableProperty.Create(
             propertyName: nameof(HandleColor),
             returnType: typeof(string),
-            declaringType: typeof(string),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "#57b8ff");
 
         public string HandleColor
