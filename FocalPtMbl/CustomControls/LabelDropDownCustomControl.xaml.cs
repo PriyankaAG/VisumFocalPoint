@@ -142,6 +142,8 @@ namespace FocalPoint.CustomControls
             {
                 SelectedItem = ItemsSource[e.SelectedIndex];
             }
+            Text = ItemsSource[e.SelectedIndex];//.Length > 10 ? ItemsSource[e.SelectedIndex].Substring(0, 10) : ItemsSource[e.SelectedIndex];
+            OnPropertyChanged(nameof(Text));
             ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = e.SelectedIndex, IsFirstRowPlaceholder = e.IsFirstRowPlaceholder });
         }
     }

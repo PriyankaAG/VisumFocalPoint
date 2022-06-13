@@ -10,5 +10,7 @@ namespace FocalPoint.Components.Interface
     {
         Task<List<Customer>> GetCustomers(string searchCustomer);
 
+        Task<CustomerSettings> GetCustomerSettings();
+
     }
 }

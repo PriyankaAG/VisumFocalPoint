@@ -55,7 +55,7 @@ namespace FocalPtMbl.Droid.CustomRenderer
                 Control.ForceHasOverlappingRendering(true);
                 if (view.HasLabel)
                 {
-                    Control.DropDownVerticalOffset = 220;
+                    Control.DropDownVerticalOffset = 200;
                 }
                 else
                 {

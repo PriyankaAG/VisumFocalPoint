@@ -115,22 +115,9 @@ namespace FocalPoint.CustomControls
             set { SetValue(HandleColorProperty, value); }
         }
 
-
-        //public static readonly BindableProperty ItemSelectedProperty = BindableProperty.Create(
-        //    propertyName: nameof(HandleColor),
-        //    returnType: typeof(EventHandler<ItemSelectedEventArgs>),
-        //    declaringType: typeof(EventHandler<ItemSelectedEventArgs>),
-        //    defaultValue: "#57b8ff");
-
-        //public event EventHandler<ItemSelectedEventArgs> ItemSelected
-        //{
-        //    get { return (EventHandler<ItemSelectedEventArgs>)GetValue(ItemSelectedProperty); }
-        //    set { SetValue(ItemSelectedProperty, value); }
-        //}
-
         public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
-        public CustomEntry TheEntryBox
+        public Label TheEntryBox
         {
             get
             {
@@ -143,14 +130,14 @@ namespace FocalPoint.CustomControls
             {
                 if (IsFirstRowPlaceholder && pos == 0)
                 {
-                    TheEntryBox.Text = ItemsSource[pos];
                     SelectedItem = null;
                 }
                 else
                 {
-                    TheEntryBox.Text = ItemsSource[pos];
                     SelectedItem = ItemsSource[pos];
                 }
+                Text = ItemsSource[pos];//.Length > 10 ? ItemsSource[pos].Substring(0,10) : ItemsSource[pos];
+                OnPropertyChanged(nameof(Text));
                 ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
             }
         }

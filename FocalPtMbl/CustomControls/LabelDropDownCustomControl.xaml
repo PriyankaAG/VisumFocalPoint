@@ -20,8 +20,10 @@
             <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" 
                                   IsFirstRowPlaceholder="True"
                                   HasLabel="True" 
-                                  SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}}" 
                                   ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}}"
+                                  SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}}" 
+                                  Text="{Binding Text, Source={x:Reference labelDropDownView}}" 
+                                  Image="{Binding Image, Source={x:Reference labelDropDownView}}" 
                                   ItemSelected="myPicker_ItemSelected">
             </local:CustomDropDown>
         </StackLayout>

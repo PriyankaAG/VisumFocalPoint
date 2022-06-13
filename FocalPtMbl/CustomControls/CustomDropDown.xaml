@@ -26,16 +26,24 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <customrenderers:CustomEntry 
+                <!--<customrenderers:CustomEntry 
                     x:Name="TheDataLabel" 
                     BackgroundColor="#fff" 
                     HorizontalOptions="Fill"  
                     Style="{DynamicResource EntryStyle}" 
                     Text="{Binding Text, Source={x:Reference customDropDownView}}" 
                     Placeholder="Select"
+                    HorizontalTextAlignment="Start"
+                    MaxLength="30"
                     TextColor="{Binding EntryTextColor, Source={x:Reference customDropDownView}}"
                     IsReadOnly="True">
-                </customrenderers:CustomEntry>
+                </customrenderers:CustomEntry>-->
+
+                <Label Padding="10,0,0,0" x:Name="TheDataLabel" 
+                    TextColor="{Binding EntryTextColor, Source={x:Reference customDropDownView}}"
+                       FontSize="{StaticResource DefaultFontSize}"
+                        Text="{Binding Text, Source={x:Reference customDropDownView}}" 
+                      LineBreakMode="TailTruncation" MaxLines="1" HorizontalOptions="Fill" VerticalOptions="Center"></Label>
 
                 <Frame Grid.Row="0"  Grid.Column="1" HasShadow="False" Margin="-2" Padding="2" BackgroundColor="{Binding HandleColor, Source={x:Reference customDropDownView}}" HeightRequest="40" WidthRequest="40">
                     <Image x:Name="imagePropertyName" BackgroundColor="{Binding HandleColor, Source={x:Reference customDropDownView}}" Aspect="AspectFit"

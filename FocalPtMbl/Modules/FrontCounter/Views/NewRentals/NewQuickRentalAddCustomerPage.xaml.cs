@@ -18,6 +18,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             Title = "Add New Customer";
             NewQuickRentalAddCustomerViewModel theViewModel = new NewQuickRentalAddCustomerViewModel();
             BindingContext = theViewModel;
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await theViewModel.FetchMasters();
+            });
         }
 
         private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
