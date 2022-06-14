@@ -1,4 +1,5 @@
-﻿using FocalPoint.Modules.Payments.ViewModels;
+﻿using FocalPoint.Modules.Payments.Types;
+using FocalPoint.Modules.Payments.ViewModels;
 using System;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -16,10 +17,11 @@ namespace FocalPoint.MainMenu.Controls
 
         private void CreditCardDetail_Tapped(object sender, EventArgs e)
         {
-            if(BindingContext is PaymentPageViewModel paymentPageViewModel)
+            //if(BindingContext is PaymentPageViewModel paymentPageViewModel)
+            if(BindingContext is CreditCard cardDetails)
             {
                 PaymentInfo paymentInfo = (PaymentInfo)((TappedEventArgs)e).Parameter;
-                paymentPageViewModel.CardDetailSelectCommand.Execute(paymentInfo);
+                cardDetails.CardDetailSelectCommand.Execute(paymentInfo);
             }
         }
     }

@@ -15,11 +15,11 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Text="{Binding CreditCardPaymentDetails.Header}" Style="{DynamicResource LabelSubHeader}"/>
-            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,10">
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Start" Padding="5,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="80"/>
@@ -31,7 +31,7 @@
                 <Label Grid.Column="2" Text="Last 4 Digits" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="3" Text="Expiration Date" Style="{DynamicResource LabelListHeader}" />
             </Grid>
-            <ScrollView Grid.Row="2">
+            <ScrollView Grid.Row="2" Margin="0,10">
                 <StackLayout
                         Orientation="Vertical"
                         VerticalOptions="Start"

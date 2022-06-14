@@ -22,6 +22,7 @@ namespace FocalPoint.Modules.Payments.Views
                 WebBrowser.EvaluateJavaScriptAsync("document.getElementById('lastname').setAttribute('value', 'Patil')");
                 WebBrowser.EvaluateJavaScriptAsync("document.getElementById('address').setAttribute('value', 'Street 6')");
                 WebBrowser.EvaluateJavaScriptAsync("document.getElementById('zip').setAttribute('value', '411015')");
+                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('tokenframe').setAttribute('src', 'https://boltgw.cardconnect.com:6443/itoke/ajax-tokenizer.html?invalidinputevent=true&tokenizewheninactive=false')");
             };
             //_ = LoadHtml();
         }

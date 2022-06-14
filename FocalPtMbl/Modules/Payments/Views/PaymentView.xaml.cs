@@ -1,8 +1,5 @@
 ﻿using FocalPoint.Modules.Payments.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;

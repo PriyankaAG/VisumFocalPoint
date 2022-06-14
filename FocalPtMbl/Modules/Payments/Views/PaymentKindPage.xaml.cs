@@ -19,6 +19,11 @@ namespace FocalPoint.Modules.Payments.Views
         {
             base.OnAppearing();
             viewModel = (PaymentPageViewModel)BindingContext;
+            if (viewModel != null)
+            {
+                viewModel.ResetCards();
+                viewModel.SetDueAmout();
+            }
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -36,7 +41,7 @@ namespace FocalPoint.Modules.Payments.Views
             }
             try
             {
-                if(viewModel.SelectedPaymentType.PaymentKind == "CC" && viewModel.ProcessOnline)
+                if (viewModel.SelectedPaymentType.PaymentKind == "CC" && viewModel.CreditCardDetails.ProcessOnline)
                 {
                     PaymentManual manualPayment = new PaymentManual();
                     await Navigation.PushAsync(manualPayment);
