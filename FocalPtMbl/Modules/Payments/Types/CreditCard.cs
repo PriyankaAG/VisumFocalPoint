@@ -22,6 +22,11 @@ namespace FocalPoint.Modules.Payments.Types
             this.order = order;
             PaymentEntityComponent = paymentEntityComponent;
             ProcessOnline = true; //defaults to true od Credit card POS
+            CreditCardPaymentDetails = new CreditCardPaymentDetails
+            {
+                Header = "Card on File",
+                CreditCardDetailList = new ObservableCollection<PaymentInfo>()
+            };
             Task.Run(async () =>
             {
                 if (order != null)
@@ -29,11 +34,6 @@ namespace FocalPoint.Modules.Payments.Types
                     await GetCreditCardList();
                 }
             });
-            CreditCardPaymentDetails = new CreditCardPaymentDetails
-            {
-                Header = "Card on File",
-                CreditCardDetailList = new ObservableCollection<PaymentInfo>()
-            };
             CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo paymentInfo) => UpdateDetails(paymentInfo));
         }
         #region Properties
@@ -152,6 +152,7 @@ namespace FocalPoint.Modules.Payments.Types
             StoreCardOnFile = false;
             ExpirationDate = DateTime.Now;
             IsStoredCardSelected = false;
+            ProcessOnline = true;
             OnPropertyChanged(nameof(CardHolderName));
             OnPropertyChanged(nameof(CardLast4Digits));
             OnPropertyChanged(nameof(AuthorizationCode));
@@ -160,6 +161,7 @@ namespace FocalPoint.Modules.Payments.Types
             OnPropertyChanged(nameof(StoreCardOnFile));
             OnPropertyChanged(nameof(ExpirationDate));
             OnPropertyChanged(nameof(IsStoredCardSelected));
+            OnPropertyChanged(nameof(ProcessOnline));
         }
     }
 

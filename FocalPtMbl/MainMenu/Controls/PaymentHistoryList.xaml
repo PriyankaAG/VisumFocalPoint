@@ -33,7 +33,8 @@
                 <Label Grid.Column="3" Text="Date" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="4" Text="Text" Style="{DynamicResource LabelListHeader}" />
             </Grid>
-            <StackLayout Grid.Row="2"
+            <ScrollView Grid.Row="2">
+            <StackLayout
                         Orientation="Vertical"
                         VerticalOptions="Start"
                         HorizontalOptions="Center"
@@ -68,6 +69,7 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </StackLayout>
+            </ScrollView>
         </Grid>
     </ContentView.Content>
 </ContentView>

@@ -17,12 +17,12 @@ namespace FocalPoint.Modules.Payments.Views
         public PaymentManual()
         {
             InitializeComponent();
-            WebBrowser.Navigated += (o, s) => {
-                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('firstname').setAttribute('value', 'Nitin')");
-                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('lastname').setAttribute('value', 'Patil')");
-                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('address').setAttribute('value', 'Street 6')");
-                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('zip').setAttribute('value', '411015')");
-                WebBrowser.EvaluateJavaScriptAsync("document.getElementById('tokenframe').setAttribute('src', 'https://boltgw.cardconnect.com:6443/itoke/ajax-tokenizer.html?invalidinputevent=true&tokenizewheninactive=false')");
+            CardConnectWebView.Navigated += (o, s) => {
+                CardConnectWebView.EvaluateJavaScriptAsync("document.getElementById('firstname').setAttribute('value', 'Nitin')");
+                CardConnectWebView.EvaluateJavaScriptAsync("document.getElementById('lastname').setAttribute('value', 'Patil')");
+                CardConnectWebView.EvaluateJavaScriptAsync("document.getElementById('address').setAttribute('value', 'Street 6')");
+                CardConnectWebView.EvaluateJavaScriptAsync("document.getElementById('zip').setAttribute('value', '411015')");
+                CardConnectWebView.EvaluateJavaScriptAsync("document.getElementById('tokenframe').setAttribute('src', 'https://boltgw.cardconnect.com:6443/itoke/ajax-tokenizer.html?invalidinputevent=true&tokenizewheninactive=false')");
             };
             //_ = LoadHtml();
         }
@@ -30,16 +30,21 @@ namespace FocalPoint.Modules.Payments.Views
         private async Task LoadHtml()
         {
             HttpClient client = new HttpClient();
-            var html = await client.GetStringAsync((WebBrowser.Source as UrlWebViewSource).Url);
+            var html = await client.GetStringAsync((CardConnectWebView.Source as UrlWebViewSource).Url);
 
-            var html1 = await WebBrowser.EvaluateJavaScriptAsync("document.documentElement.outerHTML");
+            var html1 = await CardConnectWebView.EvaluateJavaScriptAsync("document.documentElement.outerHTML");
             string decodedHtml = WebUtility.HtmlDecode(html1);
             //WebBrowser.Source = decodedHtml;
         }
 
-        private void WebBrowser_Navigating(object sender, WebNavigatingEventArgs e)
+        private void CardConnectWebView_Navigating(object sender, WebNavigatingEventArgs e)
         {
             var url = e.Url;
+        }
+
+        private void CardConnectWebView_Navigated(object sender, WebNavigatedEventArgs e)
+        {
+
         }
     }
 }

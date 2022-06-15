@@ -59,8 +59,12 @@
                     </Frame>
                 </Grid>
                 <!--</Frame>-->
-                <views:PaymentHistoryList Grid.Row="2" Grid.Column="0" Margin="10,0" BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="150" />
-                <views:PaymentHistoryList Grid.Row="3" Grid.Column="0" Margin="10,0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150" />
+                <ScrollView Grid.Row="2" Grid.Column="0">
+                    <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="200" />
+                </ScrollView>
+                <ScrollView Grid.Row="3" Grid.Column="0">
+                    <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150" />
+                </ScrollView>
             </Grid>
         </ScrollView>
     </ContentPage.Content>
