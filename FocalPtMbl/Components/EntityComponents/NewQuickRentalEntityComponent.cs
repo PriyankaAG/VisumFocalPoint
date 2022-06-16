@@ -13,6 +13,7 @@ namespace FocalPoint.Components.EntityComponents
         IAPICompnent apiComponent;
 
         const string CustomerAPIKey = "Customers/";
+        const string CustomerSettingsAPIKey = "CustomerSettings/";
         public NewQuickRentalEntityComponent()
         {
             apiComponent = new APIComponent();
@@ -36,6 +37,21 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return custList;
+        }
+        public async Task<CustomerSettings> GetCustomerSettings()
+        {
+            CustomerSettings settings = null;
+            try
+            {
+
+                settings = await apiComponent.GetAsync<CustomerSettings>(CustomerSettingsAPIKey);
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return settings;
         }
     }
 }

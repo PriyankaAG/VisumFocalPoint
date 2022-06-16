@@ -10,19 +10,30 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomDropDown : ContentView
+    public partial class LabelDropDownCustomControl : ContentView
     {
-        public CustomDropDown()
+        public LabelDropDownCustomControl()
         {
             InitializeComponent();
         }
+        public static readonly BindableProperty LabelTextProperty = BindableProperty.Create(nameof(LabelText), typeof(string), typeof(string), default(string), BindingMode.TwoWay);
+        public string LabelText
+        {
+            get
+            {
+                return (string)GetValue(LabelTextProperty);
+            }
 
-        public bool HasLabel { get; set; } = false;
+            set
+            {
+                SetValue(LabelTextProperty, value);
+            }
+        }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             propertyName: nameof(ItemsSource),
             returnType: typeof(String[]),
-            declaringType: typeof(CustomDropDown),
+            declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: null);
 
@@ -35,7 +46,7 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(
             propertyName: nameof(SelectedIndex),
             returnType: typeof(int),
-            declaringType: typeof(CustomDropDown),
+            declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: -1);
 
@@ -48,7 +59,7 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty IsFirstRowPlaceholderProperty = BindableProperty.Create(
             propertyName: nameof(IsFirstRowPlaceholder),
             returnType: typeof(bool),
-            declaringType: typeof(CustomDropDown),
+            declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: false);
 
@@ -61,7 +72,7 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty EntryTextColorProperty = BindableProperty.Create(
           propertyName: nameof(EntryTextColor),
           returnType: typeof(string),
-          declaringType: typeof(CustomDropDown),
+          declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
           defaultValue: "#000000");
 
@@ -74,7 +85,7 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(CustomDropDown),
+            declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "");
 
@@ -87,14 +98,14 @@ namespace FocalPoint.CustomControls
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
             returnType: typeof(string),
-            declaringType: typeof(CustomDropDown),
+            declaringType: typeof(LabelDropDownCustomControl),
             defaultBindingMode: BindingMode.TwoWay,
             defaultValue: "");
 
         public string SelectedItem
         {
             get { return (string)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value);  }
+            set { SetValue(SelectedItemProperty, value); }
         }
 
         public static readonly BindableProperty ImageProperty = BindableProperty.Create(
@@ -125,35 +136,23 @@ namespace FocalPoint.CustomControls
 
         public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
-        public Label TheEntryBox
-        {
-            get
-            {
-                return TheDataLabel;
-            }
-        }
         public void OnItemSelected(int pos)
         {
-            if (ItemsSource != null)
-            {
-                if (IsFirstRowPlaceholder && pos == 0)
-                {
-                    SelectedItem = null;
-                }
-                else
-                {
-                    SelectedItem = ItemsSource[pos];
-                }
-                Text = ItemsSource[pos];
-                OnPropertyChanged(nameof(Text));
-                ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = pos, IsFirstRowPlaceholder = IsFirstRowPlaceholder });
-            }
         }
-    }
 
-    public class ItemSelectedEventArgs : EventArgs
-    {
-        public int SelectedIndex { get; set; }
-        public bool IsFirstRowPlaceholder { get; set; }
+        private void myPicker_ItemSelected(object sender, ItemSelectedEventArgs e)
+        {
+            if (IsFirstRowPlaceholder && e.SelectedIndex == 0)
+            {
+                SelectedItem = null;
+            }
+            else
+            {
+                SelectedItem = ItemsSource[e.SelectedIndex];
+            }
+            Text = ItemsSource[e.SelectedIndex];//.Length > 10 ? ItemsSource[e.SelectedIndex].Substring(0, 10) : ItemsSource[e.SelectedIndex];
+            OnPropertyChanged(nameof(Text));
+            ItemSelected?.Invoke(this, new ItemSelectedEventArgs() { SelectedIndex = e.SelectedIndex, IsFirstRowPlaceholder = e.IsFirstRowPlaceholder });
+        }
     }
 }

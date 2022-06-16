@@ -9,15 +9,15 @@ using Xamarin.Forms.Xaml;
 
 namespace FocalPoint.CustomControls
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LabelEditorCustomControl : ContentView
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class LabelEditorCustomControl : ContentView
+    {
         public event EventHandler<TextChangedEventArgs> TextChanged;
         public event EventHandler<FocusEventArgs> TextUnfocused;
         public LabelEditorCustomControl ()
-		{
-			InitializeComponent ();
-		}
+        {
+            InitializeComponent();
+        }
 
         public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(nameof(PlaceHolder), typeof(string), typeof(LabelEditorCustomControl), default(string), BindingMode.TwoWay);
         public string PlaceHolder

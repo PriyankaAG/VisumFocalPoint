@@ -301,23 +301,33 @@
                     </xct:Expander>
                 </Frame>
 
-                <local:CustomDropDown Grid.Column="0" Grid.Row="2" VerticalOptions="Center" x:Name="myPicker"  Margin="10,5,10,5" IsFirstRowPlaceholder="True"
-                                      ItemSelected="myPicker_ItemSelected">
-                    <local:CustomDropDown.ItemsSource>
-                        <Binding>
-                            <Binding.Source>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Select Item Type</x:String>
-                                    <x:String>Rentals</x:String>
-                                    <x:String>Merchandise</x:String>
-                                    <x:String>Rate Table</x:String>
-                                    <x:String>Rental Saleable</x:String>
-                                </x:Array>
-                            </Binding.Source>
-                        </Binding>
-                    </local:CustomDropDown.ItemsSource>
-                </local:CustomDropDown>
-                
+                <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                       Padding="1" Margin="10,0,10,5">
+                    <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
+                                      ItemSelected="myPicker_ItemSelected" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                        <local:CustomDropDown.ItemsSource>
+                            <Binding>
+                                <Binding.Source>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Select Item Type</x:String>
+                                        <x:String>Rentals</x:String>
+                                        <x:String>Merchandise</x:String>
+                                        <x:String>Rate Table</x:String>
+                                        <x:String>Rental Saleable</x:String>
+                                    </x:Array>
+                                </Binding.Source>
+                            </Binding>
+                        </local:CustomDropDown.ItemsSource>
+                    </local:CustomDropDown>
+                </Frame>
+
+                <Grid Grid.Row="3" Padding="10" HorizontalOptions="Fill">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
+                </Grid>
             </Grid>
         </ScrollView>
     </ContentPage.Content>

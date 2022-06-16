@@ -86,6 +86,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+
+
         private async void SearchRecords(string textToSearch)
         {
             try

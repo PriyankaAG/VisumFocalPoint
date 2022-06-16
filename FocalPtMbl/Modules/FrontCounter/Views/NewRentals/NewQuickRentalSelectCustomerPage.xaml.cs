@@ -28,7 +28,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            this.Navigation.PushAsync(new NewQuickRentalAddCustomerPage());
+            var addCustomerPage = new NewQuickRentalAddCustomerPage();
+            this.Navigation.PushAsync(addCustomerPage);
         }
 
         private void ItemSelected(object sender, ItemTappedEventArgs e)
