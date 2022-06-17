@@ -56,6 +56,20 @@ namespace FocalPoint.CustomControls
             set { SetValue(SelectedIndexProperty, value); }
         }
 
+        public static readonly BindableProperty IsValidProperty = BindableProperty.Create(nameof(IsValid), typeof(bool), typeof(LabelDropDownCustomControl), true, BindingMode.TwoWay);
+        public bool IsValid
+        {
+            get
+            {
+                return (bool)GetValue(IsValidProperty);
+            }
+
+            set
+            {
+                SetValue(IsValidProperty, value);
+            }
+        }
+
         public static readonly BindableProperty IsFirstRowPlaceholderProperty = BindableProperty.Create(
             propertyName: nameof(IsFirstRowPlaceholder),
             returnType: typeof(bool),

@@ -26,25 +26,26 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
         }
 
-        private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
-        {
-
-        }
-
         private void Button_Clicked(object sender, EventArgs e)
         {
+
+            if (!theViewModel.ValidateData()) return;
+
             var res1 = theCityDropDown.SelectedIndex;
             var res = theCityDropDown.SelectedItem;
 
-            theViewModel.MyAddress1 = "Kalyan East";
+            theViewModel.CustomerToAdd.CustomerAddr1 = "Kalyaj";
+            theViewModel.CustomerToAdd.CustomerAddr2 = "Pimpri";
+
             var tt = "Pune";
-            theViewModel.MyCustomerCity = tt;
+
+            theViewModel.CustomerCityString = tt;
             theViewModel.CustomerToAdd.CustomerStatus = "Light Hold";
-            OnPropertyChanged("CustomerCity");
-            OnPropertyChanged("CustomerStatus");
 
+            theViewModel.NotifyPropChanged("CustomerCityString");
 
-
+            theViewModel.CustomerCountryString = "Canada";
+            theViewModel.NotifyPropChanged("CustomerCityString");
         }
     }
 }

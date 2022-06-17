@@ -51,11 +51,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
-        private void Button_Clicked_1(object sender, EventArgs e)
-        {
-            var a = myPicker.SelectedItem;
-            var b = myPicker.SelectedIndex;
-            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentalsss";
-        }
+        //private void Button_Clicked_1(object sender, EventArgs e)
+        //{
+        //    var a = myPicker.SelectedItem;
+        //    var b = myPicker.SelectedIndex;
+        //    (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentalsss";
+        //}
     }
 }

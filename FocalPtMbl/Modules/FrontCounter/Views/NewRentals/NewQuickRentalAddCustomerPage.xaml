@@ -9,9 +9,9 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalAddCustomerPage"
              BackgroundColor="{StaticResource BackgroundPageColor}">
-    <!--<ContentPage.BindingContext>
+    <ContentPage.BindingContext>
         <viewModel:NewQuickRentalAddCustomerViewModel />
-    </ContentPage.BindingContext>-->
+    </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
 
             <StackLayout Orientation="Horizontal" Grid.Row="0" IsVisible="{Binding Indicator}" HorizontalOptions="Center" Margin="0,5,0,0">
-                
+
                 <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
                         Margin="0"
                        BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="25" />
@@ -42,7 +42,7 @@
                         Text="Fetching Masters..."  IsVisible="{Binding Indicator}"
                       LineBreakMode="TailTruncation" MaxLines="1" HorizontalOptions="Start" VerticalOptions="Center"></Label>
             </StackLayout>
-            
+
             <Frame Grid.Row="1" Style="{DynamicResource NewQuickRentalFrameStyle}" Margin="10,10,10,0" >
                 <ScrollView>
                     <Grid>
@@ -58,7 +58,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        
+
                         <Grid Grid.Row="0" VerticalOptions="Center">
                             <Label Style="{DynamicResource AddNewCustomerHeaderLabel}" 
                                 Text="Enter Details" MaxLines="1" LineBreakMode="TailTruncation" 
@@ -115,10 +115,13 @@
                                             <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray" Margin="0,5,0,5"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                                   EditorText="{Binding CustomerToAdd.CustomerName}" 
+                                                   EditorText="{Binding CustomerName.Value, Mode=TwoWay}" 
                                                    MaxLenth="100" LabelText="Company Name*" 
-                                                   PlaceHolder="Enter company name" Keyboard="Text" />
-                                            
+                                                   PlaceHolder="Enter company name" Keyboard="Text"
+                                                   IsValid="{Binding CustomerName.IsValid, Mode=TwoWay}"
+                                                   Command="{Binding ValidateNameSectionCommand}">
+                                            </local:LabelEditorCustomControl>
+
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" 
                                                    EditorText="{Binding CustomerToAdd.CustomerFName}" 
                                                    MaxLenth="100" LabelText="First Name" 
@@ -144,6 +147,11 @@
                                         </Grid>
                                     </xct:Expander.Content>
                                 </xct:Expander>
+                                <Frame.Triggers>
+                                    <DataTrigger TargetType="Frame" Binding="{Binding CustomerName.IsValid, Mode=TwoWay}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </Frame.Triggers>
                             </Frame>
                         </Grid>
 
@@ -196,14 +204,17 @@
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                     VerticalOptions="Start" Padding="1"
-                                                    LabelText="Country"
+                                                    LabelText="Country *"
                                                     IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerCountry, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerCountryString, Mode=TwoWay}"
+                                                    IsValid="{Binding CustomerCountry.IsValid, Mode=TwoWay}"
                                                     ItemsSource="{Binding CountryList, Mode=TwoWay}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                                   EditorText="{Binding MyAddress1}" 
-                                                   MaxLenth="100" LabelText="Address 1" 
+                                                   EditorText="{Binding CustomerAddr1.Value}" 
+                                                   MaxLenth="100" LabelText="Address 1 *" 
+                                                   IsValid="{Binding CustomerAddr1.IsValid, Mode=TwoWay}"
+                                                   Command="{Binding ValidateAddressSectionCommand}"
                                                    PlaceHolder="Enter Address Line 1" Keyboard="Text" />
 
                                             <local:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
@@ -212,19 +223,20 @@
                                                    PlaceHolder="Enter Address Line 2" Keyboard="Text" />
 
                                             <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="0"
-                                                                              x:Name="theCityDropDown"
+                                                    x:Name="theCityDropDown"
                                                     VerticalOptions="Start" Padding="1"
-                                                    LabelText="City"
+                                                    LabelText="City *"
                                                     IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding MyCustomerCity, Mode=TwoWay}"
-                                                    ItemSelected="LabelDropDownCustomControl_ItemSelected"
+                                                    SelectedItem="{Binding CustomerCityString, Mode=TwoWay}"
+                                                    IsValid="{Binding CustomerCity.IsValid, Mode=TwoWay}"
                                                     ItemsSource="{Binding CityList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="4" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
-                                                    LabelText="State"
+                                                    LabelText="State *"
                                                     IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerState, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerStateString, Mode=TwoWay}"
+                                                    IsValid="{Binding CustomerState.IsValid, Mode=TwoWay}"
                                                     ItemsSource="{Binding StateList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="5" Grid.Column="0" 
@@ -235,6 +247,11 @@
                                         </Grid>
                                     </xct:Expander.Content>
                                 </xct:Expander>
+                                <Frame.Triggers>
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsAddressSectionValid, Mode=TwoWay}" Value="False">
+                                        <Setter Property="BorderColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </Frame.Triggers>
                             </Frame>
                         </Grid>
 
@@ -300,7 +317,6 @@
                                                     LabelText="City"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerBillCity, Mode=TwoWay}"
-                                                    ItemSelected="LabelDropDownCustomControl_ItemSelected"
                                                     ItemsSource="{Binding CityList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="1"
@@ -372,7 +388,7 @@
                                                    EditorText="{Binding CustomerToAdd.CustomerPhone}" 
                                                    MaxLenth="100" LabelText="Phone Number*" 
                                                    PlaceHolder="Enter Phone Number" Keyboard="Text" />
-                                            
+
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Phone Type"
@@ -500,7 +516,7 @@
                                 </xct:Expander>
                             </Frame>
                         </Grid>
-                        
+
                         <!--Email-->
                         <Grid Grid.Row="6">
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
@@ -551,12 +567,12 @@
                                                    EditorText="{Binding CustomerToAdd.CustomerEmail}" 
                                                    MaxLenth="100" LabelText="Email A/R" 
                                                    PlaceHolder="Enter Email A/R" Keyboard="Text" />
-                                            
+
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                                    EditorText="{Binding CustomerToAdd.CustomerEMail2}" 
                                                    MaxLenth="100" LabelText="Email 2" 
                                                    PlaceHolder="Enter Email 2" Keyboard="Text" />
-                                            
+
                                             <local:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                                    EditorText="{Binding CustomerToAdd.CustomerEMail3}" 
                                                    MaxLenth="100" LabelText="Email 3" 
@@ -568,7 +584,7 @@
                                 </xct:Expander>
                             </Frame>
                         </Grid>
-                        
+
                         <!--Personal Information-->
                         <Grid Grid.Row="7">
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10">
@@ -710,28 +726,28 @@
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
-                                            
+
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Rsrv On-Hold"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
-                                            
+
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Completion"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
-                                            
+
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Finished"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
-                                            
+
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Print also if Sent"

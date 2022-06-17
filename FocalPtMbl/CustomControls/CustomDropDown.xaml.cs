@@ -123,6 +123,20 @@ namespace FocalPoint.CustomControls
             set { SetValue(HandleColorProperty, value); }
         }
 
+        public static readonly BindableProperty IsValidProperty = BindableProperty.Create(nameof(IsValid), typeof(bool), typeof(LabelDropDownCustomControl), true, BindingMode.TwoWay);
+        public bool IsValid
+        {
+            get
+            {
+                return (bool)GetValue(IsValidProperty);
+            }
+
+            set
+            {
+                SetValue(IsValidProperty, value);
+            }
+        }
+
         public event EventHandler<ItemSelectedEventArgs> ItemSelected;
 
         public Label TheEntryBox

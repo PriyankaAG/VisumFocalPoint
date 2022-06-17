@@ -50,6 +50,11 @@
                        Source="{Binding Image, Source={x:Reference customDropDownView}}" VerticalOptions="Center"/>
                 </Frame>
             </Grid>
+            <Frame.Triggers>
+                <DataTrigger TargetType="Frame" Binding="{Binding IsValid, Source={x:Reference customDropDownView}}" Value="False">
+                    <Setter Property="BorderColor" Value="{StaticResource ErrorColor}" />
+                </DataTrigger>
+            </Frame.Triggers>
         </Frame>
     </ContentView.Content>
 </ContentView>
