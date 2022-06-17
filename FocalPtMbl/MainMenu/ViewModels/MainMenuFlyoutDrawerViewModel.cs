@@ -19,6 +19,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Visum.Services.Mobile.Entities;
 using System.Linq;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.MainMenu.ViewModels
@@ -114,7 +115,7 @@ namespace FocalPoint.MainMenu.ViewModels
                             Title = "Quick Rental",
                             SubItemText = "Quick Rental",
                             IsVisible = true,
-                            SubText_TargetType = typeof(QuickOrderCreationOutlineView)
+                            SubText_TargetType = typeof(NewQuickRentalMainPage)
                         },
                         new MainMenuFlyoutSubItem() {
                             Title = "View Orders",

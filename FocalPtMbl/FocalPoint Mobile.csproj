@@ -76,15 +76,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="CustomControls\ImageEditoCustomControl.xaml.cs">
+	    <DependentUpon>ImageEditoCustomControl.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml.cs">
 	    <DependentUpon>FrontCounterFilter.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="CustomControls\EditorCustomControl.xaml.cs">
-	    <DependentUpon>EditorCustomControl.xaml</DependentUpon>
+	  <Compile Update="CustomControls\LabelEditorCustomControl.xaml.cs">
+	    <DependentUpon>LabelEditorCustomControl.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="CustomControls\CustomDropDown.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="CustomControls\LabelDropDownCustomControl.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Controls\DashboardListView.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -106,7 +115,7 @@
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyoutDrawer.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="MainMenu\Controls\CustomEditor.xaml">
+		<EmbeddedResource Update="CustomControls\ImageEditoCustomControl.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
@@ -160,6 +169,15 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalAddCustomerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalMainPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalSelectCustomerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
@@ -202,7 +220,7 @@
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCard.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="CustomControls\EditorCustomControl.xaml">
+		<EmbeddedResource Update="CustomControls\LabelEditorCustomControl.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\Pay.xaml">

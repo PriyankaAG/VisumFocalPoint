@@ -6,6 +6,6 @@ namespace FocalPoint.Components.Interface
 {
     public interface IFrontCounterEntityComponent
     {
-        Task<OrderDashboard> GetDashboardDetails(DateTime searchDate);
+        Task<OrderDashboard> GetDashboardDetails(int storeNo, DateTime searchDate);
     }
 }

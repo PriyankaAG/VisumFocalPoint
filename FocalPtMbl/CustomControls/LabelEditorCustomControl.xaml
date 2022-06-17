@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             x:Name="customEntryView" 
+             x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+  <ContentView.Content>
+        <StackLayout Orientation="Vertical">
+            <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+            <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
+                <customrenderers:CustomEntry 
+                    HorizontalOptions="Fill"  
+                    Style="{DynamicResource EntryStyle}" 
+                    MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
+                    Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
+                    Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
+                    Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                    Unfocused="CustomEntry_Unfocused"
+                    TextChanged="CustomEntry_TextChanged">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#fff" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#D3D3D3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </customrenderers:CustomEntry>
+            </Frame>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
