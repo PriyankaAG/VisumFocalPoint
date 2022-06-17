@@ -1,11 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.Payments.Views.PaymentManual"
-             Title="Manual Payment">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls" x:Class="FocalPoint.Modules.Payments.Views.PaymentManual" Title="Manual Payment">
     <ContentPage.Content>
-        <StackLayout>
-            <WebView x:Name="WebBrowser" VerticalOptions="FillAndExpand"  HorizontalOptions="FillAndExpand" Source="https://visumbanyan.fpsdns.com:8080/cardconnect/manual.html" />
-        </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*" />
+                <RowDefinition Height=".1*" />
+            </Grid.RowDefinitions>
+            <customcontrols:HybridWebView Grid.Row="0" x:Name="hybridWebView" />
+            <Editor x:Name="EditorTest" Grid.Row="1" Focused="EditorTest_Focused"/>
+        </Grid>
+        <!--<StackLayout>
+            <WebView x:Name="CardConnectWebView" 
+                     VerticalOptions="FillAndExpand"  
+                     HorizontalOptions="FillAndExpand"
+                     Source="https://visumbanyan.fpsdns.com:8080/CardConnect/Xamarin.html" 
+                     Navigating="CardConnectWebView_Navigating" 
+                     Navigated="CardConnectWebView_Navigated"/>
+        </StackLayout>-->
     </ContentPage.Content>
 </ContentPage>
