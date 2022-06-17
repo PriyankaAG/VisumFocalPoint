@@ -119,7 +119,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public NewQuickRentalMainPageViewModel()
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
-            SelectedCustomer = null;
         }
 
         internal async Task<List<string>> CreateNewOrder()
@@ -129,16 +128,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 CurrentOrder = OrderUpdate.Order;
 
-                //TODO: Do we need to show customer type
-                //string displayCustType = "";
-                //if (CurrentOrder.Customer.CustomerType == "c")
-                //    displayCustType = "Cash";
-                //if (CurrentOrder.Customer.CustomerType == "C")
-                //    displayCustType = "Cash";
                 //SelectedCustomerNameBox = CurrentOrder.Customer.CustomerName + " " + Regex.Replace(CurrentOrder.Customer.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3") + Environment.NewLine + "Type: " + displayCustType + " " + CurrentOrder.Customer.CustomerCity + ", " + CurrentOrder.Customer.CustomerState + " " + CurrentOrder.Customer.CustomerZip + " ";
-                
+
                 SelectedCustomer = new Customer();
                 SelectedCustomer = CurrentOrder.Customer;
+                RefreshAllProperties();
                 if (OrderUpdate.Notifications.Count > 0)
                     return OrderUpdate.Notifications;
             }
