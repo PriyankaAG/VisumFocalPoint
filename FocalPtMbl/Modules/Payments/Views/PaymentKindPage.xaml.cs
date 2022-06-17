@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FocalPoint.Modules.Payments.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,12 @@ namespace FocalPoint.Modules.Payments.Views
         {
             base.OnAppearing();
             viewModel = (PaymentPageViewModel)BindingContext;
+            //todo: need to find better way(Msg center)
+            if (!string.IsNullOrEmpty(viewModel.CreditCardDetails.ManualToken))
+            {
+                _ = ProcessPayment();
+                return;
+            }
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -36,20 +43,48 @@ namespace FocalPoint.Modules.Payments.Views
             }
             try
             {
+                if (viewModel.SelectedPaymentType.PaymentKind == "CC" && viewModel.CreditCardDetails.ProcessOnline)
+                {
+                    PaymentManual manualPayment = new PaymentManual
+                    {
+                        BindingContext = viewModel
+                    };
+                    await Navigation.PushAsync(manualPayment);
+                    return;
+                }
+                await ProcessPayment();
+            }
+            catch (Exception ex)
+            {
+                _ = DisplayAlert("FocalPoint", ex.Message, "Ok");
+            }
+        }
+
+        private async Task ProcessPayment()
+        {
+            try
+            {
                 var response = await viewModel.ProcessPayment();
                 if (response == null)
                 {
-                    _ = DisplayAlert("Error", "Payment Response is null.", "Ok");
+                    viewModel.CreditCardDetails.ManualToken = null;
+                    _ = DisplayAlert("Error", "Something went wrong. Please try again.", "Ok");
                 }
                 else if (response?.Notifications != null && response.Notifications.Any())
                 {
-                    _ = DisplayAlert("FocalPoint", response.Notifications.First(), "Ok");
+                    viewModel.CreditCardDetails.ManualToken = null;
+                    _ = DisplayAlert("FocalPoint", string.Join(Environment.NewLine, response.Notifications) , "Ok");
                 }
                 else if (response?.Payment != null)
                 {
                     var due = decimal.TryParse(viewModel.ChangeDue.Trim('$'), out decimal dueAmt) ? dueAmt : 0;
                     var msg = due > 0 ? "Payment Complete, Change Due: " + Convert.ToDecimal(viewModel.ChangeDue).ToString("C") + "" : "Payment Complete";
                     await DisplayAlert("FocalPoint", msg, "Ok", " ");
+                    if (response.GetSignature)
+                    {
+                        
+                    }
+                    viewModel.ResetCards();
                     _ = Navigation.PopAsync();
                     _ = Navigation.PopAsync();
                     _ = Navigation.PopAsync();
@@ -57,10 +92,11 @@ namespace FocalPoint.Modules.Payments.Views
                 }
                 else
                 {
+                    viewModel.CreditCardDetails.ManualToken = null;
                     _ = DisplayAlert("FocalPoint", "Something went wrong.", "Ok");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 _ = DisplayAlert("FocalPoint", ex.Message, "Ok");
             }

@@ -31,7 +31,7 @@ namespace FocalPoint.Modules.Payments.Views
             }
             TotalReceived.TextChanged -= TotalReceived_TextChanged;
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
-            TotalReceived.EditorText = decimal.TryParse(e.NewTextValue.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            TotalReceived.EditorText = decimal.TryParse(e.NewTextValue?.Trim('$'), out decimal value) ? value.ToString("c") : "";
             ChangeDue.EditorText = 0.0.ToString("c");
             TotalReceived.TextChanged += TotalReceived_TextChanged;
             ChangeDue.TextChanged += ChangeDue_TextChanged;
@@ -39,19 +39,21 @@ namespace FocalPoint.Modules.Payments.Views
 
         private void TotalReceived_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (e.NewTextValue == null) return;
             Payment.TextChanged -= Payment_TextChanged;
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             Payment.EditorText = 0.0.ToString("c");
-            ChangeDue.EditorText = decimal.TryParse(e.NewTextValue.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            ChangeDue.EditorText = decimal.TryParse(e.NewTextValue?.Trim('$'), out decimal value) ? value.ToString("c") : "";
             Payment.TextChanged += Payment_TextChanged;
             ChangeDue.TextChanged += ChangeDue_TextChanged;
         }
 
         private void ChangeDue_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (e.NewTextValue == null) return;
             Payment.TextChanged -= Payment_TextChanged;
             var newValue = string.IsNullOrEmpty(e.NewTextValue) ? 0.ToString() : e.NewTextValue.Trim('$');
-            Payment.EditorText = decimal.TryParse(TotalReceived.EditorText.Trim('$'), out decimal total) && decimal.TryParse(newValue, out decimal due)
+            Payment.EditorText = decimal.TryParse(TotalReceived.EditorText?.Trim('$'), out decimal total) && decimal.TryParse(newValue, out decimal due)
                 ? (total - due).ToString("c")
                 : "";
             Payment.TextChanged += Payment_TextChanged;
@@ -72,20 +74,19 @@ namespace FocalPoint.Modules.Payments.Views
             ChangeDue.EditorText = decimal.TryParse(ChangeDue.EditorText.Trim('$'), out decimal value) ? value.ToString("c") : "";
         }
 
-
-        //private void ImageButton_Clicked(object sender, EventArgs e)
-        //{
-        //    var imageSource = ((ImageButton)sender).Source.ToString();
-        //    if (imageSource.Contains("arrow_down.png"))
-        //    {
-        //        PaymentGrid.IsVisible = false;
-        //        ((ImageButton)sender).Source = "arrow_up.png";
-        //    }
-        //    else
-        //    {
-        //        PaymentGrid.IsVisible = true;
-        //        ((ImageButton)sender).Source = "arrow_down.png";
-        //    }
-        //}
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            var imageSource = ((ImageButton)sender).Source.ToString();
+            if (imageSource.Contains("arrow_down.png"))
+            {
+                PaymentGrid.IsVisible = false;
+                ((ImageButton)sender).Source = "arrow_up.png";
+            }
+            else
+            {
+                PaymentGrid.IsVisible = true;
+                ((ImageButton)sender).Source = "arrow_down.png";
+            }
+        }
     }
 }

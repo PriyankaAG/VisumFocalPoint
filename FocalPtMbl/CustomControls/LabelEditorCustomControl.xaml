@@ -1,10 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
-             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             x:Name="customEntryView" 
-             x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:Name="customEntryView" x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,19 +8,29 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentView.Resources>
-  <ContentView.Content>
+    <ContentView.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+            <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsValid, Source={x:Reference customEntryView}, Mode=TwoWay}" Value="False">
+                        <Setter Property="TextColor" Value="{StaticResource ErrorColor}" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
             <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
-                <customrenderers:CustomEntry 
-                    HorizontalOptions="Fill"  
-                    Style="{DynamicResource EntryStyle}" 
-                    MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
-                    Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
-                    Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
-                    Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
-                    Unfocused="CustomEntry_Unfocused"
-                    TextChanged="CustomEntry_TextChanged">
+                <customrenderers:CustomEntry HorizontalOptions="Fill" Style="{DynamicResource EntryStyle}" 
+                                             IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}" 
+                                             MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}" 
+                                             Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
+                                             Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
+                                             Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}" 
+                                             Unfocused="CustomEntry_Unfocused" TextChanged="CustomEntry_TextChanged">
+                    <customrenderers:CustomEntry.Behaviors>
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Completed}" CommandParameter="1" EventName="Completed" />
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Command}" CommandParameter="1" EventName="TextChanged" />
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Unfocused}" CommandParameter="1" EventName="Unfocused" />
+                    </customrenderers:CustomEntry.Behaviors>
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
@@ -41,6 +46,11 @@
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
                 </customrenderers:CustomEntry>
+                <Frame.Triggers>
+                    <DataTrigger TargetType="Frame" Binding="{Binding IsValid, Source={x:Reference customEntryView}}" Value="False">
+                        <Setter Property="BorderColor" Value="{StaticResource ErrorColor}" />
+                    </DataTrigger>
+                </Frame.Triggers>
             </Frame>
         </StackLayout>
     </ContentView.Content>

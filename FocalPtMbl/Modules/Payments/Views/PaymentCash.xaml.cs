@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FocalPoint.Modules.Payments.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Visum.Services.Mobile.Entities.PaymentRequest;
 
 namespace FocalPoint.Modules.Payments.Views
 {
@@ -17,17 +18,12 @@ namespace FocalPoint.Modules.Payments.Views
         {
             InitializeComponent();
         }
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-            viewModel = (PaymentPageViewModel)BindingContext;
-            viewModel.Payment = viewModel.TotalReceived = viewModel.ChangeDue = 0.0.ToString("c");
-        }
+       
         private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedItem = e.CurrentSelection.FirstOrDefault();
             var paymentValue = Convert.ToDecimal(selectedItem.ToString().Trim('$'));
-            ((PaymentPageViewModel)BindingContext).SetPayment(paymentValue);
+            ((PaymentPageViewModel)BindingContext).SetSelectedPayment(paymentValue);
         }
     }
 }

@@ -87,6 +87,7 @@ namespace FocalPoint
                 }
                 else
                 {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
                     //TODO: Handle failure API's, add logs to server
                 }
             }
