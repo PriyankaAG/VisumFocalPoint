@@ -20,7 +20,7 @@ namespace FocalPtMbl.Droid.CustomRenderer
 {
     public class HybridWebViewRenderer : WebViewRenderer
     {
-        const string JavascriptFunction = "function onResult(data){jsBridge.invokeAction(data);}";
+        const string JavascriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
         Context _context;
 
         public HybridWebViewRenderer(Context context) : base(context)

@@ -43,6 +43,7 @@ namespace FocalPoint.Modules.Payments.Types
         public string AuthorizationCode { get; set; }
         public string AvsStreetAddress { get; set; }
         public string AvsZipCode { get; set; }
+        public string ManualToken { get; set; }
         public bool StoreCardOnFileEnabled
         {
             get { return Settings == null ? false : Settings.CardOnFile; }
@@ -143,12 +144,12 @@ namespace FocalPoint.Modules.Payments.Types
                 Street = ProcessOnline ? AvsStreetAddress : null,
                 Zipcode = ProcessOnline ? AvsZipCode : null,
                 StoreInfo = StoreCardOnFile,
-                ManualToken = null
+                ManualToken = ManualToken
             };
         }
         public void ResetCreditCard()
         {
-            CardHolderName = CardLast4Digits = AuthorizationCode = AvsStreetAddress = AvsZipCode = "";
+            CardHolderName = CardLast4Digits = AuthorizationCode = AvsStreetAddress = AvsZipCode = ManualToken = "";
             StoreCardOnFile = false;
             ExpirationDate = DateTime.Now;
             IsStoredCardSelected = false;
@@ -162,6 +163,7 @@ namespace FocalPoint.Modules.Payments.Types
             OnPropertyChanged(nameof(ExpirationDate));
             OnPropertyChanged(nameof(IsStoredCardSelected));
             OnPropertyChanged(nameof(ProcessOnline));
+            OnPropertyChanged(nameof(ManualToken));
         }
     }
 

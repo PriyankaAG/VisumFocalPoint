@@ -8,6 +8,7 @@ namespace Visum.Services.Mobile.Entities
     {
         public short POSType { get; set; }
         public string POSPublicKey { get; set; }
+        public string POSManualUrl { get; set; }
 
         public bool POSEnabled { get; set; }
         public bool ACHEnabled { get; set; }

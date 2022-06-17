@@ -23,7 +23,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public Order Order { get; }
         public string AmountDue { get { return Order?.Totals?.TotalDueAmt.ToString("c"); } }
         public string SuggestedDeposit { get { return Order?.Totals?.TotalSugDepositAmt.ToString("c"); } }
-        private PaymentSettings settings;
+        public PaymentSettings Settings;
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
         private string paymentMethod;
@@ -115,8 +115,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CreditCardDetails = new CreditCard(order, paymentEntityComponent);
             GetSettings().ContinueWith((a) =>
             {
-                settings = a.Result;
-                CreditCardDetails.Settings = settings;
+                Settings = a.Result;
+                CreditCardDetails.Settings = Settings;
             });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail
@@ -188,7 +188,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsCheck = true;
                     break;
                 case "CC":
-                    if (settings != null && settings.POSEnabled)
+                    if (Settings != null && Settings.POSEnabled)
                     {
                         IsCreditCardPOS = true;
                     }
@@ -316,23 +316,30 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         internal async Task<PaymentResponse> ProcessPayment()
         {
-            var request = new PaymentRequest
+            try
             {
-                RequestType = RequestType,
-                Source = "FC",
-                SourceID = Order?.OrderNo ?? -1,
-                CustomerNo = Order?.OrderCustNo ?? -1,
-                PaymentTNo = SelectedPaymentType.PaymentTNo,
-                PaymentAmt = decimal.TryParse(TotalReceived?.Trim('$'), out decimal total) ? total : 0,
-                CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
-                TaxAmt = Order?.OrderTax ?? -1,
-                OnFileNo = 0,
-                Other = GetOtherDetails(),
-                Check = GetCheckDetails(),
-                eCheck = null,
-                Card = SelectedPaymentType?.PaymentKind == "CC" ? _creditCardDetails.GetCardDetails() : null
-            };
-            return await paymentEntityComponent.PostPaymentProcess(request);
+                var request = new PaymentRequest
+                {
+                    RequestType = RequestType,
+                    Source = "FC",
+                    SourceID = Order?.OrderNo ?? -1,
+                    CustomerNo = Order?.OrderCustNo ?? -1,
+                    PaymentTNo = SelectedPaymentType.PaymentTNo,
+                    PaymentAmt = decimal.TryParse(TotalReceived?.Trim('$'), out decimal total) ? total : 0,
+                    CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
+                    TaxAmt = Order?.OrderTax ?? -1,
+                    OnFileNo = 0,
+                    Other = GetOtherDetails(),
+                    Check = GetCheckDetails(),
+                    eCheck = null,
+                    Card = SelectedPaymentType?.PaymentKind == "CC" ? _creditCardDetails.GetCardDetails() : null
+                };
+                return await paymentEntityComponent.PostPaymentProcess(request);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private PaymentRequestCheck GetCheckDetails()

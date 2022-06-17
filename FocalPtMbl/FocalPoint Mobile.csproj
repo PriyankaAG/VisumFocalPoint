@@ -196,9 +196,6 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\Payments\Views\HybridWebViewPage.xaml">
-		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\Payments\Views\PaymentCash.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
