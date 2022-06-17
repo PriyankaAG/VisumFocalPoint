@@ -14,5 +14,7 @@ namespace FocalPoint.Components.Interface
 
         Task<OrderUpdate> GetNewOrderCreationDetail();
 
+        Task<bool> VoidOrder(Order CurrentOrder);
+
     }
 }

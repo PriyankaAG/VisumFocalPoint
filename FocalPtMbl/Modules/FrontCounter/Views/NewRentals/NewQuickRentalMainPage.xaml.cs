@@ -32,10 +32,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         foreach (var notification in notifications)
                             await DisplayAlert("Notification", notification, "OK");
                 }
-                else
-                {
-                    await DisplayAlert("Problem Creating an order", "There was a problem creating the order. Please try again with a better connection", "OK");
-                }
+                //else
+                //{
+                //    await DisplayAlert("Problem Creating an order", "There was a problem creating the order. Please try again with a better connection", "OK");
+                //}
             });
         }
 

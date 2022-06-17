@@ -59,19 +59,37 @@ namespace FocalPoint.Components.EntityComponents
         public async Task<OrderUpdate> GetNewOrderCreationDetail()
         {
             OrderUpdate orderUpdate = null;
-            var order = new Order();
+            var Order = new Order();
             try
             {
-
                 OrderSettings settings = await apiComponent.GetAsync<OrderSettings>(OrderSettingsAPIKey);
-                SetDefaults(order, settings);
-                orderUpdate = await apiComponent.PostAsync<OrderUpdate>(OrderAPIKey, JsonConvert.SerializeObject(new { order }));
+                SetDefaults(Order, settings);
+                orderUpdate = await apiComponent.PostAsync<OrderUpdate>(OrderAPIKey, JsonConvert.SerializeObject(new { Order }));
             }
             catch (Exception ex)
             {
                 //TODO: Log error
             }
             return orderUpdate;
+        }
+
+        public async Task<bool> VoidOrder(Order CurrentOrder)
+        {
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.OrderStatus = "V";
+                    var Update = new OrderUpdate();
+                    Update.Order = CurrentOrder;
+                    return await apiComponent.PostAsync<bool>(OrderAPIKey, JsonConvert.SerializeObject(new { Update }));
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return false;
         }
 
         private Order SetDefaults(Order newOrder, OrderSettings currentSettings)
