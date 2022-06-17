@@ -149,9 +149,5 @@ namespace FocalPoint.MainMenu.Views
         {
             TextChanged?.Invoke(sender, e);
         }
-        private void entryPropertyValue_Unfocused(object sender, FocusEventArgs e)
-        {
-            Unfocused?.Invoke(sender, e);
-        }
     }
 }

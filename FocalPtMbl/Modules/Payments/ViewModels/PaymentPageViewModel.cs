@@ -112,11 +112,9 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             generalComponent = new GeneralComponent();
             paymentEntityComponent = new PaymentEntityComponent();
-            CreditCardDetails = new CreditCard(order, paymentEntityComponent);
             GetSettings().ContinueWith((a) =>
             {
                 Settings = a.Result;
-                CreditCardDetails.Settings = Settings;
             });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail
@@ -188,6 +186,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsCheck = true;
                     break;
                 case "CC":
+                    CreditCardDetails = new CreditCard(Order, paymentEntityComponent, Settings);
                     if (Settings != null && Settings.POSEnabled)
                     {
                         IsCreditCardPOS = true;

@@ -15,13 +15,13 @@ namespace FocalPoint.Modules.Payments.Types
     public class CreditCard : ThemeBaseViewModel
     {
         Order order;
-
         public IPaymentEntityComponent PaymentEntityComponent;
-        public CreditCard(Order order, IPaymentEntityComponent paymentEntityComponent)
+        public CreditCard(Order order, IPaymentEntityComponent paymentEntityComponent, PaymentSettings settings)
         {
             this.order = order;
+            Settings = settings;
             PaymentEntityComponent = paymentEntityComponent;
-            ProcessOnline = true; //defaults to true od Credit card POS
+            SetProcessOnline();
             CreditCardPaymentDetails = new CreditCardPaymentDetails
             {
                 Header = "Card on File",
@@ -36,6 +36,8 @@ namespace FocalPoint.Modules.Payments.Types
             });
             CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo paymentInfo) => UpdateDetails(paymentInfo));
         }
+
+        private void SetProcessOnline() => ProcessOnline = Settings.POSEnabled ? true : false; //defaults to true od Credit card POS
         #region Properties
         public string CardHolderName { get; set; }
         public string CardLast4Digits { get; set; }
@@ -103,7 +105,7 @@ namespace FocalPoint.Modules.Payments.Types
             if (DateTime.TryParseExact(paymentInfo.InfoExpireDte, "MMddyy", CultureInfo.InvariantCulture,
                            DateTimeStyles.None, out DateTime date))
                 ExpirationDate = date;
-            ProcessOnline = true;
+            SetProcessOnline();
             IsStoredCardSelected = true;
             OnPropertyChanged(nameof(CardHolderName));
             OnPropertyChanged(nameof(CardLast4Digits));
@@ -120,9 +122,9 @@ namespace FocalPoint.Modules.Payments.Types
                 return "Please enter the last 4 of the Credit Card Number";
             else if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
                 return "Credit Card Expired!";
-            else if (!ProcessOnline && string.IsNullOrEmpty(AuthorizationCode))
+            else if (!Settings.POSEnabled && string.IsNullOrEmpty(AuthorizationCode))
                 return "Please enter Authorization Code";
-            else if (ProcessOnline)
+            else if (Settings.POSEnabled)
             {
                 if (string.IsNullOrEmpty(AvsStreetAddress))
                     return "Please enter Street Address";
@@ -153,7 +155,7 @@ namespace FocalPoint.Modules.Payments.Types
             StoreCardOnFile = false;
             ExpirationDate = DateTime.Now;
             IsStoredCardSelected = false;
-            ProcessOnline = true;
+            SetProcessOnline();
             OnPropertyChanged(nameof(CardHolderName));
             OnPropertyChanged(nameof(CardLast4Digits));
             OnPropertyChanged(nameof(AuthorizationCode));

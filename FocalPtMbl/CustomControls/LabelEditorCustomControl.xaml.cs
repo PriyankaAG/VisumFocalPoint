@@ -103,7 +103,7 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(EditorCustomControl), true, BindingMode.TwoWay);
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(LabelEditorCustomControl), true, BindingMode.TwoWay);
         public bool IsEnabled
         {
             get

@@ -20,6 +20,7 @@
                 <customrenderers:CustomEntry 
                     HorizontalOptions="Fill"  
                     Style="{DynamicResource EntryStyle}" 
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}" 
                     MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
                     Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
                     Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
