@@ -303,7 +303,8 @@
                 <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
                        Padding="1" Margin="10,0,10,5">
                     <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
-                                      ItemSelected="myPicker_ItemSelected" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                                    ItemSelected="myPicker_ItemSelected" 
+                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                         <local:CustomDropDown.ItemsSource>
                             <Binding>
                                 <Binding.Source>

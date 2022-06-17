@@ -56,6 +56,19 @@ namespace FocalPoint.CustomControls
             set { SetValue(SelectedIndexProperty, value); }
         }
 
+        public static readonly BindableProperty IsIndicatorRunningProperty = BindableProperty.Create(
+            propertyName: nameof(IsIndicatorRunning),
+            returnType: typeof(bool),
+            declaringType: typeof(LabelDropDownCustomControl),
+            defaultBindingMode: BindingMode.TwoWay,
+            defaultValue: false);
+
+        public bool IsIndicatorRunning
+        {
+            get { return (bool)GetValue(IsIndicatorRunningProperty); }
+            set { SetValue(IsIndicatorRunningProperty, value); }
+        }
+
         public static readonly BindableProperty IsValidProperty = BindableProperty.Create(nameof(IsValid), typeof(bool), typeof(LabelDropDownCustomControl), true, BindingMode.TwoWay);
         public bool IsValid
         {

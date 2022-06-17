@@ -58,6 +58,19 @@ namespace FocalPoint.CustomControls
             set { SetValue(IsFirstRowPlaceholderProperty, value); }
         }
 
+        public static readonly BindableProperty IsIndicatorRunningProperty = BindableProperty.Create(
+            propertyName: nameof(IsIndicatorRunning),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomDropDown),
+            defaultBindingMode: BindingMode.TwoWay,
+            defaultValue: false);
+
+        public bool IsIndicatorRunning
+        {
+            get { return (bool)GetValue(IsIndicatorRunningProperty); }
+            set { SetValue(IsIndicatorRunningProperty, value); }
+        }
+
         public static readonly BindableProperty EntryTextColorProperty = BindableProperty.Create(
           propertyName: nameof(EntryTextColor),
           returnType: typeof(string),

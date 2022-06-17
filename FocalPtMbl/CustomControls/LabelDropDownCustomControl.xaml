@@ -33,6 +33,7 @@
                                   Text="{Binding Text, Source={x:Reference labelDropDownView}}" 
                                   Image="{Binding Image, Source={x:Reference labelDropDownView}}" 
                                   IsValid="{Binding IsValid, Source={x:Reference labelDropDownView}}" 
+                                  IsIndicatorRunning="{Binding IsIndicatorRunning, Source={x:Reference labelDropDownView}}" 
                                   ItemSelected="myPicker_ItemSelected">
             </local:CustomDropDown>
         </StackLayout>

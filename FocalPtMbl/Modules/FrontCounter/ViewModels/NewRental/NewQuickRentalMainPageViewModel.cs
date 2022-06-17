@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -93,6 +94,16 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public NewQuickRentalMainPageViewModel()
         {
             SelectedCustomer = null;
+
+            //Task.Delay(1000).ContinueWith((a) =>
+            //{
+            //    Device.BeginInvokeOnMainThread(async () =>
+            //    {
+            //        SelectedItem = "Rate Table";
+            //        OnPropertyChanged(nameof(SelectedItem));
+            //    });
+            //});
+
         }
 
         public void RefreshAllProperties()
