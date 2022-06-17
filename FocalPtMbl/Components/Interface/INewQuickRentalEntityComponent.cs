@@ -12,5 +12,7 @@ namespace FocalPoint.Components.Interface
 
         Task<CustomerSettings> GetCustomerSettings();
 
+        Task<OrderUpdate> GetNewOrderCreationDetail();
+
     }
 }
