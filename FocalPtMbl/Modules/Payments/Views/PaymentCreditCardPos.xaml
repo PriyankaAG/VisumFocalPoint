@@ -31,15 +31,51 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" EditorText="{Binding CardHolderName}" MaxLenth="100" LabelText="Holder's Name" PlaceHolder="Enter name" />
-                        <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0" EditorText="{Binding CardLast4Digits}" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" MaxLenth="4" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
+                        <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                                        IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                                        EditorText="{Binding CardHolderName.Value}"
+                                                        Command="{Binding ValidateCardHolderNameCommand}"
+                                                        IsValid="{Binding CardHolderName.IsValid}"
+                                                        MaxLenth="100"
+                                                        LabelText="Holder's Name"
+                                                        PlaceHolder="Enter name" />
+                        <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
+                                                        EditorText="{Binding CardLast4Digits.Value}" 
+                                                        Command="{Binding ValidateCardLast4DigitsCommand}"
+                                                        IsValid="{Binding CardLast4Digits.IsValid}" 
+                                                        IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                                        MaxLenth="4" 
+                                                        LabelText="Last 4 Digits"
+                                                        PlaceHolder="Enter last 4 digits"
+                                                        Keyboard="Numeric" />
                         <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
                             <Label Text="Expiration Date" FontSize="Default" Style="{DynamicResource LabelDefault}" />
                             <DatePicker Format="MM/yyyy" Date="{Binding ExpirationDate}" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" />
                         </StackLayout>
-                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" EditorText="{Binding AuthorizationCode}" MaxLenth="100" LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
-                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" Grid.ColumnSpan="2" EditorText="{Binding AvsStreetAddress}" MaxLenth="100" LabelText="AVS Street Address" PlaceHolder="Enter address" Keyboard="Text" />
-                        <views:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" EditorText="{Binding AvsZipCode}" MaxLenth="100" LabelText="AVS Zip Code" PlaceHolder="Enter zip code" Keyboard="Text" />
+                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" 
+                                                        EditorText="{Binding AuthorizationCode.Value}"
+                                                        MaxLenth="100" LabelText="Authorization Code" 
+                                                        PlaceHolder="Enter code" Keyboard="Text" 
+                                                        Command="{Binding ValidateAuthorizationCodeCommand}"
+                                                        IsValid="{Binding AuthorizationCode.IsValid}" />
+                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}"
+                                                        Grid.ColumnSpan="2" 
+                                                        EditorText="{Binding AvsStreetAddress.Value}"
+                                                        MaxLenth="100" LabelText="AVS Street Address" 
+                                                        PlaceHolder="Enter address" Keyboard="Text"
+                                                        Command="{Binding ValidateAvsStreetAddressCommand}" 
+                                                        IsValid="{Binding AvsStreetAddress.IsValid}" />
+                        <views:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" 
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}"
+                                                        EditorText="{Binding AvsZipCode.Value}" 
+                                                        MaxLenth="100"
+                                                        LabelText="AVS Zip Code"
+                                                        PlaceHolder="Enter zip code" 
+                                                        Keyboard="Text"
+                                                        Command="{Binding ValidateAvsZipCodeCommand}"
+                                                        IsValid="{Binding AvsZipCode.IsValid}" />
                         <StackLayout Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsCardOnFile}" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center" Margin="0,20,0,0">
                             <ia:Checkbox x:Name="StoreCardOnFile" IsChecked="{Binding StoreCardOnFile}" IsEnabled="{Binding StoreCardOnFileEnabled}" OutlineColor="#7477a0" CheckColor="#7477a0" Shape="Rectangle" />
                             <Label Text="Store Card On File" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />

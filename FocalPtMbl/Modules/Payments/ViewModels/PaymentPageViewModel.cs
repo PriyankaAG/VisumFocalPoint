@@ -1,6 +1,8 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
 using FocalPoint.Modules.Payments.Types;
+using FocalPoint.Validations;
+using FocalPoint.Validations.Rules;
 using FocalPtMbl.MainMenu.ViewModels;
 using MvvmHelpers.Commands;
 using System;
@@ -42,7 +44,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public string OtherNumber { get; set; }
         #endregion
         #region Check Payment
-        public string CheckNumber { get; set; }
+        public ValidatableObject<string> CheckNumber { get; set; }
         public string LicenseNumber { get; set; }
         public List<State> LicenseStates { get; set; }
         public State SelectedLicenseState { get; set; }
@@ -106,6 +108,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(CreditCardDetails));
             }
         }
+        public ICommand ValidateCheckNumberCommand => new Command(() => ValidateField(CheckNumber));
 
         #region const
         public PaymentPageViewModel(Order order) : base("Payments")
@@ -115,6 +118,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             GetSettings().ContinueWith((a) =>
             {
                 Settings = a.Result;
+                //Settings.POSEnabled = false;
             });
             Order = order;
             PaymentHistory = new PaymentHistoryDetail
@@ -129,7 +133,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
             if (Order?.Customer != null)
                 GetLicenseStates(Order.Customer.CustomerCountry);
 
+            CheckNumber = new ValidatableObject<string>();
+            AddValidation();
+
         }
+
         #endregion
 
         private void GetLicenseStates(int countryCode)
@@ -156,7 +164,14 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
             return list;
         }
-
+        private void AddValidation()
+        {
+            CheckNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
+        }
+        private bool ValidateField(ValidatableObject<string> validatableField)
+        {
+            return validatableField.Validate();
+        }
         private async Task<PaymentSettings> GetSettings()
         {
             return await paymentEntityComponent.GetPaymentSettings();
@@ -295,9 +310,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         private string ValidateCheckDetails()
         {
+            ValidateField(CheckNumber);
             var message = "";
-            if (string.IsNullOrEmpty(CheckNumber))
-                message = "Check Number is empty";
+            if (!CheckNumber.IsValid)
+                message = CheckNumber.Errors?.First() ?? "Validation failed";
+
             else if (string.IsNullOrEmpty(SelectedLicenseState.Display))
                 message = "Must select a LicenseState";
             return message;
@@ -346,7 +363,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             return SelectedPaymentType?.PaymentKind == "CK"
                 ? new PaymentRequestCheck
                 {
-                    Number = CheckNumber,
+                    Number = CheckNumber.Value,
                     DLNumber = LicenseNumber,
                     DLState = SelectedLicenseState.Value
                 }
@@ -361,7 +378,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         private void ResetCheck()
         {
-            CheckNumber = LicenseNumber = "";
+            CheckNumber.Value = LicenseNumber = "";
+            CheckNumber.IsValid = true;
             OnPropertyChanged(nameof(CheckNumber));
             OnPropertyChanged(nameof(LicenseNumber));
             if (Order?.Customer != null)

@@ -62,8 +62,8 @@ namespace FocalPoint.Modules.Payments.Views
 
         private void CardConnectWebView_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            var firstName = viewModel.CreditCardDetails.CardHolderName?.Split(' ')[0];
-            var lastName = viewModel.CreditCardDetails.CardHolderName.Split(' ').Count() > 1 ? viewModel.CreditCardDetails.CardHolderName.Split(' ')[1] : "";
+            var firstName = viewModel.CreditCardDetails.CardHolderName?.Value.Split(' ')[0];
+            var lastName = viewModel.CreditCardDetails.CardHolderName?.Value.Split(' ').Count() > 1 ? viewModel.CreditCardDetails.CardHolderName?.Value.Split(' ')[1] : "";
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('firstname').setAttribute('value', '" + firstName + "')");
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('lastname').setAttribute('value', '" + lastName + "')");
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('address').setAttribute('value', '" + viewModel.CreditCardDetails.AvsStreetAddress + "')");

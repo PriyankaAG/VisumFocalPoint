@@ -20,6 +20,7 @@ namespace FocalPoint.Modules.Payments.Views
         {
             base.OnAppearing();
             viewModel = (PaymentPageViewModel)BindingContext;
+            //todo: need to find better way(Msg center)
             if (!string.IsNullOrEmpty(viewModel.CreditCardDetails.ManualToken))
             {
                 _ = ProcessPayment();
@@ -67,7 +68,7 @@ namespace FocalPoint.Modules.Payments.Views
                 if (response == null)
                 {
                     viewModel.CreditCardDetails.ManualToken = null;
-                    _ = DisplayAlert("Error", "Payment Response is null.", "Ok");
+                    _ = DisplayAlert("Error", "Something went wrong. Please try again.", "Ok");
                 }
                 else if (response?.Notifications != null && response.Notifications.Any())
                 {

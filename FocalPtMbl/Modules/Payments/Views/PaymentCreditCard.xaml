@@ -18,13 +18,30 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" EditorText="{Binding CardHolderName}" MaxLenth="100" LabelText="Holder's Name" PlaceHolder="Enter name" Keyboard="Text" />
-                    <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0" EditorText="{Binding CardLast4Digits}" MaxLenth="4" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                                                    EditorText="{Binding CardHolderName.Value}" 
+                                                    MaxLenth="100" LabelText="Holder's Name" 
+                                                    PlaceHolder="Enter name" 
+                                                    Keyboard="Text" 
+                                                    Command="{Binding ValidateCardHolderNameCommand}"
+                                                    IsValid="{Binding CardHolderName.IsValid}" />
+                    <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
+                                                    EditorText="{Binding CardLast4Digits.Value}"
+                                                    MaxLenth="4" LabelText="Last 4 Digits"
+                                                    PlaceHolder="Enter last 4 digits"
+                                                    Keyboard="Numeric"
+                                                    Command="{Binding ValidateCardLast4DigitsCommand}"
+                                                    IsValid="{Binding CardLast4Digits.IsValid}" />
                     <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
                         <Label Text="Expiration Date" FontSize="Default" Style="{DynamicResource LabelDefault}" />
                         <DatePicker Format="MM/yyyy" Date="{Binding ExpirationDate}" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"/>
                     </StackLayout>
-                    <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" EditorText="{Binding AuthorizationCode}" MaxLenth="100" LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
+                    <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0" 
+                                                    EditorText="{Binding AuthorizationCode.Value}"
+                                                    MaxLenth="100" LabelText="Authorization Code" 
+                                                    PlaceHolder="Enter code" 
+                                                    Keyboard="Text" Command="{Binding ValidateAuthorizationCodeCommand}" 
+                                                    IsValid="{Binding AuthorizationCode.IsValid}" />
                 </Grid>
             </StackLayout>
         </Frame>
