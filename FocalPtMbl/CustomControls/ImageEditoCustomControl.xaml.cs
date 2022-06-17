@@ -148,8 +148,6 @@ namespace FocalPoint.MainMenu.Views
         private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextChanged?.Invoke(sender, e);
-            //entryPropertyValue?.TextChanged.Invoke(entry, e);
         }
-
     }
 }

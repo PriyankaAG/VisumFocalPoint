@@ -1,9 +1,14 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
+using FocalPoint.Modules.Payments.Types;
+using FocalPoint.Validations;
+using FocalPoint.Validations.Rules;
+using FocalPtMbl.MainMenu.ViewModels;
 using MvvmHelpers.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,28 +17,15 @@ using static Visum.Services.Mobile.Entities.PaymentRequest;
 
 namespace FocalPoint.Modules.Payments.ViewModels
 {
-    public class PaymentHistoryDetail
-    {
-        public string Header { get; set; }
-
-        public ObservableCollection<Payment> PaymentHistory { get; set; }
-    }
-
-    public class CreditCardPaymentDetails
-    {
-        public string Header { get; set; }
-
-        public ObservableCollection<PaymentInfo> CreditCardDetailList { get; set; }
-    }
-
     public class PaymentPageViewModel : CommonViewModel
     {
         IGeneralComponent generalComponent;
+        private IPaymentEntityComponent paymentEntityComponent;
+
         public Order Order { get; }
         public string AmountDue { get { return Order?.Totals?.TotalDueAmt.ToString("c"); } }
         public string SuggestedDeposit { get { return Order?.Totals?.TotalSugDepositAmt.ToString("c"); } }
-        private PaymentSettings settings;
-        public IPaymentEntityComponent PaymentEntityComponent { get; set; }
+        public PaymentSettings Settings;
         public RequestTypes RequestType { get; set; }
         public List<string> DepositTypes { get; set; }
         private string paymentMethod;
@@ -51,47 +43,13 @@ namespace FocalPoint.Modules.Payments.ViewModels
         #region Other
         public string OtherNumber { get; set; }
         #endregion
-
         #region Check Payment
-        public string CheckNumber { get; set; }
+        public ValidatableObject<string> CheckNumber { get; set; }
         public string LicenseNumber { get; set; }
         public List<State> LicenseStates { get; set; }
         public State SelectedLicenseState { get; set; }
         #endregion
-
-        #region CreditCard
-        public string CardHolderName { get; set; }
-        public string CardLast4Digits { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public string AuthorizationCode { get; set; }
-        public string AvsStreetAddress { get; set; }
-        public string AvsZipCode { get; set; }
-        public bool StoreCardOnFileEnabled
-        {
-            get { return settings == null ? false : settings.CardOnFile; }
-        }
-        public bool StoreCardOnFile { get; set; }
-        public bool IsCardOnFile
-        {
-            get
-            {
-                return settings == null ? ProcessOnline : settings.CardOnFile && ProcessOnline;
-            }
-        }
-        private bool processOnline;
-        public bool ProcessOnline
-        {
-            get { return processOnline; }
-            set
-            {
-                processOnline = value;
-                OnPropertyChanged(nameof(ProcessOnline));
-                OnPropertyChanged(nameof(IsCardOnFile));
-            }
-        }
-        #endregion
-
-        public string Payment { get; set; }
+        public ValidatableObject<string> Payment { get; set; }
         public string TotalReceived { get; set; }
         public string ChangeDue { get; set; }
         public bool IsOtherType { get; set; }
@@ -111,6 +69,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 selectedPaymentType = value;
                 SetCardView(selectedPaymentType);
+                //Payment = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
+                //OnPropertyChanged(Payment);
             }
         }
         public List<string> CashPayments
@@ -138,47 +98,48 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
-        private CreditCardPaymentDetails _creditCardPaymentDetails;
-        public CreditCardPaymentDetails CreditCardPaymentDetails
+        private CreditCard _creditCardDetails;
+        public CreditCard CreditCardDetails
         {
-            get => _creditCardPaymentDetails;
+            get => _creditCardDetails;
             set
             {
-                _creditCardPaymentDetails = value;
-                OnPropertyChanged(nameof(CreditCardPaymentDetails));
+                _creditCardDetails = value;
+                OnPropertyChanged(nameof(CreditCardDetails));
             }
         }
-
-        public ICommand PaymentTypeSelection { get; }
+        public ICommand ValidateCheckNumberCommand => new Command(() => ValidateField(CheckNumber));
+        public ICommand ValidatePaymentCommand => new Command(() => ValidateField(Payment));
 
         #region const
         public PaymentPageViewModel(Order order) : base("Payments")
         {
             generalComponent = new GeneralComponent();
-            PaymentEntityComponent = new PaymentEntityComponent();
-            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
-            GetSettings().ContinueWith((a) => { settings = a.Result; });
+            paymentEntityComponent = new PaymentEntityComponent();
+            GetSettings().ContinueWith((a) =>
+            {
+                Settings = a.Result;
+                //Settings.POSEnabled = false;
+            });
             Order = order;
-            PaymentHistory = new PaymentHistoryDetail();
-            PaymentHistory.Header = "Payment History";
-            DepositPaymentHistory = new PaymentHistoryDetail();
-            DepositPaymentHistory.Header = "Deposits & Security Deposits";
-            CreditCardPaymentDetails = new CreditCardPaymentDetails();
-            CreditCardPaymentDetails.Header = "Card on File";
-            CreditCardPaymentDetails.CreditCardDetailList = new ObservableCollection<PaymentInfo>();
-            PaymentTypeSelection = new Command<int>((paymentType) => SetPaymentSelectionType(paymentType));
+            PaymentHistory = new PaymentHistoryDetail
+            {
+                Header = "Payment History"
+            };
+            DepositPaymentHistory = new PaymentHistoryDetail
+            {
+                Header = "Deposits & Security Deposits"
+            };
             SetPaymentData();
-            ProcessOnline = true;
             if (Order?.Customer != null)
                 GetLicenseStates(Order.Customer.CustomerCountry);
-            Task.Run(async () =>
-            {
-                if (Order != null)
-                {
-                    await GetCreditCardList();
-                }
-            });
+
+            CheckNumber = new ValidatableObject<string>();
+            Payment = new ValidatableObject<string>();
+            AddValidation();
+
         }
+
         #endregion
 
         private void GetLicenseStates(int countryCode)
@@ -205,39 +166,30 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
             return list;
         }
-        public async void SetPaymentSelectionType(int paymentType)
+        private void AddValidation()
         {
-
+            CheckNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
+            Payment.Validations.Add(new IsValidDecimal<string> { ValidationMessage = "Cannot except a Zero Dollar Payment!" });
+        }
+        private bool ValidateField(ValidatableObject<string> validatableField)
+        {
+            return validatableField.Validate();
         }
         private async Task<PaymentSettings> GetSettings()
         {
-            return await PaymentEntityComponent.GetPaymentSettings();
+            return await paymentEntityComponent.GetPaymentSettings();
         }
 
         public async Task SetPaymenyTypes(RequestTypes requestType)
         {
             RequestType = requestType;
-            List<PaymentType> lstPaymentTypes = await PaymentEntityComponent.GetPaymentTypes((int)requestType);
+            List<PaymentType> lstPaymentTypes = await paymentEntityComponent.GetPaymentTypes((int)requestType);
             if (lstPaymentTypes != null && lstPaymentTypes.Any())
             {
                 PaymentTypes = lstPaymentTypes;
                 OnPropertyChanged(nameof(PaymentTypes));
             }
         }
-
-        private async Task GetCreditCardList()
-        {
-            CreditCardPaymentDetails.CreditCardDetailList.Clear();
-            List<PaymentInfo> paymentInfos = await PaymentEntityComponent.GetPaymentCardInfo(Order.OrderCustNo);
-            if (paymentInfos?.Count() > 0)
-            {
-                foreach (PaymentInfo payment in paymentInfos)
-                {
-                    CreditCardPaymentDetails.CreditCardDetailList.Add(payment);
-                }
-            }
-        }
-
         internal void SetCardView(PaymentType paymentType)
         {
             IsCash = IsCheck = IsCreditCard = IsOtherType = IsCreditCardPOS = false;
@@ -252,7 +204,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsCheck = true;
                     break;
                 case "CC":
-                    if (settings != null && settings.POSEnabled)
+                    CreditCardDetails = new CreditCard(Order, paymentEntityComponent, Settings);
+                    if (Settings != null && Settings.POSEnabled)
                     {
                         IsCreditCardPOS = true;
                     }
@@ -271,9 +224,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     IsOtherType = true;
                     ShowDueAndReceived = false;
                     break;
-                    //case "DC":
-                    //    IsDebitCard = true;
-                    //    break;
             }
             OnPropertyChanged(nameof(IsCash));
             OnPropertyChanged(nameof(IsCheck));
@@ -282,12 +232,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(IsCreditCardPOS));
             OnPropertyChanged(nameof(ShowDueAndReceived));
             OnPropertyChanged(nameof(OtherTitle));
-            OnPropertyChanged(nameof(IsCardOnFile));
-
-            /*var otherTypes = new string[] { "CP", "MS", "IR", "OT", "DS" };
-            IsOtherType = otherTypes.Contains(selectedItem);
-            IsCheck = selectedItem == "CK";
-            IsCreditCard = selectedItem == "CC";*/
         }
         public string GetPaymentImage(byte paymentTIcon)
         {
@@ -323,12 +267,24 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit));
             }
         }
-        internal void SetPayment(decimal value)
+        internal void SetSelectedPayment(decimal value)
         {
-            Payment = 0.0.ToString("c");
+            Payment.Value = 0.0.ToString("c");
             TotalReceived = ChangeDue = value.ToString("c");
             OnPropertyChanged(nameof(TotalReceived));
             OnPropertyChanged(nameof(ChangeDue));
+            OnPropertyChanged(nameof(Payment));
+        }
+
+        internal void SetDueAmout()
+        {
+            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
+            {
+                TotalReceived = ChangeDue = 0.0.ToString("c");
+                OnPropertyChanged(nameof(TotalReceived));
+                OnPropertyChanged(nameof(ChangeDue));
+            }
+            Payment.Value = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
             OnPropertyChanged(nameof(Payment));
         }
         internal string ValidatePaymentKinds()
@@ -348,95 +304,72 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     validationMessage = ValidateCheckDetails();
                     break;
                 case "CC":
-                    validationMessage = ValidateCreditCardDetails();
+                    validationMessage = _creditCardDetails.ValidateCreditCardDetails();
                     break;
             }
             if (string.IsNullOrEmpty(validationMessage))
                 validationMessage = ValidatePayment();
             return validationMessage;
         }
-        private string ValidateCreditCardDetails()
-        {
-            if (string.IsNullOrEmpty(CardHolderName))
-                return "Please enter Credit Card Holder Name";
-            else if (CardLast4Digits.Length < 4)
-                return "Please enter the last 4 of the Credit Card Number";
-            else if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-                return "Credit Card Expired!";
-            else if (!ProcessOnline && string.IsNullOrEmpty(AuthorizationCode))
-                return "Please enter Authorization Code";
-            else if (ProcessOnline)
-            {
-                if (string.IsNullOrEmpty(AvsStreetAddress))
-                    return "Please enter Street Address";
-                else if (string.IsNullOrEmpty(AvsZipCode))
-                    return "Please enter Zip code";
-            }
-            return "";
-        }
         private string ValidateCheckDetails()
         {
+            ValidateField(CheckNumber);
             var message = "";
-            if (string.IsNullOrEmpty(CheckNumber))
-                message = "Check Number is empty";
+            if (!CheckNumber.IsValid)
+                message = CheckNumber.Errors?.First() ?? "Validation failed";
+
             else if (string.IsNullOrEmpty(SelectedLicenseState.Display))
                 message = "Must select a LicenseState";
             return message;
         }
         private string ValidatePayment()
         {
-            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
-            {
-                if (decimal.TryParse(TotalReceived.Trim('$'), out decimal total) && total == 0)
-                    return "Cannot except a Zero Dollar Payment!";
-            }
-            else if (decimal.TryParse(Payment.Trim('$'), out decimal payment) && payment == 0)
-                return "Cannot except a Zero Dollar Payment!";
+            ValidateField(Payment);
+            if (!Payment.IsValid)
+                return Payment.Errors?.First() ?? "Validation failed";
+            //if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
+            //{
+            //    if (decimal.TryParse(TotalReceived.Trim('$'), out decimal total) && total == 0)
+            //        return "Cannot except a Zero Dollar Payment!";
+            //}
+            //else if (decimal.TryParse(Payment.Value.Trim('$'), out decimal payment) && payment == 0)
+            //    return "Cannot except a Zero Dollar Payment!";
             return "";
         }
         internal async Task<PaymentResponse> ProcessPayment()
         {
-            var request = new PaymentRequest
+            try
             {
-                RequestType = RequestType,
-                Source = "FC",
-                SourceID = Order?.OrderNo ?? -1,
-                CustomerNo = Order?.OrderCustNo ?? -1,
-                PaymentTNo = SelectedPaymentType.PaymentTNo,
-                PaymentAmt = decimal.TryParse(TotalReceived.Trim('$'), out decimal total) ? total : 0,
-                CashBackAmt = decimal.TryParse(ChangeDue.Trim('$'), out decimal due) ? due : 0,
-                TaxAmt = Order?.OrderTax ?? -1,
-                OnFileNo = 0,
-                Other = GetOtherDetails(),
-                Check = GetCheckDetails(),
-                eCheck = null,
-                Card = GetCardDetails()
-            };
-            return await PaymentEntityComponent.PostPaymentProcess(request);
-        }
-        private PaymentRequestCard GetCardDetails()
-        {
-            return SelectedPaymentType?.PaymentKind == "CC"
-                ? new PaymentRequestCard
+                var request = new PaymentRequest
                 {
-                    CardHolder = CardHolderName,
-                    LastFour = CardLast4Digits,
-                    Expiration = ExpirationDate.ToString(),
-                    AuthCode = ProcessOnline ? "" : AuthorizationCode,
-                    OnLine = ProcessOnline,
-                    Street = ProcessOnline ? AvsStreetAddress : "",
-                    Zipcode = ProcessOnline ? AvsZipCode : "",
-                    StoreInfo = StoreCardOnFile,
-                    ManualToken = ""
-                }
-                : null;
+                    RequestType = RequestType,
+                    Source = "FC",
+                    SourceID = Order?.OrderNo ?? -1,
+                    CustomerNo = Order?.OrderCustNo ?? -1,
+                    PaymentTNo = SelectedPaymentType.PaymentTNo,
+                    PaymentAmt = decimal.TryParse(TotalReceived?.Trim('$'), out decimal total) ? total : 0,
+                    CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
+                    TaxAmt = Order?.OrderTax ?? -1,
+                    OnFileNo = 0,
+                    Other = GetOtherDetails(),
+                    Check = GetCheckDetails(),
+                    eCheck = null,
+                    Card = SelectedPaymentType?.PaymentKind == "CC" ? _creditCardDetails.GetCardDetails() : null
+                };
+                return await paymentEntityComponent.PostPaymentProcess(request);
+            }
+            catch
+            {
+                throw;
+            }
         }
+
         private PaymentRequestCheck GetCheckDetails()
         {
             return SelectedPaymentType?.PaymentKind == "CK"
                 ? new PaymentRequestCheck
                 {
-                    Number = CheckNumber,
+                    Number = CheckNumber.Value,
                     DLNumber = LicenseNumber,
                     DLState = SelectedLicenseState.Value
                 }
@@ -449,25 +382,30 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 ? new PaymentRequestOther { Number = OtherNumber }
                 : null;
         }
-        public void ResetCreditCard()
+        private void ResetCheck()
         {
-            CardHolderName = CardLast4Digits = AuthorizationCode = AvsStreetAddress = AvsZipCode = "";
-            StoreCardOnFile = false;
-            ExpirationDate = DateTime.Now;
-        }
-        public void ResetCheck()
-        {
-            CheckNumber = LicenseNumber = "";
+            CheckNumber.Value = LicenseNumber = "";
+            CheckNumber.IsValid = true;
+            OnPropertyChanged(nameof(CheckNumber));
+            OnPropertyChanged(nameof(LicenseNumber));
             if (Order?.Customer != null)
             {
                 SelectedLicenseState = LicenseStates?.FirstOrDefault(x => x.Value == Order.Customer.CustomerState);
                 OnPropertyChanged(nameof(SelectedLicenseState));
             }
         }
-        public void ResetOther()
+        private void ResetOther()
         {
             OtherNumber = "";
             OnPropertyChanged(nameof(OtherNumber));
+        }
+
+        public void ResetCards() 
+        {
+            Payment.IsValid = true;
+            ResetCheck();
+            ResetOther();
+            CreditCardDetails.ResetCreditCard();
         }
     }
 }

@@ -47,6 +47,20 @@ namespace FocalPoint.CustomControls
             }
         }
 
+        public static readonly BindableProperty IsValidProperty = BindableProperty.Create(nameof(IsValid), typeof(bool), typeof(LabelEditorCustomControl), true, BindingMode.TwoWay);
+        public bool IsValid
+        {
+            get
+            {
+                return (bool)GetValue(IsValidProperty);
+            }
+
+            set
+            {
+                SetValue(IsValidProperty, value);
+            }
+        }
+
         public static readonly BindableProperty EditorTextProperty = BindableProperty.Create(nameof(EditorText), typeof(string), typeof(LabelEditorCustomControl), default(string), BindingMode.TwoWay);
         public string EditorText
         {
@@ -100,6 +114,47 @@ namespace FocalPoint.CustomControls
             set
             {
                 SetValue(CommandProperty, value);
+            }
+        }
+
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(LabelEditorCustomControl), true, BindingMode.TwoWay);
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)GetValue(IsEnabledProperty);
+            }
+
+            set
+            {
+                SetValue(IsEnabledProperty, value);
+            }
+        }
+
+        public static readonly BindableProperty UnfocusedProperty = BindableProperty.Create(nameof(Unfocused), typeof(ICommand), typeof(LabelEditorCustomControl), null, BindingMode.TwoWay);
+        public new ICommand Unfocused
+        {
+            get
+            {
+                return (ICommand)GetValue(UnfocusedProperty);
+            }
+
+            set
+            {
+                SetValue(UnfocusedProperty, value);
+            }
+        }
+        public static readonly BindableProperty CompletedProperty = BindableProperty.Create(nameof(Completed), typeof(ICommand), typeof(LabelEditorCustomControl), null, BindingMode.TwoWay);
+        public ICommand Completed
+        {
+            get
+            {
+                return (ICommand)GetValue(CompletedProperty);
+            }
+
+            set
+            {
+                SetValue(CompletedProperty, value);
             }
         }
 
