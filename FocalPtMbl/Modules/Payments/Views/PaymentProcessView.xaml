@@ -22,7 +22,16 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:LabelEditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0" TextChanged="Payment_TextChanged" TextUnfocused="Payment_Unfocused" EditorText="{Binding Payment}" MaxLenth="10" LabelText="Payment" PlaceHolder="Payment due" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0"
+                                                    TextChanged="Payment_TextChanged" 
+                                                    TextUnfocused="Payment_Unfocused"
+                                                    EditorText="{Binding Payment.Value}"
+                                                    MaxLenth="10" 
+                                                    LabelText="Payment"
+                                                    PlaceHolder="Payment due" 
+                                                    Keyboard="Numeric"
+                                                    Command="{Binding ValidatePaymentCommand}" 
+                                                    IsValid="{Binding Payment.IsValid}" />
                     <views:LabelEditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" TextUnfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
                     <views:LabelEditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" TextUnfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
                 </Grid>

@@ -110,12 +110,12 @@ namespace FocalPoint.Modules.Payments.Types
 
         private void AddValidations()
         {
-            CardHolderName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
-            CardLast4Digits.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
+            CardHolderName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
+            CardLast4Digits.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
             CardLast4Digits.Validations.Add(new IsCardLastFourRule<string> { ValidationMessage = "Please enter the last 4 of the Credit Card Number" });
-            AuthorizationCode.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
-            AvsStreetAddress.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
-            AvsZipCode.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
+            AuthorizationCode.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
+            AvsStreetAddress.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
+            AvsZipCode.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
         }
 
         public async Task GetCreditCardList()
@@ -162,7 +162,7 @@ namespace FocalPoint.Modules.Payments.Types
             {
                 ValidateField(AuthorizationCode);
                 if (!(CardHolderName.IsValid && AuthorizationCode.IsValid))
-                    return "Validation failed. Please correct data.";
+                    return "Validation failed. Please fill required data.";
             }
             if (!CardLast4Digits.IsValid)
                 return CardLast4Digits.Errors?.First() ?? "Validation failed.";

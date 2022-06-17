@@ -49,7 +49,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public List<State> LicenseStates { get; set; }
         public State SelectedLicenseState { get; set; }
         #endregion
-        public string Payment { get; set; }
+        public ValidatableObject<string> Payment { get; set; }
         public string TotalReceived { get; set; }
         public string ChangeDue { get; set; }
         public bool IsOtherType { get; set; }
@@ -109,6 +109,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
         public ICommand ValidateCheckNumberCommand => new Command(() => ValidateField(CheckNumber));
+        public ICommand ValidatePaymentCommand => new Command(() => ValidateField(Payment));
 
         #region const
         public PaymentPageViewModel(Order order) : base("Payments")
@@ -134,6 +135,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 GetLicenseStates(Order.Customer.CustomerCountry);
 
             CheckNumber = new ValidatableObject<string>();
+            Payment = new ValidatableObject<string>();
             AddValidation();
 
         }
@@ -166,7 +168,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         private void AddValidation()
         {
-            CheckNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please correct data." });
+            CheckNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Validation failed. Please fill required data." });
+            Payment.Validations.Add(new IsValidDecimal<string> { ValidationMessage = "Cannot except a Zero Dollar Payment!" });
         }
         private bool ValidateField(ValidatableObject<string> validatableField)
         {
@@ -266,7 +269,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         internal void SetSelectedPayment(decimal value)
         {
-            Payment = 0.0.ToString("c");
+            Payment.Value = 0.0.ToString("c");
             TotalReceived = ChangeDue = value.ToString("c");
             OnPropertyChanged(nameof(TotalReceived));
             OnPropertyChanged(nameof(ChangeDue));
@@ -281,7 +284,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(TotalReceived));
                 OnPropertyChanged(nameof(ChangeDue));
             }
-            Payment = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
+            Payment.Value = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
             OnPropertyChanged(nameof(Payment));
         }
         internal string ValidatePaymentKinds()
@@ -321,13 +324,16 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         private string ValidatePayment()
         {
-            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
-            {
-                if (decimal.TryParse(TotalReceived.Trim('$'), out decimal total) && total == 0)
-                    return "Cannot except a Zero Dollar Payment!";
-            }
-            else if (decimal.TryParse(Payment.Trim('$'), out decimal payment) && payment == 0)
-                return "Cannot except a Zero Dollar Payment!";
+            ValidateField(Payment);
+            if (!Payment.IsValid)
+                return Payment.Errors?.First() ?? "Validation failed";
+            //if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
+            //{
+            //    if (decimal.TryParse(TotalReceived.Trim('$'), out decimal total) && total == 0)
+            //        return "Cannot except a Zero Dollar Payment!";
+            //}
+            //else if (decimal.TryParse(Payment.Value.Trim('$'), out decimal payment) && payment == 0)
+            //    return "Cannot except a Zero Dollar Payment!";
             return "";
         }
         internal async Task<PaymentResponse> ProcessPayment()
@@ -396,6 +402,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
 
         public void ResetCards() 
         {
+            Payment.IsValid = true;
             ResetCheck();
             ResetOther();
             CreditCardDetails.ResetCreditCard();

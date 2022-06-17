@@ -73,7 +73,7 @@ namespace FocalPoint.Modules.Payments.Views
                 else if (response?.Notifications != null && response.Notifications.Any())
                 {
                     viewModel.CreditCardDetails.ManualToken = null;
-                    _ = DisplayAlert("FocalPoint", response.Notifications.First(), "Ok");
+                    _ = DisplayAlert("FocalPoint", string.Join(Environment.NewLine, response.Notifications) , "Ok");
                 }
                 else if (response?.Payment != null)
                 {
