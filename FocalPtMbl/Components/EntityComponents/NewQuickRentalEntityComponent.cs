@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Interface;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Components.EntityComponents
@@ -16,6 +16,8 @@ namespace FocalPoint.Components.EntityComponents
         const string CustomerSettingsAPIKey = "CustomerSettings/";
         const string OrderSettingsAPIKey = "OrderSettings/";
         const string OrderAPIKey = "Order/";
+        const string OrderAddRentalAPIKey = "OrderAddRental/";
+        const string OrderAddMerchandiseAPIKey = "OrderAddMerchandise/";
         public NewQuickRentalEntityComponent()
         {
             apiComponent = new APIComponent();
@@ -40,6 +42,7 @@ namespace FocalPoint.Components.EntityComponents
             }
             return custList;
         }
+
         public async Task<CustomerSettings> GetCustomerSettings()
         {
             CustomerSettings settings = null;
@@ -90,6 +93,32 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return false;
+        }
+
+        public async Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem)
+        {
+            try
+            {
+                return await apiComponent.PostAsync(OrderAddRentalAPIKey, JsonConvert.SerializeObject(new { RentalItem }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return null;
+        }
+
+        public async Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem MerchItem)
+        {
+            try
+            {
+                return await apiComponent.PostAsync(OrderAddMerchandiseAPIKey, JsonConvert.SerializeObject(new { MerchItem }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return null;
         }
 
         private Order SetDefaults(Order newOrder, OrderSettings currentSettings)

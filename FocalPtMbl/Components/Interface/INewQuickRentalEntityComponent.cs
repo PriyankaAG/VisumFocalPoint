@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
@@ -15,6 +14,10 @@ namespace FocalPoint.Components.Interface
         Task<OrderUpdate> GetNewOrderCreationDetail();
 
         Task<bool> VoidOrder(Order CurrentOrder);
+
+        Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem);
+
+        Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem RentalItem);
 
     }
 }
