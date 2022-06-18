@@ -16,6 +16,8 @@ namespace FocalPoint.Components.EntityComponents
         const string CustomerSettingsAPIKey = "CustomerSettings/";
         const string GetStatesAPIKey = "States/{0}";
         const string GetCitiesByStateAPIKey = "CitiesByState/{0}/{1}";
+        const string OrderSettingsAPIKey = "OrderSettings/";
+        const string OrderAPIKey = "Order/";
         public NewQuickRentalEntityComponent()
         {
             apiComponent = new APIComponent();
@@ -84,6 +86,55 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return res;
+        }
+
+        public async Task<OrderUpdate> GetNewOrderCreationDetail()
+        {
+            OrderUpdate orderUpdate = null;
+            var Order = new Order();
+            try
+            {
+                OrderSettings settings = await apiComponent.GetAsync<OrderSettings>(OrderSettingsAPIKey);
+                SetDefaults(Order, settings);
+                orderUpdate = await apiComponent.PostAsync<OrderUpdate>(OrderAPIKey, JsonConvert.SerializeObject(new { Order }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return orderUpdate;
+        }
+
+        public async Task<bool> VoidOrder(Order CurrentOrder)
+        {
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.OrderStatus = "V";
+                    var Update = new OrderUpdate();
+                    Update.Order = CurrentOrder;
+                    return await apiComponent.PostAsync<bool>(OrderAPIKey, JsonConvert.SerializeObject(new { Update }));
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return false;
+        }
+
+        private Order SetDefaults(Order newOrder, OrderSettings currentSettings)
+        {
+            newOrder.OrderCustNo = currentSettings.Defaults.OrderCustNo;
+            newOrder.OrderDDte = currentSettings.Defaults.OrderDDte;
+            newOrder.OrderEDays = currentSettings.Defaults.OrderEDays;
+            newOrder.OrderEventRate = currentSettings.Defaults.OrderEventRate;
+            newOrder.OrderLength = currentSettings.Defaults.OrderLength;
+            newOrder.OrderODte = currentSettings.Defaults.OrderODte;
+            newOrder.OrderTaxCode = currentSettings.Defaults.OrderTaxCode;
+            newOrder.OrderType = currentSettings.Defaults.OrderType;
+            return newOrder;
         }
     }
 }

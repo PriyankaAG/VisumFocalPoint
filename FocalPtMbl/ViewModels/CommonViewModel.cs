@@ -1,5 +1,4 @@
 ﻿using FocalPoint.Data.API;
-using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels;

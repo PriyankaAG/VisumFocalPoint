@@ -9,21 +9,21 @@ namespace FocalPoint.Components.EntityComponents
     {
         IAPICompnent apiComponent;
 
-        const string GetDashboard = "Order/Dashboard/{0}";
+        const string GetDashboard = "Order/Dashboard/{0}/{1}";
 
         public FrontCounterEntityComponent()
         {
             apiComponent = new APIComponent();
         }
 
-        public async Task<OrderDashboard> GetDashboardDetails(DateTime searchDate)
+        public async Task<OrderDashboard> GetDashboardDetails(int storeNo, DateTime searchDate)
         {
             OrderDashboard orderDashboardDetail;
             try
             {
                 string dateToPass = searchDate.ToUniversalTime()
                          .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
-                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, dateToPass));
+                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, storeNo, dateToPass));
             }
             catch (Exception ex)
             {

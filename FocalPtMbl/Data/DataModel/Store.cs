@@ -12,5 +12,6 @@ namespace FocalPoint.Data.DataModel
         public int CmpNo { get; set; }
         [MaxLength(50), Column("CmpName")]
         public string CmpName { get; set; }
+        public string DisplayName { get; set; }
     }
 }

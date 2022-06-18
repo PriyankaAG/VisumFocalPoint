@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentView.Resources>
-  <ContentView.Content>
+    <ContentView.Content>
         <StackLayout Orientation="Vertical">
             <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default" >
                 <Label.Triggers>
@@ -26,6 +26,7 @@
             </Label>
             <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
                 <customrenderers:CustomEntry 
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}" 
                     HorizontalOptions="Fill"  
                     Style="{DynamicResource EntryStyle}" 
                     MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"

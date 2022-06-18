@@ -15,5 +15,9 @@ namespace FocalPoint.Components.Interface
         Task<List<DisplayValueString>> GetStates(string countryCode);
 
         Task<CitiesStates> GetCityByState(string countryCode, string stateCode);
+
+        Task<OrderUpdate> GetNewOrderCreationDetail();
+
+        Task<bool> VoidOrder(Order CurrentOrder);
     }
 }
