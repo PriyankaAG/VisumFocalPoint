@@ -11,14 +11,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     class AddDetailRentalViewModel: ThemeBaseViewModel
     {
-        public AddDetailRentalViewModel()
+        public AddDetailRentalViewModel(Int16 searchIn = 1)
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
+            SearchIn = searchIn;
         }
 
         OrderUpdate orderUpdate;
 
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+
+        public Int16 SearchIn;
 
         Order _currentOrder;
         public Order CurrentOrder
@@ -52,7 +55,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             List<AvailabilityRent> customersCntAndList = null;
             try
             {
-                customersCntAndList = NewQuickRentalEntityComponent.GetAvailabilityRentals(text).GetAwaiter().GetResult();
+                customersCntAndList = NewQuickRentalEntityComponent.GetAvailabilityRentals(text, SearchIn).GetAwaiter().GetResult();
                 if (recent == null)
                 {
                     Recent = new ObservableCollection<AvailabilityRent>(customersCntAndList);

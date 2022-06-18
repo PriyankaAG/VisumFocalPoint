@@ -17,7 +17,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             InitializeComponent();
         }
 
+        public AddDetailRentalView(Int16 searchIn)
+        {
+            InitializeComponent();
+            SearchIn = searchIn;
+        }
+
         private AvailabilityRent selItem;
+        private Int16 SearchIn = 1;
 
         private void TextEdit_Completed(object sender, EventArgs e)
         {

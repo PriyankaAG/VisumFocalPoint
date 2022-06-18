@@ -140,13 +140,12 @@ namespace FocalPoint.Components.EntityComponents
             return false;
         }
 
-        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text)
+        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn)
         {
             List<AvailabilityRent> res = null;
             try
             {
                 Search = text;
-                Int16  SearchIn = 3;
                 res = await apiComponent.GetAsync<List<AvailabilityRent>>(string.Format(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor })));
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
@@ -19,7 +20,7 @@ namespace FocalPoint.Components.Interface
 
         Task<bool> VoidOrder(Order CurrentOrder);
 
-        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text);
+        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn);
 
         Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text);
 
