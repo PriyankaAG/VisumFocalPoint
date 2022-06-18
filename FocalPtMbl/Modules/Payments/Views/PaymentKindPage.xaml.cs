@@ -21,7 +21,7 @@ namespace FocalPoint.Modules.Payments.Views
             base.OnAppearing();
             viewModel = (PaymentPageViewModel)BindingContext;
             //todo: need to find better way(Msg center)
-            if (!string.IsNullOrEmpty(viewModel.CreditCardDetails.ManualToken))
+            if (!string.IsNullOrEmpty(viewModel.CreditCardDetails?.ManualToken))
             {
                 _ = ProcessPayment();
                 return;
@@ -62,17 +62,17 @@ namespace FocalPoint.Modules.Payments.Views
 
         private async Task ProcessPayment()
         {
+            viewModel.Indicator = true;
             try
             {
                 var response = await viewModel.ProcessPayment();
+                if (viewModel?.CreditCardDetails != null) viewModel.CreditCardDetails.ManualToken = null;
                 if (response == null)
                 {
-                    viewModel.CreditCardDetails.ManualToken = null;
                     _ = DisplayAlert("Error", "Something went wrong. Please try again.", "Ok");
                 }
                 else if (response?.Notifications != null && response.Notifications.Any())
                 {
-                    viewModel.CreditCardDetails.ManualToken = null;
                     _ = DisplayAlert("FocalPoint", string.Join(Environment.NewLine, response.Notifications) , "Ok");
                 }
                 else if (response?.Payment != null)
@@ -92,13 +92,16 @@ namespace FocalPoint.Modules.Payments.Views
                 }
                 else
                 {
-                    viewModel.CreditCardDetails.ManualToken = null;
                     _ = DisplayAlert("FocalPoint", "Something went wrong.", "Ok");
                 }
             }
             catch(Exception ex)
             {
                 _ = DisplayAlert("FocalPoint", ex.Message, "Ok");
+            }
+            finally
+            {
+                viewModel.Indicator = false;
             }
         }
     }
