@@ -1,51 +1,91 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:FocalPoint.CustomControls"
-             xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:views1="clr-namespace:FocalPoint.MainMenu.Controls"
-             x:Class="FocalPoint.Modules.Payments.Views.PaymentCreditCardPos">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:FocalPoint.CustomControls" xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:views1="clr-namespace:FocalPoint.MainMenu.Controls" x:Class="FocalPoint.Modules.Payments.Views.PaymentCreditCardPos">
     <ContentView.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
-        <Frame x:Name="frameView" Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa">
-            <Grid RowSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="150"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Label Grid.Row="0" Grid.Column="0" Text="Credit Card Information" TextColor="#131523" FontAttributes="Bold" />
-                    <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="End">
-                        <ia:Checkbox x:Name="ProcessOnline" OutlineColor="#7477a0" CheckColor="#7477a0" IsChecked="{Binding ProcessOnline, Mode=TwoWay}" Shape="Rectangle" />
-                        <Label Text="Process Online" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
-                    </StackLayout>
+        <StackLayout>
+            <Frame x:Name="frameView" Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa" BindingContext="{Binding CreditCardDetails}">
+                <Grid RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Credit Card Information" TextColor="#131523" FontAttributes="Bold" />
+                        <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="End">
+                            <ia:Checkbox x:Name="ProcessOnline" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" OutlineColor="#7477a0" CheckColor="#7477a0" IsChecked="{Binding ProcessOnline, Mode=TwoWay}" Shape="Rectangle" />
+                            <Label Text="Process Online" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
+                        </StackLayout>
+                    </Grid>
+                    <Grid Grid.Row="1" ColumnSpacing="20" RowSpacing="10" Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                                        IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                                        EditorText="{Binding CardHolderName.Value}"
+                                                        Command="{Binding ValidateCardHolderNameCommand}"
+                                                        IsValid="{Binding CardHolderName.IsValid}"
+                                                        MaxLenth="100"
+                                                        LabelText="Holder's Name"
+                                                        PlaceHolder="Enter name" />
+                        <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
+                                                        EditorText="{Binding CardLast4Digits.Value}" 
+                                                        Command="{Binding ValidateCardLast4DigitsCommand}"
+                                                        IsValid="{Binding CardLast4Digits.IsValid}" 
+                                                        IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                                        MaxLenth="4" 
+                                                        LabelText="Last 4 Digits"
+                                                        PlaceHolder="Enter last 4 digits"
+                                                        Keyboard="Numeric" />
+                        <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                            <Label Text="Expiration Date" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                            <DatePicker Format="MM/yyyy" Date="{Binding ExpirationDate}" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" />
+                        </StackLayout>
+                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" 
+                                                        EditorText="{Binding AuthorizationCode.Value}"
+                                                        MaxLenth="100" LabelText="Authorization Code" 
+                                                        PlaceHolder="Enter code" Keyboard="Text" 
+                                                        Command="{Binding ValidateAuthorizationCodeCommand}"
+                                                        IsValid="{Binding AuthorizationCode.IsValid}" />
+                        <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}"
+                                                        Grid.ColumnSpan="2" 
+                                                        EditorText="{Binding AvsStreetAddress.Value}"
+                                                        MaxLenth="100" LabelText="AVS Street Address" 
+                                                        PlaceHolder="Enter address" Keyboard="Text"
+                                                        Command="{Binding ValidateAvsStreetAddressCommand}" 
+                                                        IsValid="{Binding AvsStreetAddress.IsValid}" />
+                        <views:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" 
+                                                        IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}"
+                                                        EditorText="{Binding AvsZipCode.Value}" 
+                                                        MaxLenth="100"
+                                                        LabelText="AVS Zip Code"
+                                                        PlaceHolder="Enter zip code" 
+                                                        Keyboard="Text"
+                                                        Command="{Binding ValidateAvsZipCodeCommand}"
+                                                        IsValid="{Binding AvsZipCode.IsValid}" />
+                        <StackLayout Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsCardOnFile}" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center" Margin="0,20,0,0">
+                            <ia:Checkbox x:Name="StoreCardOnFile" IsChecked="{Binding StoreCardOnFile}" IsEnabled="{Binding StoreCardOnFileEnabled}" OutlineColor="#7477a0" CheckColor="#7477a0" Shape="Rectangle" />
+                            <Label Text="Store Card On File" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
+                        </StackLayout>
+                    </Grid>
                 </Grid>
-                <Grid Grid.Row="1" ColumnSpacing="20" RowSpacing="10" Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" EditorText="{Binding CardHolderName}" MaxLenth="100"  LabelText="Holder's Name" PlaceHolder="Enter name" />
-                    <views:EditorCustomControl Grid.Row="1" Grid.Column="0" EditorText="{Binding CardLast4Digits}" MaxLenth="4" LabelText="Last 4 Digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric" />
-                    <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                        <Label Text="Expiration Date (MM/YY)" FontSize="Default" Style="{DynamicResource LabelDefault}" />
-                        <DatePicker Format="d" Date="{Binding ExpirationDate}"/>
-                    </StackLayout>
-                    <views:EditorCustomControl Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" EditorText="{Binding AuthorizationCode}" MaxLenth="100"  LabelText="Authorization Code" PlaceHolder="Enter code" Keyboard="Text" />
-                    <views:EditorCustomControl Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" Grid.ColumnSpan="2" EditorText="{Binding AvsStreetAddress}" MaxLenth="100" LabelText="AVS Street Address" PlaceHolder="Enter address" Keyboard="Text" />
-                    <views:EditorCustomControl Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}}" EditorText="{Binding AvsZipCode}" MaxLenth="100"  LabelText="AVS Zip Code" PlaceHolder="Enter zip code" Keyboard="Text" />
-                    <StackLayout Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsCardOnFile}" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center" Margin="0,20,0,0">
-                        <ia:Checkbox x:Name="StoreCardOnFile" IsChecked="{Binding StoreCardOnFile}" IsEnabled="{Binding StoreCardOnFileEnabled}" OutlineColor="#7477a0" CheckColor="#7477a0" Shape="Rectangle" />
-                        <Label Text="Store Card On File" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
-                    </StackLayout>
-                </Grid>
-                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0" BindingContext="{Binding CreditCardPaymentDetails, Mode=TwoWay}" HeightRequest="150" />
-            </Grid>
-        </Frame>
+            </Frame>
+            <Frame Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa" BindingContext="{Binding CreditCardDetails}">
+                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0" BindingContext="{Binding .}" HeightRequest="150" />
+            </Frame>
+        </StackLayout>
     </ContentView.Content>
 </ContentView>

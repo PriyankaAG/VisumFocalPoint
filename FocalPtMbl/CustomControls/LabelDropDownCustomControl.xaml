@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+              xmlns:styles="clr-namespace:FocalPtMbl.Themes" 
+             xmlns:local="clr-namespace:FocalPoint.CustomControls"
+             x:Name="labelDropDownView" 
+             x:Class="FocalPoint.CustomControls.LabelDropDownCustomControl">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout Orientation="Vertical">
+            <Label Text="{Binding LabelText, Source={x:Reference labelDropDownView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+            <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" 
+                                  IsFirstRowPlaceholder="True"
+                                  HasLabel="True" 
+                                  ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}, Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}, Mode=TwoWay}" 
+                                  SelectedIndex="{Binding SelectedIndex, Source={x:Reference labelDropDownView}, Mode=TwoWay}" 
+                                  Text="{Binding Text, Source={x:Reference labelDropDownView}}" 
+                                  Image="{Binding Image, Source={x:Reference labelDropDownView}}" 
+                                  ItemSelected="myPicker_ItemSelected">
+            </local:CustomDropDown>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

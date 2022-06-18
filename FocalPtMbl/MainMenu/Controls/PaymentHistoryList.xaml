@@ -15,59 +15,58 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
-            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,10">
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="60"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Text="Transaction" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="1" Text="Type" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="2" Text="Amount" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="3" Text="Date" Style="{DynamicResource LabelListHeader}" />
-                <Label Grid.Column="4" Text="Text" Style="{DynamicResource LabelListHeader}" />
             </Grid>
-            <StackLayout Grid.Row="2"
-                        Orientation="Vertical"
+                <ListView Grid.Row="2"
                         VerticalOptions="Start"
                         HorizontalOptions="Center"
-                        BindableLayout.ItemsSource="{Binding PaymentHistory}"
-                        Padding="5,0">
-                <BindableLayout.ItemTemplate>
+                        ItemsSource="{Binding PaymentHistory}"
+                        SeparatorVisibility="None"
+                        VerticalScrollBarVisibility="Always"
+                        Margin="5,0,5,5">
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="1"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding PaymentSource}" Style="{DynamicResource LabelListDetail}"/>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="70"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding PayID}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
 
-                            <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{}{0:MM/dd/yyyy}'}" Style="{DynamicResource LabelListDetail}"/>
+                                
+                                <BoxView Grid.Row="1" Grid.ColumnSpan="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
 
-                            <Label Grid.Row="0" Grid.Column="4" Text="{Binding PaymentTxt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
-
-                            <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
-                        </Grid>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </StackLayout>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </ContentView.Content>
 </ContentView>

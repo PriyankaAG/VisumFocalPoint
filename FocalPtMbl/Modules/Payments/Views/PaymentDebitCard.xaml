@@ -28,8 +28,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="0" LabelText="Suggested Payments" PlaceHolder="Enter coupon number" Keyboard="Text" />
-                    <views:EditorCustomControl Grid.Row="0" Grid.Column="1" LabelText="Card last 4 digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric"/>
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" LabelText="Suggested Payments" PlaceHolder="Enter coupon number" Keyboard="Text" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="1" LabelText="Card last 4 digits" PlaceHolder="Enter last 4 digits" Keyboard="Numeric"/>
                 </Grid>
             </StackLayout>
         </Frame>
