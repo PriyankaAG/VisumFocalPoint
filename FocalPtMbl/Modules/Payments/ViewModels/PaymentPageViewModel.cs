@@ -136,7 +136,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CheckNumber = new ValidatableObject<string>();
             Payment = new ValidatableObject<string>();
             AddValidation();
-
+            SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
         }
 
         #endregion
