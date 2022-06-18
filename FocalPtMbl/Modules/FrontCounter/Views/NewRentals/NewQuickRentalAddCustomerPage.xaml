@@ -759,25 +759,25 @@
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Order Close"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerCEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Rsrv On-Hold"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerROHEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Completion"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerWOCEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Finished"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerWOFEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <StackLayout Orientation="Horizontal" 
@@ -785,7 +785,7 @@
                                                          VerticalOptions="Center">
                                                 <CheckBox 
                                                     x:Name="printcheckbox"
-                                                    IsChecked="{Binding IsPrintAlsoIfSent}"
+                                                    IsChecked="{Binding CustomerToAdd.CustomerPEMail }"
                                                     HeightRequest="30"
                                                     WidthRequest="30"
                                                     VerticalOptions="Center" Margin="0,5,0,5"/>
@@ -848,15 +848,13 @@
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Send"
-                                                    IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerReminder , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Annual Event Anniv"
-                                                    IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerToAdd.CustomerReminderEvent , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                         </Grid>
