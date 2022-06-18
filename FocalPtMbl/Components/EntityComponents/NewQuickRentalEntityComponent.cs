@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using FocalPoint.Components.Interface;
+﻿using FocalPoint.Components.Interface;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Components.EntityComponents
@@ -14,8 +14,23 @@ namespace FocalPoint.Components.EntityComponents
 
         const string CustomerAPIKey = "Customers/";
         const string CustomerSettingsAPIKey = "CustomerSettings/";
+        const string GetStatesAPIKey = "States/{0}";
+        const string GetCitiesByStateAPIKey = "CitiesByState/{0}/{1}";
         const string OrderSettingsAPIKey = "OrderSettings/";
         const string OrderAPIKey = "Order/";
+        const string OrderAddRentalAPIKey = "OrderAddRental/";
+        const string OrderAddMerchandiseAPIKey = "OrderAddMerchandise/";
+        const string AvailabilityRentalsAPIKey = "Availability/Rentals/";
+        const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
+
+
+        private int StoreID = 1;
+        private string Search = "%";
+        private string OutDate = "2020-01-01T18:25:00.000";
+        private string DueDate = "2020-01-01T18:25:00.000";
+        private char SearchType = '0';
+        private Int16 SearchFor = 1;
+
         public NewQuickRentalEntityComponent()
         {
             apiComponent = new APIComponent();
@@ -40,6 +55,7 @@ namespace FocalPoint.Components.EntityComponents
             }
             return custList;
         }
+
         public async Task<CustomerSettings> GetCustomerSettings()
         {
             CustomerSettings settings = null;
@@ -54,6 +70,38 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return settings;
+        }
+
+        public async Task<List<DisplayValueString>> GetStates(string countryCode)
+        {
+            List<DisplayValueString> res = null;
+            try
+            {
+
+                res = await apiComponent.GetAsync<List<DisplayValueString>>(string.Format(GetStatesAPIKey, countryCode));
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<CitiesStates> GetCityByState(string countryCode,string stateCode)
+        {
+            CitiesStates res = null;
+            try
+            {
+
+                res = await apiComponent.GetAsync<CitiesStates>(string.Format(GetCitiesByStateAPIKey, countryCode, stateCode));
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
         }
 
         public async Task<OrderUpdate> GetNewOrderCreationDetail()
@@ -90,6 +138,63 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return false;
+        }
+
+        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn)
+        {
+            List<AvailabilityRent> res = null;
+            try
+            {
+                Search = text;
+                res = await apiComponent.GetAsync<List<AvailabilityRent>>(string.Format(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor })));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text)
+        {
+            List<AvailabilityMerch> res = null;
+            try
+            {
+                Search = text;
+                Int16 SearchIn = 1;
+                res = await apiComponent.GetAsync<List<AvailabilityMerch>>(string.Format(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn })));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem)
+        {
+            try
+            {
+                return await apiComponent.PostAsync(OrderAddRentalAPIKey, JsonConvert.SerializeObject(new { RentalItem }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return null;
+        }
+
+        public async Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem MerchItem)
+        {
+            try
+            {
+                return await apiComponent.PostAsync(OrderAddMerchandiseAPIKey, JsonConvert.SerializeObject(new { MerchItem }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return null;
         }
 
         private Order SetDefaults(Order newOrder, OrderSettings currentSettings)
