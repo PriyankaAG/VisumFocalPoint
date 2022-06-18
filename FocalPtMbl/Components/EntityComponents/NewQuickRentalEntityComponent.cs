@@ -146,7 +146,7 @@ namespace FocalPoint.Components.EntityComponents
             try
             {
                 Search = text;
-                res = await apiComponent.GetAsync<List<AvailabilityRent>>(string.Format(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor })));
+                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
             }
             catch (Exception ex)
             {
@@ -162,7 +162,7 @@ namespace FocalPoint.Components.EntityComponents
             {
                 Search = text;
                 Int16 SearchIn = 1;
-                res = await apiComponent.GetAsync<List<AvailabilityMerch>>(string.Format(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn })));
+                res = await apiComponent.PostAsync<List<AvailabilityMerch>>(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn }));
             }
             catch (Exception ex)
             {
