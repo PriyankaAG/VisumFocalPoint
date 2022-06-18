@@ -16,6 +16,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
+            <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -59,6 +60,8 @@
                 </Frame>
             </ScrollView>
             <Button Grid.Row="2" Grid.Column="0" Text="CANCEL" Style="{DynamicResource PrimaryButton}" BackgroundColor="#f0142f" TextColor="#fff" Margin="100,10" HorizontalOptions="Fill" Clicked="CancelButton_Clicked"/>
+        </Grid>
+            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

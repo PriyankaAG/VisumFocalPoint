@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FocalPoint.Modules.Payments.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace FocalPoint.Modules.Payments.Views
             viewModel = (PaymentPageViewModel)BindingContext;
             SetPayments();
         }
-        
+
         private void SetPayments()
         {
             if (viewModel != null && viewModel.PaymentTypes != null && viewModel.PaymentTypes.Count > 1)
@@ -85,17 +86,29 @@ namespace FocalPoint.Modules.Payments.Views
 
         private async void ImgBtn_Clicked(object sender, System.EventArgs e)
         {
-            PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
-            ((ImageButton)sender).IsEnabled = false;
-            viewModel.SelectedPaymentType = paymentType;
-            viewModel.ResetCards();
-            viewModel.SetDueAmout();
-            PaymentKindPage paymentKindPage = new PaymentKindPage
+            viewModel.Indicator = true;
+            try
             {
-                BindingContext = viewModel
-            };
-            await Navigation.PushAsync(paymentKindPage);
-            ((ImageButton)sender).IsEnabled = true;
+                PaymentType paymentType = ((ImageButton)sender).CommandParameter as PaymentType;
+                ((ImageButton)sender).IsEnabled = false;
+                viewModel.SelectedPaymentType = paymentType;
+                viewModel.ResetCards();
+                viewModel.SetDueAmout();
+                PaymentKindPage paymentKindPage = new PaymentKindPage
+                {
+                    BindingContext = viewModel
+                };
+                await Navigation.PushAsync(paymentKindPage);
+                ((ImageButton)sender).IsEnabled = true;
+            }
+            catch(Exception ex)
+            {
+                _ = DisplayAlert("FocalPoint", ex.Message, "Ok");
+            }
+            finally
+            {
+                viewModel.Indicator = false;
+            }
         }
 
         private void CancelButton_Clicked(object sender, System.EventArgs e)
