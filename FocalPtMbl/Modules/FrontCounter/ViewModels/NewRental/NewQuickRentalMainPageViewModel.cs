@@ -4,6 +4,10 @@ using FocalPtMbl.MainMenu.ViewModels;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
+using FocalPtMbl.MainMenu.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
@@ -118,6 +122,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         public NewQuickRentalMainPageViewModel()
         {
+            SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
         }
 

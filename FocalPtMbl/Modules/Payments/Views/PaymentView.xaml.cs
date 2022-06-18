@@ -40,6 +40,7 @@ namespace FocalPoint.Modules.Payments.Views
         }
         private async Task NavigateToPaymentMethods(object sender, RequestTypes request)
         {
+            viewModel.Indicator = true;
             ((Frame)sender).IsEnabled = false;
             await viewModel.SetPaymenyTypes(request);
             PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
@@ -48,6 +49,7 @@ namespace FocalPoint.Modules.Payments.Views
             };
             await Navigation.PushAsync(paymentMethodsPage);
             ((Frame)sender).IsEnabled = true;
+            viewModel.Indicator = false;
         }
 
     }

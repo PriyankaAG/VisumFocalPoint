@@ -24,12 +24,12 @@
                 <Image x:Name="imagePropertyName" Grid.Row="0" Grid.Column="0" Aspect="AspectFit" HeightRequest="20"
                        Source="{Binding Image, Source={x:Reference customEntryView}}" VerticalOptions="Center"/>
                 <customrenderers:CustomEntry x:Name="entryPropertyValue" TextChanged="Entry_TextChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill"
-                                             ClearButtonVisibility="WhileEditing"
-                                             Style="{DynamicResource EntryStyle}" 
-                                             Text="{Binding Text, Source={x:Reference customEntryView}}" 
-                                             Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
-                                             Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
-                                             IsPassword="{Binding IsPassword, Source={x:Reference customEntryView}}">
+                        ClearButtonVisibility="WhileEditing"
+                        Style="{DynamicResource EntryStyle}" 
+                        Text="{Binding Text, Source={x:Reference customEntryView}}" 
+                        Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                        Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
+                        IsPassword="{Binding IsPassword, Source={x:Reference customEntryView}}">
                     <customrenderers:CustomEntry.Behaviors>
                         <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Completed}" CommandParameter="1" EventName="Completed" />
                         <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Command}" CommandParameter="1" EventName="TextChanged" />

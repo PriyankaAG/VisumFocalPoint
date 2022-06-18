@@ -14,6 +14,8 @@ namespace FocalPoint.Components.EntityComponents
 
         const string CustomerAPIKey = "Customers/";
         const string CustomerSettingsAPIKey = "CustomerSettings/";
+        const string GetStatesAPIKey = "States/{0}";
+        const string GetCitiesByStateAPIKey = "CitiesByState/{0}/{1}";
         const string OrderSettingsAPIKey = "OrderSettings/";
         const string OrderAPIKey = "Order/";
         const string OrderAddRentalAPIKey = "OrderAddRental/";
@@ -57,6 +59,36 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return settings;
+        }
+        public async Task<List<DisplayValueString>> GetStates(string countryCode)
+        {
+            List<DisplayValueString> res = null;
+            try
+            {
+
+                res = await apiComponent.GetAsync<List<DisplayValueString>>(string.Format(GetStatesAPIKey, countryCode));
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+        public async Task<CitiesStates> GetCityByState(string countryCode,string stateCode)
+        {
+            CitiesStates res = null;
+            try
+            {
+
+                res = await apiComponent.GetAsync<CitiesStates>(string.Format(GetCitiesByStateAPIKey, countryCode, stateCode));
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
         }
 
         public async Task<OrderUpdate> GetNewOrderCreationDetail()

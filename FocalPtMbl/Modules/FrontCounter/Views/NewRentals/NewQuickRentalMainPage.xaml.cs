@@ -75,7 +75,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             var a = myPicker.SelectedItem;
             var b = myPicker.SelectedIndex;
-            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentalsss";
+            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentals";
         }
     }
 }

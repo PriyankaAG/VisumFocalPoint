@@ -58,7 +58,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public bool IsCreditCard { get; set; }
         public bool IsCreditCardPOS { get; set; }
         public bool ShowDueAndReceived { get; set; }
-
         public string OtherTitle { get; set; }
         public List<PaymentType> PaymentTypes { get; set; }
         private PaymentType selectedPaymentType;
