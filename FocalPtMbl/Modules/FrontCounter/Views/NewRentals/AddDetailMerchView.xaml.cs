@@ -30,6 +30,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
+        private void TextEdit_Completed(object sender, EventArgs e)
+        {
+            ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo((sender as Entry).Text);
+        }
+        private void TextEdit_Cleared(object sender, EventArgs e)
+        {
+            ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo("");
+        }
+
         private async void AddToOrder_Clicked(object sender, EventArgs e)
         {
             List<string> selectedSerials = new List<string>();

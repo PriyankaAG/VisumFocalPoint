@@ -3,8 +3,8 @@ using FocalPoint.Components.Interface;
 using FocalPtMbl.MainMenu.ViewModels;
 using Newtonsoft.Json;
 using System;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
@@ -30,6 +30,45 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 _currentOrder = value;
+            }
+        }
+
+        ObservableCollection<AvailabilityRent> recent;
+        public ObservableCollection<AvailabilityRent> Recent
+        {
+            get => this.recent;
+            private set
+            {
+                this.recent = value;
+                OnPropertyChanged(nameof(Recent));
+            }
+        }
+
+        internal void GetSearchedCustomersInfo(string text)
+        {
+            //update searchText
+            if (text == null)
+                text = "%";
+            List<AvailabilityRent> customersCntAndList = null;
+            try
+            {
+                customersCntAndList = NewQuickRentalEntityComponent.GetAvailabilityRentals(text).GetAwaiter().GetResult();
+                if (recent == null)
+                {
+                    Recent = new ObservableCollection<AvailabilityRent>(customersCntAndList);
+                }
+                else
+                {
+                    Recent.Clear();
+                    foreach (var customer in customersCntAndList)
+                    {
+                        Recent.Add(customer);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log Error
             }
         }
 

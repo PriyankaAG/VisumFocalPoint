@@ -19,6 +19,10 @@ namespace FocalPoint.Components.Interface
 
         Task<bool> VoidOrder(Order CurrentOrder);
 
+        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text);
+
+        Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text);
+
         Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem);
 
         Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem RentalItem);

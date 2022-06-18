@@ -19,6 +19,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private AvailabilityRent selItem;
 
+        private void TextEdit_Completed(object sender, EventArgs e)
+        {
+            ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo((sender as Entry).Text);
+        }
+
+        private void TextEdit_Cleared(object sender, EventArgs e)
+        {
+            ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("");
+        }
+
         private async void AddToOrder_Clicked(object sender, EventArgs e)
         {
             string result = "0";
