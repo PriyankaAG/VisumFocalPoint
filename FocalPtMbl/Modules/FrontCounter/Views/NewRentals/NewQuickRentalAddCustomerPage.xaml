@@ -753,44 +753,48 @@
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Order Open"
-                                                    IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerOEMail, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Order Close"
-                                                    IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Rsrv On-Hold"
-                                                    IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Completion"
-                                                    IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Finished"
-                                                    IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
-                                            <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="1"
-                                                    VerticalOptions="Start" Padding="1"
-                                                    LabelText="Print also if Sent"
-                                                    IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerName, Mode=TwoWay}"
-                                                    ItemsSource="{Binding NotificationTypeList}"/>
+                                            <StackLayout Orientation="Horizontal" 
+                                                         Grid.Row="3" Grid.Column="1"
+                                                         VerticalOptions="Center">
+                                                <CheckBox 
+                                                    x:Name="printcheckbox"
+                                                    IsChecked="{Binding IsPrintAlsoIfSent}"
+                                                    HeightRequest="30"
+                                                    WidthRequest="30"
+                                                    VerticalOptions="Center" Margin="0,5,0,5"/>
+                                                <Label Text="Print also if Sent" FontSize="Default" 
+                                                    HeightRequest="30"
+                                                    Style="{DynamicResource LabelDefault}" 
+                                                    MaxLines="2" VerticalOptions="Center"
+                                                    Padding="0,5,0,5" Margin="0,5,0,5"/>
+                                            </StackLayout>
                                         </Grid>
                                     </xct:Expander.Content>
                                 </xct:Expander>

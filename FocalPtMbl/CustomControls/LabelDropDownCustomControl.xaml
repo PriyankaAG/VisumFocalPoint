@@ -25,7 +25,7 @@
                 </Label.Triggers>
             </Label>
             <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" 
-                                  IsFirstRowPlaceholder="True"
+                                  IsFirstRowPlaceholder="{Binding IsFirstRowPlaceholder, Source={x:Reference labelDropDownView}, Mode=TwoWay}"
                                   HasLabel="True" 
                                   ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}, Mode=TwoWay}"
                                   SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}, Mode=TwoWay}" 

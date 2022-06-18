@@ -17,7 +17,24 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class NewQuickRentalAddCustomerViewModel : ThemeBaseViewModel
     {
+        #region ==================== Properties
+
+        string _customerOEMail;
+        public string CustomerOEMail { get { return _customerOEMail; } set { _customerOEMail = value; } }
         public bool IsPageLoaded { get; set; }
+        bool _isPrintAlsoIfSent;
+        public bool IsPrintAlsoIfSent
+        {
+            get
+            {
+                return _isPrintAlsoIfSent;
+            }
+            set
+            {
+                _isPrintAlsoIfSent = value;
+                OnPropertyChanged("IsPrintAlsoIfSent");
+            }
+        }
         bool _isCountryLoading;
         public bool IsCountryLoading
         {
@@ -149,6 +166,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             return "";
         }
+
+        #endregion
+
+        #region ==================== Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -182,60 +204,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         }
 
-        public void SetDefaultValues()
-        {
-            var ctryIndex = CustSettings.Defaults.CustomerCountry;
-            var ctrFound = CustSettings.Countrys.Find(p => p.Value == ctryIndex);
-            if (ctrFound != null)
-            {
-                CustomerCountryString = ctrFound.Display;
-            }
-
-            var phnVal = CustSettings.Defaults.CustomerPhoneType;
-            var phnFound = PhoneTypes.Find(p => p.Value == phnVal);
-            if (phnFound != null)
-            {
-                PhoneTypeDefault1 = phnFound.Display;
-            }
-
-            var phnVal2 = CustSettings.Defaults.CustomerPhoneType2;
-            var phnFound2 = PhoneTypes.Find(p => p.Value == phnVal2);
-            if (phnFound2 != null)
-            {
-                PhoneTypeDefault2 = phnFound2.Display;
-            }
-
-            var phnVal3 = CustSettings.Defaults.CustomerPhoneType3;
-            var phnFound3 = PhoneTypes.Find(p => p.Value == phnVal3);
-            if (phnFound3 != null)
-            {
-                PhoneTypeDefault3 = phnFound3.Display;
-            }
-
-            var statusVal = CustSettings.Defaults.CustomerStatus;
-            var statusFound = CustSettings.CustomerStatus.Find(p => p.Value == statusVal);
-            if (statusFound != null)
-            {
-                CustStatus = statusFound.Display;
-            }
-
-            var typeVal = CustSettings.Defaults.CustomerType;
-            var typeFound = CustSettings.CustomerTypes.Find(p => p.Value == typeVal);
-            if (typeFound != null)
-            {
-                CustType = typeFound.Display;
-            }
-
-            var termVal = CustSettings.Defaults.CustomerTerms;
-            var termFound = CustSettings.CustomerTerms.Find(p => p.Value == termVal);
-            if (termFound != null)
-            {
-                CustTerm = termFound.Display;
-            }
-
-
-            CustomerToAdd.CustomerDW = CustSettings.Defaults.CustomerDW;
-        }
+        #endregion
 
         #region ==================== Name Section Validations
 
@@ -988,43 +957,64 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public ICommand ValidateInfoSectionCommand => new Command(() => ValidatePersonalInfoSection());
 
         #endregion
-        public bool ValidateData() => Validate();
 
-        private bool Validate()
+        #region  ==================== Masters Data
+
+        public void SetDefaultValues()
         {
-            bool isValidNameSection = ValidateNameSection();
-            bool isValidAddressSection = ValidateAddressSection();
-            bool isValidBillingAddressSection = ValidateBillingAddressSection();
-            bool isValidPhoneSection = ValidatePhoneSection();
-            bool isValidAccountSection = ValidateAccountSection();
-            bool isValidPersonalInfoSection = ValidatePersonalInfoSection();
+            var ctryIndex = CustSettings.Defaults.CustomerCountry;
+            var ctrFound = CustSettings.Countrys.Find(p => p.Value == ctryIndex);
+            if (ctrFound != null)
+            {
+                CustomerCountryString = ctrFound.Display;
+            }
 
-            return isValidNameSection && isValidAddressSection && isValidBillingAddressSection && isValidPhoneSection && isValidAccountSection && isValidPersonalInfoSection;
+            var phnVal = CustSettings.Defaults.CustomerPhoneType;
+            var phnFound = PhoneTypes.Find(p => p.Value == phnVal);
+            if (phnFound != null)
+            {
+                PhoneTypeDefault1 = phnFound.Display;
+            }
+
+            var phnVal2 = CustSettings.Defaults.CustomerPhoneType2;
+            var phnFound2 = PhoneTypes.Find(p => p.Value == phnVal2);
+            if (phnFound2 != null)
+            {
+                PhoneTypeDefault2 = phnFound2.Display;
+            }
+
+            var phnVal3 = CustSettings.Defaults.CustomerPhoneType3;
+            var phnFound3 = PhoneTypes.Find(p => p.Value == phnVal3);
+            if (phnFound3 != null)
+            {
+                PhoneTypeDefault3 = phnFound3.Display;
+            }
+
+            var statusVal = CustSettings.Defaults.CustomerStatus;
+            var statusFound = CustSettings.CustomerStatus.Find(p => p.Value == statusVal);
+            if (statusFound != null)
+            {
+                CustStatus = statusFound.Display;
+            }
+
+            var typeVal = CustSettings.Defaults.CustomerType;
+            var typeFound = CustSettings.CustomerTypes.Find(p => p.Value == typeVal);
+            if (typeFound != null)
+            {
+                CustType = typeFound.Display;
+            }
+
+            var termVal = CustSettings.Defaults.CustomerTerms;
+            var termFound = CustSettings.CustomerTerms.Find(p => p.Value == termVal);
+            if (termFound != null)
+            {
+                CustTerm = termFound.Display;
+            }
+
+
+            CustomerToAdd.CustomerDW = CustSettings.Defaults.CustomerDW;
         }
 
-        public void NotifyPropChanged(string propName = "CustomerToAdd")
-        {
-            OnPropertyChanged(propName);
-        }
-
-        private void AddValidations()
-        {
-            _customerName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Customer Name can not be empty." });
-
-            _customerCountry.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Country can not be empty." });
-            _customerAddr1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Address can not be empty." });
-            _customerCity.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "City can not be empty." });
-            _customerState.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "State can not be empty." });
-            _customerZip.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Zip can not be empty." });
-
-            _customerBillingAddr1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Billing Address can not be empty." });
-            _customerBillingCity.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Billing City can not be empty." });
-            _customerBillingState.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Billing State can not be empty." });
-            _customerBillingZip.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Billing Zip can not be empty." });
-
-            _phoneNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Phone Number can not be empty." });
-
-        }
         public async Task FetchMasters()
         {
             await FetchMastersData();
@@ -1148,5 +1138,49 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             }
         }
+
+        #endregion
+
+        #region  ==================== General Validation FUnctions
+
+        public bool ValidateData() => Validate();
+
+        private bool Validate()
+        {
+            bool isValidNameSection = ValidateNameSection();
+            bool isValidAddressSection = ValidateAddressSection();
+            bool isValidBillingAddressSection = ValidateBillingAddressSection();
+            bool isValidPhoneSection = ValidatePhoneSection();
+            bool isValidAccountSection = ValidateAccountSection();
+            bool isValidPersonalInfoSection = ValidatePersonalInfoSection();
+
+            return isValidNameSection && isValidAddressSection && isValidBillingAddressSection && isValidPhoneSection && isValidAccountSection && isValidPersonalInfoSection;
+        }
+
+        public void NotifyPropChanged(string propName = "CustomerToAdd")
+        {
+            OnPropertyChanged(propName);
+        }
+
+        private void AddValidations()
+        {
+            _customerName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Customer Name can not be empty." });
+
+            _customerCountry.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Country can not be empty." });
+            _customerAddr1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Address can not be empty." });
+            _customerCity.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "City can not be empty." });
+            _customerState.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "State can not be empty." });
+            _customerZip.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Zip can not be empty." });
+
+            _customerBillingAddr1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Billing Address can not be empty." });
+            _customerBillingCity.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Billing City can not be empty." });
+            _customerBillingState.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "Billing State can not be empty." });
+            _customerBillingZip.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Billing Zip can not be empty." });
+
+            _phoneNumber.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Phone Number can not be empty." });
+
+        }
+
+        #endregion
     }
 }
