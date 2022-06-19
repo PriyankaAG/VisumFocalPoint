@@ -16,7 +16,7 @@ namespace FocalPoint.Components.Interface
 
         Task<CitiesStates> GetCityByState(string countryCode, string stateCode);
 
-        Task<OrderUpdate> GetNewOrderCreationDetail();
+        Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings);
 
         Task<bool> VoidOrder(Order CurrentOrder);
 
@@ -28,5 +28,9 @@ namespace FocalPoint.Components.Interface
 
         Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem RentalItem);
 
+
+        Task<OrderSettings> GetOrderSettings();
+
+        Task AddCustomer(Customer custToAdd);
     }
 }

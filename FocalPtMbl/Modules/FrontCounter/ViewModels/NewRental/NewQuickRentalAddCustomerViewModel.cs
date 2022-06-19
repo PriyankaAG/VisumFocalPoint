@@ -12,6 +12,7 @@ using FocalPoint.Validations.Rules;
 using FocalPtMbl.MainMenu.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
+using System.Text.RegularExpressions;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
@@ -19,8 +20,192 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     {
         #region ==================== Properties
 
+        public enum ReminderTypes
+        {
+            None = 0,
+            Email = 1,
+            SMS = 2,
+            Both = 3
+        }
+        public byte NotificationReminderToByte(string val)
+        {
+            byte res = byte.MinValue;
+            try
+            {
+                ReminderTypes selected;
+                if (Enum.TryParse<ReminderTypes>(val, out selected))
+                {
+                    res = Convert.ToByte(selected);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return res;
+        }
         string _customerOEMail;
-        public string CustomerOEMail { get { return _customerOEMail; } set { _customerOEMail = value; } }
+        public string CustomerOEMail
+        {
+            get
+            {
+                return _customerOEMail;
+            }
+            set
+            {
+                _customerOEMail = value;
+                CustomerToAdd.CustomerOEMail = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerCEMail;
+        public string CustomerCEMail
+        {
+            get
+            {
+                return _CustomerCEMail;
+            }
+            set
+            {
+                _CustomerCEMail = value;
+                CustomerToAdd.CustomerCEMail = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerROHEMail;
+        public string CustomerROHEMail
+        {
+            get
+            {
+                return _CustomerROHEMail;
+            }
+            set
+            {
+                _CustomerROHEMail = value;
+                CustomerToAdd.CustomerROHEMail = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerWOCEMail;
+        public string CustomerWOCEMail
+        {
+            get
+            {
+                return _CustomerWOCEMail;
+            }
+            set
+            {
+                _CustomerWOCEMail = value;
+                CustomerToAdd.CustomerWOCEMail = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerWOFEMail;
+        public string CustomerWOFEMail
+        {
+            get
+            {
+                return _CustomerWOFEMail;
+            }
+            set
+            {
+                _CustomerWOFEMail = value;
+                CustomerToAdd.CustomerWOFEMail = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerReminder;
+        public string CustomerReminder
+        {
+            get
+            {
+                return _CustomerReminder;
+            }
+            set
+            {
+                _CustomerReminder = value;
+                CustomerToAdd.CustomerReminder = NotificationReminderToByte(value);
+            }
+        }
+        string _CustomerReminderEvent;
+        public string CustomerReminderEvent
+        {
+            get
+            {
+                return _customerOEMail;
+            }
+            set
+            {
+                _CustomerReminderEvent = value;
+                CustomerToAdd.CustomerReminderEvent = NotificationReminderToByte(value);
+            }
+        }
+        string _phoneNumberStr;
+        public string PhoneNumberStr
+        {
+            get
+            {
+                return _phoneNumberStr;
+            }
+            set
+            {
+                PhoneNumber.Value = value;
+                _phoneNumberStr = fomatPhoneNumber(value);
+                OnPropertyChanged("PhoneNumberStr");
+                OnPropertyChanged("PhoneNumber");
+            }
+        }
+        string _phoneNumber2;
+        public string PhoneNumber2
+        {
+            get
+            {
+                return _phoneNumber2;
+            }
+            set
+            {
+                CustomerToAdd.CustomerPhone2 = value;
+                _phoneNumber2 = fomatPhoneNumber(value);
+                OnPropertyChanged("PhoneNumber2");
+            }
+        }
+        string _phoneNumber3;
+        public string PhoneNumber3
+        {
+            get
+            {
+                return _phoneNumber3;
+            }
+            set
+            {
+                CustomerToAdd.CustomerPhone3 = value;
+                _phoneNumber3 = fomatPhoneNumber(value);
+                OnPropertyChanged("PhoneNumber3");
+            }
+        }
+        string _phoneNumberSMS;
+        public string PhoneNumberSMS
+        {
+            get
+            {
+                return _phoneNumberSMS;
+            }
+            set
+            {
+                CustomerToAdd.CustomerSMSNumber = value;
+                _phoneNumberSMS = fomatPhoneNumber(value);
+                OnPropertyChanged("PhoneNumberSMS");
+            }
+        }
+        public string ZipCodeStr
+        {
+            get
+            {
+                return CustomerZip.Value;
+            }
+            set
+            {
+                CustomerZip.Value = fomatZipCode(value);
+                OnPropertyChanged("ZipCodeStr");
+                OnPropertyChanged("CustomerZip");
+            }
+        }
         public bool IsPageLoaded { get; set; }
         bool _isPrintAlsoIfSent;
         public bool IsPrintAlsoIfSent
@@ -167,6 +352,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             return "";
         }
 
+
         #endregion
 
         #region ==================== Constructor
@@ -179,7 +365,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
 
             CustomerToAdd = new Customer();
-
 
             _customerName = new ValidatableObject<string>();
             _customerCountry = new ValidatableObject<int>();
@@ -201,6 +386,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             _licenceState = new ValidatableObject<int>();
 
             AddValidations();
+
 
         }
 
@@ -863,7 +1049,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 {
                     _licenceState.Validations.Add(new IsComboboxNotSelected { ValidationMessage = "License State can not be empty." });
                     _licenceExpiration.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Expiration can not be empty." });
-                    LicenceStateLabel  = "License State *";
+                    LicenceStateLabel = "License State *";
                     LicenceExpirationLabel = "License Expiration *";
                 }
 
@@ -886,9 +1072,22 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 _licenceExpiration = value;
-                //Convert to datetime value.Value
-                CustomerToAdd.CustomerDLEDte = DateTime.Now;
                 OnPropertyChanged(nameof(LicenceExpiration));
+            }
+        }
+        DateTime _licenceExpirationDateTime;
+        public DateTime LicenceExpirationDateTime
+        {
+            get
+            {
+                return _licenceExpirationDateTime;
+            }
+            set
+            {
+                _licenceExpirationDateTime = value;
+                CustomerToAdd.CustomerDLEDte = value;
+                LicenceExpiration.Value = value.ToString();
+                OnPropertyChanged(nameof(LicenceExpirationDateTime));
             }
         }
         public string LicenceExpirationLabel { get; set; } = "License Expiration";
@@ -958,7 +1157,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         #endregion
 
-        #region  ==================== Masters Data
+        #region  ==================== General Functions
 
         public void SetDefaultValues()
         {
@@ -1020,6 +1219,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             await FetchMastersData();
         }
 
+        public async Task AddCustomer()
+        {
+            await NewQuickRentalEntityComponent.AddCustomer(CustomerToAdd);
+        }
         public async Task FetchMastersData()
         {
             try
@@ -1139,9 +1342,61 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        public string fomatZipCode(string input)
+        {
+            var formattedZip = input;
+
+            if (CustomerToAdd.CustomerCountry == 1)
+                formattedZip = Regex.Replace(formattedZip, @"(\d{5})(\d{4})", @"$1($2)");
+            else
+                formattedZip = Regex.Replace(formattedZip, @"([A-Z]\d[A-Z])(\d[A-Z]\d)", @"$1 $2");
+
+            return formattedZip;
+        }
+
+        private string fomatPhoneNumber(string input)
+        {
+            var formattedNo = input;
+
+            if (formattedNo != null && formattedNo.Length > 0)
+                formattedNo = Regex.Replace(formattedNo, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3");
+
+            return formattedNo;
+        }
+
+        public void FormatCustomerName()
+        {
+            var CustName = CustomerToAdd.CustomerName == null ? "" : CustomerToAdd.CustomerName;
+            var FName = CustomerToAdd.CustomerFName == null ? "" : CustomerToAdd.CustomerFName;
+            var MName = CustomerToAdd.CustomerMI == null ? "" : CustomerToAdd.CustomerMI;
+            var LName = CustomerToAdd.CustomerLName == null ? "" : CustomerToAdd.CustomerLName;
+
+            if (CustName.Length == 0)
+            {
+                if (CustSettings.Controls.FormatLastNameFirst)
+                {
+                    if (LName.Length != 0 && FName.Length != 0)
+                    {
+                        CustName = new string((LName + ", " + FName).Take(35).ToArray());
+                        if (MName.Length != 0 & MName.Length < 34)
+                            CustName = CustName + " " + MName;
+                    }
+                }
+                else if (LName.Length != 0 & FName.Length != 0)
+                {
+                    CustName = FName;
+                    if (MName.Length != 0)
+                        CustName = new string((CustName + " " + MName + " " + LName).Take(35).ToArray());
+                    else
+                        CustName = new string((CustName + " " + LName).Take(35).ToArray());
+                }
+                CustomerName.Value = CustName;
+                OnPropertyChanged("CustomerName");
+            }
+        }
         #endregion
 
-        #region  ==================== General Validation FUnctions
+        #region  ==================== General Validation Functions
 
         public bool ValidateData() => Validate();
 
@@ -1162,7 +1417,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             OnPropertyChanged(propName);
         }
 
-        private void AddValidations()
+        private async void AddValidations()
         {
             _customerName.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Customer Name can not be empty." });
 

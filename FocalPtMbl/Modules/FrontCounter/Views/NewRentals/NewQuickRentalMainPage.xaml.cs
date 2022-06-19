@@ -39,6 +39,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
         }
 
+
         private void Button_Clicked(object sender, EventArgs e)
         {
             this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
@@ -79,6 +80,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             var a = myPicker.SelectedItem;
             var b = myPicker.SelectedIndex;
             (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentals";
+        }
+
+        private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
         }
     }
 }
