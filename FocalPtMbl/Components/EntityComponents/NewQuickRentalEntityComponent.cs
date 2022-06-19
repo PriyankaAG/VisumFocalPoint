@@ -221,12 +221,12 @@ namespace FocalPoint.Components.EntityComponents
         }
 
 
-        public async Task AddCustomer(Customer custToAdd)
+        public async Task AddCustomer(Customer NewCustomer)
         {
             try
             {
                 var stringContent = new StringContent(
-                   JsonConvert.SerializeObject(new { custToAdd }),
+                   JsonConvert.SerializeObject(new { NewCustomer }),
                      Encoding.UTF8,
                      "application/json");
                 string res = await stringContent.ReadAsStringAsync();
