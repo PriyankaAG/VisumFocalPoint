@@ -107,11 +107,13 @@ namespace FocalPoint.Modules.Payments.Views
             }
             try
             {
-                if (viewModel.SelectedPaymentType.PaymentKind == "CC" && viewModel.CreditCardDetails.ProcessOnline)
+                if (viewModel.SelectedPaymentType.PaymentKind == "CC" &&
+                    viewModel.CreditCardDetails.ProcessOnline &&
+                    !viewModel.CreditCardDetails.IsStoredCardSelected)
                 {
-                    PaymentManual manualPayment = new PaymentManual
+                    PaymentManual manualPayment = new PaymentManual(viewModel.RequestType)
                     {
-                        BindingContext = viewModel
+                        BindingContext = viewModel,
                     };
                     await Navigation.PushAsync(manualPayment);
                     return;

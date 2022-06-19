@@ -34,7 +34,7 @@
                 <ListView Grid.Row="2"
                         VerticalOptions="Start"
                         HorizontalOptions="Center"
-                        ItemsSource="{Binding PaymentHistory}"
+                        ItemsSource="{Binding PaymentHistory, Mode=TwoWay}"
                         SeparatorVisibility="None"
                         VerticalScrollBarVisibility="Always"
                         Margin="5,0,5,5">

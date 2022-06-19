@@ -19,7 +19,7 @@
                 <views:ImageEditoCustomControl Grid.Column="1" x:Name="SearchRental" Image="" PlaceHolder="Search Rental" />
                 <Button Grid.Column="2" Text="Search" BackgroundColor="#57b8ff" VerticalOptions="Center" />
             </Grid>
-            <CollectionView ItemsSource="{Binding RentalItems}" 
+            <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
                             BackgroundColor="#f5f6fa"
                             SelectionMode="Single">
@@ -38,13 +38,13 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="Default" Text="Sample Item Listing" />
-                                    <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailableQty, StringFormat='Available Qty: {0}'}" />
-                                    <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding MinimumCharge, StringFormat='Minimum Charge: {0}'}" />
-                                    <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="End" Text="{Binding HourlyCharge, StringFormat='Hourly Charge: {0}'}" />
-                                    <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding DailyCharge, StringFormat='Daily Charge: {0}'}" />
-                                    <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" Text="{Binding WeeklyCharge, StringFormat='Weekly Charge: {0}'}" />
-                                    <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding MonthlyCharge, StringFormat='Monthly Charge: {0}'}" />
+                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
+                                    <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
                                 </Grid>
                             </Frame>
                         </StackLayout>

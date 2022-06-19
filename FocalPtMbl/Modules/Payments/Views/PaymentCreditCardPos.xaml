@@ -84,7 +84,7 @@
                 </Grid>
             </Frame>
             <Frame Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa" BindingContext="{Binding CreditCardDetails}">
-                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0" BindingContext="{Binding .}" HeightRequest="150" />
+                <views1:PaymentCreditCardList Grid.Row="2" Grid.Column="0"  BindingContext="{Binding .}" HeightRequest="200" />
             </Frame>
         </StackLayout>
     </ContentView.Content>

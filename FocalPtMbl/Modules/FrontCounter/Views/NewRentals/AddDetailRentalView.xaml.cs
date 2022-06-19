@@ -15,13 +15,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public AddDetailRentalView()
         {
             InitializeComponent();
-            BindingContext = new AddDetailRentalViewModel();
         }
 
         public AddDetailRentalView(Int16 searchIn)
         {
             InitializeComponent();
             SearchIn = searchIn;
+            ((AddDetailRentalViewModel)this.BindingContext).SearchIn = searchIn;
+            _ = ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("Rental");
         }
 
         private AvailabilityRent selItem;

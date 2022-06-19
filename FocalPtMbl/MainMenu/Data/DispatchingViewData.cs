@@ -49,8 +49,8 @@ namespace FocalPoint.MainMenu.Data
                     ControlsPageTitle = "Pickup Tickets",
                     PageTitle = "Pickup Tickets",
                     Description = "The Stores Pickup Tickets",
-                    //Module = typeof(PickupTicketsSelectView),
-                    Module = typeof(NewQuickRentalAddItemPage),
+                    Module = typeof(PickupTicketsSelectView),
+                    //Module = typeof(NewQuickRentalAddItemPage),
                     Icon = "laden_pickup_48.png",
                     IconOverlayText = IconOverlayText.None
                 }

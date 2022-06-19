@@ -12,69 +12,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     class AddDetailRentalViewModel: ThemeBaseViewModel
     {
-        public List<Items> RentalItems { get; set; }
-
         public AddDetailRentalViewModel(Int16 searchIn = 1)
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
             SearchIn = searchIn;
-            RentalItems = new List<Items>
-            {
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                },
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                },
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                },
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                },
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                },
-                new Items
-                {
-                    AvailableQty = 1,
-                    MinimumCharge = 4,
-                    HourlyCharge = 5,
-                    DailyCharge = 11,
-                    MonthlyCharge = 34,
-                    WeeklyCharge = 22
-                }
-            };
         }
 
         OrderUpdate orderUpdate;
