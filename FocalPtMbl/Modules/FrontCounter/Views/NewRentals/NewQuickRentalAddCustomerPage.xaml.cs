@@ -20,21 +20,18 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             theViewModel = new NewQuickRentalAddCustomerViewModel();
             BindingContext = theViewModel;
 
-            Device.BeginInvokeOnMainThread(async () =>
+            theViewModel.FetchMasters().ContinueWith((a) =>
             {
-                await theViewModel.FetchMasters().ContinueWith((a) =>
+                //Lets say we load default values
+                Task.Delay(1000).ContinueWith((a) =>
                 {
-                    //Lets say we load default values
-                    Task.Delay(1000).ContinueWith((a) =>
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            theViewModel.SetDefaultValues();
-                            _ = Task.Delay(2000).ContinueWith((a) =>
-                              {
-                                  theViewModel.IsPageLoaded = true;
-                              });
-                        });
+                        theViewModel.SetDefaultValues();
+                        _ = Task.Delay(2000).ContinueWith((a) =>
+                          {
+                              theViewModel.IsPageLoaded = true;
+                          });
                     });
                 });
             });
@@ -43,32 +40,22 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Task.Delay(1000).ContinueWith((a) =>
-            {
-            });
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
+            theViewModel.FormatCustomerName();
+
             if (!theViewModel.IsPageLoaded) return;
 
             if (!theViewModel.ValidateData()) return;
 
-            var res1 = theCityDropDown.SelectedIndex;
-            //var res = theCityDropDown.SelectedItem;
+            theViewModel.AddCustomer();
+        }
 
-            //theViewModel.CustomerToAdd.CustomerAddr1 = "Kalyaj";
-            //theViewModel.CustomerToAdd.CustomerAddr2 = "Pimpri";
-
-            //var tt = "Pune";
-
-            //theViewModel.CustomerCityString = tt;
-            //theViewModel.CustomerToAdd.CustomerStatus = "Light Hold";
-
-            //theViewModel.NotifyPropChanged("CustomerCityString");
-
-            //theViewModel.CustomerCountryString = "Canada";
-            //theViewModel.NotifyPropChanged("CustomerCityString");
+        private void Button_Clicked_1(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
 }

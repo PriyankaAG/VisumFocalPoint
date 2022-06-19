@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FocalPoint.Components.Interface;
@@ -13,6 +14,7 @@ namespace FocalPoint.Components.EntityComponents
         IAPICompnent apiComponent;
 
         const string CustomerAPIKey = "Customers/";
+        const string AddCustomerAPIKey = "Customer/";
         const string CustomerSettingsAPIKey = "CustomerSettings/";
         const string GetStatesAPIKey = "States/{0}";
         const string GetCitiesByStateAPIKey = "CitiesByState/{0}/{1}";
@@ -72,7 +74,7 @@ namespace FocalPoint.Components.EntityComponents
             }
             return res;
         }
-        public async Task<CitiesStates> GetCityByState(string countryCode,string stateCode)
+        public async Task<CitiesStates> GetCityByState(string countryCode, string stateCode)
         {
             CitiesStates res = null;
             try
@@ -88,15 +90,24 @@ namespace FocalPoint.Components.EntityComponents
             return res;
         }
 
-        public async Task<OrderUpdate> GetNewOrderCreationDetail()
+        public async Task<OrderSettings> GetOrderSettings()
+        {
+            OrderSettings settings = await apiComponent.GetAsync<OrderSettings>(OrderSettingsAPIKey);
+            return settings;
+        }
+        public async Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings)
         {
             OrderUpdate orderUpdate = null;
             var Order = new Order();
             try
             {
-                OrderSettings settings = await apiComponent.GetAsync<OrderSettings>(OrderSettingsAPIKey);
                 SetDefaults(Order, settings);
-                orderUpdate = await apiComponent.PostAsync<OrderUpdate>(OrderAPIKey, JsonConvert.SerializeObject(new { Order }));
+                var stringContent = new StringContent(
+                       JsonConvert.SerializeObject(new { Order }),
+                         Encoding.UTF8,
+                         "application/json");
+                string res = await stringContent.ReadAsStringAsync();
+                orderUpdate = await apiComponent.PostAsync<OrderUpdate>(OrderAPIKey, res);
             }
             catch (Exception ex)
             {
@@ -135,6 +146,25 @@ namespace FocalPoint.Components.EntityComponents
             newOrder.OrderTaxCode = currentSettings.Defaults.OrderTaxCode;
             newOrder.OrderType = currentSettings.Defaults.OrderType;
             return newOrder;
+        }
+
+
+        public async Task AddCustomer(Customer custToAdd)
+        {
+            try
+            {
+                var stringContent = new StringContent(
+                   JsonConvert.SerializeObject(new { custToAdd }),
+                     Encoding.UTF8,
+                     "application/json");
+                string res = await stringContent.ReadAsStringAsync();
+
+                var result = await apiComponent.PostAsync<Customer>(AddCustomerAPIKey, res);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
         }
     }
 }

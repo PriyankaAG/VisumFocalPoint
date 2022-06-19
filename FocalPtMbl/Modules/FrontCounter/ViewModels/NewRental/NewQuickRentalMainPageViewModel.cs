@@ -9,12 +9,87 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
+using System;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+
+        public DateTime SelectedStartDateTime { get; set; }
+        public DateTime SelectedEndDateTime { get; set; }
+
+        public string SelectedStartString
+        {
+            get
+            {
+                return SelectedStartDateTime.ToString();
+            }
+        }
+        public string SelectedEndString
+        {
+            get
+            {
+                return SelectedEndDateTime.ToString();
+            }
+        }
+
+        private TimeSpan startTime;
+        private TimeSpan endTime;
+        public TimeSpan StartTime
+        {
+            get
+            {
+                return SelectedStartDateTime.TimeOfDay;
+            }
+            set
+            {
+                SelectedStartDateTime = new DateTime(SelectedStartDateTime.Year, SelectedStartDateTime.Month, SelectedStartDateTime.Day, value.Hours, value.Minutes, value.Seconds);
+
+                RefreshDateTimeProperties();
+            }
+        }
+        public TimeSpan EndTime
+        {
+            get
+            {
+                return SelectedEndDateTime.TimeOfDay;
+            }
+            set
+            {
+                SelectedEndDateTime = new DateTime(SelectedEndDateTime.Year, SelectedEndDateTime.Month, SelectedEndDateTime.Day, value.Hours, value.Minutes, value.Seconds);
+
+                RefreshDateTimeProperties();
+            }
+        }
+
+        public DateTime StartDate
+        {
+            get
+            {
+                return SelectedStartDateTime.Date;
+            }
+            set
+            {
+                SelectedStartDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedStartDateTime.Hour, SelectedStartDateTime.Minute, SelectedStartDateTime.Second);
+
+                RefreshDateTimeProperties();
+            }
+        }
+        public DateTime EndDate
+        {
+            get
+            {
+                return SelectedEndDateTime.Date;
+            }
+            set 
+            {
+                SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, SelectedEndDateTime.Second);
+
+                RefreshDateTimeProperties();
+            }
+        }
 
         OrderUpdate _orderUpdate;
         public OrderUpdate OrderUpdate
@@ -28,7 +103,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 _orderUpdate = value;
             }
         }
-
+        OrderSettings _theOrderSettings;
+        public OrderSettings TheOrderSettings
+        {
+            get
+            {
+                return _theOrderSettings;
+            }
+            set
+            {
+                _theOrderSettings = value;
+            }
+        }
         Order _currentOrder;
         public Order CurrentOrder
         {
@@ -120,15 +206,90 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        public string[] LengthList { get; set; }
+        private string _selectedLength;
+        public string SelectedLength
+        {
+            get
+            {
+                return _selectedLength;
+            }
+            set
+            {
+                _selectedLength = value;
+
+                OnPropertyChanged(nameof(SelectedLength));
+            }
+        }
+
+        public string[] TaxList { get; set; }
+        private string _selectedTax;
+        public string SelectedTax
+        {
+            get
+            {
+                return _selectedTax;
+            }
+            set
+            {
+                _selectedTax = value;
+
+                OnPropertyChanged(nameof(SelectedTax));
+            }
+        }
         public NewQuickRentalMainPageViewModel()
         {
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
-        }
 
+            SelectedStartDateTime = DateTime.Now;
+            SelectedEndDateTime = SelectedStartDateTime.AddDays(1);
+            RefreshDateTimeProperties();
+
+        }
+        public void RefreshDateTimeProperties()
+        {
+            OnPropertyChanged("StartTime");
+            OnPropertyChanged("EndTime");
+            OnPropertyChanged("StartDate");
+            OnPropertyChanged("EndDate");
+
+            OnPropertyChanged("SelectedStartString");
+            OnPropertyChanged("SelectedEndString");
+        }
+        public void PopulateMasters()
+        {
+            List<string> itemHolders = new List<string>();
+            //Length
+            itemHolders.Add("Select Length");
+            foreach (var item in TheOrderSettings.Lengths)
+            {
+                if (string.IsNullOrEmpty(item.Display)) continue;
+
+                itemHolders.Add(item.Display);
+            }
+            LengthList = itemHolders.ToArray();
+
+            //Tax
+            itemHolders.Clear();
+            itemHolders.Add("Select Tax");
+            foreach (var item in TheOrderSettings.TaxCodes)
+            {
+                if (string.IsNullOrEmpty(item.Display)) continue;
+
+                itemHolders.Add(item.Display);
+            }
+            TaxList = itemHolders.ToArray();
+
+            OnPropertyChanged(nameof(LengthList));
+            OnPropertyChanged(nameof(TaxList));
+
+        }
         internal async Task<List<string>> CreateNewOrder()
         {
-            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail();
+            TheOrderSettings = await NewQuickRentalEntityComponent.GetOrderSettings();
+            PopulateMasters();
+            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
             if (OrderUpdate != null && OrderUpdate.Order != null)
             {
                 CurrentOrder = OrderUpdate.Order;
@@ -141,6 +302,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (OrderUpdate.Notifications.Count > 0)
                     return OrderUpdate.Notifications;
             }
+
             return null;
         }
         public void RefreshAllProperties()
@@ -150,6 +312,113 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             OnPropertyChanged(nameof(CustomerTypeFormatted));
             OnPropertyChanged(nameof(IsCustomerSelected));
             OnPropertyChanged(nameof(IsCustomerNotSelected));
+        }
+
+        internal void GetEndDateAndTimeValues()
+        {
+            if (string.IsNullOrEmpty(SelectedLength)) return;
+            var selValue = TheOrderSettings.Lengths.Find(p => p.Display == SelectedLength).Value;
+
+            GetEndDateTime(selValue);
+        }
+
+        private void GetEndDateTime(string dateTimeValue)
+        {
+            switch (dateTimeValue)
+            {
+                case "1H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(1);
+                    break;
+                case "2H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(2);
+                    break;
+                case "3H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(3);
+                    break;
+                case "4H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(4);
+                    break;
+                case "5H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(5);
+                    break;
+                case "6H":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(6);
+                    break;
+                case "ON":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "OC":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "1D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(1);
+                    break;
+                case "2D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(2);
+                    break;
+                case "3D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(3);
+                    break;
+                case "4D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(4);
+                    break;
+                case "5D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(5);
+                    break;
+                case "6D":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(6);
+                    break;
+                case "WK":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(3);
+                    break;
+                case "W2":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(4);
+                    break;
+                case "1W":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(7);
+                    break;
+                case "2W":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(14);
+                    break;
+                case "3W":
+                    SelectedEndDateTime = SelectedStartDateTime.AddDays(21);
+                    break;
+                case "1M":
+                    SelectedEndDateTime = SelectedStartDateTime.AddMonths(1);
+                    break;
+                case "E1":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S1":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S2":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S3":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S4":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S5":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S6":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "S7":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                case "OE":
+                    SelectedEndDateTime = SelectedStartDateTime.AddHours(0);
+                    break;
+                default:
+                    SelectedEndDateTime.AddHours(0);
+                    break;
+
+            }
+            RefreshDateTimeProperties();
         }
     }
 }

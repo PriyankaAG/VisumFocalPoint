@@ -58,7 +58,7 @@
                         </Grid>
                     </Grid>
                 </Frame>
-                
+
                 <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
                        Padding="5" Margin="10,10,10,5" IsVisible="{Binding IsCustomerSelected}">
                     <xct:Expander x:Name="ExpanderCustomer" IsEnabled="{Binding IsCustomerSelected}">
@@ -68,7 +68,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="40"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <!--Customer Is selected-->
                                 <Label
                                     Grid.Row="0"
@@ -183,13 +183,13 @@
                                         <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
                                        Text="Out Date: "/>
                                         <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
-                                       Text="04-05-2022 : 10:00 AM"/>
+                                       Text="{Binding SelectedStartString}"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
                                         <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
                                        Text="Due Date: "/>
                                         <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
-                                       Text="04-05-2022 : 10:00 AM"/>
+                                       Text="{Binding SelectedEndString}"/>
                                     </StackLayout>
                                 </Grid>
                                 <Frame Grid.Column="1" BackgroundColor="#5a607f" Padding="1" 
@@ -225,34 +225,29 @@
                                     </Grid.RowDefinitions>
                                     <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray"/>
 
-                                    <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical">
-                                        <Label
-                                                Style="{DynamicResource NewRentalDetailsHeadingLables}"
-                                                LineBreakMode="WordWrap"
-                                                Margin="5,0"
-                                                Text="Length" />
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                                x:Name="LengthPicker" Padding="1"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                                        <Label
-                                            Style="{DynamicResource NewRentalDetailsHeadingLables}"
-                                                Margin="5,0"
-                                            LineBreakMode="WordWrap"
-                                            Text="Tax" />
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                            x:Name="TaxPicker" Padding="1"/>
-                                    </StackLayout>
 
+                                    <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0" 
+			                                VerticalOptions="Start" Padding="1"
+			                                LabelText="Length"
+			                                IsFirstRowPlaceholder="True"
+			                                SelectedItem="{Binding SelectedLength, Mode=TwoWay}"
+                                            ItemSelected="LabelDropDownCustomControl_ItemSelected"
+			                                ItemsSource="{Binding LengthList}"/>
+
+                                    <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1" 
+			                                VerticalOptions="Start" Padding="1"
+			                                LabelText="Tax"
+			                                IsFirstRowPlaceholder="True"
+			                                SelectedItem="{Binding SelectedTax, Mode=TwoWay}"
+			                                ItemsSource="{Binding TaxList}"/>
+                                    
                                     <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                                         <Label
                                                 Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="Start Date"  Padding="1"/>
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                                Image="calendarwhite"
-                                                x:Name="SDatePicker" Padding="1"/>
+                                        <DatePicker  Date="{Binding StartDate}"/>
                                     </StackLayout>
                                     <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Vertical">
                                         <Label
@@ -260,9 +255,7 @@
                                                 Margin="5,0"
                                             LineBreakMode="WordWrap"
                                             Text="Time"  Padding="1"/>
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                                Image="timewhite"
-                                            x:Name="STimePicker" Padding="1"/>
+                                        <TimePicker Time="{Binding StartTime}"/>
                                     </StackLayout>
 
                                     <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Vertical">
@@ -271,9 +264,7 @@
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="End Date"  Padding="1"/>
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                                Image="calendarwhite"
-                                                x:Name="EDatePicker" Padding="1"/>
+                                        <DatePicker Date="{Binding EndDate}" />
                                     </StackLayout>
                                     <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Vertical">
                                         <Label
@@ -281,9 +272,8 @@
                                                 Margin="5,0"
                                             LineBreakMode="WordWrap"
                                             Text="Time"  Padding="1"/>
-                                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Start" 
-                                                Image="timewhite"
-                                            x:Name="ETimePicker" Padding="1"/>
+                                        <TimePicker Time="{Binding EndTime}" />
+
                                     </StackLayout>
 
                                     <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Vertical">

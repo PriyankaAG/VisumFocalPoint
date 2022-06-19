@@ -128,6 +128,7 @@
                                                    PlaceHolder="Enter first name" Keyboard="Text" />
 
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="1" 
+                                                   EditorText="{Binding CustomerToAdd.CustomerMI}" 
                                                    MaxLenth="100" LabelText="Middle Name" 
                                                    PlaceHolder="Enter middle name" Keyboard="Text" />
 
@@ -244,7 +245,7 @@
                                                     ItemsSource="{Binding StateList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="5" Grid.Column="0" 
-                                                   EditorText="{Binding CustomerZip.Value}" 
+                                                   EditorText="{Binding ZipCodeStr}" 
                                                    MaxLenth="100" LabelText="{Binding ZipLabel, Mode=TwoWay}" 
                                                    IsValid="{Binding CustomerZip.IsValid, Mode=TwoWay}"
                                                    Command="{Binding ValidateAddressSectionCommand}"
@@ -404,7 +405,7 @@
                                             <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray" Margin="0,5,0,5"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
-                                                   EditorText="{Binding PhoneNumber.Value}" 
+                                                   EditorText="{Binding PhoneNumberStr}" 
                                                    MaxLenth="100" LabelText="Phone Number *" 
                                                    IsValid="{Binding PhoneNumber.IsValid, Mode=TwoWay}"
                                                    Command="{Binding ValidatePhoneSectionCommand}"
@@ -415,10 +416,11 @@
                                                     LabelText="Phone Type"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding PhoneTypeDefault1, Mode=TwoWay}"
+                                                    IsIndicatorRunning="{Binding Indicator, Mode=TwoWay}"
                                                     ItemsSource="{Binding PhoneTypeList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
-                                                   EditorText="{Binding CustomerToAdd.CustomerPhone2}" 
+                                                   EditorText="{Binding PhoneNumber2}" 
                                                    MaxLenth="100" LabelText="Phone Number 2" 
                                                    PlaceHolder="Enter Phone Number 2" Keyboard="Text" />
 
@@ -427,10 +429,11 @@
                                                     LabelText="Phone Type"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding PhoneTypeDefault2, Mode=TwoWay}"
+                                                    IsIndicatorRunning="{Binding Indicator, Mode=TwoWay}"
                                                     ItemsSource="{Binding PhoneTypeList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="3" Grid.Column="0"
-                                                   EditorText="{Binding CustomerToAdd.CustomerPhone3}" 
+                                                   EditorText="{Binding PhoneNumber3}" 
                                                    MaxLenth="100" LabelText="Phone Number 3" 
                                                    PlaceHolder="Enter Phone Number 3" Keyboard="Text" />
 
@@ -439,12 +442,13 @@
                                                     LabelText="Phone Type"
                                                     IsFirstRowPlaceholder="True"
                                                     SelectedItem="{Binding PhoneTypeDefault3, Mode=TwoWay}"
+                                                    IsIndicatorRunning="{Binding Indicator, Mode=TwoWay}"
                                                     ItemsSource="{Binding PhoneTypeList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="4" Grid.Column="0"
-                                                   EditorText="{Binding CustomerToAdd.CustomerSMSNumber}" 
+                                                   EditorText="{Binding PhoneNumberSMS}" 
                                                    MaxLenth="100" LabelText="SMS Number" 
-                                                   PlaceHolder="Enter SMS Phone Number" Keyboard="Text" />
+                                                  PlaceHolder="Enter SMS Phone Number" Keyboard="Text" />
                                         </Grid>
                                     </xct:Expander.Content>
                                 </xct:Expander>
@@ -668,12 +672,26 @@
                                                    MaxLenth="100" LabelText="License Number" 
                                                    PlaceHolder="Enter License Number" Keyboard="Text" />
 
-                                            <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="1"
-                                                    VerticalOptions="Start" Padding="1"
-                                                    LabelText="{Binding LicenceExpirationLabel}"
-                                                    IsValid="{Binding LicenceExpiration.IsValid, Mode=TwoWay}"
-                                                   EditorText="{Binding LicenceExpiration.Value, Mode=TwoWay}"/>
-
+                                            <StackLayout  Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                                                <Label Text="{Binding LicenceExpirationLabel}" FontSize="Default" Style="{DynamicResource LabelDefault}">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding LicenceExpiration.IsValid, Mode=TwoWay}" Value="False">
+                                                            <Setter Property="TextColor" Value="{StaticResource ErrorColor}" />
+                                                            <Setter Property="FontAttributes" Value="Bold" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
+                                                    <DatePicker Format="MM/yyyy"
+                                                         VerticalOptions="Start" Date="{Binding LicenceExpirationDateTime, Mode=TwoWay}" />
+                                                    <Frame.Triggers>
+                                                        <DataTrigger TargetType="Frame" Binding="{Binding LicenceExpiration.IsValid}" Value="False">
+                                                            <Setter Property="BorderColor" Value="{StaticResource ErrorColor}" />
+                                                        </DataTrigger>
+                                                    </Frame.Triggers>
+                                                </Frame>
+                                            </StackLayout>
+                                            
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="{Binding LicenceStateLabel}"
@@ -682,12 +700,11 @@
                                                     IsValid="{Binding LicenceState.IsValid, Mode=TwoWay}"
                                                     ItemsSource="{Binding StateList}"/>
 
-                                            <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1"
-                                                    VerticalOptions="Start" Padding="1"
-                                                    LabelText="DOB"
-                                                    IsFirstRowPlaceholder="True"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerBDte, Mode=TwoWay}"
-                                                    Image="timewhite"/>
+                                            <StackLayout  Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+                                                <Label Text="DOB" FontSize="Default" Style="{DynamicResource LabelDefault}"/>
+                                                <DatePicker
+                                                         VerticalOptions="Start" Date="{Binding CustomerToAdd.CustomerBDte, Mode=TwoWay}" />
+                                            </StackLayout>
 
                                             <local:LabelEditorCustomControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                                    EditorText="{Binding CustomerToAdd.CustomerSS}" 
@@ -753,31 +770,31 @@
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Order Open"
-                                                    SelectedItem="{Binding CustomerOEMail, Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerOEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Order Close"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerCEMail , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerCEMail  , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Rsrv On-Hold"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerROHEMail , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerROHEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="2" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Completion"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerWOCEMail , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerWOCEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="3" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="WO Finished"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerWOFEMail , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerWOFEMail , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <StackLayout Orientation="Horizontal" 
@@ -785,7 +802,7 @@
                                                          VerticalOptions="Center">
                                                 <CheckBox 
                                                     x:Name="printcheckbox"
-                                                    IsChecked="{Binding CustomerToAdd.CustomerPEMail }"
+                                                    IsChecked="{Binding CustomerPEMail }"
                                                     HeightRequest="30"
                                                     WidthRequest="30"
                                                     VerticalOptions="Center" Margin="0,5,0,5"/>
@@ -848,13 +865,13 @@
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Send"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerReminder , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerReminder , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                             <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1"
                                                     VerticalOptions="Start" Padding="1"
                                                     LabelText="Annual Event Anniv"
-                                                    SelectedItem="{Binding CustomerToAdd.CustomerReminderEvent , Mode=TwoWay}"
+                                                    SelectedItem="{Binding CustomerReminderEvent , Mode=TwoWay}"
                                                     ItemsSource="{Binding NotificationTypeList}"/>
 
                                         </Grid>
@@ -870,7 +887,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0"/>
+                <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
                 <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked"/>
             </Grid>
         </Grid>
