@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
@@ -106,7 +107,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal void GetSearchedCustomersInfo(string text)
+        internal async Task GetSearchedCustomersInfo(string text)
         {
             //update searchText
             if (text == null)
@@ -114,7 +115,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             List<AvailabilityRent> customersCntAndList = null;
             try
             {
-                customersCntAndList = NewQuickRentalEntityComponent.GetAvailabilityRentals(text, SearchIn).GetAwaiter().GetResult();
+                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, SearchIn);
                 if (recent == null)
                 {
                     Recent = new ObservableCollection<AvailabilityRent>(customersCntAndList);

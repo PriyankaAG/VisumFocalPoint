@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
@@ -34,7 +34,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal void GetSearchedMerchInfo(string text)
+        internal async Task GetSearchedMerchInfo(string text)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 Search = text;
                 List<AvailabilityMerch> merchCntAndList = null;
 
-                merchCntAndList = NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search).GetAwaiter().GetResult();
+                merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search);
                 //StartIdx = customersCntAndList.TotalCnt;
                 if (recent == null)
                 {
