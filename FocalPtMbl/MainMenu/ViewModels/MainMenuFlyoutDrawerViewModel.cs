@@ -80,13 +80,7 @@ namespace FocalPoint.MainMenu.ViewModels
                             SubItemText = "Rental Valuation",
                             IsVisible = true,
                             SubText_TargetType = typeof(RentalValuationSummaryView)
-                        },
-                        new MainMenuFlyoutSubItem() {
-                            Title = "Payment",
-                            SubItemText = "Payment",
-                            IsVisible = true,
-                            SubText_TargetType = typeof(PaymentView)
-                        },
+                        }
                     }
                 });
             }

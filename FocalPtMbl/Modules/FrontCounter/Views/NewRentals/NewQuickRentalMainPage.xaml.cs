@@ -68,10 +68,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
                 var selected = myPicker.ItemsSource[e.SelectedIndex];
-                AddDetailRentalView rentalView = new AddDetailRentalView(1);
-                await Navigation.PushAsync(rentalView);
+                //AddDetailRentalView rentalView = new AddDetailRentalView(1);
+                //await Navigation.PushAsync(rentalView);
 
-                //DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
+                DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
             }
         }
 
