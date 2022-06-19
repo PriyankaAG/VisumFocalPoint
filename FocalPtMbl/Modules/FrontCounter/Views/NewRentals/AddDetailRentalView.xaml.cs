@@ -15,6 +15,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public AddDetailRentalView()
         {
             InitializeComponent();
+            BindingContext = new AddDetailRentalViewModel();
         }
 
         public AddDetailRentalView(Int16 searchIn)

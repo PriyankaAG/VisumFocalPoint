@@ -1,12 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls" 
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Views" 
              x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailRentalView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="10,10" BackgroundColor="#f5f6fa" VerticalOptions="FillAndExpand">
+            <Grid HeightRequest="40" Margin="5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <customcontrols:CustomDropDown Grid.Column="0" />
+                <views:ImageEditoCustomControl Grid.Column="1" x:Name="SearchRental" Image="" PlaceHolder="Search Rental" />
+                <Button Grid.Column="2" Text="Search" BackgroundColor="#57b8ff" VerticalOptions="Center" />
+            </Grid>
+            <CollectionView ItemsSource="{Binding RentalItems}" 
+                            ItemsLayout="VerticalGrid"
+                            BackgroundColor="#f5f6fa"
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Frame HasShadow="True" Margin="5,5" Padding="5,5,0,0" BackgroundColor="White">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="40" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="Default" Text="Sample Item Listing" />
+                                    <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailableQty, StringFormat='Available Qty: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding MinimumCharge, StringFormat='Minimum Charge: {0}'}" />
+                                    <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="End" Text="{Binding HourlyCharge, StringFormat='Hourly Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding DailyCharge, StringFormat='Daily Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" Text="{Binding WeeklyCharge, StringFormat='Weekly Charge: {0}'}" />
+                                    <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding MonthlyCharge, StringFormat='Monthly Charge: {0}'}" />
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
