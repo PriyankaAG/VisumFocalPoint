@@ -169,7 +169,16 @@
 		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailMerchView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailRentalView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalAddCustomerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalAddItemPage.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalMainPage.xaml">
