@@ -21,6 +21,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         private string Search = "%";
         private Int16 SearchIn = 1;
 
+        Order _currentOrder;
+        public Order CurrentOrder
+        {
+            get
+            {
+                return _currentOrder;
+            }
+            set
+            {
+                _currentOrder = value;
+            }
+        }
+
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
 
         ObservableCollection<AvailabilityMerch> recent;
@@ -43,18 +56,26 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 List<AvailabilityMerch> merchCntAndList = null;
 
                 merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search);
-                //StartIdx = customersCntAndList.TotalCnt;
-                if (recent == null)
+                if (merchCntAndList != null)
                 {
-                    Recent = new ObservableCollection<AvailabilityMerch>(merchCntAndList);
+                    //StartIdx = customersCntAndList.TotalCnt;
+                    if (recent == null)
+                    {
+                        Recent = new ObservableCollection<AvailabilityMerch>(merchCntAndList);
+                    }
+                    else
+                    {
+                        Recent.Clear();
+                        foreach (var customer in merchCntAndList)
+                        {
+                            Recent.Add(customer);
+                        }
+                    }
                 }
                 else
                 {
-                    Recent.Clear();
-                    foreach (var customer in merchCntAndList)
-                    {
-                        Recent.Add(customer);
-                    }
+                    if (recent != null)
+                        Recent.Clear();
                 }
             }
             catch (Exception ex)
@@ -63,7 +84,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal OrderUpdate AddItem(AvailabilityMerch selItem, decimal numOfItems, Order curOrder)
+        internal async Task<OrderUpdate> AddItem(AvailabilityMerch selItem, decimal numOfItems, Order curOrder)
         {
             try
             {
@@ -74,7 +95,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 MerchItem.AvailItem = selItem.AvailItem;
                 MerchItem.Quantity = numOfItems;
                 OrderUpdate OrderToUpDate = new OrderUpdate();
-                var responseOrderUpdate = NewQuickRentalEntityComponent.OrderAddMerchandise(MerchItem).GetAwaiter().GetResult();
+                var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddMerchandise(MerchItem);
                 if (responseOrderUpdate.IsSuccessStatusCode)
                 {
                     string orderContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;

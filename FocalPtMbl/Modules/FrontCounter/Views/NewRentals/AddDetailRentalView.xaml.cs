@@ -20,13 +20,13 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public AddDetailRentalView(Int16 searchIn)
         {
             InitializeComponent();
-            SearchIn = searchIn;
+            SearchIn = searchIn;            
         }
 
         private AvailabilityRent selItem;
         private Int16 SearchIn = 1;
 
-        private async void TextEdit_Completed(object sender, EventArgs e)
+        private async Task TextEdit_Completed(object sender, EventArgs e)
         {
             await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo((sender as Entry).Text);
         }
@@ -36,7 +36,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("");
         }
 
-        private async void AddToOrder_Clicked(object sender, EventArgs e)
+        private async Task AddToOrder_Clicked(object sender, EventArgs e)
         {
             string result = "0";
             if (selItem != null)

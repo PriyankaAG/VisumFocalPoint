@@ -57,17 +57,25 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             try
             {
                 customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, SearchIn);
-                if (recent == null)
+                if (customersCntAndList != null)
                 {
-                    Recent = new ObservableCollection<AvailabilityRent>(customersCntAndList);
+                    if (recent == null)
+                    {
+                        Recent = new ObservableCollection<AvailabilityRent>(customersCntAndList);
+                    }
+                    else
+                    {
+                        Recent.Clear();
+                        foreach (var customer in customersCntAndList)
+                        {
+                            Recent.Add(customer);
+                        }
+                    }
                 }
                 else
                 {
-                    Recent.Clear();
-                    foreach (var customer in customersCntAndList)
-                    {
-                        Recent.Add(customer);
-                    }
+                    if (recent != null)
+                        Recent.Clear();
                 }
             }
             catch (Exception ex)

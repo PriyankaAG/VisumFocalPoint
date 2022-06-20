@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -30,16 +31,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
-        private async void TextEdit_Completed(object sender, EventArgs e)
+        private async Task TextEdit_Completed(object sender, EventArgs e)
         {
-            await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo((sender as Entry).Text);
+            await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo("");
         }
         private async void TextEdit_Cleared(object sender, EventArgs e)
         {
             await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo("");
         }
 
-        private async void AddToOrder_Clicked(object sender, EventArgs e)
+        private async Task AddToOrder_Clicked(object sender, EventArgs e)
         {
             List<string> selectedSerials = new List<string>();
             string result = "0";
@@ -61,7 +62,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 if (result != null && Convert.ToDecimal(result) > 0)
                 {
                     decimal numberOfItems = Convert.ToDecimal(result);
-                    OrderUpdate UpdatedOrder = ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
+                    OrderUpdate UpdatedOrder = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
                     if (UpdatedOrder != null && UpdatedOrder.Order != null)
                     {
                         //TODO: Need to check usage
