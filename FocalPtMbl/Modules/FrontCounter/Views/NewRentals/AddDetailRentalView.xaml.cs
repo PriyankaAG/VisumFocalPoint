@@ -20,7 +20,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public AddDetailRentalView(Int16 searchIn)
         {
             InitializeComponent();
-            SearchIn = searchIn;            
+            SearchIn = searchIn;
+            ((AddDetailRentalViewModel)this.BindingContext).SearchIn = searchIn;
+            _ = ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("Rental");
         }
 
         private AvailabilityRent selItem;

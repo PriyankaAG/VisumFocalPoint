@@ -62,12 +62,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
         }
 
-        private void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        private async void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
         {
             var data = e.SelectedIndex;
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
                 var selected = myPicker.ItemsSource[e.SelectedIndex];
+                //AddDetailRentalView rentalView = new AddDetailRentalView(1);
+                //await Navigation.PushAsync(rentalView);
+
                 DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
             }
         }

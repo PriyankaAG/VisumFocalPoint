@@ -11,45 +11,54 @@ namespace FocalPoint.Modules.Payments.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentView : ContentPage
     {
-        PaymentPageViewModel viewModel;
+        public PaymentView()
+        {
+            InitializeComponent();
+            BindingContext = new PaymentPageViewModel();
+            //((PaymentPageViewModel)BindingContext).GetOrderDetails(501842);
+            //order.GetOrderDetails(501842).ContinueWith(task =>
+            //{
+            //    ((PaymentPageViewModel)BindingContext).Order = task.Result;
+            //});
+        }
         public PaymentView(Order currentOrder)
         {
             InitializeComponent();
-            BindingContext = viewModel = new PaymentPageViewModel(currentOrder);
+            BindingContext = new PaymentPageViewModel(currentOrder);
         }
 
         private async void Payment_Tapped(object sender, EventArgs e)
         {
-            viewModel.PaymentMethod = RequestTypes.Standard.ToString();
+            ((PaymentPageViewModel)BindingContext).PaymentMethod = RequestTypes.Standard.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.Standard);
         }
         private async void Deposit_Tapped(object sender, EventArgs e)
         {
-            viewModel.PaymentMethod = RequestTypes.StandardDepost.ToString();
+            ((PaymentPageViewModel)BindingContext).PaymentMethod = RequestTypes.StandardDepost.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.StandardDepost);
         }
         private async void SecurityDeposit_Tapped(object sender, EventArgs e)
         {
-            viewModel.PaymentMethod = RequestTypes.SecurityDeposit.ToString();
+            ((PaymentPageViewModel)BindingContext).PaymentMethod = RequestTypes.SecurityDeposit.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.SecurityDeposit);
         }
         private async void Security_PreAuth_Tapped(object sender, EventArgs e)
         {
-            viewModel.PaymentMethod = RequestTypes.PreAuthDeposit.ToString();
+            ((PaymentPageViewModel)BindingContext).PaymentMethod = RequestTypes.PreAuthDeposit.ToString();
             await NavigateToPaymentMethods(sender, RequestTypes.PreAuthDeposit);
         }
         private async Task NavigateToPaymentMethods(object sender, RequestTypes request)
         {
-            viewModel.Indicator = true;
+            ((PaymentPageViewModel)BindingContext).Indicator = true;
             ((Frame)sender).IsEnabled = false;
-            await viewModel.SetPaymenyTypes(request);
+            await ((PaymentPageViewModel)BindingContext).SetPaymenyTypes(request);
             PaymentMethodsPage paymentMethodsPage = new PaymentMethodsPage
             {
-                BindingContext = viewModel,
+                BindingContext = (PaymentPageViewModel)BindingContext,
             };
             await Navigation.PushAsync(paymentMethodsPage);
             ((Frame)sender).IsEnabled = true;
-            viewModel.Indicator = false;
+            ((PaymentPageViewModel)BindingContext).Indicator = false;
         }
 
     }

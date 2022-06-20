@@ -19,6 +19,7 @@ namespace FocalPoint.Modules.Payments.Types
     {
         Order order;
         public IPaymentEntityComponent PaymentEntityComponent;
+        public PaymentInfo StoredCardInfo;
         public CreditCard(Order order, IPaymentEntityComponent paymentEntityComponent, PaymentSettings settings)
         {
             this.order = order;
@@ -44,7 +45,7 @@ namespace FocalPoint.Modules.Payments.Types
             AvsZipCode = new ValidatableObject<string>();
 
             AddValidations();
-            CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo paymentInfo) => UpdateDetails(paymentInfo));
+            CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo info) => UpdateDetails(info));
         }
 
         private void SetProcessOnline() => ProcessOnline = Settings.POSEnabled ? true : false; //defaults to true od Credit card POS
@@ -131,11 +132,12 @@ namespace FocalPoint.Modules.Payments.Types
             }
         }
 
-        private void UpdateDetails(PaymentInfo paymentInfo)
+        private void UpdateDetails(PaymentInfo info)
         {
-            CardHolderName.Value = paymentInfo.InfoHolder;
-            CardLast4Digits.Value = paymentInfo.InfoText;
-            if (DateTime.TryParseExact(paymentInfo.InfoExpireDte, "MMddyy", CultureInfo.InvariantCulture,
+            StoredCardInfo = info;
+            CardHolderName.Value = info.InfoHolder;
+            CardLast4Digits.Value = info.InfoText;
+            if (DateTime.TryParseExact(info.InfoExpireDte, "MMddyy", CultureInfo.InvariantCulture,
                            DateTimeStyles.None, out DateTime date))
                 ExpirationDate = date;
             SetProcessOnline();

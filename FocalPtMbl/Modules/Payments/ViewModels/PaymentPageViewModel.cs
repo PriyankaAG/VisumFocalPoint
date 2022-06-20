@@ -21,8 +21,21 @@ namespace FocalPoint.Modules.Payments.ViewModels
     {
         IGeneralComponent generalComponent;
         private IPaymentEntityComponent paymentEntityComponent;
+        private ViewOrderEntityComponent orderComponent;
 
-        public Order Order { get; }
+
+        private Order order;
+        public Order Order
+        {
+            get { return order; }
+            set
+            {
+                order = value;
+                OnPropertyChanged(nameof(Order));
+                OnPropertyChanged(nameof(AmountDue));
+                OnPropertyChanged(nameof(SuggestedDeposit));
+            }
+        }
         public string AmountDue { get { return Order?.Totals?.TotalDueAmt.ToString("c"); } }
         public string SuggestedDeposit { get { return Order?.Totals?.TotalSugDepositAmt.ToString("c"); } }
         public PaymentSettings Settings;
@@ -111,6 +124,54 @@ namespace FocalPoint.Modules.Payments.ViewModels
         public ICommand ValidatePaymentCommand => new Command(() => ValidateField(Payment));
 
         #region const
+        public PaymentPageViewModel() : base("Payments")
+        {
+            generalComponent = new GeneralComponent();
+            paymentEntityComponent = new PaymentEntityComponent();
+            orderComponent = new ViewOrderEntityComponent();
+            GetSettings().ContinueWith((a) =>
+            {
+                Settings = a.Result;
+                //Settings.POSEnabled = false;
+            });
+            PaymentHistory = new PaymentHistoryDetail
+            {
+                Header = "Payment History"
+            };
+            DepositPaymentHistory = new PaymentHistoryDetail
+            {
+                Header = "Deposits & Security Deposits"
+            };
+            GetOrderDetails();
+            //SetPaymentData();
+            //if (Order?.Customer != null)
+            //    GetLicenseStates(Order.Customer.CustomerCountry);
+
+            CheckNumber = new ValidatableObject<string>();
+            Payment = new ValidatableObject<string>();
+            AddValidation();
+            //SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+        }
+
+        private void GetOrderDetails()
+        {
+            Indicator = true;
+            orderComponent.GetOrderDetails(501842).ContinueWith(task =>
+            {
+                Order = task.Result;
+                GetLicenseStates(Order.Customer.CustomerCountry);
+                SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+                SetPaymentData();
+                Indicator = false;
+            });
+            OnPropertyChanged(nameof(Order));
+        }
+
+        //public PaymentPageViewModel(Order order) : base("Paymnets")
+        //{
+        //    Order = order;
+        //}
+
         public PaymentPageViewModel(Order order) : base("Payments")
         {
             generalComponent = new GeneralComponent();
@@ -264,6 +325,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit));
                 DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit));
+                OnPropertyChanged(nameof(PaymentHistory.PaymentHistory));
             }
         }
         internal void SetSelectedPayment(decimal value)
@@ -346,10 +408,10 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     SourceID = Order?.OrderNo ?? -1,
                     CustomerNo = Order?.OrderCustNo ?? -1,
                     PaymentTNo = SelectedPaymentType.PaymentTNo,
-                    PaymentAmt = decimal.TryParse(TotalReceived?.Trim('$'), out decimal total) ? total : 0,
+                    PaymentAmt = decimal.TryParse(Payment.Value?.Trim('$'), out decimal total) ? total : 0,
                     CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
                     TaxAmt = Order?.OrderTax ?? -1,
-                    OnFileNo = 0,
+                    OnFileNo = GetOnFileNo(),
                     Other = GetOtherDetails(),
                     Check = GetCheckDetails(),
                     eCheck = null,
@@ -361,6 +423,13 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 throw;
             }
+        }
+
+        private int GetOnFileNo()
+        {
+            return SelectedPaymentType?.PaymentKind == "CC" && _creditCardDetails.IsStoredCardSelected
+                ? _creditCardDetails.StoredCardInfo.InfoID
+                : 0;
         }
 
         private PaymentRequestCheck GetCheckDetails()
@@ -399,9 +468,11 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(OtherNumber));
         }
 
-        public void ResetCards() 
+        public void ResetCards()
         {
             Payment.IsValid = true;
+            if (RequestType == RequestTypes.Standard)
+                Payment.Value = AmountDue;
             ResetCheck();
             ResetOther();
             CreditCardDetails?.ResetCreditCard();

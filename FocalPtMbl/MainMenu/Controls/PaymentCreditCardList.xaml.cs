@@ -18,6 +18,12 @@ namespace FocalPoint.MainMenu.Controls
         private void CreditCardDetail_Tapped(object sender, EventArgs e)
         {
             //if(BindingContext is PaymentPageViewModel paymentPageViewModel)
+            foreach (View item in ((StackLayout)(sender as Grid).Parent).Children)
+            {
+                item.BackgroundColor = Color.FromHex("#f5f6fa");
+            }
+            
+            ((Grid)sender).BackgroundColor = Color.Red;
             if(BindingContext is CreditCard cardDetails)
             {
                 PaymentInfo paymentInfo = (PaymentInfo)((TappedEventArgs)e).Parameter;
