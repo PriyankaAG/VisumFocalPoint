@@ -16,8 +16,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <customcontrols:CustomDropDown Grid.Column="0" />
-                <views:ImageEditoCustomControl Grid.Column="1" x:Name="SearchRental" Image="" PlaceHolder="Search Rental" />
-                <Button Grid.Column="2" Text="Search" BackgroundColor="#57b8ff" VerticalOptions="Center" />
+                <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
+                <Button Grid.Column="2" Text="Search" Clicked="Search_Clicked" BackgroundColor="#57b8ff" VerticalOptions="Center" />
             </Grid>
             <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"

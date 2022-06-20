@@ -28,16 +28,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private AvailabilityRent selItem;
         private Int16 SearchIn = 1;
 
-        private async Task TextEdit_Completed(object sender, EventArgs e)
-        {
-            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo((sender as Entry).Text);
-        }
-
-        private async void TextEdit_Cleared(object sender, EventArgs e)
-        {
-            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("");
-        }
-
         private async Task AddToOrder_Clicked(object sender, EventArgs e)
         {
             string result = "0";
@@ -337,6 +327,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
 
             } while (UpdatedOrder != null && questionFault != null);
+        }
+
+        private async void Search_Clicked(object sender, EventArgs e)
+        {
+            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
         }
     }
 }

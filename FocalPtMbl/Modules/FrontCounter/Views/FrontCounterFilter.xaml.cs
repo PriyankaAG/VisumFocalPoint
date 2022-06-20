@@ -19,7 +19,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
         public FrontCounterFilter(FrontCounterFilterResult frontCounterFilterResult)
         {
             InitializeComponent();
-            datePicker.Date = frontCounterFilterResult.SelectedDate;            
+            datePicker.Date = frontCounterFilterResult.SelectedDate;
             stores = DataManager.LoadStores();
             storePicker.ItemsSource = stores;
             storePicker.SelectedItem = stores.FirstOrDefault(s => s.CmpNo == frontCounterFilterResult.StoreNo);
@@ -29,24 +29,30 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             this.Navigation.PopModalAsync();
             Store store = (Store)storePicker.SelectedItem;
-            this.Result.SetResult(new FrontCounterFilterResult()
+            if (store != null)
             {
-                IsNewDateSet = false,
-                StoreNo = store.CmpNo,
-                SelectedDate = datePicker.Date
-            });
+                this.Result.SetResult(new FrontCounterFilterResult()
+                {
+                    IsNewDateSet = false,
+                    StoreNo = store.CmpNo,
+                    SelectedDate = datePicker.Date
+                });
+            }
         }
 
         async void OnOKClicked(object sender, EventArgs args)
         {
             await Navigation.PopModalAsync();
             Store store = (Store)storePicker.SelectedItem;
-            this.Result.SetResult(new FrontCounterFilterResult()
+            if (store != null)
             {
-                IsNewDateSet = true,
-                StoreNo = store.CmpNo,
-                SelectedDate = datePicker.Date
-            });
+                this.Result.SetResult(new FrontCounterFilterResult()
+                {
+                    IsNewDateSet = true,
+                    StoreNo = store.CmpNo,
+                    SelectedDate = datePicker.Date
+                });
+            }
         }
     }
 }
