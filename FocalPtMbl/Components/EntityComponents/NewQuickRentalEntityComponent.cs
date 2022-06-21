@@ -209,14 +209,17 @@ namespace FocalPoint.Components.EntityComponents
 
         private Order SetDefaults(Order newOrder, OrderSettings currentSettings)
         {
-            newOrder.OrderCustNo = currentSettings.Defaults.OrderCustNo;
-            newOrder.OrderDDte = currentSettings.Defaults.OrderDDte;
-            newOrder.OrderEDays = currentSettings.Defaults.OrderEDays;
-            newOrder.OrderEventRate = currentSettings.Defaults.OrderEventRate;
-            newOrder.OrderLength = currentSettings.Defaults.OrderLength;
-            newOrder.OrderODte = currentSettings.Defaults.OrderODte;
-            newOrder.OrderTaxCode = currentSettings.Defaults.OrderTaxCode;
-            newOrder.OrderType = currentSettings.Defaults.OrderType;
+            if (currentSettings != null)
+            {
+                newOrder.OrderCustNo = currentSettings.Defaults.OrderCustNo;
+                newOrder.OrderDDte = currentSettings.Defaults.OrderDDte;
+                newOrder.OrderEDays = currentSettings.Defaults.OrderEDays;
+                newOrder.OrderEventRate = currentSettings.Defaults.OrderEventRate;
+                newOrder.OrderLength = currentSettings.Defaults.OrderLength;
+                newOrder.OrderODte = currentSettings.Defaults.OrderODte;
+                newOrder.OrderTaxCode = currentSettings.Defaults.OrderTaxCode;
+                newOrder.OrderType = currentSettings.Defaults.OrderType;
+            }
             return newOrder;
         }
 

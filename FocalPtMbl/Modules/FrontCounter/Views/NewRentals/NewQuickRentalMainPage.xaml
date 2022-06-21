@@ -27,7 +27,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
                        Padding="5" Margin="10,10,10,5" IsVisible="{Binding IsCustomerNotSelected}">
@@ -240,7 +244,7 @@
 			                                IsFirstRowPlaceholder="True"
 			                                SelectedItem="{Binding SelectedTax, Mode=TwoWay}"
 			                                ItemsSource="{Binding TaxList}"/>
-                                    
+
                                     <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                                         <Label
                                                 Style="{DynamicResource NewRentalDetailsHeadingLables}"
@@ -292,25 +296,48 @@
 
                 <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
                        Padding="1" Margin="10,0,10,5">
-                    <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
-                                    ItemSelected="myPicker_ItemSelected" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <local:CustomDropDown Grid.Row="0" VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
+                                    ItemSelected="myPicker_ItemSelected"  HorizontalOptions="FillAndExpand"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                        <local:CustomDropDown.ItemsSource>
-                            <Binding>
-                                <Binding.Source>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>Select Item Type</x:String>
-                                        <x:String>Rentals</x:String>
-                                        <x:String>Merchandise</x:String>
-                                        <x:String>Rate Table</x:String>
-                                        <x:String>Rental Saleable</x:String>
-                                    </x:Array>
-                                </Binding.Source>
-                            </Binding>
-                        </local:CustomDropDown.ItemsSource>
-                    </local:CustomDropDown>
-                </Frame>
+                            <local:CustomDropDown.ItemsSource>
+                                <Binding>
+                                    <Binding.Source>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Select Item Type</x:String>
+                                            <x:String>Rentals</x:String>
+                                            <x:String>Merchandise</x:String>
+                                            <x:String>Rate Table</x:String>
+                                            <x:String>Rental Saleable</x:String>
+                                        </x:Array>
+                                    </Binding.Source>
+                                </Binding>
+                            </local:CustomDropDown.ItemsSource>
+                        </local:CustomDropDown>
+                        <Button Grid.Column="1" Text="Add Detail" Clicked="AddDetails_Clicked" WidthRequest="40" HeightRequest="40" BackgroundColor="#57b8ff" VerticalOptions="Center" />
+                    </Grid>
 
+                </Frame>
+                
+                <Grid VerticalOptions="End" Grid.Row="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Print Notes" Clicked="PrintNotes_Clicked" />
+                    <Button Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Internal Notes" Clicked="InternalNotes_Clicked" />
+                    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HeightRequest="40" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="{Binding CurrentTotal}" Clicked="TotalBreakout_Clicked" />
+
+                    <Button Grid.Row="3" Grid.Column="0"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Save" />
+                    <Button Grid.Row="3" Grid.Column="1"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Save and Email" />
+                    <Button Grid.Row="3" Grid.Column="2"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Payments"  Clicked="Payment_Clicked" />
+                    <Button Grid.Row="3" Grid.Column="3"  TextColor="White" HeightRequest="40" Padding="0" BackgroundColor="#2088ff" Text="Void" Clicked="VoidOrder_Clicked" />
+                </Grid>
                 <!--<Grid Grid.Row="3" Padding="10" HorizontalOptions="Fill">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

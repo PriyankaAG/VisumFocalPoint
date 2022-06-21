@@ -83,7 +83,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 return SelectedEndDateTime.Date;
             }
-            set 
+            set
             {
                 SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, SelectedEndDateTime.Second);
 
@@ -237,6 +237,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged(nameof(SelectedTax));
             }
         }
+
         public NewQuickRentalMainPageViewModel()
         {
             SelectedCustomer = null;
@@ -247,6 +248,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             RefreshDateTimeProperties();
 
         }
+
         public void RefreshDateTimeProperties()
         {
             OnPropertyChanged("StartTime");
@@ -257,54 +259,42 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             OnPropertyChanged("SelectedStartString");
             OnPropertyChanged("SelectedEndString");
         }
+
         public void PopulateMasters()
         {
             List<string> itemHolders = new List<string>();
             //Length
             itemHolders.Add("Select Length");
-            foreach (var item in TheOrderSettings.Lengths)
+            if (TheOrderSettings != null)
             {
-                if (string.IsNullOrEmpty(item.Display)) continue;
+                foreach (var item in TheOrderSettings?.Lengths)
+                {
+                    if (string.IsNullOrEmpty(item.Display)) continue;
 
-                itemHolders.Add(item.Display);
+                    itemHolders.Add(item.Display);
+                }
             }
             LengthList = itemHolders.ToArray();
 
             //Tax
             itemHolders.Clear();
             itemHolders.Add("Select Tax");
-            foreach (var item in TheOrderSettings.TaxCodes)
+            if (TheOrderSettings != null)
             {
-                if (string.IsNullOrEmpty(item.Display)) continue;
+                foreach (var item in TheOrderSettings?.TaxCodes)
+                {
+                    if (string.IsNullOrEmpty(item.Display)) continue;
 
-                itemHolders.Add(item.Display);
+                    itemHolders.Add(item.Display);
+                }
+                TaxList = itemHolders.ToArray();
             }
-            TaxList = itemHolders.ToArray();
-
             OnPropertyChanged(nameof(LengthList));
             OnPropertyChanged(nameof(TaxList));
 
         }
-        internal async Task<List<string>> CreateNewOrder()
-        {
-            TheOrderSettings = await NewQuickRentalEntityComponent.GetOrderSettings();
-            PopulateMasters();
-            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
-            if (OrderUpdate != null && OrderUpdate.Order != null)
-            {
-                CurrentOrder = OrderUpdate.Order;
 
-                //SelectedCustomerNameBox = CurrentOrder.Customer.CustomerName + " " + Regex.Replace(CurrentOrder.Customer.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3") + Environment.NewLine + "Type: " + displayCustType + " " + CurrentOrder.Customer.CustomerCity + ", " + CurrentOrder.Customer.CustomerState + " " + CurrentOrder.Customer.CustomerZip + " ";
 
-                SelectedCustomer = new Customer();
-                SelectedCustomer = CurrentOrder.Customer;
-                RefreshAllProperties();
-                if (OrderUpdate.Notifications.Count > 0)
-                    return OrderUpdate.Notifications;
-            }
-
-            return null;
-        }
         public void RefreshAllProperties()
         {
             OnPropertyChanged(nameof(CustomerPhoneFormatted));
@@ -317,7 +307,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         internal void GetEndDateAndTimeValues()
         {
             if (string.IsNullOrEmpty(SelectedLength)) return;
-            var selValue = TheOrderSettings.Lengths.Find(p => p.Display == SelectedLength).Value;
+            var selValue = TheOrderSettings?.Lengths.Find(p => p.Display == SelectedLength).Value;
 
             GetEndDateTime(selValue);
         }
@@ -419,6 +409,32 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             }
             RefreshDateTimeProperties();
+        }
+
+        internal async Task<List<string>> CreateNewOrder()
+        {
+            TheOrderSettings = await NewQuickRentalEntityComponent.GetOrderSettings();
+            PopulateMasters();
+            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
+            if (OrderUpdate != null && OrderUpdate.Order != null)
+            {
+                CurrentOrder = OrderUpdate.Order;
+
+                //SelectedCustomerNameBox = CurrentOrder.Customer.CustomerName + " " + Regex.Replace(CurrentOrder.Customer.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3") + Environment.NewLine + "Type: " + displayCustType + " " + CurrentOrder.Customer.CustomerCity + ", " + CurrentOrder.Customer.CustomerState + " " + CurrentOrder.Customer.CustomerZip + " ";
+
+                SelectedCustomer = new Customer();
+                SelectedCustomer = CurrentOrder.Customer;
+                RefreshAllProperties();
+                if (OrderUpdate.Notifications.Count > 0)
+                    return OrderUpdate.Notifications;
+            }
+
+            return null;
+        }
+
+        internal async Task<bool> VoidOrder()
+        {
+            return await NewQuickRentalEntityComponent.VoidOrder(CurrentOrder);
         }
     }
 }
