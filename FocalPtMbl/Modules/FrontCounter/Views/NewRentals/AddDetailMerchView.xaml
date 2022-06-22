@@ -10,9 +10,9 @@
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="5*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 <customcontrols:CustomDropDown Grid.Column="0">
                     <customcontrols:CustomDropDown.ItemsSource>
@@ -29,7 +29,7 @@
                     </customcontrols:CustomDropDown.ItemsSource>
                 </customcontrols:CustomDropDown>
                 <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
-                <Image Source="search.png" Grid.Column="2" WidthRequest="50">
+                <Image Source="search.png" Grid.Column="2" WidthRequest="40" HorizontalOptions="End">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Search_Tapped"/>
                     </Image.GestureRecognizers>
