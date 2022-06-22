@@ -1,12 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls" xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
              x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailMerchView">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Margin="10,10" BackgroundColor="#f5f6fa" VerticalOptions="FillAndExpand">
+            <Grid HeightRequest="40" Margin="5,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="5*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <customcontrols:CustomDropDown Grid.Column="0">
+                    <customcontrols:CustomDropDown.ItemsSource>
+                        <Binding>
+                            <Binding.Source>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Description</x:String>
+                                    <x:String>UPC Number</x:String>
+                                    <x:String>Part Number</x:String>
+                                    <x:String>Extended</x:String>
+                                </x:Array>
+                            </Binding.Source>
+                        </Binding>
+                    </customcontrols:CustomDropDown.ItemsSource>
+                </customcontrols:CustomDropDown>
+                <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
+                <Image Source="search.png" Grid.Column="2" WidthRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Search_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+            <CollectionView ItemsSource="{Binding Recent}" 
+                            ItemsLayout="VerticalGrid"
+                            BackgroundColor="#f5f6fa"
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame HasShadow="True" Margin="5,5" Padding="5,5,0,0" BackgroundColor="White">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
+                                <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
+                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
+                                <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
+                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
+                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
+                                <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

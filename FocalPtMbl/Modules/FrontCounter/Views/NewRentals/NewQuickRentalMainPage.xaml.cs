@@ -132,10 +132,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             //await Navigation.PushAsync(QOInternalNV);
         }
+
         private async void PrintNotes_Clicked(object sender, EventArgs e)
         {
             //await Navigation.PushAsync(QOPrintNV);
         }
+
         private async void TotalBreakout_Clicked(object sender, EventArgs e)
         {
            // await Navigation.PushAsync(QOTotalBV);
@@ -145,7 +147,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             ViewOrderEntityComponent order = new ViewOrderEntityComponent();
             var orderDetails = await order.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
-            await Navigation.PushAsync(new PaymentView(orderDetails));
+            if (orderDetails != null)
+            {
+                await Navigation.PushAsync(new PaymentView(orderDetails));
+            }
         }
     }
 }

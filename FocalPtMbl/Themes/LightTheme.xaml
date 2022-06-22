@@ -141,6 +141,11 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
+    <Style x:Key="LabelDefaultWhite" TargetType="Label">
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+    </Style>
+
     <Style x:Key="LabelDefaultBold" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource LabelDefaultColor}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
