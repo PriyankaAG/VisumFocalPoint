@@ -340,7 +340,7 @@
                                                     ItemsSource="{Binding StateList}"/>
 
                                             <local:LabelEditorCustomControl Grid.Row="4" Grid.Column="0" 
-                                                   EditorText="{Binding CustomerBillingZip.Value}" 
+                                                   EditorText="{Binding BillingZipCodeStr}" 
                                                    MaxLenth="100" LabelText="{Binding ZipLabel, Mode=TwoWay}" 
                                                    IsValid="{Binding CustomerBillingZip.IsValid, Mode=TwoWay}"
                                                    Command="{Binding ValidateBillingAddressSectionCommand}"

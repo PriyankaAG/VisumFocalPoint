@@ -14,5 +14,10 @@ namespace FocalPoint.Utils
         {
             return date.ToString("MM/dd/yyyy h:mm tt");
         }
+
+        public static bool HasData(this string result)
+        {
+            return (!string.IsNullOrEmpty(result) && !string.IsNullOrWhiteSpace(result));
+        }
     }
 }

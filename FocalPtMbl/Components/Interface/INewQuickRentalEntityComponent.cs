@@ -31,6 +31,13 @@ namespace FocalPoint.Components.Interface
 
         Task<OrderSettings> GetOrderSettings();
 
-        Task AddCustomer(Customer custToAdd);
+        Task<Customer> AddCustomer(Customer custToAdd);
+
+        Task<string> CheckPhoneNumber(string phNumber);
+
+        Task<string> CheckCustomerName(string FName, string LName);
+
+        Task<string> CheckDrivLicID(string drivLicID);
+        Task<OrderUpdate> UpdateOrder(OrderUpdate Update);
     }
 }
