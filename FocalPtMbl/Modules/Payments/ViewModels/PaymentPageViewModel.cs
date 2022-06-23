@@ -197,7 +197,10 @@ namespace FocalPoint.Modules.Payments.ViewModels
             CheckNumber = new ValidatableObject<string>();
             Payment = new ValidatableObject<string>();
             AddValidation();
-            SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+            if (Order != null)
+            {
+                SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+            }
         }
 
         #endregion
@@ -323,8 +326,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             if (Order?.Payments?.Count > 0)
             {
-                PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit));
-                DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit));
+                PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
+                DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
                 OnPropertyChanged(nameof(PaymentHistory.PaymentHistory));
             }
         }

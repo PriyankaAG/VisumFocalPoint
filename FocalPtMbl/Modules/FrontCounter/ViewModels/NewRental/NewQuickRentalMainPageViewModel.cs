@@ -10,6 +10,8 @@ using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 using System;
+using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
@@ -125,6 +127,24 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 _currentOrder = value;
+                if(_currentOrder!=null)
+                {
+                    BalanceDue = _currentOrder.OrderAmount - _currentOrder.OrderPaid;
+                }
+            }
+        }
+
+        Decimal? _balanceDue;
+        public Decimal? BalanceDue
+        {
+            get
+            {
+                return _balanceDue;
+            }
+            set
+            {
+                _balanceDue = value;
+                OnPropertyChanged("BalanceDue");
             }
         }
 
@@ -238,6 +258,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        private ObservableCollection<OrderDtl> recent;
+        public ObservableCollection<OrderDtl> Recent
+        {
+            get { return recent; }
+            set { recent = value; }
+        }
+
         public NewQuickRentalMainPageViewModel()
         {
             SelectedCustomer = null;
@@ -246,7 +273,40 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             SelectedStartDateTime = DateTime.Now;
             SelectedEndDateTime = SelectedStartDateTime.AddDays(1);
             RefreshDateTimeProperties();
+            Recent = new ObservableCollection<OrderDtl>();
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType", OrderDtlDscr = "OrderDtlDscr", OrderDtlDscr2 = "OrderDtlDscr2", OrderDtlAmt = 10, OrderDtlQty = 5 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
+            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
 
+            MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                //update order
+                //UpdateCust(arg.Order.Customer);
+                CurrentOrder = arg.Order;
+                //Sel.Clear();
+                //selCust.Add(arg.Order.Customer);
+                Recent.Clear();
+                foreach (var item in arg.Order.OrderDtls)
+                    Recent.Add(item);
+
+            });
+            MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {            
+                //update order
+                //UpdateCust(arg.Order.Customer);
+                CurrentOrder = arg.Order;
+                //selCust.Clear();
+                //selCust.Add(arg.Order.Customer);
+                Recent.Clear();
+                foreach (var item in arg.Order.OrderDtls)
+                    Recent.Add(item);
+
+            });
         }
 
         public void RefreshDateTimeProperties()

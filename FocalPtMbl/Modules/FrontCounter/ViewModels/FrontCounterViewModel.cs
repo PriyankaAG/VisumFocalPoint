@@ -110,7 +110,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             set
             {
                 _orderDashboardDetail = value;
-                OnPropertyChanged(nameof(OrderDashboardDetail));
+                //OnPropertyChanged(nameof(OrderDashboardDetail));
             }
         }
 

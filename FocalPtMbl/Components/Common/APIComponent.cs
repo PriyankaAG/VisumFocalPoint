@@ -98,6 +98,34 @@ namespace FocalPoint
             return typedRequestContent;
         }
 
+        public async Task<T> PutAsync<T>(string url, string requestContent)
+        {
+            T typedRequestContent = default;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await PutAsync(url, requestContent);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else
+                {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return typedRequestContent;
+        }
+
         public async Task<T> SendAsync<T>(string url, string requestContent, bool isLoginMethod = false)
         {
             T typedRequestContent = default;
@@ -148,6 +176,23 @@ namespace FocalPoint
                 StringContent requestContent = new StringContent(requestConentString);
                 HttpContent content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
                 responseMessage = await ClientHTTP.PostAsync(GetCompleteURL(url), content);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return responseMessage;
+        }
+
+        public async Task<HttpResponseMessage> PutAsync(string url, string requestConentString)
+        {
+            HttpResponseMessage responseMessage = null;
+            try
+            {
+                StringContent requestContent = new StringContent(requestConentString);
+                HttpContent content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
+                responseMessage = await ClientHTTP.PutAsync(GetCompleteURL(url), content);
             }
             catch
             {
