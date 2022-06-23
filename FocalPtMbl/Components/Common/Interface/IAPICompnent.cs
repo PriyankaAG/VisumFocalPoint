@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint
 {
@@ -13,9 +14,11 @@ namespace FocalPoint
 
         Task<HttpResponseMessage> PostAsync(string url, string requestConentString);
 
-        Task<T> SendAsync<T>(string url, string requestConentString, bool isLoginMethod);
+        Task<T> SendAsync<T>(string url, string requestConentString, bool isLoginMethod = false);
 
         void AddStoreToHeader(string storeNo);
         void AddTerminalToHeader(string terminalNo);
+
+        Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false);
     }
 }

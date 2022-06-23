@@ -25,6 +25,9 @@ namespace FocalPoint.Components.EntityComponents
         const string AvailabilityRentalsAPIKey = "Availability/Rentals/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
 
+        const string CheckPhoneNumberAPIKey = "CustomerPhoneDupes/{0}/{1}";
+        const string CheckCustomerNameAPIKey = "CustomerNameCheck/{0}/{1}/{2}";
+        const string CheckCustomerIDAPIKey = "CustomerIDCheck/{0}/{1}";
 
         private int StoreID = 1;
         private string Search = "%";
@@ -36,6 +39,9 @@ namespace FocalPoint.Components.EntityComponents
         public NewQuickRentalEntityComponent()
         {
             apiComponent = new APIComponent();
+            //apiComponent.AddStoreToHeader("1");
+            //apiComponent.AddTerminalToHeader("6");
+
         }
 
         public async Task<List<Customer>> GetCustomers(string searchCustomer)
@@ -150,6 +156,26 @@ namespace FocalPoint.Components.EntityComponents
             return false;
         }
 
+        public async Task<OrderUpdate> UpdateOrder(OrderUpdate Update)
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                var stringContent = new StringContent(
+            JsonConvert.SerializeObject(new { Update }),
+              Encoding.UTF8,
+              "application/json");
+                string res = await stringContent.ReadAsStringAsync();
+                responseOrderUpdate = await apiComponent.SendAsyncUpdateOrder(OrderAPIKey, res);
+
+            }
+            catch (Exception)
+            {
+            }
+
+            return responseOrderUpdate;
+        }
+
         public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn)
         {
             List<AvailabilityRent> res = null;
@@ -221,8 +247,9 @@ namespace FocalPoint.Components.EntityComponents
         }
 
 
-        public async Task AddCustomer(Customer NewCustomer)
+        public async Task<Customer> AddCustomer(Customer NewCustomer)
         {
+            Customer result = null;
             try
             {
                 var stringContent = new StringContent(
@@ -231,12 +258,57 @@ namespace FocalPoint.Components.EntityComponents
                      "application/json");
                 string res = await stringContent.ReadAsStringAsync();
 
-                var result = await apiComponent.PostAsync<Customer>(AddCustomerAPIKey, res);
+                result = await apiComponent.PostAsync<Customer>(AddCustomerAPIKey, res);
             }
             catch (Exception ex)
             {
                 //TODO: Log error
             }
+            return result;
+        }
+        public async Task<string> CheckPhoneNumber(string phNumber)
+        {
+            string output = null;
+            try
+            {
+
+                output = await apiComponent.GetAsync<string>(string.Format(CheckPhoneNumberAPIKey, 0, phNumber));
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return output;
+        }
+        public async Task<string> CheckCustomerName(string FName, string LName)
+        {
+            string output = null;
+            try
+            {
+                output = await apiComponent.GetAsync<string>(string.Format(CheckCustomerNameAPIKey, 0, FName, LName));
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return output;
+        }
+        public async Task<string> CheckDrivLicID(string drivLicID)
+        {
+            string output = null;
+            try
+            {
+
+                output = await apiComponent.GetAsync<string>(string.Format(CheckCustomerIDAPIKey, 0, drivLicID));
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return output;
         }
     }
 }

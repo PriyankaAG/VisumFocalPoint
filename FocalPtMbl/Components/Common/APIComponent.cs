@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint
@@ -124,6 +125,56 @@ namespace FocalPoint
             }
             return typedRequestContent;
         }
+        public async Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false)
+        {
+            OrderUpdate orderUpdateRefresh = new OrderUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, isLoginMethod);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                    //orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent);
+                    //check if empty result
+                    if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                    {
+                        //CurrentOrder = orderUpdateRefresh.Order;
+                        if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
+                        {
+                            orderUpdateRefresh.Answers.Clear();
+                            return orderUpdateRefresh;
+                        }
+                    }
+                    else
+                        throw new Exception("Order customer not changed");
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                    //exceptionMessage = questionFaultExceptiom.Message;
+
+                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+            }
+            return orderUpdateRefresh;
+        }
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
@@ -157,7 +208,7 @@ namespace FocalPoint
             return responseMessage;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod)
+        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
         {
             HttpResponseMessage responseMessage;
             try

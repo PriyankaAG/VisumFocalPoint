@@ -162,7 +162,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             get
             {
                 var strToReturn = "";
-                if (SelectedCustomer == null)
+                if (SelectedCustomer == null || SelectedCustomer.CustomerPhone == null)
                     strToReturn = "Phone: N/A";
                 else
                     strToReturn = Regex.Replace(SelectedCustomer?.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3");
@@ -303,6 +303,16 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     return OrderUpdate.Notifications;
             }
 
+            //Temp code added
+            if (CurrentOrder == null)
+            {
+                ViewOrderEntityComponent order = new ViewOrderEntityComponent();
+                CurrentOrder = await order.GetOrderDetails(501842);
+                SelectedCustomer = new Customer();
+                SelectedCustomer = CurrentOrder.Customer;
+                RefreshAllProperties();
+            }
+
             return null;
         }
         public void RefreshAllProperties()
@@ -420,5 +430,33 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             RefreshDateTimeProperties();
         }
+
+        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer)
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.Customer = selectedCustomer;
+                    CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
+                    var Update = OrderUpdate;
+                    Update.Order = CurrentOrder;
+
+                    responseOrderUpdate = await NewQuickRentalEntityComponent.UpdateOrder(Update);
+                    if (responseOrderUpdate != null)
+                    {
+                        CurrentOrder = responseOrderUpdate.Order;
+                        OnPropertyChanged("CurrentOrder");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+               
+            }
+            return responseOrderUpdate;
+        }
+
     }
 }
