@@ -145,8 +145,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Payment_Clicked(object sender, EventArgs e)
         {
-            ViewOrderEntityComponent order = new ViewOrderEntityComponent();
-            var orderDetails = await order.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
+            ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
+            //var orderDetails = await order.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
+            var orderDetails = await viewOrderEntityComponent.GetOrderDetails(501842);
             if (orderDetails != null)
             {
                 await Navigation.PushAsync(new PaymentView(orderDetails));

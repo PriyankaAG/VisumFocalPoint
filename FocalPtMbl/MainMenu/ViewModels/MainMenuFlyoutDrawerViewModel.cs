@@ -60,7 +60,7 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 0,
                     Title = "Dashboard",
                     Icon = "dashboard.png",
-                    TargetType = typeof(MainPage),
+                    TargetType = typeof(FrontCounter),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
