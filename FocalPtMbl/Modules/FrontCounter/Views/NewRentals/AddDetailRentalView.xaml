@@ -15,7 +15,20 @@
                     <ColumnDefinition Width="5*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <customcontrols:CustomDropDown Grid.Column="0" />
+                <customcontrols:CustomDropDown Grid.Column="0">
+                    <customcontrols:CustomDropDown.ItemsSource>
+                        <Binding>
+                            <Binding.Source>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Description</x:String>
+                                    <x:String>Equipment ID</x:String>
+                                    <x:String>Serial Number</x:String>
+                                    <x:String>Rental Rate</x:String>
+                                </x:Array>
+                            </Binding.Source>
+                        </Binding>
+                    </customcontrols:CustomDropDown.ItemsSource>
+                </customcontrols:CustomDropDown>
                 <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
                 <Button Grid.Column="2" Text="Search" Clicked="Search_Clicked" BackgroundColor="#57b8ff" VerticalOptions="Center" />
             </Grid>

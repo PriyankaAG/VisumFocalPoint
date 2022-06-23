@@ -18,26 +18,34 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView>
-            <Grid RowSpacing="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="75"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0">
+                <Grid RowSpacing="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
                        Padding="5" Margin="10,10,10,5" IsVisible="{Binding IsCustomerNotSelected}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="40"/>
-                        </Grid.ColumnDefinitions>
-                        <!--Customer Not selected-->
-                        <Label
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <!--Customer Not selected-->
+                            <Label
                             Grid.Row="0" 
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource NewCustomerExpanderHeaderLable}"
@@ -46,31 +54,31 @@
                             HorizontalOptions="Start"
                             VerticalOptions="Center"/>
 
-                        <Grid Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <Frame HasShadow="True" CornerRadius="8" Padding="2">
-                                <ImageButton Padding="5" BackgroundColor="{StaticResource NewQuickRentalFrameButtonColor}"
+                            <Grid Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Frame HasShadow="True" CornerRadius="8" Padding="2">
+                                    <ImageButton Padding="5" BackgroundColor="{StaticResource NewQuickRentalFrameButtonColor}"
                                          CornerRadius="8"
                                          Source="handselectwhite" HeightRequest="40" WidthRequest="40" Clicked="Button_Clicked"/>
-                            </Frame>
+                                </Frame>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Frame>
+                    </Frame>
 
-                <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
+                    <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
                        Padding="5" Margin="10,10,10,5" IsVisible="{Binding IsCustomerSelected}">
-                    <xct:Expander x:Name="ExpanderCustomer" IsEnabled="{Binding IsCustomerSelected}">
-                        <xct:Expander.Header>
-                            <Grid HorizontalOptions="Fill" Padding="0,5,10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="40"/>
-                                </Grid.ColumnDefinitions>
+                        <xct:Expander x:Name="ExpanderCustomer" IsEnabled="{Binding IsCustomerSelected}">
+                            <xct:Expander.Header>
+                                <Grid HorizontalOptions="Fill" Padding="0,5,10,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <!--Customer Is selected-->
-                                <Label
+                                    <!--Customer Is selected-->
+                                    <Label
                                     Grid.Row="0"
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource NewCustomerExpanderHeaderLable}"
@@ -79,154 +87,154 @@
                                     HorizontalOptions="Start"
                                     VerticalOptions="Center"/>
 
-                                <Frame Grid.Column="1" BackgroundColor="#5a607f" Padding="1"
+                                    <Frame Grid.Column="1" BackgroundColor="#5a607f" Padding="1"
                                     HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
                                     CornerRadius="50" >
-                                    <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
-                                        <Image.Triggers>
-                                            <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderCustomer}}" Value="True">
-                                                <Setter Property="Source" Value="upwhite.png" />
-                                            </DataTrigger>
-                                        </Image.Triggers>
-                                    </Image>
-                                    <Frame.Triggers>
-                                        <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderCustomer}}" Value="True">
-                                            <Setter Property="BackgroundColor" Value="#f99600" />
-                                        </DataTrigger>
-                                    </Frame.Triggers>
-                                </Frame>
-                            </Grid>
-                        </xct:Expander.Header>
-                        <xct:Expander.Content>
-                            <StackLayout BackgroundColor="{StaticResource NewQuickRentalBGColor}" Padding="0,3,0,5" Margin="0">
-                                <Grid RowSpacing="5" Padding="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="40"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0" IsVisible="{Binding IsCustomerSelected}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Column="0" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailEmail  }" 
-                                               Text="{Binding SelectedCustomer.CustomerEmail}"  MaxLines="1" LineBreakMode="TailTruncation">
-                                            <Label.Triggers>
-                                                <DataTrigger TargetType="Label" Binding="{Binding SelectedCustomer.CustomerEmail, Converter={StaticResource isNullConverter}}" Value="True">
-                                                    <Setter Property="Text" Value="Email: N/A" />
+                                        <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
+                                            <Image.Triggers>
+                                                <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderCustomer}}" Value="True">
+                                                    <Setter Property="Source" Value="upwhite.png" />
                                                 </DataTrigger>
-                                            </Label.Triggers>
-                                        </Label>
-                                        <Label Grid.Column="1" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" 
-                                               Text="{Binding CustomerPhoneFormatted}" MaxLines="2" LineBreakMode="TailTruncation"/>
-                                    </Grid>
-                                    <Grid Grid.Row="1" IsVisible="{Binding IsCustomerSelected}">
+                                            </Image.Triggers>
+                                        </Image>
+                                        <Frame.Triggers>
+                                            <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference ExpanderCustomer}}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="#f99600" />
+                                            </DataTrigger>
+                                        </Frame.Triggers>
+                                    </Frame>
+                                </Grid>
+                            </xct:Expander.Header>
+                            <xct:Expander.Content>
+                                <StackLayout BackgroundColor="{StaticResource NewQuickRentalBGColor}" Padding="0,3,0,5" Margin="0">
+                                    <Grid RowSpacing="5" Padding="5">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
                                         </Grid.RowDefinitions>
-                                        <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                                            <Label Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailAddress}"  
+                                        <Grid Grid.Row="0" IsVisible="{Binding IsCustomerSelected}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Column="0" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailEmail  }" 
+                                               Text="{Binding SelectedCustomer.CustomerEmail}"  MaxLines="1" LineBreakMode="TailTruncation">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding SelectedCustomer.CustomerEmail, Converter={StaticResource isNullConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="Email: N/A" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Grid.Column="1" Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" 
+                                               Text="{Binding CustomerPhoneFormatted}" MaxLines="2" LineBreakMode="TailTruncation"/>
+                                        </Grid>
+                                        <Grid Grid.Row="1" IsVisible="{Binding IsCustomerSelected}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <StackLayout Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                                                <Label Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailAddress}"  
                                         Text="{Binding CustomerAddressFormatted}"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                                                <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
                                                 Text="Type: "/>
-                                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                                                <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
                                                 Text="{Binding CustomerTypeFormatted}"/>
-                                        </StackLayout>
-                                    </Grid>
-                                    <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center" HorizontalOptions="Center">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="40"/>
-                                        </Grid.RowDefinitions>
-                                        <Frame HasShadow="True" CornerRadius="8" Padding="2">
-                                            <ImageButton Padding="5" BackgroundColor="{StaticResource NewQuickRentalFrameButtonColor}"
+                                            </StackLayout>
+                                        </Grid>
+                                        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center" HorizontalOptions="Center">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="40"/>
+                                            </Grid.RowDefinitions>
+                                            <Frame HasShadow="True" CornerRadius="8" Padding="2">
+                                                <ImageButton Padding="5" BackgroundColor="{StaticResource NewQuickRentalFrameButtonColor}"
                                                  CornerRadius="8"
                                                  Source="handselectwhite" HeightRequest="40" WidthRequest="40" Clicked="Button_Clicked"/>
-                                        </Frame>
+                                            </Frame>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </StackLayout>
-                        </xct:Expander.Content>
-                    </xct:Expander>
-                </Frame>
+                                </StackLayout>
+                            </xct:Expander.Content>
+                        </xct:Expander>
+                    </Frame>
 
-                <Frame Grid.Column="0" Grid.Row="1" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                    <Frame Grid.Column="0" Grid.Row="1" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
                        Padding="5" Margin="10,0,10,5">
-                    <xct:Expander x:Name="Expander1">
-                        <xct:Expander.Header>
-                            <Grid HorizontalOptions="Fill" Padding="10,5,10,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="30"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
+                        <xct:Expander x:Name="Expander1">
+                            <xct:Expander.Header>
+                                <Grid HorizontalOptions="Fill" Padding="10,5,10,5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <StackLayout  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
-                                        <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackLayout  Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
                                        Text="Out Date: "/>
-                                        <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
                                        Text="{Binding SelectedStartString}"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
-                                        <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
+                                        </StackLayout>
+                                        <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Start" VerticalOptions="Start">
+                                            <Label Style="{DynamicResource NewQuickRentalFrameQuestionLable}" 
                                        Text="Due Date: "/>
-                                        <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                                            <Label Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
                                        Text="{Binding SelectedEndString}"/>
-                                    </StackLayout>
-                                </Grid>
-                                <Frame Grid.Column="1" BackgroundColor="#5a607f" Padding="1" 
+                                        </StackLayout>
+                                    </Grid>
+                                    <Frame Grid.Column="1" BackgroundColor="#5a607f" Padding="1" 
                                                             HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
                                                             CornerRadius="50" >
-                                    <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
-                                        <Image.Triggers>
-                                            <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander1}}" Value="True">
-                                                <Setter Property="Source" Value="upwhite.png" />
+                                        <Image WidthRequest="10" Source="downwhite.png" Margin="5" >
+                                            <Image.Triggers>
+                                                <DataTrigger TargetType="Image" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander1}}" Value="True">
+                                                    <Setter Property="Source" Value="upwhite.png" />
+                                                </DataTrigger>
+                                            </Image.Triggers>
+                                        </Image>
+                                        <Frame.Triggers>
+                                            <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander1}}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="#f99600" />
                                             </DataTrigger>
-                                        </Image.Triggers>
-                                    </Image>
-                                    <Frame.Triggers>
-                                        <DataTrigger TargetType="Frame" Binding="{Binding Path=IsExpanded, Source={x:Reference Expander1}}" Value="True">
-                                            <Setter Property="BackgroundColor" Value="#f99600" />
-                                        </DataTrigger>
-                                    </Frame.Triggers>
-                                </Frame>
-                            </Grid>
-                        </xct:Expander.Header>
-                        <xct:Expander.Content>
-                            <StackLayout BackgroundColor="{StaticResource NewQuickRentalBGColor}" Padding="0,0,0,5" Margin="0">
-                                <Grid RowSpacing="5" Padding="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray"/>
+                                        </Frame.Triggers>
+                                    </Frame>
+                                </Grid>
+                            </xct:Expander.Header>
+                            <xct:Expander.Content>
+                                <StackLayout BackgroundColor="{StaticResource NewQuickRentalBGColor}" Padding="0,0,0,5" Margin="0">
+                                    <Grid RowSpacing="5" Padding="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Line Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="LightGray"/>
 
 
-                                    <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0" 
+                                        <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="0" 
 			                                VerticalOptions="Start" Padding="1"
 			                                LabelText="Length"
 			                                IsFirstRowPlaceholder="True"
@@ -234,91 +242,201 @@
                                             ItemSelected="LabelDropDownCustomControl_ItemSelected"
 			                                ItemsSource="{Binding LengthList}"/>
 
-                                    <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1" 
+                                        <local:LabelDropDownCustomControl Grid.Row="1" Grid.Column="1" 
 			                                VerticalOptions="Start" Padding="1"
 			                                LabelText="Tax"
 			                                IsFirstRowPlaceholder="True"
 			                                SelectedItem="{Binding SelectedTax, Mode=TwoWay}"
 			                                ItemsSource="{Binding TaxList}"/>
-                                    
-                                    <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical">
-                                        <Label
+
+                                        <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical">
+                                            <Label
                                                 Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="Start Date"  Padding="1"/>
-                                        <DatePicker  Date="{Binding StartDate}"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Vertical">
-                                        <Label
+                                            <DatePicker  Date="{Binding StartDate}"/>
+                                        </StackLayout>
+                                        <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+                                            <Label
                                             Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                             LineBreakMode="WordWrap"
                                             Text="Time"  Padding="1"/>
-                                        <TimePicker Time="{Binding StartTime}"/>
-                                    </StackLayout>
+                                            <TimePicker Time="{Binding StartTime}"/>
+                                        </StackLayout>
 
-                                    <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Vertical">
-                                        <Label
+                                        <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Vertical">
+                                            <Label
                                                 Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="End Date"  Padding="1"/>
-                                        <DatePicker Date="{Binding EndDate}" />
-                                    </StackLayout>
-                                    <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Vertical">
-                                        <Label
+                                            <DatePicker Date="{Binding EndDate}" />
+                                        </StackLayout>
+                                        <StackLayout Grid.Row="3" Grid.Column="1" Orientation="Vertical">
+                                            <Label
                                             Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                             LineBreakMode="WordWrap"
                                             Text="Time"  Padding="1"/>
-                                        <TimePicker Time="{Binding EndTime}" />
+                                            <TimePicker Time="{Binding EndTime}" />
 
-                                    </StackLayout>
+                                        </StackLayout>
 
-                                    <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Vertical">
-                                        <Label
+                                        <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Vertical">
+                                            <Label
                                                 Style="{DynamicResource NewRentalDetailsHeadingLables}"
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="Exempt ID"  Padding="1"/>
-                                        <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Exempt ID" />
-                                    </StackLayout>
-                                </Grid>
-                            </StackLayout>
-                        </xct:Expander.Content>
-                    </xct:Expander>
-                </Frame>
+                                            <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Exempt ID" />
+                                        </StackLayout>
+                                    </Grid>
+                                </StackLayout>
+                            </xct:Expander.Content>
+                        </xct:Expander>
+                    </Frame>
 
-                <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
-                       Padding="1" Margin="10,0,10,5">
-                    <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
-                                    ItemSelected="myPicker_ItemSelected" 
+                    <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                       Padding="5" Margin="10,0,10,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:CustomDropDown Grid.Row="0" VerticalOptions="Center" x:Name="myPicker" IsFirstRowPlaceholder="True"
+                                    ItemSelected="myPicker_ItemSelected"  HorizontalOptions="FillAndExpand"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                        <local:CustomDropDown.ItemsSource>
-                            <Binding>
-                                <Binding.Source>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>Select Item Type</x:String>
-                                        <x:String>Rentals</x:String>
-                                        <x:String>Merchandise</x:String>
-                                        <x:String>Rate Table</x:String>
-                                        <x:String>Rental Saleable</x:String>
-                                    </x:Array>
-                                </Binding.Source>
-                            </Binding>
-                        </local:CustomDropDown.ItemsSource>
-                    </local:CustomDropDown>
-                </Frame>
+                                <local:CustomDropDown.ItemsSource>
+                                    <Binding>
+                                        <Binding.Source>
+                                            <x:Array Type="{x:Type x:String}">
+                                                <x:String>Select Item Type</x:String>
+                                                <x:String>Rentals</x:String>
+                                                <x:String>Merchandise</x:String>
+                                                <x:String>Rate Table</x:String>
+                                                <x:String>Rental Saleable</x:String>
+                                            </x:Array>
+                                        </Binding.Source>
+                                    </Binding>
+                                </local:CustomDropDown.ItemsSource>
+                            </local:CustomDropDown>
+                            <Button Grid.Column="1" Text="Add Detail" Clicked="AddDetails_Clicked" WidthRequest="40" HeightRequest="40" BackgroundColor="#57b8ff" VerticalOptions="Center" />
+                        </Grid>
 
-                <!--<Grid Grid.Row="3" Padding="10" HorizontalOptions="Fill">
+                    </Frame>
+
+                    <Frame Grid.Column="0" Grid.Row="3" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                       Padding="5" Margin="10,0,10,5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Text="Order Details" Style="{DynamicResource LabelSubHeader}"/>
+                            <StackLayout Grid.Row="1"
+                                Orientation="Vertical"
+                                VerticalOptions="Start"
+                                HorizontalOptions="Center"
+                                BindableLayout.ItemsSource="{Binding Recent}"
+                                Padding="2,0">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame HasShadow="True" Margin="2" Padding="5,5,0,5" BackgroundColor="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2.5*" />
+                                                    <ColumnDefinition Width="2.5*" />
+                                                    <ColumnDefinition Width="2.5*" />
+                                                    <ColumnDefinition Width="2.5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding OrderDtlType}" Style="{DynamicResource LabelListHeader}" />
+                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr}" Style="{DynamicResource LabelListDetail}" />
+                                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding OrderDtlDscr2}" Grid.ColumnSpan="4" Style="{DynamicResource LabelListHeader}" />
+                                                <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelListHeader}" />
+                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:c}'}" Style="{DynamicResource LabelListDetail}" />
+                                                <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelListHeader}" />
+                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty}" Style="{DynamicResource LabelListDetail}" />
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </ScrollView>
+            <Grid Grid.Row="1" VerticalOptions="End" RowSpacing="2" Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="Payment" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource TabPageFavoriteColor}" VerticalOptions="CenterAndExpand" Padding="5">
+                    <Label Grid.Column="0" Text="Total Due" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"/>
+                    <Label Grid.Column="1" Text="{Binding Order.OrderAmount, StringFormat='{}{0:c}'}" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" BackgroundColor="{DynamicResource TabPageFavoriteColor}"  VerticalOptions="CenterAndExpand" Padding="5">
+                    <Label Grid.Column="0" Text="Balance Due" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                    <Label Grid.Column="1" Text="{Binding BalanceDue, StringFormat='{}{0:c}'}"  Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="End"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Button Grid.Row="3" HorizontalOptions="End" BackgroundColor="{DynamicResource TabPageFavoriteColor}" 
+                        TextColor="#FFFFFF" Text="PAYMENT" Clicked="Payment_Clicked" Style="{DynamicResource PrimaryButton}"/>
+                <Grid Grid.Row="4" ColumnSpacing="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
-                </Grid>-->
+                    <Button Text="TOTALS BREAKOUT" Grid.Column="0" Style="{DynamicResource PrimaryButton}"
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>
+                    <Button Text="ORDER NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>
+                    <Button Text="INTERNAL NOTES" Grid.Column="2" Style="{DynamicResource PrimaryButton}"
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>        
+                </Grid>
             </Grid>
-        </ScrollView>
+            <Grid Grid.Row="2" Style="{DynamicResource GridFooterDefault}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"/>
+                </StackLayout>
+                <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="2">
+                    <Image Source="return_order.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save &amp; Email"/>
+                </StackLayout>
+                <BoxView Grid.Column="3" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="4">
+                    <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save As Quote"/>
+                </StackLayout>
+                <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="6">
+                    <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Void"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="VoidOrder_Clicked"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

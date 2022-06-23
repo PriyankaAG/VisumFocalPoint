@@ -31,15 +31,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
-        private async Task TextEdit_Completed(object sender, EventArgs e)
-        {
-            await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo("");
-        }
-        private async void TextEdit_Cleared(object sender, EventArgs e)
-        {
-            await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo("");
-        }
-
         private async Task AddToOrder_Clicked(object sender, EventArgs e)
         {
             List<string> selectedSerials = new List<string>();
@@ -65,8 +56,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     OrderUpdate UpdatedOrder = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
                     if (UpdatedOrder != null && UpdatedOrder.Order != null)
                     {
-                        //TODO: Need to check usage
-                        //MessagingCenter.Send<QuickOrderDetailsMerchView, OrderUpdate>(this, "Hi", UpdatedOrder);
+                        MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
                         await Navigation.PopAsync();
                     }
                     else if (UpdatedOrder.Order == null)
@@ -82,6 +72,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
             else
                 await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+        }
+
+        private void Search_Tapped(object sender, EventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+            });
         }
     }
 }

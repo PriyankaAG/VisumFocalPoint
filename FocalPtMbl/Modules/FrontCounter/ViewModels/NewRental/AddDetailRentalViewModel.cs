@@ -70,13 +70,14 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                         {
                             Recent.Add(customer);
                         }
-                    }
+                    }                    
                 }
                 else
                 {
                     if (recent != null)
                         Recent.Clear();
                 }
+                OnPropertyChanged(nameof(Recent));
             }
             catch (Exception ex)
             {

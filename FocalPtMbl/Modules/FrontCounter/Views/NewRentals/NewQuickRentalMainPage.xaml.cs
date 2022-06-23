@@ -1,9 +1,7 @@
-﻿using System;
+﻿using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
+using FocalPoint.Modules.Payments.Views;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,6 +19,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         }
 
         private List<string> notifications = new List<string>();
+        private string selectedItem = "";
+
         private void GetOrderInfo()
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -38,7 +38,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 //}
             });
         }
-
 
         private void Button_Clicked(object sender, EventArgs e)
         {
@@ -123,11 +122,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             var data = e.SelectedIndex;
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
-                var selected = myPicker.ItemsSource[e.SelectedIndex];
-                //AddDetailRentalView rentalView = new AddDetailRentalView(1);
-                //await Navigation.PushAsync(rentalView);
-
-                DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
+                selectedItem = myPicker.ItemsSource[e.SelectedIndex];
             }
         }
 
@@ -141,6 +136,78 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
         {
             (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
+        }
+
+        private async void AddDetails_Clicked(object sender, EventArgs e)
+        {
+            if (selectedItem == "")
+            {
+                await DisplayAlert("Select Type", "Please select a search type", "OK");
+                return;
+            }
+            if (selectedItem == "Rentals" || selectedItem == "Rate Table" || selectedItem == "Rental Salable")
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(1);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
+            }
+            else if (selectedItem == "Merchandise")
+            {
+                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
+                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
+                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailMerchView.BindingContext = addDetailMerchView;
+                await Navigation.PushAsync(addDetailMerchView);
+            }            
+        }
+
+        private async void VoidOrder_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool doVoid = await DisplayAlert("Void", "Are you sure you want to void?", "OK", "Cancel");
+                if (doVoid)
+                {
+                    if (await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder())
+                    {
+                        //TODO: Navigate to the Main Page
+                    }
+                    else
+                        await DisplayAlert("Void", "Void did not succeed try again", "OK");
+                }
+            }
+            catch(Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+
+        private async void InternalNotes_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushAsync(QOInternalNV);
+        }
+
+        private async void PrintNotes_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushAsync(QOPrintNV);
+        }
+
+        private async void TotalBreakout_Clicked(object sender, EventArgs e)
+        {
+           // await Navigation.PushAsync(QOTotalBV);
+        }
+
+        private async void Payment_Clicked(object sender, EventArgs e)
+        {
+            ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
+            //var orderDetails = await order.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
+            var orderDetails = await viewOrderEntityComponent.GetOrderDetails(501842);
+            if (orderDetails != null)
+            {
+                await Navigation.PushAsync(new PaymentView(orderDetails));
+            }
         }
     }
 }

@@ -317,8 +317,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
                 else if (questionFault == null)
                 {
-                    //TODO: need to check this functionality
-                    //MessagingCenter.Send<QuickOrderDetailsView, OrderUpdate>(this, "Hi", UpdatedOrder);
+                    MessagingCenter.Send<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
                     await Navigation.PopAsync();
                 }
                 else if (UpdatedOrder == null)
