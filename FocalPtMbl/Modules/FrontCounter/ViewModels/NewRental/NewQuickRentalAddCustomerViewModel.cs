@@ -193,19 +193,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged("PhoneNumberSMS");
             }
         }
-        public string ZipCodeStr
-        {
-            get
-            {
-                return CustomerZip.Value;
-            }
-            set
-            {
-                CustomerZip.Value = fomatZipCode(value);
-                OnPropertyChanged("ZipCodeStr");
-                OnPropertyChanged("CustomerZip");
-            }
-        }
         public bool IsPageLoaded { get; set; }
         bool _isPrintAlsoIfSent;
         public bool IsPrintAlsoIfSent
@@ -535,15 +522,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 _customerCityString = value;
                 CustomerToAdd.CustomerCity = value;
 
-                //if (CustSettings != null && CustSettings.Countrys != null)
-                //{
-                //    var countryVal = CustSettings.Countrys.Find(p => p.Display == value);
-                //    if (countryVal != null)
-                //    {
-                //        CustomerToAdd.CustomerCountry = countryVal.Value;
-                //    }
-                //}
-
                 //Find Selected Index
                 if (CityList != null && CityList.Length > 0)
                 {
@@ -651,6 +629,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 _customerZip = value;
                 CustomerToAdd.CustomerZip = value.Value;
+            }
+        }
+        public string ZipCodeStr
+        {
+            get
+            {
+                return CustomerZip.Value;
+            }
+            set
+            {
+                CustomerZip.Value = fomatZipCode(value);
+                OnPropertyChanged("ZipCodeStr");
+                OnPropertyChanged("CustomerZip");
             }
         }
         private bool ValidateAddressSection()
@@ -824,6 +815,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 _customerBillingZip = value;
                 CustomerToAdd.CustomerBillZip = value.Value;
+            }
+        }
+        public string BillingZipCodeStr
+        {
+            get
+            {
+                return CustomerBillingZip.Value;
+            }
+            set
+            {
+                CustomerBillingZip.Value = fomatZipCode(value);
+                OnPropertyChanged("BillingZipCodeStr");
+                OnPropertyChanged("CustomerBillingZip");
             }
         }
         private bool ValidateBillingAddressSection()
@@ -1143,7 +1147,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             if (!IsPageLoaded) return true;
 
             CustomerToAdd.CustomerDrLic = _licenceNumberDisplay;
-            CustomerToAdd.CustomerDrLicSt = _licenceStateDisplay;
+            //CustomerToAdd.CustomerDrLicSt = _licenceStateDisplay;
 
             bool expChk = _licenceExpiration.Validate();
             bool stateChk = _licenceState.Validate();
@@ -1219,9 +1223,25 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             await FetchMastersData();
         }
 
-        public async Task AddCustomer()
+        public async Task<string> CheckPhoneNumber()
         {
-            await NewQuickRentalEntityComponent.AddCustomer(CustomerToAdd);
+            var str = await NewQuickRentalEntityComponent.CheckPhoneNumber(CustomerToAdd.CustomerPhone);
+            return str;
+        }
+        public async Task<string> CheckCustomerName()
+        {
+            var str = await NewQuickRentalEntityComponent.CheckCustomerName(CustomerToAdd.CustomerFName, CustomerToAdd.CustomerLName);
+            return str;
+        }
+        public async Task<string> CheckLicenseNumber()
+        {
+            var str = await NewQuickRentalEntityComponent.CheckDrivLicID(CustomerToAdd.CustomerDrLic);//CustomerToAdd.CustomerPhone);
+            return str;
+        }
+        public async Task<Customer> AddCustomer()
+        {
+           var result = await NewQuickRentalEntityComponent.AddCustomer(CustomerToAdd);
+            return result;
         }
         public async Task FetchMastersData()
         {
