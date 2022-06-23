@@ -58,13 +58,13 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
-                UpdateTheOrder(customer);
+                //UpdateTheOrder(customer);
             });
             MessagingCenter.Subscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
-                UpdateTheOrder(customer);
+                //UpdateTheOrder(customer);
             });
 
         }
@@ -160,7 +160,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailMerchView.BindingContext = addDetailMerchView;
                 await Navigation.PushAsync(addDetailMerchView);
-            }            
+            }
         }
 
         private async void VoidOrder_Clicked(object sender, EventArgs e)
@@ -178,7 +178,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         await DisplayAlert("Void", "Void did not succeed try again", "OK");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: log error
             }
@@ -196,7 +196,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void TotalBreakout_Clicked(object sender, EventArgs e)
         {
-           // await Navigation.PushAsync(QOTotalBV);
+            // await Navigation.PushAsync(QOTotalBV);
         }
 
         private async void Payment_Clicked(object sender, EventArgs e)
