@@ -37,7 +37,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             }
         }
 
-        public WorkOrderFormViewModel()
+        public WorkOrderFormViewModel(): base("View Work Orders")
         {
             // recent = new ObservableCollection<WorkOrder>();
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();

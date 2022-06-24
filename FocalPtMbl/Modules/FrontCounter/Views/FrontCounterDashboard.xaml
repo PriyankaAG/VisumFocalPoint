@@ -29,8 +29,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-               
-                <Label Grid.Row="0" Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Close Order Summary" HorizontalOptions="Center"/>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Closed Order Summary" HorizontalOptions="Center"/>
                 <Grid Grid.Row="1" Grid.Column="0" ColumnSpacing="15">
                     <Frame Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5">
                         <Grid>

@@ -24,6 +24,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="20"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -35,7 +36,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Close Order Summary" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Closed Order Summary" HorizontalOptions="Center" VerticalOptions="Center"/>
                         <Image Grid.Column="1" Source="filter.png" Style="{DynamicResource ImageDefault}">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="FilterIconTapped" NumberOfTapsRequired="1" />
@@ -108,7 +109,15 @@
                         </Frame>
 
                     </Grid>
-                    <Grid Grid.Row="2" BackgroundColor="#f5f6fa" Padding="10">
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalOptions="Center" Grid.Column="0" Text="{Binding FrontCounterFilterResult.SelectedDate, StringFormat='Date: {0: MM/dd/yyyy}'}" Style="{DynamicResource LabelDashboardHeader}"/>
+                    </Grid>
+                    
+                    <Grid Grid.Row="3" BackgroundColor="#f5f6fa" Padding="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
@@ -132,7 +141,7 @@
                             </Button.Triggers>
                         </Button>
                     </Grid>
-                    <controls:DashboardListView Grid.Row="3" BindingContext="{Binding RentalCounterDetail, Mode=TwoWay}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="RentalCounterDetailView">
+                    <controls:DashboardListView Grid.Row="4" IsRental="True" BindingContext="{Binding RentalCounterDetail, Mode=TwoWay}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="RentalCounterDetailView">
                         <controls:DashboardListView.Triggers>
                             <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="False">
                                 <Setter Property="IsVisible" Value="True"/>
@@ -142,9 +151,9 @@
                             </DataTrigger>
                         </controls:DashboardListView.Triggers>
                     </controls:DashboardListView>
-                    <controls:DashboardListView Grid.Row="4" BindingContext="{Binding WorkOrderDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="WorkOrderDetailView"/>
-                    <controls:DashboardListView Grid.Row="5" BindingContext="{Binding GrandTotalDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="GrandTotalDetailView"/>
-                    <Grid Grid.Row="6" RowSpacing="15" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0" IsVisible="false">
+                    <controls:DashboardListView Grid.Row="5" IsWorkOrder="True" BindingContext="{Binding WorkOrderDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="WorkOrderDetailView"/>
+                    <controls:DashboardListView Grid.Row="6" IsRental="True" BindingContext="{Binding GrandTotalDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="GrandTotalDetailView"/>
+                    <Grid Grid.Row="7" RowSpacing="15" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0" IsVisible="false">
                         <controls:UtilizationBlock Grid.Row="0" Title="Total All Rental Count" Value="{Binding OrderDashboardDetail.Utilization.AllRentalCnt, StringFormat='{}{0:C}'}"/>
                         <controls:UtilizationBlock Grid.Row="1" Title="Total Count On Items On Rent" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCnt, StringFormat='{}{0:C}'}"/>
                         <controls:UtilizationBlock Grid.Row="2" Title="Utilization Percentage" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCntPct, StringFormat='{}{0:f2}%'}"/>
@@ -170,6 +179,9 @@
                 <StackLayout Grid.Column="0">
                     <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}"/>
                     <Label Style="{DynamicResource LabelFooterIcon}" Text="Quick Rental"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="QuickRental_Clicked"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
                 <StackLayout Grid.Column="2">
@@ -180,13 +192,22 @@
                 <StackLayout Grid.Column="4">
                     <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
                     <Label Style="{DynamicResource LabelFooterIcon}" Text="Dispatch"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Dispatching_Clicked"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}"/>
                 <StackLayout Grid.Column="6">
                     <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
                     <Label Style="{DynamicResource LabelFooterIcon}" Text="Service Dept"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ServiceDept_Clicked"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Grid>
+
+            <ActivityIndicator x:Name="activityIndicator" Grid.RowSpan="2" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>
