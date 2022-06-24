@@ -54,5 +54,12 @@ namespace FocalPoint.Modules.Administrative.Views
             var comboBox = sender as ComboBoxEdit;
             ((DailyRevenueViewModel)this.BindingContext).SelectedPostCode = (PostCode)comboBox.SelectedItem;
         }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var startdateEdit = sender as DatePicker;
+            Date = startdateEdit.Date;
+            ((DailyRevenueViewModel)this.BindingContext).DateChanged(Date);
+        }
     }
 }

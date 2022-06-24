@@ -1,38 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.Administrative.Views.DailyRevenueView"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
-             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.Administrative.ViewModels"
-             ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="FocalPoint.Modules.Administrative.Views.DailyRevenueView" xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors" xmlns:viewModel="clr-namespace:FocalPoint.Modules.Administrative.ViewModels" xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:styles="clr-namespace:FocalPtMbl.Themes" ios:Page.UseSafeArea="True" BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
-        <viewModel:DailyRevenueViewModel/>
+        <viewModel:DailyRevenueViewModel />
     </ContentPage.BindingContext>
-    <StackLayout>
-        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}"
-                  DisplayMember="CmpName"
-                  ValueMember="CmpNo" 
+    <StackLayout BackgroundColor="#f5f6fa" Padding="10,10" Margin="10,10">
+        <Label Text="Store" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+        <dxe:ComboBoxEdit ItemsSource="{Binding CurrentStores}" 
+                          Style="{StaticResource Key=DxeComboBoxStyle}" 
+                          DisplayMember="CmpName" 
+                          ValueMember="CmpNo" 
+                          HeightRequest="45" 
                           SelectionChanged="ComboBoxEdit_SelectionChanged">
             <dxe:ComboBoxEdit.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Label Padding="10" Text="{Binding CmpName}" FontAttributes="Bold" />
                         <Label Padding="10" Grid.Column="1" Text="{Binding CmpNo}" />
-                        <!--<Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />-->
+                        <Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />
                     </Grid>
                 </DataTemplate>
             </dxe:ComboBoxEdit.ItemTemplate>
 
         </dxe:ComboBoxEdit>
-
-        <dxe:DateEdit Date="{Binding SelectedDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
-        
-        <dxe:ComboBoxEdit LabelText="Post Code" ItemsSource="{Binding CurrentPostCodes}"
-                  DisplayMember="Description"
-                  ValueMember="No" 
+        <Label Text="Date" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+        <dxe:DateEdit Date="{Binding SelectedDate}" 
+                      Style="{StaticResource DxeDateTime}"
+                      DisplayFormat="d"
+                      DateChanged="DateEdit_DateChanged" 
+                      HeightRequest="45"
+                      ReturnType="Default"></dxe:DateEdit>
+        <Label Text="Post Code" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+        <dxe:ComboBoxEdit ItemsSource="{Binding CurrentPostCodes}" 
+                          DisplayMember="Description" 
+                          Style="{StaticResource Key=DxeComboBoxStyle}" 
+                          ValueMember="No" HeightRequest="45"
                           SelectionChanged="ComboBoxEdit_SelectionChangedPost">
             <dxe:ComboBoxEdit.ItemTemplate>
                 <DataTemplate>
@@ -43,13 +52,32 @@
                 </DataTemplate>
             </dxe:ComboBoxEdit.ItemTemplate>
         </dxe:ComboBoxEdit>
-            <dxe:SimpleButton Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan="2" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />
+        <!--<dxe:SimpleButton Grid.Row="5" Grid.Column="0" Margin="0,10"  Grid.ColumnSpan="2" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />-->
+        <Button Text="Search" Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked" BackgroundColor="#57b8ff" TextColor="#fff" Margin="10,10" />
+        <CollectionView ItemsSource="{Binding Recent}" ItemsLayout="VerticalGrid, 1" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowSpacing="10" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0">
+                        <Label Text="Totals" Grid.Row="0" TextColor="Black" XAlign="Start" />
+                        <controls:UtilizationBlock Grid.Row="1" HeightRequest="40" Title="Revenue:" Value="{Binding Revenue, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="2" Title="Receipts:" Value="{Binding Receipts, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="3" Title="Inventory:" Value="{Binding Inventory, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="4" Title="COGS:" Value="{Binding COGS, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="5" Title="Deposits:" Value="{Binding Deposits, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="6" Title="Repairs:" Value="{Binding Repairs, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="7" Title="Warranty:" Value="{Binding Warranty, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="8" Title="Labor CR:" Value="{Binding Labor, StringFormat='{}{0:C}'}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-
-        <dxcv:DXCollectionView x:Name="collectionView"
+        <!--<dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Recent}"
                            IndicatorColor="Lime" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <!--Define the item template.-->
+            -->
+        <!--Define the item template.-->
+        <!--
 
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate>
@@ -145,7 +173,9 @@
                 </DataTemplate>
             </dxcv:DXCollectionView.ItemTemplate>
 
-            <!--Define the group header template.-->
+            -->
+        <!--Define the group header template.-->
+        <!--
             <dxcv:DXCollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <StackLayout Margin="2, 0, 18, 10">
@@ -159,10 +189,12 @@
                 </DataTemplate>
             </dxcv:DXCollectionView.GroupHeaderTemplate>
 
-            <!--Specify margins.-->
+            -->
+        <!--Specify margins.-->
+        <!--
             <dxcv:DXCollectionView.Margin>
                 <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
             </dxcv:DXCollectionView.Margin>
-        </dxcv:DXCollectionView>
+        </dxcv:DXCollectionView>-->
     </StackLayout>
 </ContentPage>

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FocalPoint.Modules.FrontCounter.Views.NewRentals;
-using FocalPtMbl.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 using System;
@@ -127,7 +126,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 _currentOrder = value;
-                if(_currentOrder!=null)
+                if (_currentOrder != null)
                 {
                     BalanceDue = _currentOrder.OrderAmount - _currentOrder.OrderPaid;
                 }
@@ -182,7 +181,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             get
             {
                 var strToReturn = "";
-                if (SelectedCustomer == null)
+                if (SelectedCustomer == null || SelectedCustomer.CustomerPhone == null)
                     strToReturn = "Phone: N/A";
                 else
                     strToReturn = Regex.Replace(SelectedCustomer?.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3");
@@ -296,7 +295,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             });
             MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {            
+            {
                 //update order
                 //UpdateCust(arg.Order.Customer);
                 CurrentOrder = arg.Order;
@@ -489,12 +488,49 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     return OrderUpdate.Notifications;
             }
 
+            //Temp code added
+            if (CurrentOrder == null)
+            {
+                ViewOrderEntityComponent order = new ViewOrderEntityComponent();
+                CurrentOrder = await order.GetOrderDetails(501842);
+                SelectedCustomer = new Customer();
+                SelectedCustomer = CurrentOrder.Customer;
+                RefreshAllProperties();
+            }
+
             return null;
         }
 
         internal async Task<bool> VoidOrder()
         {
             return await NewQuickRentalEntityComponent.VoidOrder(CurrentOrder);
+        }
+
+        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer)
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.Customer = selectedCustomer;
+                    CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
+                    var Update = OrderUpdate;
+                    Update.Order = CurrentOrder;
+
+                    responseOrderUpdate = await NewQuickRentalEntityComponent.UpdateOrder(Update);
+                    if (responseOrderUpdate != null)
+                    {
+                        CurrentOrder = responseOrderUpdate.Order;
+                        OnPropertyChanged("CurrentOrder");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return responseOrderUpdate;
         }
     }
 }
