@@ -19,6 +19,7 @@ namespace FocalPoint.MainMenu.Views
         {
             InitializeComponent();
             FlyoutPageDrawer.ListView.ItemSelected += ListView_ItemSelected;
+            IsGestureEnabled = true;
         }
         protected override void OnAppearing()
         {
