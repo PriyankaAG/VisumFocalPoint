@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:local="clr-namespace:FocalPoint.CustomControls" xmlns:customrenderer="clr-namespace:FocalPoint.CustomRenderer"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.OrderNotesView">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                       Padding="5" Margin="10,10,10,5">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Internal Notes" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                    <Frame Grid.Row="1" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
+                        <customrenderer:CustomEditor x:Name="EditorInternalNotes" Placeholder="Enter Internal Notes Here" Text="" AutoSize="TextChanges"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+            <Frame Grid.Column="0" Grid.Row="1" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"
+                       Padding="5" Margin="10,0,10,5">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="Print Notes" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                    <Frame Grid.Row="1" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
+                        <customrenderer:CustomEditor x:Name="EditorPrintNotes" Placeholder="Enter Print Notes Here" Text="" AutoSize="TextChanges"/>
+                    </Frame>
+                </Grid>
+            </Frame>
+            <Grid Grid.Row="2" Padding="10" HorizontalOptions="Fill">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
+                <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

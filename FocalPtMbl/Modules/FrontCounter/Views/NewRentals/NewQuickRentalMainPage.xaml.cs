@@ -14,8 +14,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public NewQuickRentalMainPage()
         {
             InitializeComponent();
+
+            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = false;
+
             BindingContext = new NewQuickRentalMainPageViewModel();
             GetOrderInfo();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
 
         private List<string> notifications = new List<string>();
@@ -53,68 +61,92 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public void SubscribeEvents()
         {
             MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
+            MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
+            MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
-                //UpdateTheOrder(customer);
+                UpdateTheOrder(customer);
             });
-            MessagingCenter.Subscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
+            MessagingCenter.Subscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD", async (sender, customer) =>
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
-                //UpdateTheOrder(customer);
+                UpdateTheOrder(customer);
             });
-
+            MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
+            {
+                (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder.OrderIntNotes = theNotes.Item1;
+                (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder.OrderNotes = theNotes.Item2;
+                (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
+                UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+            });
         }
 
-        public async void UpdateTheOrder(Customer customer)
+        public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
         {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer, theNotes);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
 
-            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer);
-            if (orderRefresh != null) return;
-            if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
+        public async void UpdateTheNotes(Tuple<string, string> theNotes)
+        {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateNotes((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes.Item1, theNotes.Item2);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        public async void AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
+        {
+            try
             {
-                while (orderRefresh.Answers != null || orderRefresh.Answers.Count > 0)
+                if (orderRefresh != null) return;
+                if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
                 {
-                    //display answer if key does not have a value update that value
-                    //checkUpdate.Answers.
-                    if (orderRefresh.Answers.Count > 0)
+                    while (orderRefresh.Answers != null || orderRefresh.Answers.Count > 0)
                     {
-                        // KIRK REM KeyValuePair<int, string> question = new KeyValuePair<int, string>();
-                        QuestionAnswer question = null;
-                        foreach (var answer in orderRefresh.Answers)
+                        //display answer if key does not have a value update that value
+                        //checkUpdate.Answers.
+                        if (orderRefresh.Answers.Count > 0)
                         {
-                            //0 or 1 is not found
-                            if (!(answer.Answer == "True" || answer.Answer == "False"))
+                            // KIRK REM KeyValuePair<int, string> question = new KeyValuePair<int, string>();
+                            QuestionAnswer question = null;
+                            foreach (var answer in orderRefresh.Answers)
                             {
-                                question = answer;
-                                break;
+                                //0 or 1 is not found
+                                if (!(answer.Answer == "True" || answer.Answer == "False"))
+                                {
+                                    question = answer;
+                                    break;
+                                }
                             }
+                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
+                            orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
+                            // KIRK REM orderRefresh.Answers[question.Key] = custOk.ToString();
+                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
+                            //orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer);
                         }
-                        bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
-                        orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
-                        // KIRK REM orderRefresh.Answers[question.Key] = custOk.ToString();
-                        (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
-                        orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer);
+
                     }
 
                 }
-
-            }
-            if (orderRefresh.Notifications.Count > 0)
-            {
-                foreach (var notification in orderRefresh.Notifications)
+                if (orderRefresh.Notifications.Count > 0)
                 {
-                    await DisplayAlert("Customer Notification", notification, "OK");
+                    foreach (var notification in orderRefresh.Notifications)
+                    {
+                        await DisplayAlert("Customer Notification", notification, "OK");
+                    }
                 }
+                if (orderRefresh.CustomerMessage != null && orderRefresh.CustomerMessage.Length > 0)
+                {
+                    await DisplayAlert("Customer Message", orderRefresh.CustomerMessage, "OK");
+                }
+                // await OpenDetailPage((orderRefresh));}
             }
-            if (orderRefresh.CustomerMessage != null && orderRefresh.CustomerMessage.Length > 0)
+            catch (Exception)
             {
-                await DisplayAlert("Customer Message", orderRefresh.CustomerMessage, "OK");
             }
-            // await OpenDetailPage((orderRefresh));
         }
 
         private async void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
@@ -177,6 +209,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     else
                         await DisplayAlert("Void", "Void did not succeed try again", "OK");
                 }
+
+
+            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = true;
             }
             catch (Exception ex)
             {
@@ -208,6 +243,31 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 await Navigation.PushAsync(new PaymentView(orderDetails));
             }
+        }
+
+        private void Button_Clicked_2(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new OrderNotesView());
+
+        }
+
+        private async void Button_Clicked_3(object sender, EventArgs e)
+        {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var a = (e as TappedEventArgs).Parameter;
+            this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl));
+        }
+
+        private void Button_Clicked_4(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            this.Navigation.PushAsync(new TotalBreakoutView(vm.CurrentOrder));
         }
     }
 }

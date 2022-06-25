@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views"
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+             xmlns:local="clr-namespace:FocalPoint.CustomControls"
+       x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.EditDetailOfSelectedItemView"
+              BackgroundColor="{StaticResource BackgroundPageColor}">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+            <Frame Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True" Margin="15">
+                <Grid RowSpacing="5" VerticalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                        Margin="0,5,0,10"
+                        LineBreakMode="TailTruncation"
+                        Style="{DynamicResource NewCustomerExpanderHeaderLable}"
+                        Text="{Binding ItemName}"
+                        HorizontalOptions="StartAndExpand"/>
+
+                    <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
+                            EditorText="{Binding Quantity, Mode=TwoWay}" 
+                            MaxLenth="100" LabelText="Quantity" 
+                            PlaceHolder="Enter Quantity" Keyboard="Numeric">
+                    </local:LabelEditorCustomControl>
+
+                    <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="1"
+                            EditorText="{Binding Discount, Mode=TwoWay}" 
+                            MaxLenth="100" LabelText="Discount %" 
+                            PlaceHolder="Enter Discount" Keyboard="Numeric">
+                    </local:LabelEditorCustomControl>
+
+                    <StackLayout Orientation="Vertical" 
+                            Grid.Row="2" Grid.Column="0"
+                            VerticalOptions="Start">
+
+                        <Label Text="Override Pricing" FontSize="Default" />
+
+                        <StackLayout Orientation="Horizontal" 
+                            VerticalOptions="Start">
+
+                            <CheckBox 
+                            x:Name="overridePricingcheckbox"
+                            IsChecked="{Binding OverridePrice }"
+                            HeightRequest="30"
+                            WidthRequest="30"
+                            VerticalOptions="Center" Margin="0,5,0,5"/>
+
+                            <Frame IsEnabled="{Binding OverridePrice}" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2" HorizontalOptions="FillAndExpand">
+                                <customrenderers:CustomEntry 
+                                IsEnabled="False" 
+                                HorizontalOptions="Fill"  
+                                VerticalOptions="Fill"
+                                Style="{DynamicResource EntryStyle}" 
+                                Text=""
+                                Placeholder="Enter Price"
+                                Keyboard="Text">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#fff" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Disabled">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="#D3D3D3" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </customrenderers:CustomEntry>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#fff" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#D3D3D3" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Frame>
+
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" 
+                            Grid.Row="2" Grid.Column="1"
+                                 Margin="0,25,0,0"
+                            VerticalOptions="Start">
+                        <CheckBox 
+                            x:Name="taxableheckbox"
+                            IsChecked="{Binding Taxable }"
+                            HeightRequest="30"
+                            WidthRequest="30"
+                            VerticalOptions="Center" Margin="0,5,0,5"/>
+                        <Label Text="Taxable" FontSize="Default" 
+                            HeightRequest="30"
+                            Style="{DynamicResource LabelDefault}" 
+                            MaxLines="2" VerticalOptions="Center"
+                            Padding="0,5,0,5" Margin="0,5,0,5"/>
+                    </StackLayout>
+
+                </Grid>
+            </Frame>
+
+            <Grid Grid.Row="1" Padding="10,0,10,20" HorizontalOptions="Fill">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked"/>
+                <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

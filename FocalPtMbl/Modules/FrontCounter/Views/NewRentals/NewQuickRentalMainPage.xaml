@@ -220,7 +220,7 @@
                             </xct:Expander.Header>
                             <xct:Expander.Content>
                                 <StackLayout BackgroundColor="{StaticResource NewQuickRentalBGColor}" Padding="0,0,0,5" Margin="0">
-                                    <Grid RowSpacing="5" Padding="5">
+                                    <Grid RowSpacing="5" Padding="5" VerticalOptions="Center" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -290,8 +290,16 @@
                                                 Margin="5,0"
                                                 LineBreakMode="WordWrap"
                                                 Text="Exempt ID"  Padding="1"/>
-                                            <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Exempt ID" />
+                                            <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1"
+                                                PlaceHolder="Exempt ID" Text="{Binding ExemptID,Mode=TwoWay}" />
                                         </StackLayout>
+
+                                        <StackLayout Grid.Row="4" Grid.Column="1" Orientation="Vertical" VerticalOptions="End">
+                                            <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="0" Margin="10,0,10,0">
+                                                <Button CornerRadius="5" Text="Update" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Clicked="Button_Clicked_3"/>
+                                            </Frame>
+                                        </StackLayout>
+
                                     </Grid>
                                 </StackLayout>
                             </xct:Expander.Content>
@@ -364,6 +372,9 @@
                                                 <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelListHeader}" />
                                                 <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty}" Style="{DynamicResource LabelListDetail}" />
                                             </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
                                         </Frame>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -397,11 +408,11 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Button Text="TOTALS BREAKOUT" Grid.Column="0" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small" Clicked="Button_Clicked_4"/>
                     <Button Text="ORDER NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small" Clicked="Button_Clicked_2"/>
                     <Button Text="INTERNAL NOTES" Grid.Column="2" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>        
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="Small"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="2" Style="{DynamicResource GridFooterDefault}">
