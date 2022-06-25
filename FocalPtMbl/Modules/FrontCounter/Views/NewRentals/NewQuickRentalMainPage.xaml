@@ -424,11 +424,11 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Button Text="TOTALS BREAKOUT" Grid.Column="0" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}"/>
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_4"/>
                 <Button Text="ORDER NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}"/>
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_2"/>
                 <Button Text="INTERNAL NOTES" Grid.Column="2" Style="{DynamicResource PrimaryButton}"
-                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}"/>
+                        BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_2"/>
             </Grid>
             <Grid Grid.Row="3" Style="{DynamicResource GridFooterDefault}">
                 <Grid.ColumnDefinitions>

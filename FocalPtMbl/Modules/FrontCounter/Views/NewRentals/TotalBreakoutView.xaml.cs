@@ -16,7 +16,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public TotalBreakoutView(Order ord)
         {
             InitializeComponent();
-            this.BindingContext = new TotalBreakoutViewModel(ord.Totals);
+            this.BindingContext = new TotalBreakoutViewModel(ord?.Totals);
         }
     }
 }
