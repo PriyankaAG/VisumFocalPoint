@@ -31,55 +31,71 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
-        private async Task AddToOrder_Clicked(object sender, EventArgs e)
+        private void AddToOrder_Clicked(object sender, EventArgs e)
         {
-            List<string> selectedSerials = new List<string>();
-            string result = "0";
-
-            //if serials exist popup a selection dialog select multi? 
-            if (selItem != null)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                //Check Serialized on selcted item
-                if (selItem.AvailSerialized)
-                {
-                    //get the serial numbers
-                    await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
-                }
-                else
-                {
-                    result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                }
 
-                if (result != null && Convert.ToDecimal(result) > 0)
+                List<string> selectedSerials = new List<string>();
+                string result = "0";
+
+                //if serials exist popup a selection dialog select multi? 
+                if (selItem != null)
                 {
-                    decimal numberOfItems = Convert.ToDecimal(result);
-                    OrderUpdate UpdatedOrder = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
-                    if (UpdatedOrder != null && UpdatedOrder.Order != null)
+                    //Check Serialized on selcted item
+                    if (selItem.AvailSerialized)
                     {
-                        MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
-                        await Navigation.PopAsync();
-                    }
-                    else if (UpdatedOrder.Order == null)
-                    {
-                        //ask questions ' Show Message and return no numbers for not assigning else return number to assign equal to qty
+                        //get the serial numbers
                         await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
                     }
                     else
                     {
-                        await DisplayAlert("Item not added", "Item not added", "ok");
+                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                    }
+
+                    if (result != null && Convert.ToDecimal(result) > 0)
+                    {
+                        decimal numberOfItems = Convert.ToDecimal(result);
+                        OrderUpdate UpdatedOrder = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
+                        if (UpdatedOrder != null && UpdatedOrder.Order != null)
+                        {
+                            MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
+                            await Navigation.PopAsync();
+                        }
+                        else if (UpdatedOrder.Order == null)
+                        {
+                            //ask questions ' Show Message and return no numbers for not assigning else return number to assign equal to qty
+                            await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
+                        }
+                        else
+                        {
+                            await DisplayAlert("Item not added", "Item not added", "ok");
+                        }
                     }
                 }
-            }
-            else
-                await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                else
+                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+            });
         }
 
         private void Search_Tapped(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+                try
+                {
+                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+                }
+                catch(Exception ex)
+                {
+
+                }
             });
+        }
+
+        private void CancelButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
 }

@@ -189,7 +189,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             catch (Exception e)
             {
                 //TODO: Log Error
-            }
+            }   
             finally
             {
                 Indicator = false;

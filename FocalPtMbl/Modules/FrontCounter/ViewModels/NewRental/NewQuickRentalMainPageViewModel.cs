@@ -279,7 +279,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set { recent = value; }
         }
 
-        public NewQuickRentalMainPageViewModel()
+        public NewQuickRentalMainPageViewModel(): base("Quick Rental")
         {
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();

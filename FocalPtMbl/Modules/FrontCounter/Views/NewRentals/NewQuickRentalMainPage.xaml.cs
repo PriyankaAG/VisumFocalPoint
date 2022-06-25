@@ -177,21 +177,21 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 await DisplayAlert("Select Type", "Please select a search type", "OK");
                 return;
             }
-            if (selectedItem == "Rentals" || selectedItem == "Rate Table" || selectedItem == "Rental Salable")
-            {
-                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(1);
-                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
-                addDetailRentalView.BindingContext = addDetailRentalViewModel;
-                await Navigation.PushAsync(addDetailRentalView);
-            }
-            else if (selectedItem == "Merchandise")
+            if (selectedItem == "Merchandise")
             {
                 AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
                 AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
                 addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
-                addDetailMerchView.BindingContext = addDetailMerchView;
+                addDetailMerchView.BindingContext = addDetailMerchViewModel;
                 await Navigation.PushAsync(addDetailMerchView);
+            }
+            else
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
             }
         }
 

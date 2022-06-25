@@ -28,25 +28,28 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private AvailabilityRent selItem;
         private Int16 SearchIn = 1;
 
-        private async Task AddToOrder_Clicked(object sender, EventArgs e)
+        private void AddToOrder_Clicked(object sender, EventArgs e)
         {
-            string result = "0";
-            if (selItem != null)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                //Check Serialized on selcted item
-                if (selItem.AvailSerialized)
+                string result = "0";
+                if (selItem != null)
                 {
-                    await FinishQuestions(1);
+                    //Check Serialized on selcted item
+                    if (selItem.AvailSerialized)
+                    {
+                        await FinishQuestions(1);
+                    }
+                    else
+                    {
+                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                        if (result != "cancel")
+                            await FinishQuestions(int.Parse(result));
+                    }
                 }
                 else
-                {
-                    result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                    if (result != "cancel")
-                        await FinishQuestions(int.Parse(result));
-                }
-            }
-            else
-                await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+            });
         }
 
         private async Task FinishQuestions(int count)
@@ -328,9 +331,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             } while (UpdatedOrder != null && questionFault != null);
         }
 
-        private async void Search_Clicked(object sender, EventArgs e)
+        private async void Search_Tapped(object sender, EventArgs e)
         {
             await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+        }
+
+        private void CancelButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
 }
