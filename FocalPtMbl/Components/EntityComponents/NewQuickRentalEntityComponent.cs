@@ -189,7 +189,7 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return res;
-        }
+        }       
 
         public async Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text)
         {
@@ -199,6 +199,36 @@ namespace FocalPoint.Components.EntityComponents
                 Search = text;
                 Int16 SearchIn = 1;
                 res = await apiComponent.PostAsync<List<AvailabilityMerch>>(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<List<AvailabilityRent>> GetAvailabilityKits(string text, Int16 SearchIn)
+        {
+            List<AvailabilityRent> res = null;
+            try
+            {
+                Search = text;
+                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<List<AvailabilityRent>> GetAvailabilitySalable(string text, Int16 SearchIn)
+        {
+            List<AvailabilityRent> res = null;
+            try
+            {
+                Search = text;
+                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
             }
             catch (Exception ex)
             {

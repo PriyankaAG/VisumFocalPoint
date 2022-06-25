@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls" xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailMerchView">
+             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls"
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailMerchView"
+             Title="{Binding Title}">
     <ContentPage.Content>
-        <Grid Margin="10">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
-                <Grid>
+                <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
@@ -74,10 +76,10 @@
             </ScrollView>
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">
                 <Button Text="CANCEL" Grid.Column="0" Style="{DynamicResource CancelButton}"
-                        BackgroundColor="#f0142f" TextColor="#fff" HeightRequest="30"
+                        BackgroundColor="#f0142f" TextColor="#fff"
                         Clicked="CancelButton_Clicked" />
                 <Button Text="Add to Order" Grid.Column="1" Style="{DynamicResource SaveButton}" 
-                        BackgroundColor="#57b8ff" TextColor="#fff"  HeightRequest="30"
+                        BackgroundColor="#57b8ff" TextColor="#fff"
                         Clicked="AddToOrder_Clicked"/>
             </Grid>
             <ActivityIndicator x:Name="activityIndicator" Grid.RowSpan="2" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />

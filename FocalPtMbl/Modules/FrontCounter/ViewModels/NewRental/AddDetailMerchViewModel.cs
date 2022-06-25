@@ -12,7 +12,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class AddDetailMerchViewModel : ThemeBaseViewModel
     {
-        public AddDetailMerchViewModel()
+        public AddDetailMerchViewModel(): base ("Merchandise")
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
         }
@@ -53,6 +53,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 //update searchText
                 Search = text;
+
+                if (string.IsNullOrEmpty(Search))
+                    Search = "%";
+
                 List<AvailabilityMerch> merchCntAndList = null;
 
                 merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search);

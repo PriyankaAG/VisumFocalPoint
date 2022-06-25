@@ -82,7 +82,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+                try
+                {
+                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+                }
+                catch(Exception ex)
+                {
+
+                }
             });
         }
 

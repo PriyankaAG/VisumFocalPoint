@@ -123,12 +123,14 @@
     <Color x:Key="CustomerDetailNumber">#57b8ff</Color>
     <Color x:Key="CustomerDetailEmail">#7477a0</Color>
     <Color x:Key="CustomerDetailAddress">#5a607f</Color>
+    <Color x:Key="OrderTypeLabelColor">#956f33</Color>
 
     <Color x:Key="AddCustomerExpanderHeaderColor">#5a607f</Color>
     <Color x:Key="CancelButtonBG">#f0142f</Color>
     <Color x:Key="SaveButtonBG">#57b8ff</Color>
 
     <Color x:Key="FooterButtonBackgroundColor">#f5f6fa</Color>
+    <Color x:Key="OverbookItemColor">#f0142f</Color>
 
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
@@ -148,10 +150,16 @@
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
     </Style>
 
+    <Style x:Key="LabelOrderType" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource OrderTypeLabelColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
     <Style x:Key="LabelDefaultBold" TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource LabelDefaultColor}"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-        <Setter Property="FontAttributes" Value="Bold"/>        
+        <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
 
     <Style x:Key="LabelCostDefault" TargetType="Label">
@@ -429,5 +437,12 @@
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="BorderThickness" Value="2" />
     </Style>
-    
+
+    <Style x:Key="ActivityIndicatorStyle" TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="Blue"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
+
 </ResourceDictionary>
