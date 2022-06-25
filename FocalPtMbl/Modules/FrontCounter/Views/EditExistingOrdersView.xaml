@@ -12,17 +12,24 @@
              SelectedItemHeaderTextColor="OrangeRed"
              SelectedItemHeaderIconColor ="Transparent"
              ItemHeaderIconColor="Transparent"
-             ItemHeaderWidth="*"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+             ItemHeaderWidth="*" 
+             BackgroundColor="{DynamicResource BackgroundThemeColor}">
     <dxn:TabPage.BindingContext>
         <viewModel:EditExistingOrdersViewModel/>
     </dxn:TabPage.BindingContext>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Open Orders" Icon="Order.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-                <Grid>
-                    <StackLayout>
-                        <dxe:TextEdit x:Name="searchorderText" LabelText="Search Orders" PlaceholderText="Order Search" Text="{Binding OrderToSearch}" Margin="10,0">
+            <ContentPage Title="Open Orders" Icon="Order.png">
+                <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                    <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" 
+                                 Margin="5,5">
+                        <Label Text="Search Order" Margin="10,10,10,0"
+                               FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                        <dxe:TextEdit x:Name="searchorderText" 
+                                      PlaceholderText="Order Search" 
+                                      Text="{Binding OrderToSearch}"
+                                      HeightRequest="40"
+                                      Style="{StaticResource Key=DxeTextEdit}">
                             <dxe:TextEdit.Behaviors>
                                 <xct:EventToCommandBehavior
                                     Command="{Binding SearchCommand}"
@@ -35,17 +42,19 @@
                             </dxe:TextEdit.Behaviors>
                         </dxe:TextEdit>
 
-                        <dxcv:DXCollectionView x:Name="collectionView" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                        <dxcv:DXCollectionView x:Name="collectionView" 
                            ItemsSource="{Binding OpenOrders}"
                            IndicatorColor="Lime"
                            IsEnabled="{Binding OrdersEnabled}"
                            SelectionMode="Single"
+                           Margin="10,0"
                            Tap="ItemSelected">
                             <!--Define the item template.-->
 
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <Grid Padding="0, 5, 0, 0" 
+                                          Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -99,7 +108,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource ControlBackgroundColor}"
                          HeightRequest="5"/>
                                     </Grid>
                                 </DataTemplate>
@@ -114,10 +123,17 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Reservations" Icon="Order_Resv.png"  BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-                <Grid>
-                    <StackLayout>
-                        <dxe:TextEdit x:Name="searchreservationText" LabelText="Search Reservations" PlaceholderText="Enter Order Number" Text="{Binding ReservationToSearch}" Margin="10,0" >
+            <ContentPage Title="Reservations" Icon="Order_Resv.png">
+                <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                    <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" 
+                                 Margin="5,5">
+                        <Label Text="Search Reservations" Margin="10,10,10,0" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+
+                        <dxe:TextEdit x:Name="searchreservationText"
+                                      PlaceholderText="Enter Order Number"
+                                      Text="{Binding ReservationToSearch}" 
+                                      HeightRequest="40" 
+                                      Style="{StaticResource Key=DxeTextEdit}">
                             <dxe:TextEdit.Behaviors>
                                 <xct:EventToCommandBehavior
                                     EventName="Unfocused"
@@ -130,15 +146,17 @@
                             </dxe:TextEdit.Behaviors>
                         </dxe:TextEdit>
 
-                        <dxcv:DXCollectionView x:Name="collectionView2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                        <dxcv:DXCollectionView x:Name="collectionView2"
                            ItemsSource="{Binding OpenReserv}"
-                           IndicatorColor="Lime"
-                           Tap="ItemSelected">
+                           IndicatorColor="Lime" 
+                                               Margin="10,0" 
+                                               Tap="ItemSelected">
                             <!--Define the item template.-->
 
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <Grid Padding="0, 5, 0, 0"
+                                          Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -192,7 +210,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource ControlBackgroundColor}"
                          HeightRequest="5"/>
                                     </Grid>
                                 </DataTemplate>
@@ -209,9 +227,14 @@
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
             <ContentPage Title="Quotes" Icon="Order_Quote.png" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-                <Grid>
-                    <StackLayout>
-                        <dxe:TextEdit x:Name="searchquotesText" LabelText="Search Quotes" PlaceholderText="Enter Order Number" Text="{Binding QuotesToSearch}" Margin="10,0">
+                <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                    <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                        <Label Text="Search Quotes" Margin="10,10,10,0" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                        <dxe:TextEdit x:Name="searchquotesText" 
+                                      PlaceholderText="Enter Order Number" 
+                                      Text="{Binding QuotesToSearch}"
+                                      HeightRequest="40" 
+                                      Style="{StaticResource Key=DxeTextEdit}">
                             <dxe:TextEdit.Behaviors>
                                 <xct:EventToCommandBehavior
                                     EventName="Unfocused"
@@ -225,15 +248,14 @@
                         </dxe:TextEdit>
 
 
-                        <dxcv:DXCollectionView x:Name="collectionView3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                        <dxcv:DXCollectionView x:Name="collectionView3"
                            ItemsSource="{Binding OpenQuote}"
-                           IndicatorColor="Lime"
-                           Tap="ItemSelected">
+                           IndicatorColor="Lime" Margin="10,0" Tap="ItemSelected">
                             <!--Define the item template.-->
 
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <Grid Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>

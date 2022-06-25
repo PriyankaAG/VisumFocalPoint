@@ -10,7 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
     <Color x:Key="AccentColor">#2088ff</Color>
 
-    <Color x:Key="BackgroundThemeColor">#87ceff</Color>
+    <Color x:Key="BackgroundThemeColor">#f5f6fa</Color>
     <Color x:Key="GridCellLinesColor">#ebebeb</Color>
 
     <Color x:Key="BackgroundPageColor">#ffffff</Color>
@@ -27,7 +27,8 @@
     <Color x:Key="GridHorizontalVirtualizationYearBarColor">#AF83E7</Color>
 
     <Color x:Key="TabItemBackgroundColor">#add8e6</Color>
-    <Color x:Key="MainPageBackgroundColor">#add8e6</Color>
+    <Color x:Key="MainPageBackgroundColor">#fff</Color>
+    <Color x:Key="ControlBackgroundColor">#ffffff</Color>
     <Color x:Key="TabItemBorderColor">#add8e6</Color>
     <Color x:Key="TextThemeColor">#404144</Color>
     <Color x:Key="TextButtonColor">#2188ff</Color>
@@ -417,6 +418,11 @@
         <Setter Property="TextColor" Value="{StaticResource CustomerDetailEmail}" />
         <Setter Property="FontFamily" Value="Roboto-Regular"/>
     </Style>
-
+    <Style x:Key="DxeTextEdit" TargetType="dxe:TextEdit">
+        <Setter Property="BackgroundColor" Value="{DynamicResource ControlBackgroundColor}" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="CornerMode" Value="Round" />
+        <Setter Property="Margin" Value="10,0,10,0" />
+    </Style>
 
 </ResourceDictionary>
