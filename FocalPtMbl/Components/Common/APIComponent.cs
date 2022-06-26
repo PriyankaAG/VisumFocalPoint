@@ -265,7 +265,7 @@ namespace FocalPoint
                 responseMessage = await ClientHTTP.SendAsync(request);
                 responseMessage.EnsureSuccessStatusCode();
             }
-            catch
+            catch(Exception ex)
             {
                 throw;
             }

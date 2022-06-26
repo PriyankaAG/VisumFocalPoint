@@ -47,11 +47,17 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         //Save button
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            theViewModel.FormatCustomerName();
-
             if (!theViewModel.IsPageLoaded) return;
 
+            theViewModel.FormatCustomerName();
+
             if (!theViewModel.ValidateData()) return;
+
+            if (theViewModel.CheckZipCode() == false)
+            {
+                await App.Current.MainPage.DisplayAlert("Invalid ?", "The ZIP code format is invalid. Please enter a valid format", "Ok");
+                return;
+            }
 
             if (theViewModel.CustomerToAdd != null && !string.IsNullOrEmpty(theViewModel.CustomerToAdd.CustomerPhone))
             {
@@ -90,17 +96,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     {
                         await App.Current.MainPage.DisplayAlert("Successful", "Customer added successfully.", "Ok");
 
-                        MessagingCenter.Send(this, "CustomerSelected", newCustomer);
+                        MessagingCenter.Send(this, "CustomerSelectedADD", newCustomer);
                         Navigation.PopAsync();
                         Navigation.PopAsync();
                     }
                     else
                     {
-
-                        MessagingCenter.Send(this, "CustomerSelected", theViewModel.CustomerToAdd);
-                        Navigation.PopAsync();
-                        Navigation.PopAsync();
-
                         await App.Current.MainPage.DisplayAlert("Failure", "Failed to add Customer.", "Ok");
                     }
                 }

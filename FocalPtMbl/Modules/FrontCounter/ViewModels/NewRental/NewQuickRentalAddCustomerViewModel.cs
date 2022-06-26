@@ -13,6 +13,7 @@ using FocalPtMbl.MainMenu.ViewModels;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using System.Text.RegularExpressions;
+using FocalPoint.Utils;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
@@ -1367,7 +1368,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             var formattedZip = input;
 
             if (CustomerToAdd.CustomerCountry == 1)
-                formattedZip = Regex.Replace(formattedZip, @"(\d{5})(\d{4})", @"$1($2)");
+                formattedZip = Regex.Replace(formattedZip, @"(\d{5})(\d{4})", @"$1-$2");
             else
                 formattedZip = Regex.Replace(formattedZip, @"([A-Z]\d[A-Z])(\d[A-Z]\d)", @"$1 $2");
 
@@ -1412,6 +1413,29 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 }
                 CustomerName.Value = CustName;
                 OnPropertyChanged("CustomerName");
+            }
+        }
+
+        public bool CheckZipCode()
+        {
+            if (!CustomerToAdd.CustomerZip.HasData() || !CustomerToAdd.CustomerBillZip.HasData())
+            {
+                return false;
+            }
+
+            bool res1;
+            bool res2;
+            if (CustomerToAdd.CustomerCountry == 1)
+            {
+                res1 = Regex.IsMatch(CustomerToAdd.CustomerZip, @"\d{5}(-\d{4})?");
+                res2 = Regex.IsMatch(CustomerToAdd.CustomerBillZip, @"\d{5}(-\d{4})?");
+                return res1 && res2;
+            }
+            else
+            {
+                res1 = Regex.IsMatch(CustomerToAdd.CustomerZip, @"[A-Z]\d[A-Z] \d[A-Z]\d");
+                res2 = Regex.IsMatch(CustomerToAdd.CustomerBillZip, @"[A-Z]\d[A-Z] \d[A-Z]\d");
+                return res1 && res2;
             }
         }
         #endregion

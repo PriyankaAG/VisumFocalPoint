@@ -25,14 +25,14 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
-                return SelectedStartDateTime.ToString();
+                return SelectedStartDateTime.ToString("g");
             }
         }
         public string SelectedEndString
         {
             get
             {
-                return SelectedEndDateTime.ToString();
+                return SelectedEndDateTime.ToString("g");
             }
         }
 
@@ -46,7 +46,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
-                SelectedStartDateTime = new DateTime(SelectedStartDateTime.Year, SelectedStartDateTime.Month, SelectedStartDateTime.Day, value.Hours, value.Minutes, value.Seconds);
+                SelectedStartDateTime = new DateTime(SelectedStartDateTime.Year, SelectedStartDateTime.Month, SelectedStartDateTime.Day, value.Hours, value.Minutes, 0);
 
                 RefreshDateTimeProperties();
             }
@@ -59,7 +59,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
-                SelectedEndDateTime = new DateTime(SelectedEndDateTime.Year, SelectedEndDateTime.Month, SelectedEndDateTime.Day, value.Hours, value.Minutes, value.Seconds);
+                SelectedEndDateTime = new DateTime(SelectedEndDateTime.Year, SelectedEndDateTime.Month, SelectedEndDateTime.Day, value.Hours, value.Minutes, 0);
 
                 RefreshDateTimeProperties();
             }
@@ -73,7 +73,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
-                SelectedStartDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedStartDateTime.Hour, SelectedStartDateTime.Minute, SelectedStartDateTime.Second);
+                SelectedStartDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedStartDateTime.Hour, SelectedStartDateTime.Minute, 0);
 
                 RefreshDateTimeProperties();
             }
@@ -86,7 +86,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
-                SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, SelectedEndDateTime.Second);
+                SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, 0);
 
                 RefreshDateTimeProperties();
             }
@@ -240,6 +240,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged(nameof(SelectedLength));
             }
         }
+        private string _exemptID;
+        public string ExemptID
+        {
+            get
+            {
+                return _exemptID;
+            }
+            set
+            {
+                _exemptID = value;
+
+                OnPropertyChanged(nameof(ExemptID));
+            }
+        }
+
 
         public string[] TaxList { get; set; }
         private string _selectedTax;
@@ -506,7 +521,36 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             return await NewQuickRentalEntityComponent.VoidOrder(CurrentOrder);
         }
 
-        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer)
+        internal async Task<OrderUpdate> UpdateDateValues()
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.OrderLength = SelectedLength;
+                    var selTax = TheOrderSettings?.TaxCodes.Find(p => p.Display == SelectedTax);
+                    CurrentOrder.OrderTaxCode = selTax.Value;
+                    CurrentOrder.TaxCodeDscr = SelectedTax;
+                    CurrentOrder.OrderODte = SelectedStartDateTime;
+                    CurrentOrder.OrderDDte = SelectedEndDateTime;
+
+                    CurrentOrder.OrderTaxExempt = ExemptID;
+
+                    var Update = OrderUpdate;
+                    Update.Order = CurrentOrder;
+
+                    responseOrderUpdate = await UpdateOrder(Update);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return responseOrderUpdate;
+        }
+
+        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer, Tuple<string, string> theNotes = null)
         {
             OrderUpdate responseOrderUpdate = null;
             try
@@ -515,18 +559,62 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 {
                     CurrentOrder.Customer = selectedCustomer;
                     CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
+
+                    if (theNotes != null)
+                    {
+                        CurrentOrder.OrderIntNotes = null;
+                        CurrentOrder.OrderNotes = null;
+                    }
+
                     var Update = OrderUpdate;
                     Update.Order = CurrentOrder;
 
-                    responseOrderUpdate = await NewQuickRentalEntityComponent.UpdateOrder(Update);
-                    if (responseOrderUpdate != null)
-                    {
-                        CurrentOrder = responseOrderUpdate.Order;
-                        OnPropertyChanged("CurrentOrder");
-                    }
+                    responseOrderUpdate = await UpdateOrder(Update);
                 }
             }
             catch (Exception ex)
+            {
+
+            }
+            return responseOrderUpdate;
+        }
+        internal async Task<OrderUpdate> UpdateNotes(Customer selectedCustomer, string internalNotes, string printNotes)
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                if (CurrentOrder != null)
+                {
+                    CurrentOrder.Customer = selectedCustomer;
+                    CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
+
+                    CurrentOrder.OrderIntNotes = internalNotes;
+                    CurrentOrder.OrderNotes = printNotes;
+                    var Update = OrderUpdate;
+                    Update.Order = CurrentOrder;
+
+                    responseOrderUpdate = await UpdateOrder(Update);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return responseOrderUpdate;
+        }
+        internal async Task<OrderUpdate> UpdateOrder(OrderUpdate _updateOrder)
+        {
+            OrderUpdate responseOrderUpdate = null;
+            try
+            {
+                responseOrderUpdate = await NewQuickRentalEntityComponent.UpdateOrder(_updateOrder);
+                if (responseOrderUpdate != null && responseOrderUpdate.Order != null)
+                {
+                    CurrentOrder = responseOrderUpdate.Order;
+                    OnPropertyChanged("CurrentOrder");
+                }
+            }
+            catch (Exception)
             {
 
             }

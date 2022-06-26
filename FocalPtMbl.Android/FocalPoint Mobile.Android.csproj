@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRenderer\CustomDropdownRenderer.cs" />
+    <Compile Include="CustomRenderer\CustomEitorRenderer.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\ExtendedTabbedPageRenderer.cs" />
     <Compile Include="CustomRenderer\HybridWebViewRenderer.cs" />
