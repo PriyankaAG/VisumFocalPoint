@@ -23,7 +23,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title, Source={x:Reference labelTextView}}" Style="{DynamicResource LabelDefaultBold}" HorizontalOptions="Fill" />
-                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Value, Source={x:Reference labelTextView}}" TextColor="{Binding TextColorValue, Source={x:Reference labelTextView}}" HorizontalTextAlignment="Start" Style="{DynamicResource LabelDefault}"  />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Value, Source={x:Reference labelTextView}}" TextColor="{Binding TextColorValue, Source={x:Reference labelTextView}}" HorizontalTextAlignment="Start" Style="{DynamicResource LabelDefault}" LineBreakMode="WordWrap"/>
             </Grid>
         </Frame>
     </ContentView.Content>
