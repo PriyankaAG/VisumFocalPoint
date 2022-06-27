@@ -58,7 +58,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     Search = "%";
 
                 List<AvailabilityMerch> merchCntAndList = null;
-
+                Indicator = true;
                 merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search);
                 if (merchCntAndList != null)
                 {
@@ -81,10 +81,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     if (recent != null)
                         Recent.Clear();
                 }
+                Indicator = false;
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
 

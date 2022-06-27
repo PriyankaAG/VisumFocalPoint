@@ -28,6 +28,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private AvailabilityRent selItem;
         private Int16 SearchIn = 1;
 
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var selectedItem = (e as TappedEventArgs).Parameter;
+            selItem = (AvailabilityRent)selectedItem;
+        }
+
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -60,7 +66,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             do
             {
                 AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
-                UpdatedOrder = addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, out questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                if (addRentalAPIResult != null)
+                {
+                    UpdatedOrder = addRentalAPIResult.Item1;
+                    questionFault = addRentalAPIResult.Item2;
+                }
                 if (questionFault != null)
                 {
                     switch (questionFault.Code)

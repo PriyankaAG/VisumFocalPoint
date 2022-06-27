@@ -31,6 +31,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
         }
 
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var selectedItem = (e as TappedEventArgs).Parameter;
+            selItem = (AvailabilityMerch)selectedItem;
+        }
+
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -62,7 +68,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
                             await Navigation.PopAsync();
                         }
-                        else if (UpdatedOrder.Order == null)
+                        else if (UpdatedOrder == null || UpdatedOrder.Order == null)
                         {
                             //ask questions ' Show Message and return no numbers for not assigning else return number to assign equal to qty
                             await Navigation.PushAsync(new SelectSerialOnlyView(selItem));

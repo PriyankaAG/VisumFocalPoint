@@ -366,18 +366,18 @@
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="2.5" />
-                                                    <ColumnDefinition Width="2.5" />
+                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="2.5*" />
                                                     <ColumnDefinition Width="2.5*" />
                                                     <ColumnDefinition Width="2.5*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding OrderDtlType}" Style="{DynamicResource LabelOrderType}" />
-                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr}" Style="{DynamicResource LabelListDetail}" HorizontalOptions="End" />
-                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2}" Style="{DynamicResource LabelListHeader}" />
-                                                <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelDefault}" />
+                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr}" Style="{DynamicResource LabelDefault}" HorizontalOptions="End" />
+                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2}" Style="{DynamicResource LabelDefaultBold}" />
+                                                <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelDefaultBold}" />
                                                 <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:C}'}" Style="{DynamicResource LabelDefault}" />
-                                                <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelDefault}" />
-                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty}" Style="{DynamicResource LabelDefaultBold}" />
+                                                <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelDefaultBold}" />
+                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty}" Style="{DynamicResource LabelDefault}" />
                                             </Grid>
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
