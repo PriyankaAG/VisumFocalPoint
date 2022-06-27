@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             x:Class="FocalPoint.CustomControls.LabelTextCustomControl"
+             x:Name="labelTextView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Frame HasShadow="True" Margin="2" Padding="5,5,0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+            <Grid HeightRequest="20" VerticalOptions="CenterAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title, Source={x:Reference labelTextView}}" Style="{DynamicResource LabelDefaultBold}" HorizontalOptions="Fill" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Value, Source={x:Reference labelTextView}}" TextColor="{Binding TextColorValue, Source={x:Reference labelTextView}}" HorizontalTextAlignment="Start" Style="{DynamicResource LabelDefault}" LineBreakMode="WordWrap"/>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

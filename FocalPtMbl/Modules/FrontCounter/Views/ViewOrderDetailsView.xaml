@@ -1,19 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.ViewOrderDetailsView"
-             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
-             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
-             xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
-             HeaderPanelPosition="Top"
-             IsSelectedItemIndicatorVisible="True"
-             ItemHeaderWidth="*"
-             ItemHeaderMinWidth="120"
-             ItemHeaderMaxWidth="360"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="FocalPoint.Modules.FrontCounter.Views.ViewOrderDetailsView" xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors" xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels" xmlns:converters="clr-namespace:FocalPoint.Converters" xmlns:controls="clr-namespace:FocalPoint.CustomControls" HeaderPanelPosition="Top" IsSelectedItemIndicatorVisible="True" ItemHeaderWidth="*" ItemHeaderMinWidth="120" ItemHeaderMaxWidth="360" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPage.Resources>
         <ResourceDictionary>
+            <converters:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter" />
             <!--<local:IsSelectedToColorConverter x:Key="isSelectedToColorConverter"
                                                DefaultColor="Transparent"
                                                SelectedColor="#40FFFFFF"/>-->
@@ -21,441 +10,269 @@
     </dxn:TabPage.Resources>
     <dxn:TabPage.ItemHeaderTemplate>
         <DataTemplate>
-            <Frame Padding="16,0,16,0"
-                    HasShadow="False"
-                    BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <Frame Padding="16,0,16,0" HasShadow="False" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <!-- Other Frame settings -->
             </Frame>
         </DataTemplate>
     </dxn:TabPage.ItemHeaderTemplate>
     <dxn:TabPage.BindingContext>
-        <viewModel:ViewOrderDetailsViewModel/>
+        <viewModel:ViewOrderDetailsViewModel />
     </dxn:TabPage.BindingContext>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
             <ContentPage Title="Header" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-                <StackLayout>
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
 
-                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedOrder.Customer.CustomerName, StringFormat='Company: {0}'}" Padding="0,2,10,0" TextColor="Black" XAlign="End" YAlign="Center"     />
-                    <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" TextColor="Black" YAlign="Center"  />-->
-
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-
-                        <!--<Grid.RowDefinitions>
-          <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-        </Grid.RowDefinitions>-->
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="  Header  "
-           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-           TextColor="Black"
-           XAlign="Start"
-           YAlign="Center"
-            
-             />
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="Out Date/Time:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.OrderODte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="2" Grid.Column="0" Text="Due Date/Time:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding SelectedOrder.OrderDDte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="3" Grid.Column="0" Text="PO Number:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding SelectedOrder.OrderPO}" TextColor="Black"  />
-
-                        <Label Grid.Row="4" Grid.Column="0" Text="Job Number:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding SelectedOrder.OrderCustJobNo}" TextColor="Black"  />
-
-                        <Label Grid.Row="5" Grid.Column="0" Text="Tax Code:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding SelectedOrder.TaxCodeDscr}" TextColor="Black"  />
-
-                        <Label Grid.Row="6" Grid.Column="0" Text="Exempt ID:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.OrderTaxExempt}" TextColor="Black"  />
-
-                        <Label Grid.Row="7" Grid.Column="0" Text="Discount:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="7" Grid.Column="1" Text="{Binding SelectedOrder.OrderDisc, StringFormat='{}{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="8" Grid.Column="0" Text="Damage Waiver:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="8" Grid.Column="1" Text="{Binding SelectedOrder.OrderDWFlag}" TextColor="Black"  />
-
-                        <Label Grid.Row="9" Grid.Column="0" Text="Authorized User:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="9" Grid.Column="1" Text="{Binding SelectedOrder.AddUsrLName}" TextColor="Black"  />
-
-                        <Label Grid.Row="10" Grid.Column="0" Text="Event Name:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="10" Grid.Column="1" Text="{Binding SelectedOrder.OrderEvent}" TextColor="Black"  />
-
-                        <Label Grid.Row="11" Grid.Column="0" Text="Sales Person 1:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="11" Grid.Column="1" Text="{Binding SelectedOrder.SalesName1}" TextColor="Black"  />
-
-                        <Label Grid.Row="12" Grid.Column="0" Text="Balance Due:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="12" Grid.Column="1" Text="{Binding SelectedOrder.Totals.TotalDueAmt, StringFormat='{}{0:C}'}" TextColor="Black"  />
-
-                    </Grid>
-                </StackLayout>
+                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedOrder.Customer.CustomerName, StringFormat='Company: {0}'}" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" TextColor="Black" YAlign="Center"  />-->
+                        <Grid>
+                            <controls:LabelTextCustomControl Grid.Row="0" Title="Out Date/Time:" Value="{Binding SelectedOrder.OrderODte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Due Date/Time:" Value="{Binding SelectedOrder.OrderDDte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="2" Title="PO Number:" Value="{Binding SelectedOrder.OrderPO}" />
+                            <controls:LabelTextCustomControl Grid.Row="3" Title="Job Number:" Value="{Binding SelectedOrder.OrderCustJobNo}" />
+                            <controls:LabelTextCustomControl Grid.Row="4" Title="Tax Code:" Value="{Binding SelectedOrder.TaxCodeDscr}" />
+                            <controls:LabelTextCustomControl Grid.Row="5" Title="Exempt ID:" Value="{Binding SelectedOrder.OrderTaxExempt}" />
+                            <controls:LabelTextCustomControl Grid.Row="6" Title="Discount:" Value="{Binding SelectedOrder.OrderDisc, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="7" Title="Damage Waiver:" Value="{Binding SelectedOrder.OrderDWFlag}" />
+                            <controls:LabelTextCustomControl Grid.Row="8" Title="Authorized User:" Value="{Binding SelectedOrder.AddUsrLName}" />
+                            <controls:LabelTextCustomControl Grid.Row="9" Title="Event Name:" Value="{Binding SelectedOrder.OrderEvent}" />
+                            <controls:LabelTextCustomControl Grid.Row="10" Title="Sales Person 1:" Value="{Binding SelectedOrder.SalesName1}" />
+                            <controls:LabelTextCustomControl Grid.Row="11" Title="Balance Due:" Value="{Binding SelectedOrder.Totals.TotalDueAmt, StringFormat='{}{0:C}'}" />
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Customer">
-                <StackLayout>
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-                        <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-                </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
+            <ContentPage Title="Customer" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="  Info  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <controls:LabelTextCustomControl Grid.Row="0" Title="Contact:" Value="{Binding SelectedOrder.Customer.CityStateZip}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Address:" Value="{Binding SelectedOrder.Customer.CustomerAddr1}" TextColorValue="Blue">
+                                <controls:LabelTextCustomControl.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                                </controls:LabelTextCustomControl.GestureRecognizers>
+                            </controls:LabelTextCustomControl>
+                            <StackLayout Grid.Row="2" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl VerticalOptions="FillAndExpand" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}" Title="" Value="{Binding SelectedOrder.Customer.CustomerAddr2}" />
+                            </StackLayout>
+                            <StackLayout Grid.Row="3" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone,StringFormat='{}{0:}', Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType}" Value="{Binding SelectedOrder.Customer.CustomerPhone, StringFormat='{}{0:(###) ###-####}'}">
+                                    <controls:LabelTextCustomControl.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
+                                    </controls:LabelTextCustomControl.GestureRecognizers>
+                                </controls:LabelTextCustomControl>
+                            </StackLayout>
+                            <StackLayout Grid.Row="4" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType2}" Value="{Binding SelectedOrder.Customer.CustomerPhone2, StringFormat='{}{0:(###) ###-####}'}">
+                                    <controls:LabelTextCustomControl.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
+                                    </controls:LabelTextCustomControl.GestureRecognizers>
+                                </controls:LabelTextCustomControl>
+                            </StackLayout>
+                            <controls:LabelTextCustomControl Grid.Row="5" Title="Email:" Value="{Binding SelectedOrder.Customer.CustomerEmail}" TextColorValue="Blue">
+                                    <controls:LabelTextCustomControl.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_3" />
+                                    </controls:LabelTextCustomControl.GestureRecognizers>
+                                </controls:LabelTextCustomControl>
+                            <controls:LabelTextCustomControl Grid.Row="6" Title="Type:" Value="{Binding CustomerTypeText}" />
+                            <controls:LabelTextCustomControl Grid.Row="7" Title="Terms:" Value="{Binding SelectedOrder.TermsDscr}" />
+                            <controls:LabelTextCustomControl Grid.Row="8" Title="Credit Limit:" Value="{Binding SelectedOrder.Customer.CustomerLimit}" />
+                            <controls:LabelTextCustomControl Grid.Row="9" Title="Balance:" Value="{Binding SelectedOrder.Customer.CustomerARBal, StringFormat='{}{0:C}'}" />
 
-                        <Label Text="  Info  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center"
-                        />
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="Contact:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CityStateZip}" TextColor="Black" YAlign="Center"  />
-
-                        <Label Grid.Row="2" Grid.Column="0" Text="Address:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerAddr1}" YAlign="Center"   
-                       TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Grid.Row="3" Grid.Column="0" Text="  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding CustomerAddr2Text}" TextColor="Black" YAlign="Center"  />
-
-                        <Label Text="{Binding CustomerPhoneTypeText}" Grid.Row="4" Grid.Column="0" TextColor="Black" XAlign="End"  VerticalTextAlignment="Center"    />
-                        <Label Text="{Binding CustomerPhoneText, StringFormat='{}{0:(###) ###-####}'}" Grid.Row="4" Grid.Column="1"    VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
-                       TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Text="{Binding CustomerPhoneType2Text}" Grid.Row="5" Grid.Column="0"  TextColor="Black" XAlign="End"  VerticalTextAlignment="Center"    />
-                        <Label Text="{Binding CustomerPhone2Text, StringFormat='{}{0:(###) ###-####}'}" Grid.Row="5" Grid.Column="1"    VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
-                       TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Grid.Row="6" Grid.Column="0" Text="Email:  " TextColor="Black" XAlign="End" YAlign="Center" LineBreakMode="TailTruncation"    />
-                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerEmail}"  YAlign="Center"  
-                       TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_3" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Grid.Row="7" Grid.Column="0" Text="Type:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="7" Grid.Column="1" Text="{Binding CustomerTypeText}" TextColor="Black" YAlign="Center"  />
-
-                        <Label Grid.Row="8" Grid.Column="0" Text="Terms:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="8" Grid.Column="1" Text="{Binding SelectedOrder.TermsDscr}" TextColor="Black" YAlign="Center"  />
-
-                        <Label Grid.Row="9" Grid.Column="0" Text="Credit Limit:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="9" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerLimit, StringFormat='{}{0:C}'}" TextColor="Black" YAlign="Center"  />
-
-                        <Label Grid.Row="10" Grid.Column="0" Text="Balance:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="10" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerARBal, StringFormat='{}{0:C}'}" TextColor="Black" YAlign="Center"  />
-
-                    </Grid>
-
-                </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
 
-    <dxn:TabPageItem >
+    <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Detail">
-                <StackLayout>
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-        <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-      </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
+            <ContentPage Title="Detail" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="  Customer  " Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Frame HasShadow="True" Margin="2" Padding="5,5,0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                            <Grid HeightRequest="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*" />
+                                    <ColumnDefinition Width="70*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="Company:  " Style="{StaticResource Key=LabelDefaultBold}" XAlign="Start" YAlign="Center" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" Style="{StaticResource Key=LabelDefault}" YAlign="Center" />
+                            </Grid>
+                        </Frame>
 
-                        <Label Text="  Customer  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center"     />
-                        <Label Grid.Row="1" Grid.Column="0" Text="Company:  " TextColor="Black" XAlign="End" YAlign="Center"    />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" TextColor="Black" YAlign="Center"  />
-                        <Label Text="  Details  " Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center"     />
-
-                    </Grid>
-                </StackLayout>
+                        <Label Text="  Details  " Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
-    <dxn:TabPageItem >
+    <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Totals">
-                <StackLayout>
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
-                        <!--<Grid.RowDefinitions>
-          <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-        </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="45*" />
-                            <ColumnDefinition Width="55*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="  Totals  "
-           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-           TextColor="Black"
-           XAlign="Start"
-           YAlign="Center" />
-
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="Rent Totals:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Order.TotalRentalAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="2" Grid.Column="0" Text="Merchandise Totals:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Order.TotalMerchAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="3" Grid.Column="0" Text="Rental Sales:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Order.TotalRentalSaleAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="4" Grid.Column="0" Text="Rental Replacement:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding Order.TotalRentalReplAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="5" Grid.Column="0" Text="Pickup Amount:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding Order.OrderPUAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="6" Grid.Column="0" Text="Delivery Amount:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="6" Grid.Column="1" Text="{Binding Order.OrderDelAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="7" Grid.Column="0" Text="Cleaning Charges:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="7" Grid.Column="1" Text="{Binding Order.TotalCleaningAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="8" Grid.Column="0" Text="Damage Waiver:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="8" Grid.Column="1" Text="{Binding Order.TotalDWAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="9" Grid.Column="0" Text="Specialty Charges:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="9" Grid.Column="1" Text="{Binding Order.TotalAddChgAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="10" Grid.Column="0" Text="Interval Charges:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="10" Grid.Column="1" Text="{Binding Order.TotalMeterAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="11" Grid.Column="0" Text="Fuel Charges:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="11" Grid.Column="1" Text="{Binding Order.TotalFuelAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="12" Grid.Column="0" Text="Tax:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="12" Grid.Column="1" Text="{Binding Order.OrderTax, StringFormat='{0:C}'}" TextColor="Black"  />
-
-
-                        <Label Grid.Row="13" Grid.Column="0" Text="" TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="13" Grid.Column="1" Text="-------" TextColor="Black"  />
-
-
-                        <Label Grid.Row="14" Grid.Column="0" Text="Order Total:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="14" Grid.Column="1" Text="{Binding Order.OrderAmount, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="15" Grid.Column="0" Text="Amount Paid:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="15" Grid.Column="1" Text="{Binding Order.OrderPaid, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="16" Grid.Column="0" Text="Deposit Paid:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="16" Grid.Column="1" Text="{Binding Order.OrderDeposit, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="17" Grid.Column="0" Text="Suggested Deposit:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="17" Grid.Column="1" Text="{Binding Order.TotalSugDepositAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="18" Grid.Column="0" Text="Security Deposit:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="18" Grid.Column="1" Text="{Binding Order.TotalSecDepositAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-
-                        <Label Grid.Row="19" Grid.Column="0" Text="" TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="19" Grid.Column="1" Text="-------" TextColor="Black"  />
-
-
-                        <Label Grid.Row="20" Grid.Column="0" Text="Balance Due:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="20" Grid.Column="1" Text="{Binding Order.TotalDueAmt, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="21" Grid.Column="0" Text="Deposit Requested:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="21" Grid.Column="1" Text="{Binding Order.OrderDepositRequested, StringFormat='{0:C}'}" TextColor="Black"  />
-
-                        <Label Grid.Row="22" Grid.Column="0" Text="Deposit Due Date:  " TextColor="Black" XAlign="End"     />
-                        <Label Grid.Row="22" Grid.Column="1" Text="{Binding Order.OrderDepositDueDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black"  />
-
-                    </Grid>
-                </StackLayout>
+            <ContentPage Title="Totals" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="Totals" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" />
+                        <Grid RowSpacing="5" VerticalOptions="FillAndExpand" Padding="10">
+                            <controls:LabelTextCustomControl Grid.Row="0" Title="Rent Totals:" Value="{Binding Order.TotalRentalAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Merchandise Totals:" Value="{Binding Order.TotalMerchAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="2" Title="Rental Sales:" Value="{Binding Order.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="3" Title="Rental Replacement:" Value="{Binding Order.TotalRentalReplAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="4" Title="Pickup Amount:" Value="{Binding Order.OrderPUAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="5" Title="Delivery Amount:" Value="{Binding Order.OrderDelAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="6" Title="Cleaning Charges:" Value="{Binding Order.TotalCleaningAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="7" Title="Damage Waiver:" Value="{Binding Order.TotalDWAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="8" Title="Specialty Charges:" Value="{Binding Order.TotalAddChgAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="9" Title="Interval Charges:" Value="{Binding Order.TotalMeterAmt, StringFormat='{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="10" Title="Fuel Charges:" Value="{Binding Order.TotalFuelAmt, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="11" Title="Tax:" Value="{Binding Order.OrderTax, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="12" Title="Order Total:" Value="{Binding Order.OrderAmount, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="13" Title="Amount Paid:" Value="{Binding Order.OrderPaid, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="14" Title="Deposit Paid:" Value="{Binding Order.OrderDeposit, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="15" Title="Suggested Deposit:" Value="{Binding Order.TotalSugDepositAmt, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="16" Title="Security Deposit:" Value="{Binding Order.TotalSecDepositAmt, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="17" Title="Balance Due:" Value="{Binding Order.TotalDueAmt, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="18" Title="Deposit Requested:" Value="{Binding Order.OrderDepositRequested, StringFormat='{}{0:C}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="19" Title="Deposit Due Date:" Value="{Binding Order.OrderDepositDueDte, StringFormat='{0:MM/dd/yy}'}" />
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
-    <dxn:TabPageItem >
+    <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Payments">
-                <StackLayout>
-                    <ListView      
-             VerticalOptions="End"
-             x:Name="listView"
-             
-             ItemSelected="listView_ItemSelected">
-
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-
-
-                                    <StackLayout
-               Padding="10,2,10,2"
-               Spacing="0"
-               Orientation="Vertical"
-               HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
-
-                                        <StackLayout
-               Padding="0,0,0,0"
-               Spacing="0"
-               Orientation="Horizontal"
-               HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
-
-                                            <Label TextColor="Black" Text="{Binding Payment.PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start"   />
-                                            <Label TextColor="Black" Text="{Binding Payment.PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start"   />
-                                            <Label TextColor="Black" Text="{Binding Payment.PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End"   />
-
+            <ContentPage Title="Payments" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <ListView VerticalOptions="End" x:Name="listView" ItemSelected="listView_ItemSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="10,2,10,2" Spacing="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                            <StackLayout Padding="0,0,0,0" Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                                <Label TextColor="Black" Text="{Binding Payment.PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start" />
+                                                <Label TextColor="Black" Text="{Binding Payment.PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
+                                                <Label TextColor="Black" Text="{Binding Payment.PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
+                                            </StackLayout>
+                                            <Label TextColor="Black" Text="  {Binding Payment.PaymentPDte, StringFormat='{0:MM/dd/yy}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
                                         </StackLayout>
-
-                                        <Label TextColor="Black" Text="  {Binding Payment.PaymentPDte, StringFormat='{0:MM/dd/yy}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation"   />
-
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Shipping">
-                <StackLayout>
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-          <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-        </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="  Shipping  "
-           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-           TextColor="Black"
-           XAlign="Start"
-           YAlign="Center"
-            
-             />
-
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="Ship To:  " TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.ShipTo}" TextColor="Black"  />
-
-                        <Label Grid.Row="2" Grid.Column="0" Text="Contact:  " TextColor="Black" XAlign="End"    />
-                        <!--<Label Grid.Row="2" Grid.Column="1" Text="{Binding SelectedOrder. ShipToContact}" TextColor="Black"  />-->
-
-                        <Label Grid.Row="3" Grid.Column="0" Text="Phone:  " TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding ShipToPhoneText, StringFormat='{0:(###) ###-####}'}"   
-                TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_4" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Grid.Row="4" Grid.Column="0" Text="Address:  " TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding ShipToAddr1Text}"   
-                TextColor="Blue" TextDecorations="Underline">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
-                            </Label.GestureRecognizers>
-                        </Label>
-
-                        <Label Grid.Row="5" Grid.Column="0" Text="" TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding ShipToAddr2Text}" TextColor="Black"  />
-
-
-                    </Grid>
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Dispatching">
-                <StackLayout>
-                    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-          <RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-        </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Label Text="  Delivery  "
-           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-           TextColor="Black"
-           XAlign="Start"
-           YAlign="Center"
-            
-             />
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black"  />
-
-
-
-                        <Label Text="  Pickup  "
-           Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-           TextColor="Black"
-           XAlign="Start"
-           YAlign="Center"
-            
-             />
-
-                        <Label Grid.Row="3" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End"    />
-                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black"  />
-
-
-                    </Grid>
-                </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Images" HeightRequest="500">
-                <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <ListView x:Name="ImageListView" VerticalOptions="FillAndExpand" ItemsSource="{Binding ImageList}" HeightRequest="500"
-                              SelectionMode="Single" IsGroupingEnabled="true" HasUnevenRows="true" IsPullToRefreshEnabled="True" Refreshing="OnRefresh">
-                        <ListView.GroupHeaderTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Label Text="{Binding Heading}" />
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.GroupHeaderTemplate>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Vertical" HeightRequest="200" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
-                                        <Image Source="{Binding Image}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
-                                        <Label Text="{Binding Text}" HorizontalOptions="Center" />
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+            <ContentPage Title="Shipping" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="Shipping" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Grid RowSpacing="5" VerticalOptions="Fill" Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <controls:LabelTextCustomControl HeightRequest="40" Grid.Row="0" Title="Ship To:" Value="{Binding SelectedOrder.ShipTo.ShipToCity}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Contact:" Value="{Binding SelectedOrder.ShipTo.ShipToContact}" />
+                            <controls:LabelTextCustomControl Grid.Row="2" Title="Phone:" Value="{Binding SelectedOrder.ShipTo.ShipToPhone, StringFormat='{0:(###) ###-####}'}" TextColorValue="Blue">
+                                <controls:LabelTextCustomControl.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_4" />
+                                </controls:LabelTextCustomControl.GestureRecognizers>
+                            </controls:LabelTextCustomControl>
+                            <controls:LabelTextCustomControl Grid.Row="3" Title="Address:" Value="{Binding SelectedOrder.ShipTo.ShipToAddr1}" TextColorValue="Blue">
+                                <controls:LabelTextCustomControl.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_5" />
+                                </controls:LabelTextCustomControl.GestureRecognizers>
+                            </controls:LabelTextCustomControl>
+                            <StackLayout Grid.Row="4" IsVisible="{Binding SelectedOrder.ShipTo.ShipToAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="" Value="{Binding SelectedOrder.ShipTo.ShipToAddr2}" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </ScrollView>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Dispatching" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="Delivery" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
+                        <Label Text="Pickup" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
+                        <!--<Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="65*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="  Delivery  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+                            <Label Text="  Pickup  " Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center" />
+                            <Label Grid.Row="3" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
+                        </Grid>-->
+                    </StackLayout>
+                </ScrollView>
+            </ContentPage>
+        </dxn:TabPageItem.Content>
+    </dxn:TabPageItem>
+    <dxn:TabPageItem>
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Images" HeightRequest="500" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <ListView x:Name="ImageListView" VerticalOptions="FillAndExpand" ItemsSource="{Binding ImageList}" HeightRequest="500" SelectionMode="Single" IsGroupingEnabled="true" HasUnevenRows="true" IsPullToRefreshEnabled="True" Refreshing="OnRefresh">
+                            <ListView.GroupHeaderTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Label Text="{Binding Heading}" />
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.GroupHeaderTemplate>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Vertical" HeightRequest="200" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                            <Image Source="{Binding Image}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+                                            <Label Text="{Binding Text}" HorizontalOptions="Center" />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
