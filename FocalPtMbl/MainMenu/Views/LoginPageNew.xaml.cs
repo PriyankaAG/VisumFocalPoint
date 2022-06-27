@@ -42,7 +42,6 @@ namespace FocalPoint.MainMenu.Views
         private async void LoginButton_Clicked(object sender, EventArgs e)
         {
             if (!viewModel.ValidateLogin()) return;
-
             try
             {
                 var UpdateValid = viewModel.AttemptLogin();
@@ -130,23 +129,28 @@ namespace FocalPoint.MainMenu.Views
                     //basePage.MainContent.BindingContext = mainPageViewModel;
                     //basePage.DrawerContent.BindingContext = aboutPageViewModel;
 
-                    MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
-                    MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
-                    MainMenuFlyout basePage = new MainMenuFlyout();
-                    basePage.MainPageObject.BindingContext = mainPageViewModel;
-                    basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
-
-                    Application.Current.MainPage = basePage;
-                    this.navigationService.SetNavigator(basePage.NavPage);
-                    ThemeLoader.Instance.LoadTheme();
-                    //end loading
-                    activityIndicator.IsRunning = false;
-
-                    //Login is successful and terminal/stops have been selected.
-                    //Save the host and port on the device to load later
-                    viewModel.SetSecures();
+                    ShowMainPage();
                 }
             }
+        }
+
+        private void ShowMainPage()
+        {
+            MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
+            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
+            MainMenuFlyout basePage = new MainMenuFlyout();
+            basePage.MainPageObject.BindingContext = mainPageViewModel;
+            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
+
+            Application.Current.MainPage = basePage;
+            this.navigationService.SetNavigator(basePage.NavPage);
+            ThemeLoader.Instance.LoadTheme();
+            //end loading
+            activityIndicator.IsRunning = false;
+
+            //Login is successful and terminal/stops have been selected.
+            //Save the host and port on the device to load later
+            viewModel.SetSecures();
         }
 
         private void IsSignedInCheckbox_IsCheckedChanged(object sender, TappedEventArgs e)
