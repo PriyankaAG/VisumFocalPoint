@@ -94,6 +94,8 @@ namespace FocalPoint.Modules.Payments.Views
 
         private void CancelButton_Clicked(object sender, EventArgs e)
         {
+            viewModel.ResetCards();
+            viewModel.SetDueAmout();
             Navigation.PopAsync();
         }
 
@@ -111,7 +113,7 @@ namespace FocalPoint.Modules.Payments.Views
                     viewModel.CreditCardDetails.ProcessOnline &&
                     !viewModel.CreditCardDetails.IsStoredCardSelected)
                 {
-                    PaymentManual manualPayment = new PaymentManual(viewModel.RequestType)
+                    PaymentManual manualPayment = new PaymentManual(viewModel.RequestType, viewModel.CreditCardDetails.IsStoredCardSelected)
                     {
                         BindingContext = viewModel,
                     };

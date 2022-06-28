@@ -17,11 +17,13 @@ namespace FocalPoint.Modules.Payments.Views
     {
         PaymentPageViewModel viewModel;
         PaymentRequest.RequestTypes requestType;
+        bool isCardOnFile;
 
-        public PaymentManual(PaymentRequest.RequestTypes requestType)
+        public PaymentManual(PaymentRequest.RequestTypes requestType, bool isCardOnFile)
         {
             InitializeComponent();
             this.requestType = requestType;
+            this.isCardOnFile = isCardOnFile;
             hybridWebView.RegisterAction(data => GetResultFromJavaScript(data));
             //hybridWebView.Source = "https://visumbanyan.fpsdns.com:8080/cardconnect/Xamarin.html";
             hybridWebView.Navigated += CardConnectWebView_Navigated;
@@ -54,7 +56,8 @@ namespace FocalPoint.Modules.Payments.Views
             }
             else
             {
-                //hybridWebView.EvaluateJavaScriptAsync("document.getElementById('lblTrans').innerHTML = '" + htmlStr + "'");
+                var htmlString = "PreAuth: " + (isCardOnFile ? "Token" : "Sale");
+                hybridWebView.EvaluateJavaScriptAsync("document.getElementById('lblTrans').innerHTML = '" + htmlString + "'");
             }
         }
 

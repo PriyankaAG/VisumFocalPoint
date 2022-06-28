@@ -126,6 +126,16 @@ namespace FocalPoint.Modules.Payments.ViewModels
         #region const
         public PaymentPageViewModel() : base("Payments")
         {
+            Init();
+        }
+        public PaymentPageViewModel(Order order) : base("Paymnets")
+        {
+            Order = order;
+            Init();
+        }
+
+        private void Init()
+        {
             generalComponent = new GeneralComponent();
             paymentEntityComponent = new PaymentEntityComponent();
             orderComponent = new ViewOrderEntityComponent();
@@ -142,7 +152,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 Header = "Deposits & Security Deposits"
             };
-            GetOrderDetails();
+            //GetOrderDetails();
             //SetPaymentData();
             //if (Order?.Customer != null)
             //    GetLicenseStates(Order.Customer.CustomerCountry);
@@ -166,43 +176,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
             });
             OnPropertyChanged(nameof(Order));
         }
-
-        //public PaymentPageViewModel(Order order) : base("Paymnets")
-        //{
-        //    Order = order;
-        //}
-
-        public PaymentPageViewModel(Order order) : base("Payments")
-        {
-            generalComponent = new GeneralComponent();
-            paymentEntityComponent = new PaymentEntityComponent();
-            GetSettings().ContinueWith((a) =>
-            {
-                Settings = a.Result;
-                //Settings.POSEnabled = false;
-            });
-            Order = order;
-            PaymentHistory = new PaymentHistoryDetail
-            {
-                Header = "Payment History"
-            };
-            DepositPaymentHistory = new PaymentHistoryDetail
-            {
-                Header = "Deposits & Security Deposits"
-            };
-            SetPaymentData();
-            if (Order?.Customer != null)
-                GetLicenseStates(Order.Customer.CustomerCountry);
-
-            CheckNumber = new ValidatableObject<string>();
-            Payment = new ValidatableObject<string>();
-            AddValidation();
-            if (Order != null)
-            {
-                SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
-            }
-        }
-
         #endregion
 
         private void GetLicenseStates(int countryCode)
@@ -268,9 +241,14 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     break;
                 case "CC":
                     CreditCardDetails = new CreditCard(Order, paymentEntityComponent, Settings);
-                    if (Settings != null && Settings.POSEnabled)
+                    //if (Settings != null && Settings.POSEnabled)
+                    if (Settings != null && Settings.POSType > 0)
                     {
                         IsCreditCardPOS = true;
+                    }
+                    else if (Settings?.POSType == 0) 
+                    {
+                        IsCreditCard = true;
                     }
                     else
                     {
@@ -333,8 +311,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         internal void SetSelectedPayment(decimal value)
         {
-            Payment.Value = 0.0.ToString("c");
-            TotalReceived = ChangeDue = value.ToString("c");
+            TotalReceived = Payment.Value = value.ToString("c");
+            ChangeDue = 0.0.ToString("c");
             OnPropertyChanged(nameof(TotalReceived));
             OnPropertyChanged(nameof(ChangeDue));
             OnPropertyChanged(nameof(Payment));
@@ -348,9 +326,16 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(TotalReceived));
                 OnPropertyChanged(nameof(ChangeDue));
             }
-            Payment.Value = RequestType == RequestTypes.Standard ? AmountDue : SuggestedDeposit;
+            Payment.IsValid = true;
+            Payment.Value = RequestType == RequestTypes.Standard ? GetPaymentAmt() : SuggestedDeposit;
             OnPropertyChanged(nameof(Payment));
         }
+
+        private string GetPaymentAmt()
+        {
+            return Order?.Totals?.TotalDueAmt < 0 ? 0.0.ToString("c") : Order?.Totals?.TotalDueAmt.ToString("c");
+        }
+
         internal string ValidatePaymentKinds()
         {
             var validationMessage = "";
@@ -473,9 +458,6 @@ namespace FocalPoint.Modules.Payments.ViewModels
 
         public void ResetCards()
         {
-            Payment.IsValid = true;
-            if (RequestType == RequestTypes.Standard)
-                Payment.Value = AmountDue;
             ResetCheck();
             ResetOther();
             CreditCardDetails?.ResetCreditCard();

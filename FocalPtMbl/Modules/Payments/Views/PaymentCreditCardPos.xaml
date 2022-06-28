@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:FocalPoint.CustomControls" xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:views1="clr-namespace:FocalPoint.MainMenu.Controls" x:Class="FocalPoint.Modules.Payments.Views.PaymentCreditCardPos">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:FocalPoint.CustomControls" xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:views1="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors" x:Class="FocalPoint.Modules.Payments.Views.PaymentCreditCardPos">
     <ContentView.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -37,8 +37,9 @@
                                                         Command="{Binding ValidateCardHolderNameCommand}"
                                                         IsValid="{Binding CardHolderName.IsValid}"
                                                         MaxLenth="100"
-                                                        LabelText="Holder's Name"
+                                                        LabelText="Holder Name"
                                                         PlaceHolder="Enter name" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding CardOnFileText}" TextColor="Red" FontAttributes="Bold" FontSize="Medium"/>
                         <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
                                                         EditorText="{Binding CardLast4Digits.Value}" 
                                                         Command="{Binding ValidateCardLast4DigitsCommand}"
@@ -50,7 +51,18 @@
                                                         Keyboard="Numeric" />
                         <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
                             <Label Text="Expiration Date" FontSize="Default" Style="{DynamicResource LabelDefault}" />
-                            <DatePicker Format="MM/yyyy" Date="{Binding ExpirationDate}" IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" />
+                            <dxe:DateEdit Date="{Binding ExpirationDate}" 
+                                          DisplayFormat="MM/yyyy" 
+                                          VerticalOptions="Start"
+                                          HeightRequest="45"
+                                          Style="{StaticResource DxeDateTime}" 
+                                          IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}"
+                                          ReturnType="Default">
+                            </dxe:DateEdit>
+
+                            <!--<DatePicker Format="MM/yyyy" Date="{Binding ExpirationDate}" 
+                                        IsEnabled="{Binding IsStoredCardSelected, Converter={StaticResource InvertedBoolConverter}}" 
+                                        />-->
                         </StackLayout>
                         <views:LabelEditorCustomControl Grid.Row="2" Grid.Column="0"
                                                         IsVisible="{Binding IsChecked, Source={x:Reference ProcessOnline}, Converter={StaticResource InvertedBoolConverter}}" 
