@@ -5,14 +5,14 @@
              xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
              x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailMerchView"
              Title="{Binding Title}">
-    <ContentPage.Content>
-        <Grid>
+    <ContentPage.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+        <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
-                <Grid Margin="10">
+                <Grid Margin="10" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
@@ -46,27 +46,22 @@
                     </Grid>
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
-                            BackgroundColor="#f5f6fa"
-                            SelectionMode="Single"                                    
+                            SelectionMode="Single" 
                             Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Margin="5,5" Style="{DynamicResource FrameStyle}">
-                                    <Grid RowSpacing="5" BackgroundColor="White">
+                                <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
                                         <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
                                         <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailMSRPAmt, StringFormat='Price: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
                                     </Grid>
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
