@@ -30,7 +30,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Text="Print Notes" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                    <Label Grid.Row="0" Text="Order Notes" FontSize="Default" Style="{DynamicResource LabelDefault}" />
                     <Frame Grid.Row="1" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
                         <customrenderer:CustomEditor x:Name="EditorPrintNotes" Placeholder="Enter Print Notes Here" Text="" AutoSize="TextChanges"/>
                     </Frame>
