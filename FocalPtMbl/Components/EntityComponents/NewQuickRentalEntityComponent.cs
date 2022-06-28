@@ -24,6 +24,7 @@ namespace FocalPoint.Components.EntityComponents
         const string OrderAddMerchandiseAPIKey = "OrderAddMerchandise/";
         const string AvailabilityRentalsAPIKey = "Availability/Rentals/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
+        const string AvailabilityMerchandiseSerialsAPIKey = "AvailabilityMerchandiseSerials/{0}/{1}";
 
         const string CheckPhoneNumberAPIKey = "CustomerPhoneDupes/{0}/{1}";
         const string CheckCustomerNameAPIKey = "CustomerNameCheck/{0}/{1}/{2}";
@@ -199,6 +200,20 @@ namespace FocalPoint.Components.EntityComponents
                 Search = text;
                 Int16 SearchIn = 1;
                 res = await apiComponent.PostAsync<List<AvailabilityMerch>>(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn }));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
+
+        public async Task<List<string>> AvailabilityMerchandiseSerials(string merchNo, string storeNo)
+        {
+            List<string> res = null;
+            try
+            {
+                res = await apiComponent.GetAsync<List<string>>(string.Format(AvailabilityMerchandiseSerialsAPIKey, merchNo, storeNo));
             }
             catch (Exception ex)
             {

@@ -18,7 +18,10 @@ namespace FocalPoint.Modules.FrontCounter.Views
             this.Title = "Select Serials";
             InitializeComponent();
             ((SelectSerialsOnlyViewModel)this.BindingContext).SelectedItem = selectedItem;
-            ((SelectSerialsOnlyViewModel)this.BindingContext).GetSerials(selectedItem);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await ((SelectSerialsOnlyViewModel)this.BindingContext).GetSerials(selectedItem);
+            });
         }
 
         private void SimpleButton_Clicked(object sender, EventArgs e)

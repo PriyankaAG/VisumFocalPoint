@@ -5,8 +5,8 @@
              xmlns:views="clr-namespace:FocalPoint.MainMenu.Views" 
              x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailRentalView"
              Title="{Binding Title}">
-    <ContentPage.Content>
-        <Grid>
+    <ContentPage.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+        <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -46,12 +46,11 @@
                     </Grid>
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
-                            BackgroundColor="#f5f6fa"
                             SelectionMode="Single"
                                     Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Margin="5" Padding="5" Style="{DynamicResource FrameStyle}">
+                                <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
                                             <VisualState Name="Selected">
@@ -61,7 +60,7 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <Grid RowSpacing="5" BackgroundColor="White">
+                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />

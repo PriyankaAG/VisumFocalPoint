@@ -230,18 +230,6 @@
                         <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
                         <Label Text="Pickup" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
-                        <!--<Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35*" />
-                                <ColumnDefinition Width="65*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Text="  Delivery  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center" />
-                            <Label Grid.Row="1" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End" />
-                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
-                            <Label Text="  Pickup  " Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start" YAlign="Center" />
-                            <Label Grid.Row="3" Grid.Column="0" Text="Date:  " TextColor="Black" XAlign="End" />
-                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" TextColor="Black" />
-                        </Grid>-->
                     </StackLayout>
                 </ScrollView>
             </ContentPage>
@@ -256,7 +244,7 @@
                             <ListView.GroupHeaderTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Label Text="{Binding Heading}" />
+                                        <Label Text="{Binding Heading}" Style="{StaticResource Key=LabelDashboardHeader}" />
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.GroupHeaderTemplate>

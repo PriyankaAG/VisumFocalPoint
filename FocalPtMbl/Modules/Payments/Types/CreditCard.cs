@@ -17,6 +17,7 @@ namespace FocalPoint.Modules.Payments.Types
 {
     public class CreditCard : ThemeBaseViewModel
     {
+        const string CARD_ON_FILE_TEXT = "Using Card On File";
         Order order;
         public IPaymentEntityComponent PaymentEntityComponent;
         public PaymentInfo StoredCardInfo;
@@ -43,6 +44,7 @@ namespace FocalPoint.Modules.Payments.Types
             AuthorizationCode = new ValidatableObject<string>();
             AvsStreetAddress = new ValidatableObject<string>();
             AvsZipCode = new ValidatableObject<string>();
+            CardOnFileText = "";
 
             AddValidations();
             CardDetailSelectCommand = new Command<PaymentInfo>((PaymentInfo info) => UpdateDetails(info));
@@ -52,7 +54,7 @@ namespace FocalPoint.Modules.Payments.Types
         #region Properties
         public ValidatableObject<string> CardHolderName { get; set; }
         public ValidatableObject<string> CardLast4Digits { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; set; } = DateTime.MinValue;
         public ValidatableObject<string> AuthorizationCode { get; set; }
         public ValidatableObject<string> AvsStreetAddress { get; set; }
         public ValidatableObject<string> AvsZipCode { get; set; }
@@ -81,6 +83,16 @@ namespace FocalPoint.Modules.Payments.Types
             }
         }
         public bool IsStoredCardSelected { get; set; }
+        private string _cardOnFileText;
+        public string CardOnFileText 
+        {
+            get { return _cardOnFileText; }
+            set 
+            {
+                _cardOnFileText = value;
+                OnPropertyChanged(nameof(CardOnFileText));
+            }
+        }
         public PaymentSettings Settings { get; set; }
         #endregion
 
@@ -142,6 +154,7 @@ namespace FocalPoint.Modules.Payments.Types
                 ExpirationDate = date;
             SetProcessOnline();
             IsStoredCardSelected = true;
+            CardOnFileText = CARD_ON_FILE_TEXT;
             OnPropertyChanged(nameof(CardHolderName));
             OnPropertyChanged(nameof(CardLast4Digits));
             OnPropertyChanged(nameof(ExpirationDate));
@@ -151,43 +164,41 @@ namespace FocalPoint.Modules.Payments.Types
 
         public string ValidateCreditCardDetails()
         {
-            ValidateField(CardHolderName);
-            ValidateField(CardLast4Digits);
-            if (Settings.POSEnabled)
+            if (Settings.POSType == 0 || Settings.POSType > 0 && !ProcessOnline)
             {
-                ValidateField(AvsStreetAddress);
-                ValidateField(AvsZipCode);
-                if (!(CardHolderName.IsValid && AvsStreetAddress.IsValid && AvsZipCode.IsValid))
-                    return "Validation failed. Please correct data.";
-            }
-            else
-            {
+                ValidateField(CardHolderName);
+                ValidateField(CardLast4Digits);
                 ValidateField(AuthorizationCode);
-                if (!(CardHolderName.IsValid && AuthorizationCode.IsValid))
+                if (!(CardHolderName.IsValid && CardLast4Digits.IsValid && AuthorizationCode.IsValid))
+                    return "Validation failed. Please fill required data.";
+                if (!CardLast4Digits.IsValid)
+                    return CardLast4Digits.Errors?.First() ?? "Validation failed.";
+                if(ExpirationDate < DateTime.MinValue)
                     return "Validation failed. Please fill required data.";
             }
-            if (!CardLast4Digits.IsValid)
-                return CardLast4Digits.Errors?.First() ?? "Validation failed.";
-            if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
+            if (ExpirationDate < DateTime.MinValue && DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
                 return "Credit Card Expired!";
             return "";
 
-
-            //if (string.IsNullOrEmpty(CardHolderName.Value))
-            //    return "Please enter Credit Card Holder Name";
-            //else if (CardLast4Digits.Value.Length < 4)
-            //    return "Please enter the last 4 of the Credit Card Number";
-            //else if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-            //    return "Credit Card Expired!";
-            //else if (!Settings.POSEnabled && string.IsNullOrEmpty(AuthorizationCode.Value))
-            //    return "Please enter Authorization Code";
-            //else if (Settings.POSEnabled)
+            //ValidateField(CardHolderName);
+            //ValidateField(CardLast4Digits);
+            //if (Settings.POSEnabled)
             //{
-            //    if (string.IsNullOrEmpty(AvsStreetAddress.Value))
-            //        return "Please enter Street Address";
-            //    else if (string.IsNullOrEmpty(AvsZipCode.Value))
-            //        return "Please enter Zip code";
+            //    ValidateField(AvsStreetAddress);
+            //    ValidateField(AvsZipCode);
+            //    if (!(CardHolderName.IsValid && AvsStreetAddress.IsValid && AvsZipCode.IsValid))
+            //        return "Validation failed. Please correct data.";
             //}
+            //else
+            //{
+            //    ValidateField(AuthorizationCode);
+            //    if (!(CardHolderName.IsValid && AuthorizationCode.IsValid))
+            //        return "Validation failed. Please fill required data.";
+            //}
+            //if (!CardLast4Digits.IsValid)
+            //    return CardLast4Digits.Errors?.First() ?? "Validation failed.";
+            //if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
+            //    return "Credit Card Expired!";
             //return "";
         }
 
@@ -213,8 +224,9 @@ namespace FocalPoint.Modules.Payments.Types
             CardHolderName.IsValid = CardLast4Digits.IsValid = AuthorizationCode.IsValid
                 = AvsStreetAddress.IsValid = AvsZipCode.IsValid = true;
             StoreCardOnFile = false;
-            ExpirationDate = DateTime.Now;
+            //ExpirationDate = DateTime.Now;
             IsStoredCardSelected = false;
+            CardOnFileText = "";
             SetProcessOnline();
             OnPropertyChanged(nameof(CardHolderName));
             OnPropertyChanged(nameof(CardLast4Digits));
@@ -222,7 +234,7 @@ namespace FocalPoint.Modules.Payments.Types
             OnPropertyChanged(nameof(AvsStreetAddress));
             OnPropertyChanged(nameof(AvsZipCode));
             OnPropertyChanged(nameof(StoreCardOnFile));
-            OnPropertyChanged(nameof(ExpirationDate));
+            //OnPropertyChanged(nameof(ExpirationDate));
             OnPropertyChanged(nameof(IsStoredCardSelected));
             OnPropertyChanged(nameof(ProcessOnline));
             OnPropertyChanged(nameof(ManualToken));
