@@ -198,7 +198,7 @@ namespace FocalPoint
                     //TODO: Handle failure API's, add logs to server
                 }
             }
-            catch (Exception ex)
+            catch
             {
             }
             return orderUpdateRefresh;

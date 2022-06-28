@@ -9,21 +9,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class TotalBreakoutViewModel : ThemeBaseViewModel
     {
-        public TotalBreakoutViewModel(Order order)
+        public TotalBreakoutViewModel(OrderTotals totals)
         {
-            OrdersObj = new ObservableCollection<Order>();
-            OrdersObj.Add(order);
-            OnPropertyChanged(nameof(OrdersObj));
+            Totals = new ObservableCollection<OrderTotals>();
+            Totals.Add(totals);
+            OnPropertyChanged(nameof(Totals));
         }
 
-        ObservableCollection<Order> ordersObj;
-        public ObservableCollection<Order> OrdersObj
+        ObservableCollection<OrderTotals> totals;
+        public ObservableCollection<OrderTotals> Totals
         {
-            get => this.ordersObj;
+            get => this.totals;
             private set
             {
-                this.ordersObj = value;
-                OnPropertyChanged(nameof(OrdersObj));
+                this.totals = value;
+                OnPropertyChanged(nameof(Totals));
             }
         }
 

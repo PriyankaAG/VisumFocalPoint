@@ -2,7 +2,6 @@
 using FocalPoint.Modules.Payments.Views;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,17 +11,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewQuickRentalMainPage : ContentPage
     {
-        NewQuickRentalMainPageViewModel theViewModel;
         public NewQuickRentalMainPage()
         {
             InitializeComponent();
 
             (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = false;
-            theViewModel = new NewQuickRentalMainPageViewModel();
-            BindingContext = theViewModel;
 
+            BindingContext = new NewQuickRentalMainPageViewModel();
             GetOrderInfo();
-
         }
 
         protected override bool OnBackButtonPressed()
@@ -48,15 +44,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 //{
                 //    await DisplayAlert("Problem Creating an order", "There was a problem creating the order. Please try again with a better connection", "OK");
                 //}
-
-                //Lets say we load default values
-                _ = Task.Delay(300).ContinueWith((a) =>
-                  {
-                      Device.BeginInvokeOnMainThread(async () =>
-                      {
-                          theViewModel.SetDefaultValues();
-                      });
-                  });
             });
         }
 
@@ -91,6 +78,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
             MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
             {
+                (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder.OrderIntNotes = theNotes.Item1;
+                (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder.OrderNotes = theNotes.Item2;
+                (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
                 UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
             });
         }
@@ -98,6 +88,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
         {
             var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer, theNotes);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        public async void UpdateTheNotes(Tuple<string, string> theNotes)
+        {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateNotes((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes.Item1, theNotes.Item2);
             AfterUpdate_OrderProcessing(orderRefresh);
         }
 
@@ -159,27 +155,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
                 selectedItem = myPicker.ItemsSource[e.SelectedIndex];
-            }
-            if (selectedItem == "")
-            {
-                //await DisplayAlert("Select Type", "Please select a search type", "OK");
-                return;
-            }
-            if (selectedItem == "Merchandise")
-            {
-                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
-                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
-                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
-                addDetailMerchView.BindingContext = addDetailMerchViewModel;
-                await Navigation.PushAsync(addDetailMerchView);
-            }
-            else
-            {
-                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
-                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
-                addDetailRentalView.BindingContext = addDetailRentalViewModel;
-                await Navigation.PushAsync(addDetailRentalView);
             }
         }
 
@@ -271,7 +246,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private void Button_Clicked_2(object sender, EventArgs e)
         {
-            this.Navigation.PushAsync(new OrderNotesView(new Tuple<string, string>(theViewModel.CurrentOrder.OrderIntNotes, theViewModel.CurrentOrder.OrderNotes)));
+            this.Navigation.PushAsync(new OrderNotesView());
 
         }
 
