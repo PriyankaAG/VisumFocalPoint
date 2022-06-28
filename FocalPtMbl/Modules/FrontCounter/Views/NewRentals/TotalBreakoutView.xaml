@@ -1,31 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.TotalBreakoutView"
-             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:styles="clr-namespace:FocalPtMbl.Themes" BackgroundColor="White">
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.TotalBreakoutView" xmlns:styles="clr-namespace:FocalPtMbl.Themes" BackgroundColor="White">
     <ContentPage.Content>
-        <CollectionView ItemsSource="{Binding Totals}" ItemsLayout="VerticalGrid, 1" SelectionMode="None">
+        <CollectionView ItemsSource="{Binding OrdersObj}" ItemsLayout="VerticalGrid, 1" SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid RowSpacing="10" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0">
-                        <Label Text="Totals Breakup" Grid.Row="0" TextColor="Black" XAlign="Start" />
-                        <!--<controls:UtilizationB
-                        lock Grid.Row="1" HeightRequest="40" Title="Rental Totals:" Value="{Binding Revenue, StringFormat='{}{0:C}'}" />-->
-                        <controls:UtilizationBlock Grid.Row="2" Title="Merchandise Totals:" Value="{Binding TotalMerchAmt, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="3" Title="Rental Sales:" Value="{Binding TotalRentalSaleAmt, StringFormat='{}{0:C}'}" />
-                        <!--<controls:UtilizationBlock Grid.Row="4" Title="Pickup And Delivery:" Value="{Binding COGS, StringFormat='{}{0:C}'}" />--> 
-                        <controls:UtilizationBlock Grid.Row="5" Title="Cleaning Charges:" Value="{Binding TotalCleaningAmt, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="6" Title="Damage Waiver:" Value="{Binding TotalDWAmt, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="7" Title="Additional Charges:" Value="{Binding TotalAddChgAmt, StringFormat='{}{0:C}'}" />
-                        <!--<controls:UtilizationBlock Grid.Row="8" Title="Interval Charges:" Value="{Binding Warranty, StringFormat='{}{0:C}'}" />-->
-                        <controls:UtilizationBlock Grid.Row="9" Title="Fuel Charges:" Value="{Binding TotalFuelAmt, StringFormat='{}{0:C}'}" />
-                        <!--<controls:UtilizationBlock Grid.Row="10" Title="Tax:" Value="{Binding Labor, StringFormat='{}{0:C}'}" />-->
-                        <!--<controls:UtilizationBlock Grid.Row="11" Title="Order Total:" Value="{Binding Labor, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="12" Title="Amount Paid:" Value="{Binding Labor, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="13" Title="Deposit Paid:" Value="{Binding Labor, StringFormat='{}{0:C}'}" />-->
-                        <controls:UtilizationBlock Grid.Row="14" Title="Suggested Deposit:" Value="{Binding TotalSugDepositAmt, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="15" Title="Security Deposit:" Value="{Binding TotalSecDepositAmt, StringFormat='{}{0:C}'}" />
-                        <controls:UtilizationBlock Grid.Row="16" Title="Balance Due:" Value="{Binding TotalDueAmt, StringFormat='{}{0:C}'}" />
+                    <Grid RowSpacing="5" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0">
+                        <controls:LabelTextCustomControl Grid.Row="1" HeightRequest="40" Title="Rental Totals:" Value="{Binding Totals.TotalRentalAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="2" Title="Merchandise Totals:" Value="{Binding Totals.TotalMerchAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="3" Title="Rental Sales:" Value="{Binding Totals.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="4" Title="Cleaning Charges:" Value="{Binding Totals.TotalCleaningAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="5" Title="Damage Waiver:" Value="{Binding Totals.TotalDWAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="6" Title="Additional Charges:" Value="{Binding Totals.TotalAddChgAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="7" Title="Interval Charges:" Value="{Binding Totals.TotalMeterAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="8" Title="Fuel Charges:" Value="{Binding Totals.TotalFuelAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="9" Title="Tax:" Value="{Binding OrderTax, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="10" Title="Order Total:" Value="{Binding OrderAmount, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="11" Title="Amount Paid:" Value="{Binding OrderPaid, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="12" Title="Deposit Paid:" Value="{Binding OrderDeposit, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="13" Title="Suggested Deposit:" Value="{Binding Totals.TotalSugDepositAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="14" Title="Security Deposit:" Value="{Binding Totals.TotalSecDepositAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="15" Title="Balance Due:" Value="{Binding Totals.TotalDueAmt, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="16" Title="Deposit Requested:" Value="{Binding OrderDepositRequested, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="17" Title="Deposit Due Date:" Value="{Binding OrderDepositDueDte, StringFormat='{0:MM/dd/yy}'}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
