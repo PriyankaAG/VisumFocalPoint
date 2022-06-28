@@ -20,11 +20,12 @@
                     </Grid.ColumnDefinitions>
                     <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                                                     EditorText="{Binding CardHolderName.Value}" 
-                                                    MaxLenth="100" LabelText="Holder's Name" 
+                                                    MaxLenth="100" LabelText="Holder Name" 
                                                     PlaceHolder="Enter name" 
                                                     Keyboard="Text" 
                                                     Command="{Binding ValidateCardHolderNameCommand}"
                                                     IsValid="{Binding CardHolderName.IsValid}" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CardOnFileText}" TextColor="Red" FontAttributes="Bold" FontSize="Medium" />
                     <views:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
                                                     EditorText="{Binding CardLast4Digits.Value}"
                                                     MaxLenth="4" LabelText="Last 4 Digits"
