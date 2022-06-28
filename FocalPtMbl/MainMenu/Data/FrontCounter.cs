@@ -37,7 +37,7 @@ namespace FocalPtMbl.MainMenu.Data
                     ControlsPageTitle = "Quick Rental",
                     PageTitle = "Quick Rental",
                     Description = "Create Quotes, Reservations and Orders",
-                    Module = typeof(NewQuickRentalMainPage),
+                    Module = typeof(QuickOrderCreationOutlineView),
                     Icon = "QuickRental_32.png",
                     IconOverlayText = IconOverlayText.None
                 },
