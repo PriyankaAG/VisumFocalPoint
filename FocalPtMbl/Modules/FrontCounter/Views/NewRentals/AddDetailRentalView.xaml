@@ -47,31 +47,42 @@
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
                             BackgroundColor="#f5f6fa"
-                            SelectionMode="Single">
+                            SelectionMode="Single"
+                                    Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Margin="5,5" Padding="5,5,0,0" BackgroundColor="White">
-                                    <Grid RowSpacing="5">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="30" />
-                                                <RowDefinition Height="40" />
-                                                <RowDefinition Height="40" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
-                                            <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
-                                            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
-                                            <Label Grid.Row="1" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
-                                            <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
-                                            <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
-                                            <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
-                                        </Grid>
+                                <Frame HasShadow="True" Margin="5" Padding="5" Style="{DynamicResource FrameStyle}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="Orange" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid RowSpacing="5" BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
+                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
+                                        <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
+                                        <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
                                     </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

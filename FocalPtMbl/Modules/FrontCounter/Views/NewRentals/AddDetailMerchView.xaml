@@ -47,12 +47,12 @@
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
                             BackgroundColor="#f5f6fa"
-                            SelectionMode="Single"
-                                    Grid.Row="1">
+                            SelectionMode="Single"                                    
+                            Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Margin="5,5" Padding="5,5,0,0" BackgroundColor="White">
-                                    <Grid RowSpacing="5">
+                                <Frame HasShadow="True" Margin="5,5" Style="{DynamicResource FrameStyle}">
+                                    <Grid RowSpacing="5" BackgroundColor="White">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -66,8 +66,11 @@
                                         <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
                                         <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
                                         <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailMSRPAmt, StringFormat='Price: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="2" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
                                     </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -82,7 +85,7 @@
                         BackgroundColor="#57b8ff" TextColor="#fff"
                         Clicked="AddToOrder_Clicked"/>
             </Grid>
-            <ActivityIndicator x:Name="activityIndicator" Grid.RowSpan="2" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+            <ActivityIndicator x:Name="activityIndicator" Grid.RowSpan="2" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Style="{DynamicResource ActivityIndicatorStyle}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

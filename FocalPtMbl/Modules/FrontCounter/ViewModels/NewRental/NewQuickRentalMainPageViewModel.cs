@@ -288,15 +288,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             SelectedEndDateTime = SelectedStartDateTime.AddDays(1);
             RefreshDateTimeProperties();
             Recent = new ObservableCollection<OrderDtl>();
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType", OrderDtlDscr = "OrderDtlDscr", OrderDtlDscr2 = "OrderDtlDscr2", OrderDtlAmt = 10, OrderDtlQty = 5 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-            Recent.Add(new OrderDtl() { OrderDtlType = "OrderDtlType1", OrderDtlDscr = "OrderDtlDscr1", OrderDtlDscr2 = "OrderDtlDscr21", OrderDtlAmt = 100, OrderDtlQty = 55 });
-
+            
             MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
                 //update order

@@ -58,6 +58,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             List<AvailabilityRent> customersCntAndList = null;
             try
             {
+                Indicator = true;
                 if (ItemType == "Rate Table")
                     customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityKits(text, SearchIn);
                 else if (ItemType == "Rental Saleable")
@@ -91,14 +92,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 //TODO: Log Error
             }
+            finally
+            {
+                Indicator = false;
+            }
         }
 
-        internal OrderUpdate AddItem(AvailabilityRent selItem, decimal numOfItems, Order curOrder, OrderUpdate myOrderUpdate, out QuestionFaultExceptiom result)
+        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom>> AddItem(AvailabilityRent selItem, decimal numOfItems, Order curOrder, OrderUpdate myOrderUpdate, QuestionFaultExceptiom result)
         {
             // success no questions needed
             result = null;
             try
             {
+                Indicator = true;
                 orderUpdate = new OrderUpdate();
                 //update searchText
                 OrderAddItem RentalItem = new OrderAddItem();
@@ -108,7 +114,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (myOrderUpdate != null)
                     RentalItem.Answers = myOrderUpdate.Answers;
                 OrderUpdate OrderToUpDate = new OrderUpdate();
-                var responseOrderUpdate = NewQuickRentalEntityComponent.OrderAddRental(RentalItem).GetAwaiter().GetResult();
+                var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddRental(RentalItem);
+                Indicator = false;
                 if (responseOrderUpdate.IsSuccessStatusCode)
                 {
                     string orderContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
@@ -116,7 +123,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                     orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent, settings);
                     orderUpdate.Answers.Clear();
-                    return orderUpdate;
+                    return new Tuple<OrderUpdate, QuestionFaultExceptiom>(orderUpdate, null);
                 }
                 if (responseOrderUpdate.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
                 {
@@ -125,12 +132,16 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                     result = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
                 }
-                return orderUpdate;
+                return new Tuple<OrderUpdate, QuestionFaultExceptiom>(orderUpdate, result);
             }
             catch (Exception ex)
             {
                 result = null;
                 return null;
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
     }
