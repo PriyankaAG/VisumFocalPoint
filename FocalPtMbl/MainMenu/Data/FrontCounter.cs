@@ -1,4 +1,5 @@
 ﻿using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.Models;
 using FocalPtMbl.Modules.Orders.Views;
 using System;
@@ -36,7 +37,7 @@ namespace FocalPtMbl.MainMenu.Data
                     ControlsPageTitle = "Quick Rental",
                     PageTitle = "Quick Rental",
                     Description = "Create Quotes, Reservations and Orders",
-                    Module = typeof(QuickOrderCreationOutlineView),
+                    Module = typeof(NewQuickRentalMainPage),
                     Icon = "QuickRental_32.png",
                     IconOverlayText = IconOverlayText.None
                 },
