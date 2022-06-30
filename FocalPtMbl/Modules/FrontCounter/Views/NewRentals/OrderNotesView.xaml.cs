@@ -12,10 +12,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OrderNotesView : ContentPage
     {
-        public OrderNotesView()
+        public Tuple<string, string> Notes { get; set; }
+        public OrderNotesView(Tuple<string, string> notes)
         {
             InitializeComponent();
             Title = "Notes";
+            Notes = notes;
+
+            EditorInternalNotes.Text = Notes.Item1;
+            EditorPrintNotes.Text = Notes.Item2;
         }
 
         private async void Button_Clicked_1(object sender, EventArgs e)

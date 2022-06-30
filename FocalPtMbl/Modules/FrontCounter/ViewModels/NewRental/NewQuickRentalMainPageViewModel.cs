@@ -279,16 +279,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set { recent = value; }
         }
 
-        public NewQuickRentalMainPageViewModel(): base("Quick Rental")
+        public NewQuickRentalMainPageViewModel() : base("Quick Rental")
         {
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
 
-            SelectedStartDateTime = DateTime.Now;
-            SelectedEndDateTime = SelectedStartDateTime.AddDays(1);
+
             RefreshDateTimeProperties();
             Recent = new ObservableCollection<OrderDtl>();
-            
+
             MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
                 //update order
@@ -355,11 +354,33 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 }
                 TaxList = itemHolders.ToArray();
             }
+
             OnPropertyChanged(nameof(LengthList));
             OnPropertyChanged(nameof(TaxList));
 
         }
 
+        public void SetDefaultValues()
+        {
+            if (TheOrderSettings != null)
+            {
+                var selLen = TheOrderSettings?.Lengths.Find(p => p.Value == TheOrderSettings.Defaults.OrderLength);
+                var selLenStr = selLen?.Display;
+                SelectedLength = selLenStr;
+
+                var selTax = TheOrderSettings?.TaxCodes.Find(p => p.Value == TheOrderSettings.Defaults.OrderTaxCode);
+                var selTaxDisplay = selTax?.Display;
+                SelectedTax = selTaxDisplay;
+
+                SelectedStartDateTime = TheOrderSettings.Defaults.OrderDDte;
+                SelectedEndDateTime = TheOrderSettings.Defaults.OrderODte;
+
+            }
+
+            RefreshDateTimeProperties();
+            OnPropertyChanged(nameof(SelectedTax));
+            OnPropertyChanged(nameof(SelectedLength));
+        }
 
         public void RefreshAllProperties()
         {
@@ -373,9 +394,12 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         internal void GetEndDateAndTimeValues()
         {
             if (string.IsNullOrEmpty(SelectedLength)) return;
-            var selValue = TheOrderSettings?.Lengths.Find(p => p.Display == SelectedLength).Value;
-
-            GetEndDateTime(selValue);
+            var selValue = TheOrderSettings?.Lengths.Find(p => p.Display == SelectedLength);
+            if (selValue != null)
+            {
+                var selValDisplay = selValue.Value;
+                GetEndDateTime(selValDisplay);
+            }
         }
 
         private void GetEndDateTime(string dateTimeValue)
@@ -490,6 +514,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                 SelectedCustomer = new Customer();
                 SelectedCustomer = CurrentOrder.Customer;
+
                 RefreshAllProperties();
                 if (OrderUpdate.Notifications.Count > 0)
                     return OrderUpdate.Notifications;
@@ -520,10 +545,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 if (CurrentOrder != null)
                 {
-                    CurrentOrder.OrderLength = SelectedLength;
+                    var selLen = TheOrderSettings?.Lengths.Find(p => p.Display == SelectedLength);
+                    if (selLen != null)
+                        CurrentOrder.OrderLength = selLen.Value;
+
+                    CurrentOrder.LengthDscr = SelectedLength;
+
                     var selTax = TheOrderSettings?.TaxCodes.Find(p => p.Display == SelectedTax);
-                    CurrentOrder.OrderTaxCode = selTax.Value;
+                    if (selTax != null)
+                        CurrentOrder.OrderTaxCode = selTax.Value;
+
                     CurrentOrder.TaxCodeDscr = SelectedTax;
+                    
                     CurrentOrder.OrderODte = SelectedStartDateTime;
                     CurrentOrder.OrderDDte = SelectedEndDateTime;
 
@@ -554,8 +587,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                     if (theNotes != null)
                     {
-                        CurrentOrder.OrderIntNotes = null;
-                        CurrentOrder.OrderNotes = null;
+                        CurrentOrder.OrderIntNotes = theNotes.Item1;
+                        CurrentOrder.OrderNotes = theNotes.Item2;
                     }
 
                     var Update = OrderUpdate;
