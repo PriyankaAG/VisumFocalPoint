@@ -192,13 +192,12 @@ namespace FocalPoint.Components.EntityComponents
             return res;
         }       
 
-        public async Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text)
+        public async Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, Int16 SearchIn)
         {
             List<AvailabilityMerch> res = null;
             try
             {
                 Search = text;
-                Int16 SearchIn = 1;
                 res = await apiComponent.PostAsync<List<AvailabilityMerch>>(AvailabilityMerchandiseAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn }));
             }
             catch (Exception ex)

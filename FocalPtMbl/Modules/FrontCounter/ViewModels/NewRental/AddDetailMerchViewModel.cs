@@ -12,14 +12,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class AddDetailMerchViewModel : ThemeBaseViewModel
     {
-        public AddDetailMerchViewModel(): base ("Merchandise")
+        public AddDetailMerchViewModel() : base("Merchandise")
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
+            populateSearchInList();
         }
 
         OrderUpdate orderUpdate;
         private string Search = "%";
-        private Int16 SearchIn = 1;
+        public Int16 SearchIn;
 
         Order _currentOrder;
         public Order CurrentOrder
@@ -47,6 +48,35 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        ObservableCollection<string> searchInList;
+        public ObservableCollection<string> SearchInList
+        {
+            get => this.searchInList;
+            private set
+            {
+                this.searchInList = value;
+            }
+        }
+
+        private string selectedSearchIn;
+        public string SelectedSearchIn
+        {
+            get => selectedSearchIn;
+            set
+            {
+                this.selectedSearchIn = value;
+            }
+        }
+
+        private void populateSearchInList()
+        {
+            SearchInList = new ObservableCollection<string>();
+            SearchInList.Add("Description");
+            SearchInList.Add("UPC Number");
+            SearchInList.Add("Part Number");
+            SearchInList.Add("Extended");
+        }
+
         internal async Task GetSearchedMerchInfo(string text)
         {
             try
@@ -56,10 +86,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                 if (string.IsNullOrEmpty(Search))
                     Search = "%";
-
-                List<AvailabilityMerch> merchCntAndList = null;
                 Indicator = true;
-                merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search);
+                SearchIn = Utils.Utils.GetEnumValueFromDescription<short>(SelectedSearchIn);
+                List<AvailabilityMerch> merchCntAndList = null;
+                merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search, SearchIn);
                 if (merchCntAndList != null)
                 {
                     //StartIdx = customersCntAndList.TotalCnt;

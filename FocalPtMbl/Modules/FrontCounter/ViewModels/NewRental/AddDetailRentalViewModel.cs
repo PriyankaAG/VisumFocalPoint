@@ -17,6 +17,45 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
             SearchIn = searchIn;
             ItemType = itemType;
+            populateSearchInList();
+        }
+
+        private void populateSearchInList()
+        {
+            SearchInList = new ObservableCollection<string>();
+            switch (ItemType)
+            {
+                case "Rate Table":
+                    {
+                        SearchInList.Add("Description");
+                        SearchInList.Add("Item Number");
+                        SearchInList.Add("Top 10");
+                    }
+                    break;
+                case "Rental Saleable":
+                    {
+                        SearchInList.Add("Description");
+                        SearchInList.Add("Part Number");
+                        SearchInList.Add("Equipment ID");
+                        SearchInList.Add("Barcode");
+                        SearchInList.Add("Serial Number");
+                    }
+                    break;
+                case "Kits":
+                    {
+                        SearchInList.Add("Description");
+                        SearchInList.Add("Item Number");
+                    }
+                    break;
+                default:
+                    {
+                        SearchInList.Add("Description");
+                        SearchInList.Add("Equipment ID");
+                        SearchInList.Add("Barcode");
+                        SearchInList.Add("Serial Number");
+                    }
+                    break;
+            }
         }
 
         OrderUpdate orderUpdate;
@@ -50,6 +89,26 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
+        ObservableCollection<string> searchInList;
+        public ObservableCollection<string> SearchInList
+        {
+            get => this.searchInList;
+            private set
+            {
+                this.searchInList = value;
+            }
+        }
+
+        private string selectedSearchIn;
+        public string SelectedSearchIn
+        {
+            get => selectedSearchIn;
+            set
+            {
+                this.selectedSearchIn = value;
+            }
+        }
+
         internal async Task GetSearchedCustomersInfo(string text)
         {
             //update searchText
@@ -59,6 +118,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             try
             {
                 Indicator = true;
+                SearchIn = Utils.Utils.GetEnumValueFromDescription<short>(SelectedSearchIn);
                 if (ItemType == "Rate Table")
                     customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityKits(text, SearchIn);
                 else if (ItemType == "Rental Saleable")
