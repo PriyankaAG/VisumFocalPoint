@@ -22,6 +22,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 
     public class OrderDashboardOverviewDetail : OrderDashboardOverview
     {
+        #region Constructor & Initialization
+
         public OrderDashboardOverviewDetail(OrderDashboardOverview orderDashboardOverview)
         {
             this.DscrID = orderDashboardOverview.DscrID;
@@ -34,17 +36,22 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             this.AvgTranAmt = orderDashboardOverview.AvgTranAmt;
         }
 
+        #endregion Constructor & Initialization
+
+        #region Properties
+
         public bool IsTotalRow => this.Dscr.Contains("ALL Counter");
 
         public bool IsGrandTotalRow => this.Dscr.Contains("Grand Total");
 
         public bool IsCreditRow => this.Dscr.Contains("Credits");
+
+        #endregion Properties
     }
 
     public class OverviewData : NotificationObject
     {
         public string Header { get; set; }
-
 
         private ObservableCollection<OrderDashboardOverviewDetail> _orderDashboardOverviews;
         public ObservableCollection<OrderDashboardOverviewDetail> OrderDashboardOverviews
@@ -61,7 +68,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 
     public class FrontCounterViewModel : ThemeBaseViewModel
     {
-        public IFrontCounterEntityComponent FrontCounterEntityComponent { get; set; }
+        #region Constructor & Initialization
+
         public FrontCounterViewModel() : base("Dashboard")
         {
             FrontCounterEntityComponent = new FrontCounterEntityComponent();
@@ -87,10 +95,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             ButtonSelectedCommand = new Command<bool>((bool isCounterSelected) => ChangeButtonStyle(isCounterSelected));
         }
 
-        public void ChangeButtonStyle(bool isCounterSelected)
-        {
-            IsCounterButtonSelected = isCounterSelected;
-        }
+        #endregion Constructor & Initialization
+
+        #region Properties
+
+        public IFrontCounterEntityComponent FrontCounterEntityComponent { get; set; }
 
         private bool _isCounterButtonSelected;
         public bool IsCounterButtonSelected
@@ -158,8 +167,29 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
+        #endregion Properties
+
+        #region Commands
+
         public ICommand ButtonSelectedCommand { get; }
 
+        #endregion Commands
+
+        #region Methods
+
+        /// <summary>
+        /// This method used to change the style of tab buttons
+        /// </summary>
+        /// <param name="isCounterSelected"></param>
+        public void ChangeButtonStyle(bool isCounterSelected)
+        {
+            IsCounterButtonSelected = isCounterSelected;
+        }
+
+        /// <summary>
+        /// This method used to returns the front counter dashboard details
+        /// </summary>
+        /// <returns></returns>
         public async Task GetDashboardDetail()
         {
             try
@@ -189,11 +219,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             catch (Exception e)
             {
                 //TODO: Log Error
-            }   
+            }
             finally
             {
                 Indicator = false;
             }
         }
+
+        #endregion Methods
     }
 }
