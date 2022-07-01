@@ -69,7 +69,6 @@
             <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <StackLayout Margin="5,5">
-                        <Label Text="{Binding Customer.CustomerName}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
