@@ -22,7 +22,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
     {
         public ViewOrderDetailsView(Order selectedOrder)
         {
-            this.Title = "View Orders";
+            this.Title = "View Orders: "+ selectedOrder.OrderNo;
             InitializeComponent();
             ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)this.BindingContext;
             viewOrderDetailsViewModel.SelectedOrder = selectedOrder;
