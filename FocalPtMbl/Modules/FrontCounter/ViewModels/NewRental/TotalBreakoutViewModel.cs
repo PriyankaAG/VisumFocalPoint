@@ -11,13 +11,12 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     {
         public TotalBreakoutViewModel(Order order)
         {
-            OrdersObj = new ObservableCollection<Order>();
-            OrdersObj.Add(order);
+            OrdersObj = order;
             OnPropertyChanged(nameof(OrdersObj));
         }
 
-        ObservableCollection<Order> ordersObj;
-        public ObservableCollection<Order> OrdersObj
+        Order ordersObj;
+        public Order OrdersObj
         {
             get => this.ordersObj;
             private set

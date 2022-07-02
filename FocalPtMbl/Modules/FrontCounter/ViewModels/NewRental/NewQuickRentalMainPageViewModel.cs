@@ -11,12 +11,31 @@ using Visum.Services.Mobile.Entities;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using FocalPoint.Utils;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        bool isPageLoading;
+        public bool IsPageLoading
+        {
+            get
+            {
+                return isPageLoading;
+            }
+            set
+            {
+                isPageLoading = value;
+                OnPropertyChanged("IsPageLoading");
+            }
+        }
+        public ICommand ExemptIDEntered => new Command(() => onExemptIDEntered());
+        public async void onExemptIDEntered()
+        {
+            var orderRefresh = await UpdateDateValues();
+        }
 
         public DateTime SelectedStartDateTime { get; set; }
         public DateTime SelectedEndDateTime { get; set; }
@@ -158,10 +177,20 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 _selectedCustomer = value;
                 OnPropertyChanged(nameof(SelectedCustomer));
+                OnPropertyChanged(nameof(SelectedCustomerEmail));
                 OnPropertyChanged(nameof(IsCustomerSelected));
             }
         }
+        Customer _selectedCustomerEmail;
+        public string SelectedCustomerEmail
+        {
+            get
+            {
+                if (SelectedCustomer == null) return "Email N/A";
 
+                return SelectedCustomer.CustomerEmail.HasData() ? SelectedCustomer.CustomerEmail : "Email N/A";
+            }
+        }
         string _selectedItem;
         public string SelectedItem
         {
@@ -372,8 +401,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 var selTaxDisplay = selTax?.Display;
                 SelectedTax = selTaxDisplay;
 
-                SelectedStartDateTime = TheOrderSettings.Defaults.OrderDDte;
-                SelectedEndDateTime = TheOrderSettings.Defaults.OrderODte;
+                SelectedStartDateTime = TheOrderSettings.Defaults.OrderODte;
+                SelectedEndDateTime = TheOrderSettings.Defaults.OrderDDte;
 
             }
 
@@ -520,16 +549,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     return OrderUpdate.Notifications;
             }
 
-            //Temp code added
-            if (CurrentOrder == null)
-            {
-                ViewOrderEntityComponent order = new ViewOrderEntityComponent();
-                CurrentOrder = await order.GetOrderDetails(501842);
-                SelectedCustomer = new Customer();
-                SelectedCustomer = CurrentOrder.Customer;
-                RefreshAllProperties();
-            }
-
             return null;
         }
 
@@ -540,6 +559,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         internal async Task<OrderUpdate> UpdateDateValues()
         {
+            Indicator = true;
             OrderUpdate responseOrderUpdate = null;
             try
             {
@@ -556,7 +576,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                         CurrentOrder.OrderTaxCode = selTax.Value;
 
                     CurrentOrder.TaxCodeDscr = SelectedTax;
-                    
+
                     CurrentOrder.OrderODte = SelectedStartDateTime;
                     CurrentOrder.OrderDDte = SelectedEndDateTime;
 
@@ -572,53 +592,37 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
 
             }
+            Indicator = false;
             return responseOrderUpdate;
         }
 
-        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer, Tuple<string, string> theNotes = null)
+        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
         {
             OrderUpdate responseOrderUpdate = null;
             try
             {
                 if (CurrentOrder != null)
                 {
-                    CurrentOrder.Customer = selectedCustomer;
-                    CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
-
-                    if (theNotes != null)
+                    if (updateOrder == null)
                     {
-                        CurrentOrder.OrderIntNotes = theNotes.Item1;
-                        CurrentOrder.OrderNotes = theNotes.Item2;
+                        CurrentOrder.Customer = selectedCustomer;
+                        CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
+
+                        if (theNotes != null)
+                        {
+                            CurrentOrder.OrderIntNotes = theNotes.Item1;
+                            CurrentOrder.OrderNotes = theNotes.Item2;
+                        }
+
+                        var Update = OrderUpdate;
+                        Update.Order = CurrentOrder;
+
+                        responseOrderUpdate = await UpdateOrder(Update);
                     }
-
-                    var Update = OrderUpdate;
-                    Update.Order = CurrentOrder;
-
-                    responseOrderUpdate = await UpdateOrder(Update);
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return responseOrderUpdate;
-        }
-        internal async Task<OrderUpdate> UpdateNotes(Customer selectedCustomer, string internalNotes, string printNotes)
-        {
-            OrderUpdate responseOrderUpdate = null;
-            try
-            {
-                if (CurrentOrder != null)
-                {
-                    CurrentOrder.Customer = selectedCustomer;
-                    CurrentOrder.OrderCustNo = selectedCustomer.CustomerNo;
-
-                    CurrentOrder.OrderIntNotes = internalNotes;
-                    CurrentOrder.OrderNotes = printNotes;
-                    var Update = OrderUpdate;
-                    Update.Order = CurrentOrder;
-
-                    responseOrderUpdate = await UpdateOrder(Update);
+                    else
+                    {
+                        responseOrderUpdate = await UpdateOrder(updateOrder);
+                    }
                 }
             }
             catch (Exception ex)

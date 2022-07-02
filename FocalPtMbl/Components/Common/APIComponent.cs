@@ -263,7 +263,6 @@ namespace FocalPoint
                 request.Content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
 
                 responseMessage = await ClientHTTP.SendAsync(request);
-                responseMessage.EnsureSuccessStatusCode();
             }
             catch(Exception ex)
             {
