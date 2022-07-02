@@ -58,5 +58,32 @@ namespace FocalPoint.CustomControls
                 SetValue(TextColorProperty, value);
             }
         }
+
+        static readonly BindableProperty RequestedTitleWidthProperty = BindableProperty.Create(nameof(RequestedTitleWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(4, GridUnitType.Star), BindingMode.TwoWay);
+        public GridLength RequestedTitleWidth
+        {
+            get
+            {
+                return (GridLength)GetValue(RequestedTitleWidthProperty);
+            }
+
+            set
+            {
+                SetValue(RequestedTitleWidthProperty, value);
+            }
+        }
+        static readonly BindableProperty RequestedValueWidthProperty = BindableProperty.Create(nameof(RequestedValueWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(6, GridUnitType.Star), BindingMode.TwoWay);
+        public GridLength RequestedValueWidth
+        {
+            get
+            {
+                return (GridLength)GetValue(RequestedValueWidthProperty);
+            }
+
+            set
+            {
+                SetValue(RequestedValueWidthProperty, value);
+            }
+        }
     }
 }

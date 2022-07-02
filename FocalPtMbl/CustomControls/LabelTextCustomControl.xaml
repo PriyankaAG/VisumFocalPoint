@@ -16,8 +16,8 @@
         <Frame HasShadow="True" Margin="2" Padding="5,5,0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
             <Grid HeightRequest="20" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="{Binding RequestedTitleWidth}" />
+                    <ColumnDefinition Width="{Binding RequestedValueWidth}" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
