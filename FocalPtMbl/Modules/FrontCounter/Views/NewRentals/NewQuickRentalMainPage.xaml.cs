@@ -19,6 +19,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = false;
             theViewModel = new NewQuickRentalMainPageViewModel();
+            theViewModel.IsPageLoading = true;
             BindingContext = theViewModel;
 
             GetOrderInfo();
@@ -55,6 +56,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                       Device.BeginInvokeOnMainThread(async () =>
                       {
                           theViewModel.SetDefaultValues();
+                          _ = Task.Delay(1000).ContinueWith((a) =>
+                            {
+                                theViewModel.IsPageLoading = false;
+                            });
                       });
                   });
             });
@@ -108,10 +113,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             try
             {
-                if (orderRefresh != null) return;
+                if (orderRefresh == null) return;
                 if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
                 {
-                    while (orderRefresh.Answers != null || orderRefresh.Answers.Count > 0)
+                    while (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
                     {
                         //display answer if key does not have a value update that value
                         //checkUpdate.Answers.
@@ -132,7 +137,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
                             // KIRK REM orderRefresh.Answers[question.Key] = custOk.ToString();
                             (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
-                            //orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer);
+                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(updateOrder: (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate);
                         }
 
                     }
@@ -193,9 +198,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentals";
         }
 
-        private void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        private async void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
         {
+            if (theViewModel.IsPageLoading) return;
+
             (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
+
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
         }
 
         private async void AddDetails_Clicked(object sender, EventArgs e)
@@ -295,6 +305,27 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             var vm = (BindingContext as NewQuickRentalMainPageViewModel);
             this.Navigation.PushAsync(new TotalBreakoutView(vm.CurrentOrder));
+        }
+
+        private async void LabelDropDownCustomControl_ItemSelected_1(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void TimePicker_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
         }
     }
 }

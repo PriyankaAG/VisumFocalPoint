@@ -50,6 +50,9 @@ namespace Visum.Services.Mobile.Entities
         public decimal OrderDisc { get; set; }
 
         [DataMember]
+        public bool OrderDiscountable { get; set; }
+
+        [DataMember]
         public bool OrderDWFlag { get; set; }
 
         [DataMember]
