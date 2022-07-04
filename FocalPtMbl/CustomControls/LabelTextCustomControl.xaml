@@ -16,8 +16,8 @@
         <Frame HasShadow="True" Margin="2" Padding="5,5,0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
             <Grid HeightRequest="20" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding RequestedTitleWidth}" />
-                    <ColumnDefinition Width="{Binding RequestedValueWidth}" />
+                    <ColumnDefinition Width="{Binding RequestedTitleWidth, Source={x:Reference labelTextView}, Mode=TwoWay}" />
+                    <ColumnDefinition Width="{Binding RequestedValueWidth, Source={x:Reference labelTextView}, Mode=TwoWay}" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
