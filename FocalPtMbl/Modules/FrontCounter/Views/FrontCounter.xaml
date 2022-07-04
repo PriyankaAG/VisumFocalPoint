@@ -1,18 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:styles="clr-namespace:FocalPtMbl.Themes"
              xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             x:Name="frontCounter"
              x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter">
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <styles:LightTheme />
                 <styles:DarkTheme />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </ContentPage.Resources>
-    <ContentPage.Content>
+    </ContentView.Resources>
+    <ContentView.BindingContext>
+        <viewModel:FrontCounterViewModel />
+    </ContentView.BindingContext>
+    <ContentView.Content>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -209,5 +214,5 @@
             <ActivityIndicator x:Name="activityIndicator" Grid.RowSpan="2" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
 
         </Grid>
-    </ContentPage.Content>
-</ContentPage>
+    </ContentView.Content>
+</ContentView>

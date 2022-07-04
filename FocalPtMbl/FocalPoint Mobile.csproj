@@ -19,8 +19,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="MainMenu\Views\LoginPageView.xaml.cs" />
 	  <Compile Remove="Modules\FrontCounter\ViewModels\FrontCounterDashboardViewModel.cs" />
 	  <Compile Remove="Modules\Payments\ViewModels\PayementViewModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="MainMenu\Views\LoginPageView.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>

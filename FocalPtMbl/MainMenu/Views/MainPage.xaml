@@ -8,8 +8,7 @@
              xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Core" 
              xmlns:views="clr-namespace:FocalPtMbl.MainMenu.Views" 
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" 
-             ios:Page.UseSafeArea="true"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" xmlns:views1="clr-namespace:FocalPoint.Modules.FrontCounter.Views" ios:Page.UseSafeArea="true"
              x:Name="mainPage" 
              BackgroundColor="{DynamicResource BackgroundThemeColor}">
     <ContentPage.Resources >
@@ -122,6 +121,9 @@
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>
+        <views1:FrontCounter/>
+        </Grid>
+        <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -132,6 +134,6 @@
             ItemTemplate="{StaticResource itemTemplateSelector}"
             ItemsSource="{Binding Items}">
         </dxcv:DXCollectionView>        
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

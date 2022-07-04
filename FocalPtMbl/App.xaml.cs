@@ -5,6 +5,7 @@ using FocalPoint.Data.DataModel;
 using FocalPoint.MainMenu.Services;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.FrontCounter.ViewModels;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.Payments.Views;
 using FocalPoint.Utils;
@@ -68,21 +69,20 @@ namespace FocalPtMbl
             }
             //set URI strings here if dev https://stackoverflow.com/questions/8732307/does-xaml-have-a-conditional-compiler-directive-for-debug-mode
             //DataManager.Settings.ApiUri = "https://visumaaron-local.fpsdns.com:56883/Mobile/V1/";
-
+            if (!DataManager.Settings.IsSignedIn)
+            {
+                DataManager.Settings = new Settings();
+            }
             this.navigationService = new NavigationService();
             this.navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
 
-            //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-            //BasePage basePage = new BasePage();
-            //basePage.MainContent.BindingContext = mainPageViewModel;
-            //basePage.DrawerContent.BindingContext = aboutPageViewModel;
-
+            DataManager.LoadHttpClientCache();
             MainPageViewModel mainPageViewModel = new MainPageViewModel(this.navigationService);
             MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
             MainMenuFlyout basePage = new MainMenuFlyout();
             basePage.MainPageObject.BindingContext = mainPageViewModel;
             basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
-            
+
             try
             {
                 MainPage = basePage;
@@ -94,51 +94,16 @@ namespace FocalPtMbl
                 DevExpress.XamarinForms.Navigation.Initializer.Init();
                 InitializeComponent();
                 ThemeLoader.Instance.LoadTheme();
-                //if (!string.IsNullOrWhiteSpace(DataManager.Settings?.UserToken) && IsLicensesValid())
-                if (DataManager.Settings?.IsSignedIn ?? false && IsLicensesValid())
+                if (!(DataManager.Settings?.IsSignedIn ?? false && IsLicensesValid()))
                 {
-                    LoadMainPage();
-                }
-                else
-                {
-                    //basePage.Navigation.PushModalAsync(new LoginPageView());
                     MainPage.Navigation.PushModalAsync(new LoginPageNew());
                 }
-
                 DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
             }
             catch (Exception ex)
             {
 
             }
-        }
-
-        private void LoadMainPage()
-        {
-            DataManager.LoadHttpClientCache();
-            MainMenuFlyout basePage = new MainMenuFlyout();
-
-            MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-            MainMenuFlyoutDrawerViewModel drawerPageViewModel = new MainMenuFlyoutDrawerViewModel(new XFUriOpener());
-
-            basePage.MainPageObject.BindingContext = mainPageViewModel;
-            basePage.FlyoutPageDrawerObject.BindingContext = drawerPageViewModel;
-
-            Xamarin.Forms.Application.Current.MainPage = basePage;
-            this.navigationService.SetNavigator(basePage.NavPage);
-
-            ThemeLoader.Instance.LoadTheme();
-
-            DependencyService.RegisterSingleton<INavigationService>(this.navigationService);
-        }
-
-        public FrontCounter GetFrontCounterDashboard()
-        {
-            //FrontCounterDashboardViewModel frontCounterDashboardViewModel = new FrontCounterDashboardViewModel();
-            //frontCounterDashboardViewModel.GetDashboardDetail().GetAwaiter().GetResult();
-            FrontCounter frontCounterDashboard = new FrontCounter();
-            //frontCounterDashboard.BindingContext = frontCounterDashboardViewModel;
-            return frontCounterDashboard;
         }
 
         internal bool IsLicensesValid()
@@ -185,14 +150,6 @@ namespace FocalPtMbl
             return false;
         }
 
-        //public async void ProcessNotificationIfNeed(Guid reminderId, int recurrenceIndex)
-        //{
-        //    if (reminderId == Guid.Empty)
-        //        return;
-        //    IEnumerable<Page> openedPages = this.navigationService.GetOpenedPages<RemindersDemo>();
-        //    RemindersDemo remindersDemo = (openedPages.Any() ? openedPages.Last() : await this.navigationService.PushPage(SchedulerData.GetItem(typeof(RemindersDemo)))) as RemindersDemo;
-        //    remindersDemo?.OpenAppointmentEditForm(reminderId, recurrenceIndex);
-        //}
         protected override void OnStart()
         {
             base.OnStart();
