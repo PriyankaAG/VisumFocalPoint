@@ -6,16 +6,19 @@ using Xamarin.Forms.Xaml;
 using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPoint.Modules.Dispatching.Views;
 using FocalPoint.Modules.ServiceDepartment.Views;
+using FocalPoint.Data;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrontCounter : ContentPage
+    public partial class FrontCounter : ContentView
     {
         public FrontCounter()
         {
             InitializeComponent();
-            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();           
+            if (DataManager.Settings != null && string.IsNullOrEmpty(DataManager.Settings.UserName))
+                return;
+            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();
             BindingContext = frontCounterDashboardViewModel;
             Device.BeginInvokeOnMainThread(async () =>
             {

@@ -1,5 +1,6 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
+using FocalPoint.Models.Enums;
 using FocalPtMbl.MainMenu.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -118,7 +119,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             try
             {
                 Indicator = true;
-                SearchIn = Utils.Utils.GetEnumValueFromDescription<short>(SelectedSearchIn);
+                SearchIn = (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn);
                 if (ItemType == "Rate Table")
                     customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityKits(text, SearchIn);
                 else if (ItemType == "Rental Saleable")
