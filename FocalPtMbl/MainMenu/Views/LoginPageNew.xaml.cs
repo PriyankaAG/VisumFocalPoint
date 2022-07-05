@@ -17,7 +17,7 @@ namespace FocalPoint.MainMenu.Views
     public partial class LoginPageNew : ContentPage
     {
         readonly NavigationService navigationService;
-        ActivityIndicator activityIndicator;
+        //ActivityIndicator activityIndicator;
         LoginPageViewModelNew viewModel;
 
         public LoginPageNew()
@@ -26,7 +26,7 @@ namespace FocalPoint.MainMenu.Views
             BindingContext = new LoginPageViewModelNew();
             navigationService = new NavigationService();
             navigationService.PageBinders.Add(typeof(ControlPageViewModel), () => new ControlPage());
-            activityIndicator = new ActivityIndicator { IsRunning = false };
+            //activityIndicator = new ActivityIndicator { IsRunning = false };
         }
 
         protected override bool OnBackButtonPressed()
@@ -81,8 +81,10 @@ namespace FocalPoint.MainMenu.Views
 
         private async Task ProcessLogin()
         {
+            viewModel.Indicator = true;
             string[] stores = viewModel.GetStoresArray();
             string currentSelectedLoginStore;
+            viewModel.Indicator = false;
             if (stores?.Count() == 1)
             {
                 currentSelectedLoginStore = stores[0];
@@ -91,10 +93,16 @@ namespace FocalPoint.MainMenu.Views
             {
                 currentSelectedLoginStore = await DisplayActionSheet("Select Store:", "Cancel", null, stores);
             }
-
+            if (currentSelectedLoginStore == "Cancel")
+            {
+                await Application.Current.MainPage.DisplayAlert("Must Select Store", "The store must be selected to continue", "OK");
+                return;
+            }
+            viewModel.Indicator = true;
             viewModel.StoreLoginNo = viewModel.GetStoreFromArray(currentSelectedLoginStore);
             string[] terminals = viewModel.GetTerminalArray();
             string currentSelectedLoginTerminal;
+            viewModel.Indicator = false;
             if (terminals?.Count() == 1)
             {
                 currentSelectedLoginTerminal = terminals[0];
@@ -104,15 +112,11 @@ namespace FocalPoint.MainMenu.Views
                 currentSelectedLoginTerminal = await DisplayActionSheet("Select Terminal:", "Cancel", null, terminals);
             }
             viewModel.TerminalNo = viewModel.GetTerminalFromArray(currentSelectedLoginTerminal);
-
-            if (currentSelectedLoginStore == "Cancel")
-            {
-                await Application.Current.MainPage.DisplayAlert("Must Select Store", "The store must be selected to continue", "OK");
-
-            }
+            
             if (currentSelectedLoginTerminal == "Cancel")
             {
                 await Application.Current.MainPage.DisplayAlert("Must Select Terminal", "The terminal must be selected to continue", "OK");
+                return;
             }
 
 
@@ -122,13 +126,6 @@ namespace FocalPoint.MainMenu.Views
                 activityIndicator.IsRunning = true;
                 if (viewModel.LoginSecurity())
                 {
-                    //goto main page
-                    //MainPageViewModel mainPageViewModel = new MainPageViewModel(navigationService, true);
-                    //AboutPageViewModel aboutPageViewModel = new AboutPageViewModel(new XFUriOpener());
-                    //BasePage basePage = new BasePage();
-                    //basePage.MainContent.BindingContext = mainPageViewModel;
-                    //basePage.DrawerContent.BindingContext = aboutPageViewModel;
-
                     ShowMainPage();
                 }
             }
