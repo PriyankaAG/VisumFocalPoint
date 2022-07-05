@@ -332,7 +332,7 @@
                                                 <x:String>Select Item Type</x:String>
                                                 <x:String>Rentals</x:String>
                                                 <x:String>Merchandise</x:String>
-                                                <x:String>Rate Table</x:String>
+                                                <x:String>Rate Tables</x:String>
                                                 <x:String>Rental Saleable</x:String>
                                             </x:Array>
                                         </Binding.Source>

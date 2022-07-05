@@ -23,6 +23,8 @@ namespace FocalPoint.Components.EntityComponents
         const string OrderAddRentalAPIKey = "OrderAddRental/";
         const string OrderAddMerchandiseAPIKey = "OrderAddMerchandise/";
         const string AvailabilityRentalsAPIKey = "Availability/Rentals/";
+        const string AvailabilityKitsAPIKey = "Availability/Kits/";
+        const string AvailabilityRentalSalesAPIKey = "Availability/RentalSales/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
         const string AvailabilityMerchandiseSerialsAPIKey = "AvailabilityMerchandiseSerials/{0}/{1}";
 
@@ -34,7 +36,6 @@ namespace FocalPoint.Components.EntityComponents
         private string Search = "%";
         private string OutDate = "2020-01-01T18:25:00.000";
         private string DueDate = "2020-01-01T18:25:00.000";
-        private char SearchType = '0';
         private Int16 SearchFor = 1;
 
         public NewQuickRentalEntityComponent()
@@ -177,13 +178,13 @@ namespace FocalPoint.Components.EntityComponents
             return responseOrderUpdate;
         }
 
-        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn)
+        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType)
         {
             List<AvailabilityRent> res = null;
             try
             {
                 Search = text;
-                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
+                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, SearchIn, SearchType, SearchFor }));
             }
             catch (Exception ex)
             {
@@ -221,13 +222,13 @@ namespace FocalPoint.Components.EntityComponents
             return res;
         }
 
-        public async Task<List<AvailabilityRent>> GetAvailabilityKits(string text, Int16 SearchIn)
+        public async Task<List<AvailabilityKit>> GetAvailabilityKits(string text, Int16 SearchIn, string SearchType)
         {
-            List<AvailabilityRent> res = null;
+            List<AvailabilityKit> res = null;
             try
             {
                 Search = text;
-                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
+                res = await apiComponent.PostAsync<List<AvailabilityKit>>(AvailabilityKitsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, SearchIn, SearchType }));
             }
             catch (Exception ex)
             {
@@ -236,13 +237,13 @@ namespace FocalPoint.Components.EntityComponents
             return res;
         }
 
-        public async Task<List<AvailabilityRent>> GetAvailabilitySalable(string text, Int16 SearchIn)
+        public async Task<List<AvailabilityRentSale>> GetAvailabilitySalable(string text, Int16 SearchIn)
         {
-            List<AvailabilityRent> res = null;
+            List<AvailabilityRentSale> res = null;
             try
             {
                 Search = text;
-                res = await apiComponent.PostAsync<List<AvailabilityRent>>(AvailabilityRentalsAPIKey, JsonConvert.SerializeObject(new { Search, OutDate, DueDate, StoreID, SearchIn, SearchType, SearchFor }));
+                res = await apiComponent.PostAsync<List<AvailabilityRentSale>>(AvailabilityRentalSalesAPIKey, JsonConvert.SerializeObject(new { Search, SearchIn }));
             }
             catch (Exception ex)
             {

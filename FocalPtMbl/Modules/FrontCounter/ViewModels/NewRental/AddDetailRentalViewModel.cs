@@ -23,40 +23,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         private void populateSearchInList()
         {
-            SearchInList = new ObservableCollection<string>();
-            switch (ItemType)
-            {
-                case "Rate Table":
-                    {
-                        SearchInList.Add("Description");
-                        SearchInList.Add("Item Number");
-                        SearchInList.Add("Top 10");
-                    }
-                    break;
-                case "Rental Saleable":
-                    {
-                        SearchInList.Add("Description");
-                        SearchInList.Add("Part Number");
-                        SearchInList.Add("Equipment ID");
-                        SearchInList.Add("Barcode");
-                        SearchInList.Add("Serial Number");
-                    }
-                    break;
-                case "Kits":
-                    {
-                        SearchInList.Add("Description");
-                        SearchInList.Add("Item Number");
-                    }
-                    break;
-                default:
-                    {
-                        SearchInList.Add("Description");
-                        SearchInList.Add("Equipment ID");
-                        SearchInList.Add("Barcode");
-                        SearchInList.Add("Serial Number");
-                    }
-                    break;
-            }
+            SearchInList = new String[4];
+            SearchInList[0] = "Description";
+            SearchInList[1] = "Equipment ID";
+            SearchInList[2] = "Barcode";
+            SearchInList[3] = "Serial Number";
+
+            OnPropertyChanged(nameof(SearchInList));
         }
 
         OrderUpdate orderUpdate;
@@ -90,8 +63,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        ObservableCollection<string> searchInList;
-        public ObservableCollection<string> SearchInList
+        String[] searchInList;
+        public String[] SearchInList
         {
             get => this.searchInList;
             private set
@@ -119,13 +92,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             try
             {
                 Indicator = true;
-                SearchIn = (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn);
-                if (ItemType == "Rate Table")
-                    customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityKits(text, SearchIn);
-                else if (ItemType == "Rental Saleable")
-                    customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilitySalable(text, SearchIn);
-                else
-                    customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, SearchIn);
+                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn), CurrentOrder.OrderType);
 
                 if (customersCntAndList != null)
                 {
@@ -140,7 +107,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                         {
                             Recent.Add(customer);
                         }
-                    }                    
+                    }
                 }
                 else
                 {

@@ -52,7 +52,7 @@ namespace FocalPoint.Models.Enums
         [Description("Part History")]
         HistoryID = 16,
 
-        [Description("Top {0}")]
+        [Description("Top 20")]
         TopXStore = 17,
 
         [Description("Tiles")]
