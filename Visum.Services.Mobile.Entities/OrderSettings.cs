@@ -19,6 +19,9 @@ namespace Visum.Services.Mobile.Entities
 
         [DataMember]
         public bool OverbookingAllowed { get; set; }
+
+        [DataMember]
+        public RateTypes[] AvailiblityRates { get; set; }
     }
 
     [DataContract()]
