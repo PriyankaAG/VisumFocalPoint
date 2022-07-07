@@ -59,12 +59,13 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        static readonly BindableProperty RequestedTitleWidthProperty = BindableProperty.Create(nameof(RequestedTitleWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(4, GridUnitType.Star), BindingMode.TwoWay);
+        public static readonly BindableProperty RequestedTitleWidthProperty = BindableProperty.Create(nameof(RequestedTitleWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(4, GridUnitType.Star), BindingMode.TwoWay);
         public GridLength RequestedTitleWidth
         {
             get
             {
-                return (GridLength)GetValue(RequestedTitleWidthProperty);
+                var at = (GridLength)GetValue(RequestedTitleWidthProperty);
+                return at;
             }
 
             set
@@ -72,12 +73,13 @@ namespace FocalPoint.CustomControls
                 SetValue(RequestedTitleWidthProperty, value);
             }
         }
-        static readonly BindableProperty RequestedValueWidthProperty = BindableProperty.Create(nameof(RequestedValueWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(6, GridUnitType.Star), BindingMode.TwoWay);
+        public static readonly BindableProperty RequestedValueWidthProperty = BindableProperty.Create(nameof(RequestedValueWidth), typeof(GridLength), typeof(LabelTextCustomControl), new GridLength(6, GridUnitType.Star), BindingMode.TwoWay);
         public GridLength RequestedValueWidth
         {
             get
             {
-                return (GridLength)GetValue(RequestedValueWidthProperty);
+                var aw = (GridLength)GetValue(RequestedValueWidthProperty);
+                return aw;
             }
 
             set

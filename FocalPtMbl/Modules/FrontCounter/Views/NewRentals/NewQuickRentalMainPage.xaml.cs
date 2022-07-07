@@ -105,7 +105,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
         {
-            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(customer, theNotes);
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(customer, theNotes);
             AfterUpdate_OrderProcessing(orderRefresh);
         }
 
@@ -135,9 +135,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             }
                             bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
-                            // KIRK REM orderRefresh.Answers[question.Key] = custOk.ToString();
+
                             (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
-                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCust(updateOrder: (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate);
+                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate.Order = theViewModel.CurrentOrder;
+                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate);
                         }
 
                     }
@@ -298,7 +299,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var a = (e as TappedEventArgs).Parameter;
-            this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl));
+            this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl, theViewModel.CurrentOrder));
         }
 
         private void Button_Clicked_4(object sender, EventArgs e)
