@@ -6,64 +6,67 @@
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:dxdf="http://schemas.devexpress.com/xamarin/2014/forms/dataform"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.Rentals"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.Rentals" 
+             BackgroundColor="{DynamicResource BackgroundThemeColor}"
              ios:Page.UseSafeArea="True">
     <ContentPage.BindingContext>
         <viewModel:OpenRentalsViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout>
-        <dxe:TextEdit LabelText="Search" PlaceholderText="Rental Item Search" ClearIconClicked="TextEdit_ClearIconClicked" Completed="TextEdit_Completed" Text="" Margin="10,0"></dxe:TextEdit>
-        <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Recent}"
-                           SelectedItem="{Binding SelectedRentalItem}"
-                           IndicatorColor="Lime"
-                           Tap="ItemSelected"
-                               SelectionChanged="collectionView_SelectionChanged"
-            LoadMoreCommand="{Binding LoadMoreCommand}"
-            IsLoadMoreEnabled="True"
-                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
-            <!--Define the item template.-->
+    <StackLayout BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+        <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <Label Text="Search" Margin="10,10,10,0" FontSize="Default" Style="{StaticResource Key=LabelDashboardHeader}" />
+            <dxe:TextEdit PlaceholderText="Rental Item Search" 
+                          ClearIconClicked="TextEdit_ClearIconClicked" 
+                          Completed="TextEdit_Completed" Text="" 
+                          Margin="5,0" Style="{StaticResource Key=DxeTextEdit}" HeightRequest="40"></dxe:TextEdit>
+            <dxcv:DXCollectionView x:Name="collectionView"
+                                   ItemsSource="{Binding Recent}" 
+                                   SelectedItem="{Binding SelectedRentalItem}" 
+                                   IndicatorColor="Lime"
+                                   Tap="ItemSelected"
+                                   SelectionChanged="collectionView_SelectionChanged" 
+                                   LoadMoreCommand="{Binding LoadMoreCommand}" 
+                                   IsLoadMoreEnabled="True" Margin="5,0"
+                                   IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+                <!--Define the item template.-->
 
-            <dxcv:DXCollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                        </Grid.RowDefinitions>
-                        <!--<StackLayout Grid.Column="0" 
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="22" />
+                                <RowDefinition Height="22" />
+                            </Grid.RowDefinitions>
+                            <!--<StackLayout Grid.Column="0" 
                              Padding="18,1,18,7"
                              Orientation="Vertical">-->
-                        <Label Grid.Row="0" Grid.Column="0"  Text="Description: " FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                        <Label Grid.Row="1" Grid.Column="0"  Text="Equip ID:" FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                        <Label Grid.Row="2" Grid.Column="0"  Text="Store:" FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                        
-                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding RentalDscr}" TextColor="Black"/>
-                        <Label Grid.Row="1" Grid.Column="1"  Text="{Binding RentalEquipID}" TextColor="Black"/>
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding RentalBelongsTo}" TextColor="Black"/>
-                        <BoxView Margin="0,0,0,0" Grid.Row="3" Grid.ColumnSpan="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
-                         HeightRequest="5"/>
-                        <!--<BoxView WidthRequest=".5" BackgroundColor="Black" Grid.Row="4" Grid.ColumnSpan="3"/>-->
-                        <!--<Label Grid.Row="1" Grid.Column="3"  Text="{Binding State}"
+                            <Label Grid.Row="0" Grid.Column="0" Text="Description: " FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="Equip ID:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="0" Text="Store:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding RentalDscr}" TextColor="Black" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding RentalEquipID}" TextColor="Black" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding RentalBelongsTo}" TextColor="Black" />
+                            <!--<BoxView WidthRequest=".5" BackgroundColor="Black" Grid.Row="4" Grid.ColumnSpan="3"/>-->
+                            <!--<Label Grid.Row="1" Grid.Column="3"  Text="{Binding State}"
                                Margin="0,2"
                                TextColor="#505050"/>
                         <Label Grid.Row="2" Grid.Column="3"  Text="{Binding Zip}"
                                Margin="0,2"
                                TextColor="#505050"/>-->
-                        <!--</StackLayout>-->
-                    </Grid>
-                </DataTemplate>
-            </dxcv:DXCollectionView.ItemTemplate>
+                            <!--</StackLayout>-->
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
 
-            <!--Define the group header template.-->
-            <!--<dxcv:DXCollectionView.GroupHeaderTemplate>
+                <!--Define the group header template.-->
+                <!--<dxcv:DXCollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <StackLayout Margin="2, 0, 18, 10">
                         <Label FontFamily="Roboto-Medium"
@@ -76,70 +79,15 @@
                 </DataTemplate>
             </dxcv:DXCollectionView.GroupHeaderTemplate>-->
 
-            <!--Specify margins.-->
-            <!--<dxcv:DXCollectionView.Margin>
+                <!--Specify margins.-->
+                <!--<dxcv:DXCollectionView.Margin>
                 <OnIdiom x:TypeArguments="Thickness" Phone="16,0,16,0" Tablet="71,0,0,0"/>
             </dxcv:DXCollectionView.Margin>-->
-        </dxcv:DXCollectionView>
-        <!--asdfsdf-->
-        <!--<dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Recent}"
-                           SelectedItem="{Binding SelectedRentalItem}"
-                           IndicatorColor="Lime"
-                           Tap="collectionView_Tap"
-                               SelectionChanged="collectionView_SelectionChanged"
-            LoadMoreCommand="{Binding LoadMoreCommand}"
-            IsLoadMoreEnabled="True"
-                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
-            --><!--Define the item template.--><!--
-
-            <dxcv:DXCollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10, 8, 18, 7">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                        </Grid.RowDefinitions>
-                        --><!--<StackLayout Grid.Column="0" 
-                             Padding="18,1,18,7"
-                             Orientation="Vertical">--><!--
-                        <Label Grid.Row="0" Grid.Column="0"  Text="Description: "
-                           Margin="0,2"
-                               FontSize="15"
-                           TextColor="Black"/>
-                        <Label Grid.Row="1" Grid.Column="0"  Text="Equip ID"
-                               FontSize="12"
-                               TextColor="Black"/>
-                        <Label Grid.Row="2" Grid.Column="0"  Text="Store"
-                               Margin="0,2"
-                               FontSize="12"
-                               TextColor="Black"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding RentalDscr}"
-                           Margin="0,2"
-                               FontSize="15"
-                           TextColor="Black"/>
-                        <Label Grid.Row="1" Grid.Column="1"  Text="{Binding RentalEquipID}"
-                               FontSize="12"
-                               TextColor="Black"/>
-                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding RentalBelongsTo}"
-                               FontSize="12"
-                               Margin="0,2"
-                               TextColor="Black"/>
-                    </Grid>
-                </DataTemplate>
-            </dxcv:DXCollectionView.ItemTemplate>
-
-            --><!--Specify margins.--><!--
-            <dxcv:DXCollectionView.Margin>
-                <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
-            </dxcv:DXCollectionView.Margin>
-        </dxcv:DXCollectionView>-->
-        <dxe:SimpleButton TextColor="White" Padding="22" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
+            </dxcv:DXCollectionView>
+            
+            <!--<dxe:SimpleButton TextColor="White" BackgroundColor="#2088ff" Text="Cancel" 
+                              HeightRequest="50"
+                              Clicked="SimpleButton_Clicked" />-->
+        </StackLayout>
     </StackLayout>
 </ContentPage>

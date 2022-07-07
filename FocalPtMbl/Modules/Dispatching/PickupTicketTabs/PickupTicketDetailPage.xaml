@@ -4,8 +4,8 @@
              x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketDetailPage"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
+        <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <Grid Margin="5,5">
                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
                     <Label Text="{Binding ToBeCounted, StringFormat='Details to be Counted: {0}'}" HeightRequest="30" TextColor="Black" FontSize="Title" XAlign="Start" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
 

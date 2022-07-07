@@ -68,5 +68,9 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         {
             get => this.vend.VenNotes;
         }
+        public string Link
+        {
+            get => this.vend.VenLink;
+        }
     }
 }

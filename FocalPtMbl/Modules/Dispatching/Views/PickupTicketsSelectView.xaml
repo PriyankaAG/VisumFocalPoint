@@ -6,15 +6,19 @@
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.Dispatching.ViewModels"
-             ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+             ios:Page.UseSafeArea="True" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.BindingContext>
         <viewModel:PickupTicketsSelectViewModel/>
     </ContentPage.BindingContext>
-    <Grid>
-    <StackLayout>
-            <dxe:TextEdit x:Name="searchText" LabelText="Search" PlaceholderText="Ticket Search" ClearIconClicked="Search_TextCleared" TextChanged="Search_TextChanged" Text="" Margin="10,0"></dxe:TextEdit>
-        <dxcv:DXCollectionView x:Name="collectionView"
+    <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+        <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <Label Text="Search"  FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
+            <dxe:TextEdit x:Name="searchText" PlaceholderText="Ticket Search" 
+                          ClearIconClicked="Search_TextCleared" TextChanged="Search_TextChanged" 
+                          HeightRequest="40" Style="{StaticResource Key=DxeTextEdit}" Text="" 
+                          ></dxe:TextEdit>
+        
+            <dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Recent}"
                            SelectedItem="{Binding SelectedTicket}"
                            IndicatorColor="Lime"
@@ -27,14 +31,13 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="0, 5, 0, 0"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                        <Grid Padding="0, 5" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
                                 <RowDefinition Height="22"/>
                                 <RowDefinition Height="22"/>
                                 <RowDefinition Height="22"/>
@@ -49,8 +52,6 @@
                             <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CustomerName}" TextColor="Black"/>
                             <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding OrderNumberT}" TextColor="Black"/>
                             <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PuPDte, StringFormat='{0:MM/dd/yyyy}'}" TextColor="Black"/>
-                            <BoxView Margin="0,0,0,0" Grid.Row="4" Grid.ColumnSpan="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
-                         HeightRequest="5"/>
                             
                           <!--  <Label Text="{Binding PuTNo, StringFormat='Number: {0}'}" TextColor="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  />
                             <Label Text="{Binding CustomerName, StringFormat='Customer: {0}'}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"  />

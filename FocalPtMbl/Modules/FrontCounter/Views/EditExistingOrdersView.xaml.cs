@@ -36,6 +36,8 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             base.OnDisappearing();
             collectionView.SelectedItem = null;
+            collectionView2.SelectedItem = null;
+            collectionView3.SelectedItem = null;
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {

@@ -378,9 +378,9 @@
         <Setter Property="HeightRequest" Value="40" />
     </Style>
     <Style x:Key="PrimaryButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="#fff17b"/>
+        <Setter Property="BackgroundColor" Value="#57b8ff"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-        <Setter Property="TextColor" Value="#000"/>
+        <Setter Property="TextColor" Value="#fff"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
     
@@ -442,7 +442,7 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource ControlBackgroundColor}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="CornerMode" Value="Round" />
-        <Setter Property="Margin" Value="10,0,10,0" />
+        <Setter Property="HeightRequest" Value="40" />
     </Style>
 
 

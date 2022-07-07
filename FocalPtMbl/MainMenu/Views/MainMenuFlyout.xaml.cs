@@ -44,7 +44,7 @@ namespace FocalPoint.MainMenu.Views
             }
             else
             {
-                page = (Page)Activator.CreateInstance(item.TargetType);
+                page = Activator.CreateInstance(item.TargetType) as Page;
                 if (page != null)
                 {
                     page.Title = item.Title;
