@@ -1,7 +1,4 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Components.Interface;
-using FocalPoint.Models.Enums;
-using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Models.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,45 +8,12 @@ using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
-    class AddDetailRentalViewModel: ThemeBaseViewModel
+    public class AddDetailRentalViewModel: AddDetailCommonViewModel
     {
         public AddDetailRentalViewModel(string itemType, Int16 searchIn = 1) : base(itemType)
         {
-            NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
             SearchIn = searchIn;
-            ItemType = itemType;
             populateSearchInList();
-        }
-
-        private void populateSearchInList()
-        {
-            SearchInList = new String[4];
-            SearchInList[0] = "Description";
-            SearchInList[1] = "Equipment ID";
-            SearchInList[2] = "Barcode";
-            SearchInList[3] = "Serial Number";
-
-            OnPropertyChanged(nameof(SearchInList));
-        }
-
-        OrderUpdate orderUpdate;
-
-        public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
-
-        public Int16 SearchIn;
-        public string ItemType;
-
-        Order _currentOrder;
-        public Order CurrentOrder
-        {
-            get
-            {
-                return _currentOrder;
-            }
-            set
-            {
-                _currentOrder = value;
-            }
         }
 
         ObservableCollection<AvailabilityRent> recent;
@@ -63,27 +27,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        String[] searchInList;
-        public String[] SearchInList
+        public override void populateSearchInList()
         {
-            get => this.searchInList;
-            private set
-            {
-                this.searchInList = value;
-            }
+            SearchInList = new String[4];
+            SearchInList[0] = "Description";
+            SearchInList[1] = "Equipment ID";
+            SearchInList[2] = "Barcode";
+            SearchInList[3] = "Serial Number";
+
+            OnPropertyChanged(nameof(SearchInList));
         }
 
-        private string selectedSearchIn;
-        public string SelectedSearchIn
-        {
-            get => selectedSearchIn;
-            set
-            {
-                this.selectedSearchIn = value;
-            }
-        }
-
-        internal async Task GetSearchedCustomersInfo(string text)
+        public override async Task GetSearchedCustomersInfo(string text)
         {
             //update searchText
             if (text == null)

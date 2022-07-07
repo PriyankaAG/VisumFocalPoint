@@ -90,7 +90,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 try
                 {
-                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedMerchInfo(SearchTextEditor.Text);
+                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
                 }
                 catch(Exception ex)
                 {

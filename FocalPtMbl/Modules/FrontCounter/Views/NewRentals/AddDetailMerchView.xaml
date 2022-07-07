@@ -31,32 +31,37 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
-                    <CollectionView ItemsSource="{Binding Recent}" 
-                            ItemsLayout="VerticalGrid"
-                            SelectionMode="Single" 
+                    <ListView ItemsSource="{Binding Recent}" 
+                            HasUnevenRows="True"
+                            VerticalOptions="FillAndExpand"
+                            SelectionMode="Single"
                             Grid.Row="1">
-                        <CollectionView.ItemTemplate>
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailMSRPAmt, StringFormat='Price: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
-                                    </Grid>
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
-                                </Frame>
+                                <customcontrols:CustomViewCell SelectedItemBackgroundColor="#ADF3BE">
+                                    <ViewCell.View>
+                                        <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                            <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
+                                                <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
+                                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
+                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailMSRPAmt, StringFormat='Price: {0}'}" />
+                                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0}'}" />
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </ViewCell.View>
+                                </customcontrols:CustomViewCell>
                             </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </ScrollView>
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">

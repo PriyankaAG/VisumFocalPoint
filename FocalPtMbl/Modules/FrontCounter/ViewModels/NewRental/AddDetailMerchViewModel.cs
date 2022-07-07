@@ -1,7 +1,4 @@
-﻿using FocalPoint.Components.EntityComponents;
-using FocalPoint.Components.Interface;
-using FocalPoint.Models.Enums;
-using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Models.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,32 +8,14 @@ using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
-    public class AddDetailMerchViewModel : ThemeBaseViewModel
+    public class AddDetailMerchViewModel : AddDetailCommonViewModel
     {
         public AddDetailMerchViewModel() : base("Merchandise")
         {
-            NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
             populateSearchInList();
         }
 
-        OrderUpdate orderUpdate;
         private string Search = "%";
-        public Int16 SearchIn;
-
-        Order _currentOrder;
-        public Order CurrentOrder
-        {
-            get
-            {
-                return _currentOrder;
-            }
-            set
-            {
-                _currentOrder = value;
-            }
-        }
-
-        public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
 
         ObservableCollection<AvailabilityMerch> recent;
         public ObservableCollection<AvailabilityMerch> Recent
@@ -49,27 +28,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        String[] searchInList;
-        public String[] SearchInList
-        {
-            get => this.searchInList;
-            private set
-            {
-                this.searchInList = value;
-            }
-        }
-
-        private string selectedSearchIn;
-        public string SelectedSearchIn
-        {
-            get => selectedSearchIn;
-            set
-            {
-                this.selectedSearchIn = value;
-            }
-        }
-
-        private void populateSearchInList()
+        public override void populateSearchInList()
         {
             SearchInList = new String[4];
             SearchInList[0] = "Description";
@@ -78,7 +37,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             SearchInList[3] = "Extended";
         }
 
-        internal async Task GetSearchedMerchInfo(string text)
+        public override async Task GetSearchedCustomersInfo(string text)
         {
             try
             {

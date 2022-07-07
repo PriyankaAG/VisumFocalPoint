@@ -317,13 +317,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             RefreshDateTimeProperties();
             Recent = new ObservableCollection<OrderDtl>();
 
+            MessagingCenter.Unsubscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder");
             MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                //update order
-                //UpdateCust(arg.Order.Customer);
                 CurrentOrder = arg.Order;
-                //Sel.Clear();
-                //selCust.Add(arg.Order.Customer);
                 Recent.Clear();
                 foreach (var item in arg.Order.OrderDtls)
                     Recent.Add(item);
@@ -331,11 +331,23 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             });
             MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                //update order
-                //UpdateCust(arg.Order.Customer);
                 CurrentOrder = arg.Order;
-                //selCust.Clear();
-                //selCust.Add(arg.Order.Customer);
+                Recent.Clear();
+                foreach (var item in arg.Order.OrderDtls)
+                    Recent.Add(item);
+
+            });
+            MessagingCenter.Subscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                CurrentOrder = arg.Order;
+                Recent.Clear();
+                foreach (var item in arg.Order.OrderDtls)
+                    Recent.Add(item);
+
+            });
+            MessagingCenter.Subscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                CurrentOrder = arg.Order;
                 Recent.Clear();
                 foreach (var item in arg.Order.OrderDtls)
                     Recent.Add(item);
