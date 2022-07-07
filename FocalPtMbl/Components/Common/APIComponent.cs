@@ -204,6 +204,52 @@ namespace FocalPoint
             return orderUpdateRefresh;
         }
 
+        public async Task<OrderDtlUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent)
+        {
+            OrderDtlUpdate orderDetailUpdateRefresh = new OrderDtlUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, false);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    orderDetailUpdateRefresh = JsonConvert.DeserializeObject<OrderDtlUpdate>(content);
+                    if (orderDetailUpdateRefresh != null)
+                    {
+                        if (orderDetailUpdateRefresh.Answers != null && orderDetailUpdateRefresh.Answers.Count > 0)
+                        {
+                            orderDetailUpdateRefresh.Answers.Clear();
+                            return orderDetailUpdateRefresh;
+                        }
+                    }
+                    else
+                        throw new Exception("Order customer not changed");
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                   
+                    orderDetailUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+            }
+            return orderDetailUpdateRefresh;
+        }
+
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
             HttpResponseMessage httpResponseMessage;

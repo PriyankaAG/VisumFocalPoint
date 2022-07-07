@@ -10,9 +10,9 @@
             <Frame Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
                        Padding="5" Margin="10,10,10,10" IsVisible="{Binding IsCustomerNotSelected}">
                 <StackLayout>
-                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Rental Totals:" Value="{Binding OrdersObj.Totals.TotalRentalAmt, StringFormat='{0:C}'}" />
-                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Merchandise Totals:" Value="{Binding OrdersObj.Totals.TotalMerchAmt, StringFormat='{0:C}'}" />
-                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Rental Sales:" Value="{Binding OrdersObj.Totals.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="auto" RequestedValueWidth ="*" Title="Rental Totals:" Value="{Binding OrdersObj.Totals.TotalRentalAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="auto" RequestedValueWidth ="*" Title="Merchandise Totals:" Value="{Binding OrdersObj.Totals.TotalMerchAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="auto" RequestedValueWidth ="*" Title="Rental Sales:" Value="{Binding OrdersObj.Totals.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Cleaning Charges:" Value="{Binding OrdersObj.Totals.TotalCleaningAmt, StringFormat='{0:C}'}" />
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Damage Waiver:" Value="{Binding OrdersObj.Totals.TotalDWAmt, StringFormat='{0:C}'}" />
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Additional Charges:" Value="{Binding OrdersObj.Totals.TotalAddChgAmt, StringFormat='{0:C}'}" />

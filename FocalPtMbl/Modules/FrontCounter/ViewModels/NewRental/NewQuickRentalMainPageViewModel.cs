@@ -596,7 +596,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             return responseOrderUpdate;
         }
 
-        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
+        internal async Task<OrderUpdate> UpdateCurrentOrder(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
         {
             OrderUpdate responseOrderUpdate = null;
             try

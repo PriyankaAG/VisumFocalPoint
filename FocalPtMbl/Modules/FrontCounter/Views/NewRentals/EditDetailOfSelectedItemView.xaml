@@ -43,7 +43,9 @@
 
                     <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="1"
                             EditorText="{Binding Discount, Mode=TwoWay}" 
+                            IsEnabled="{Binding CurrentOrder.OrderDiscountable}"
                             MaxLenth="100" LabelText="Discount %" 
+                            Unfocused="{Binding DiscountEnteredCommand}"
                             PlaceHolder="Enter Discount" Keyboard="Numeric">
                     </local:LabelEditorCustomControl>
 
@@ -58,18 +60,18 @@
 
                             <CheckBox 
                             x:Name="overridePricingcheckbox"
-                            IsChecked="{Binding OverridePrice }"
+                            IsChecked="{Binding IsOverridePrice }"
                             HeightRequest="30"
                             WidthRequest="30"
                             VerticalOptions="Center" Margin="0,5,0,5"/>
 
-                            <Frame IsEnabled="{Binding OverridePrice}" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2" HorizontalOptions="FillAndExpand">
+                            <Frame IsEnabled="{Binding IsOverridePrice}" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2" HorizontalOptions="FillAndExpand">
                                 <customrenderers:CustomEntry 
-                                IsEnabled="False" 
+                                IsEnabled="{Binding IsOverridePrice}" 
                                 HorizontalOptions="Fill"  
                                 VerticalOptions="Fill"
                                 Style="{DynamicResource EntryStyle}" 
-                                Text=""
+                                Text="{Binding OverridePrice }"
                                 Placeholder="Enter Price"
                                 Keyboard="Text">
                                     <VisualStateManager.VisualStateGroups>
