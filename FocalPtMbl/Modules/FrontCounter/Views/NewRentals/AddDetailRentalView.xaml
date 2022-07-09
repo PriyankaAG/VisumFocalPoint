@@ -12,7 +12,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
-                <Grid Margin="10">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
@@ -47,20 +47,26 @@
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
                             SelectionMode="Single"
+                                    SelectionChanged="CollectionView_SelectionChanged"
                                     Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                <Frame HasShadow="True" Padding="2" BackgroundColor="{DynamicResource BackgroundThemeColor}">
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
                                             <VisualState Name="Selected">
                                                 <VisualState.Setters>
-                                                    <Setter Property="BackgroundColor" Value="Orange" />
+                                                    <Setter Property="BorderColor" Value="Orange" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundThemeColor}" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                    <Grid RowSpacing="5" Margin="2,2" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -79,9 +85,9 @@
                                         <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
                                         <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
                                     </Grid>
-                                    <Frame.GestureRecognizers>
+                                    <!--<Frame.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                    </Frame.GestureRecognizers>
+                                    </Frame.GestureRecognizers>-->
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -89,6 +95,10 @@
                 </Grid>
             </ScrollView>
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Button Text="CANCEL" Grid.Column="0" Style="{DynamicResource CancelButton}"
                         BackgroundColor="#f0142f" TextColor="#fff"
                         Clicked="CancelButton_Clicked" />
