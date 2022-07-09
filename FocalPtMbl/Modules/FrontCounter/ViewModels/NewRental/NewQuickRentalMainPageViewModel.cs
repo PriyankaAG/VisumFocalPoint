@@ -18,6 +18,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        public OrderUpdate CurrentOrderUpdate { get; set; }
         bool isPageLoading;
         public bool IsPageLoading
         {
@@ -148,6 +149,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (_currentOrder != null)
                 {
                     BalanceDue = _currentOrder.OrderAmount - _currentOrder.OrderPaid;
+                    OnPropertyChanged("OrderAmount");
                 }
             }
         }
@@ -165,7 +167,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged("BalanceDue");
             }
         }
-
+        public Decimal? OrderAmount
+        {
+            get
+            {
+                return CurrentOrder?.OrderAmount;
+            }
+            set
+            {
+                CurrentOrder.OrderAmount = value.HasValue ? value.Value : 0;
+                OnPropertyChanged("OrderAmount");
+            }
+        }
         Customer _selectedCustomer;
         public Customer SelectedCustomer
         {
@@ -341,6 +354,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     Recent.Add(item);
 
             });
+        }
+        public void ReloadRecents()
+        {
+            OnPropertyChanged("Recent");
         }
 
         public void RefreshDateTimeProperties()
@@ -640,6 +657,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (responseOrderUpdate != null && responseOrderUpdate.Order != null)
                 {
                     CurrentOrder = responseOrderUpdate.Order;
+                    CurrentOrderUpdate.Order = responseOrderUpdate.Order;
+
                     OnPropertyChanged("CurrentOrder");
                 }
             }

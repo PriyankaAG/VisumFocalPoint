@@ -14,6 +14,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     public partial class EditDetailOfSelectedItemView : ContentPage
     {
         EditDetailOfSelectedItemViewModel _viewModel;
+        OrderDtlUpdate CurrentOrderDtlUpdate;
         public EditDetailOfSelectedItemView(OrderDtl ordDetails, Order currentOrder)
         {
             InitializeComponent();
@@ -32,9 +33,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
 
             Title = $"Edit {typeString}";
-            OrderDtlUpdate ordUpdateDtl = new OrderDtlUpdate() { Detail = ordDetails };
-            _viewModel = new EditDetailOfSelectedItemViewModel(ordUpdateDtl, currentOrder, new Command(() => StartUpdate()));
+            CurrentOrderDtlUpdate = new OrderDtlUpdate() { Detail = ordDetails };
+            _viewModel = new EditDetailOfSelectedItemViewModel(CurrentOrderDtlUpdate, currentOrder, new Command(() => StartUpdate()));
+            _viewModel.IsPageLoading = true;
             this.BindingContext = _viewModel;
+            Task.Delay(1000).ContinueWith((a) =>
+            {
+                _viewModel.IsPageLoading = false;
+            });
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -44,10 +50,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            StartUpdate();
+            MessagingCenter.Send(this, "OrderDetailUpdated");
+            this.Navigation.PopAsync();
         }
         private async void StartUpdate()
         {
+            if (_viewModel.IsPageLoading) return;
             OrderDtlUpdate orderUpdateResponse = await _viewModel.UpdateOrderDetail();
             AfterUpdate_OrderProcessing(orderUpdateResponse);
         }
@@ -75,10 +83,20 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                     break;
                                 }
                             }
-                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
+                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
-                            // KIRK REM orderRefresh.Answers[question.Key] = custOk.ToString();
-                            _viewModel.OrderDetailUpdate = orderRefresh;
+
+                            var ordUpdate = _viewModel.OrderDetailUpdate;
+                            if (ordUpdate == null)
+                                ordUpdate = orderRefresh;
+                            else
+                            {
+                                var ord = orderRefresh.Answers.Find(qa => qa.Code == question.Code);
+                                ordUpdate.Answers.Add(ord);
+                            }
+
+                            ordUpdate.Detail = CurrentOrderDtlUpdate?.Detail;
+                            _viewModel.OrderDetailUpdate = ordUpdate;
                             orderRefresh = await _viewModel.UpdateOrderDetail();
                         }
 
@@ -89,6 +107,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             catch (Exception)
             {
             }
+        }
+
+        private void taxableheckbox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            StartUpdate();
+        }
+
+        private void CustomEntry_Unfocused(object sender, FocusEventArgs e)
+        {
+            StartUpdate();
         }
     }
 }

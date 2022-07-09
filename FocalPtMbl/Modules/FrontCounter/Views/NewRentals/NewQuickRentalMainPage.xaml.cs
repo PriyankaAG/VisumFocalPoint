@@ -84,6 +84,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
             MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
             MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
+            MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView>(this, "NotesAdded");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
@@ -100,6 +101,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
             {
                 UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+            });
+            MessagingCenter.Subscribe<EditDetailOfSelectedItemView>(this, "OrderDetailUpdated", async (a) =>
+            {
+                (BindingContext as NewQuickRentalMainPageViewModel).ReloadRecents();
             });
         }
 
@@ -133,12 +138,21 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                     break;
                                 }
                             }
-                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
+                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
 
-                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
-                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate.Order = theViewModel.CurrentOrder;
-                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate);
+                            var ordUpdate = (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate;
+                            if (ordUpdate == null)
+                                ordUpdate = orderRefresh;
+                            else
+                            {
+                                var ord = orderRefresh.Answers.Find(qa => qa.Code == question.Code);
+                                ordUpdate.Answers.Add(ord);
+                            }
+
+                            ordUpdate.Order = theViewModel.CurrentOrder;
+                            theViewModel.CurrentOrderUpdate = ordUpdate;
+                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: ordUpdate);
                         }
 
                     }
@@ -326,6 +340,20 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             if (theViewModel.IsPageLoading) return;
             var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void SaveTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.Email;
+
+            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
             AfterUpdate_OrderProcessing(orderRefresh);
         }
     }

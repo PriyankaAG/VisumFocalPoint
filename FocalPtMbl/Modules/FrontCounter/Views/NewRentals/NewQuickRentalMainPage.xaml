@@ -218,7 +218,7 @@
                                                BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
                                         <Label Text="Updating..." FontSize="Micro" TextColor="LightGray" IsVisible="{Binding Indicator}"></Label>
                                     </StackLayout>
-                                    
+
                                     <Frame Grid.Column="2" BackgroundColor="#5a607f" Padding="1" 
                                                             HorizontalOptions="End" VerticalOptions="Center" WidthRequest="25" HeightRequest="25" 
                                                             CornerRadius="50" >
@@ -355,7 +355,7 @@
                                 Orientation="Vertical"
                                 VerticalOptions="Start"
                                 HorizontalOptions="Center"
-                                BindableLayout.ItemsSource="{Binding Recent}"
+                                BindableLayout.ItemsSource="{Binding Recent ,Mode=TwoWay}"
                                 Padding="2,0">
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
@@ -378,12 +378,12 @@
                                                     <ColumnDefinition Width="2.5*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding OrderDtlType}" Style="{DynamicResource LabelOrderType}" />
-                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr}" Style="{DynamicResource LabelDefault}" HorizontalOptions="End" />
-                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2}" Style="{DynamicResource LabelDefaultBold}" />
+                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" HorizontalOptions="End" />
+                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2 ,Mode=TwoWay}" Style="{DynamicResource LabelDefaultBold}" />
                                                 <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelDefaultBold}" />
-                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:C}'}" Style="{DynamicResource LabelDefault}" />
+                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:C}' ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
                                                 <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelDefaultBold}" />
-                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty}" Style="{DynamicResource LabelDefault}" />
+                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty, Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
                                             </Grid>
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
@@ -411,7 +411,7 @@
                         <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" Text="Total Due" Style="{DynamicResource LabelDefaultWhite}" FontAttributes="Bold" HorizontalTextAlignment="Start"  VerticalTextAlignment="Center"/>
-                    <Label Grid.Row="2" Grid.Column="0"  Margin="10,0,10,0" Text="{Binding Order.OrderAmount, StringFormat='{0:C}'}"  FontAttributes="Bold" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                    <Label Grid.Row="2" Grid.Column="0"  Margin="10,0,10,0" Text="{Binding OrderAmount, StringFormat='{0:C}'}"  FontAttributes="Bold" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
                     <Label Grid.Row="0" Grid.Column="1" Margin="10,0,10,0" Text="Balance Due" Style="{DynamicResource LabelDefaultWhite}"  FontAttributes="Bold" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" Text="{Binding BalanceDue, StringFormat='{0:C}'}"  FontAttributes="Bold" Style="{DynamicResource LabelDefaultWhite}" HorizontalTextAlignment="End"  VerticalTextAlignment="Center" />
                     <BoxView Grid.Row="1" Grid.ColumnSpan="2" Margin="10,0,10,0" Style="{DynamicResource BoxViewListSeperatorDefault}" BackgroundColor="White"/>
@@ -444,6 +444,9 @@
                 <StackLayout Grid.Column="0">
                     <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}"/>
                     <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SaveTapped"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
                 <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
                 <StackLayout Grid.Column="2">

@@ -18,6 +18,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public OrderDtl OrderDetails { get; set; }
         public Order CurrentOrder { get; set; }
         public ICommand DiscountEnteredCommand { get; set; }
+        public bool IsPageLoading { get; set; }
 
         public EditDetailOfSelectedItemViewModel(OrderDtlUpdate ordDetailsUpdate, Order cOrder,ICommand cmdDiscount)
         {
@@ -104,8 +105,16 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 responseOrderUpdateDetail = await NewQuickRentalEntityComponent.UpdateOrderDetail(OrderDetailUpdate);
                 if (responseOrderUpdateDetail != null && responseOrderUpdateDetail.Detail != null)
                 {
-                   //MessageCenter
+                    OrderDetails = responseOrderUpdateDetail.Detail;
                 }
+
+                if (responseOrderUpdateDetail != null)
+                {
+                    if (responseOrderUpdateDetail.Answers == null || responseOrderUpdateDetail.Answers.Count == 0)
+                    {
+                        OrderDetailUpdate.Answers.Clear();
+                    }
+                } 
             }
             catch (Exception)
             {
