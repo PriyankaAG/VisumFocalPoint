@@ -57,11 +57,11 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
                                                 <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
-                                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
-                                                <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
-                                                <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
+                                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" IsVisible="{Binding IsRentalAvailMinChgVisible}" />
+                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="End" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
+                                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
+                                                <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
+                                                <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
                                             </Grid>
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
