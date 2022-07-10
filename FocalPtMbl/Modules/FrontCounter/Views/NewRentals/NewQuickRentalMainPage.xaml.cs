@@ -1,7 +1,10 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
 using FocalPoint.Modules.Payments.Views;
+using FocalPoint.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -84,6 +87,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
             MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
             MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
+            MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, OrderDtl>(this, "NotesAdded");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
@@ -100,6 +104,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
             {
                 UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+            });
+            MessagingCenter.Subscribe<EditDetailOfSelectedItemView, OrderDtl>(this, "OrderDetailUpdated", async (a, ordDtl) =>
+            {
+                (BindingContext as NewQuickRentalMainPageViewModel).ReloadRecents(ordDtl);
             });
         }
 
@@ -133,12 +141,21 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                     break;
                                 }
                             }
-                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "OK", "Cancel");
+                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
 
-                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate = orderRefresh;
-                            (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate.Order = theViewModel.CurrentOrder;
-                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate);
+                            var ordUpdate = (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate;
+                            if (ordUpdate == null)
+                                ordUpdate = orderRefresh;
+                            else
+                            {
+                                var ord = orderRefresh.Answers.Find(qa => qa.Code == question.Code);
+                                ordUpdate.Answers.Add(ord);
+                            }
+
+                            ordUpdate.Order = theViewModel.CurrentOrder;
+                            theViewModel.CurrentOrderUpdate = ordUpdate;
+                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: ordUpdate);
                         }
 
                     }
@@ -328,5 +345,108 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
             AfterUpdate_OrderProcessing(orderRefresh);
         }
+
+        private async void SaveTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.SaveOnly;
+
+            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+        private async void SaveAndEmailTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            //Customer EMAIL Check
+            if (!vm.CurrentOrderUpdate.Order.Customer.CustomerEmail.HasData())
+            {
+                bool confirmation = await DisplayAlert("No Email Found", "No Email on file for customer. Would you like to send to a new address? ", "Yes", "No");
+                if (confirmation)
+                {
+                    string customersEmail = await DisplayPromptAsync("Customer's Email", "What's the customers email address", keyboard: Keyboard.Email);
+                    if (IsValidEmail(customersEmail))
+                    {
+                        vm.CurrentOrderUpdate.Order.Customer.CustomerEmail = customersEmail;
+
+                        vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
+
+                        var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+                        AfterUpdate_OrderProcessing(orderRefresh);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Email Incorrect", "The entered Email is invalid.", "Ok");
+                    }
+                }
+            }
+        }
+        private async void SaveAsQuoteTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitAsQuote;
+
+            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                // Normalize the domain
+                email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
+                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
+
+                // Examines the domain part of the email and normalizes it.
+                string DomainMapper(Match match)
+                {
+                    // Use IdnMapping class to convert Unicode domain names.
+                    var idn = new IdnMapping();
+
+                    // Pull out and process domain name (throws ArgumentException on invalid)
+                    string domainName = idn.GetAscii(match.Groups[2].Value);
+
+                    return match.Groups[1].Value + domainName;
+                }
+            }
+            catch (RegexMatchTimeoutException e)
+            {
+                return false;
+            }
+            catch (ArgumentException e)
+            {
+                return false;
+            }
+
+            try
+            {
+                return Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+
     }
 }
