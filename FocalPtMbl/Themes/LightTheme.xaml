@@ -96,6 +96,7 @@
     <Color x:Key="ActionDefaultColor">#2185d0</Color>
     <Color x:Key="LabelFooterDefaultColor">#FFFFFF</Color>
     <Color x:Key="FooterBackgroundColor">#21d59b</Color>
+    <Color x:Key="FooterDisabledBackgroundColor">#66707070</Color>
     <Color x:Key="BoxViewFooterBackgroundColor">#e4eaf6</Color>
     <Color x:Key="EntryDefaultTextColor">#424242</Color>
     <Color x:Key="CostDefaultTextColor">#14b575</Color>

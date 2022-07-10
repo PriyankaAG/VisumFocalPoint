@@ -150,10 +150,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 {
                     BalanceDue = _currentOrder.OrderAmount - _currentOrder.OrderPaid;
                     OnPropertyChanged("OrderAmount");
+                    OnPropertyChanged("IsSaveEnabled");
                 }
             }
         }
-
+        public bool IsSaveEnabled
+        {
+            get
+            {
+                return CurrentOrder != null && CurrentOrder.Customer != null;
+            }
+        }
         Decimal? _balanceDue;
         public Decimal? BalanceDue
         {
@@ -192,6 +199,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged(nameof(SelectedCustomer));
                 OnPropertyChanged(nameof(SelectedCustomerEmail));
                 OnPropertyChanged(nameof(IsCustomerSelected));
+                OnPropertyChanged("IsSaveEnabled");
             }
         }
         Customer _selectedCustomerEmail;
@@ -355,9 +363,16 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             });
         }
-        public void ReloadRecents()
+        public void ReloadRecents(OrderDtl ordDtl)
         {
-            OnPropertyChanged("Recent");
+            if (Recent.Contains(ordDtl))
+            {
+                var index = Recent.IndexOf(ordDtl);
+                Recent.Remove(ordDtl);
+                Recent.Insert(index, ordDtl);
+            }
+
+               OnPropertyChanged(nameof(Recent));
         }
 
         public void RefreshDateTimeProperties()

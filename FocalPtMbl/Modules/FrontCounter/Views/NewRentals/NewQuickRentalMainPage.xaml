@@ -351,47 +351,49 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Text="Order Details" Style="{DynamicResource LabelSubHeader}"/>
-                            <StackLayout Grid.Row="1"
-                                Orientation="Vertical"
-                                VerticalOptions="Start"
-                                HorizontalOptions="Center"
-                                BindableLayout.ItemsSource="{Binding Recent ,Mode=TwoWay}"
-                                Padding="2,0">
-                                <BindableLayout.ItemTemplate>
+                            <ListView Grid.Row="1" x:Name="listOrderItemsSelected"
+                                SeparatorVisibility="None"
+                                HasUnevenRows="True"
+                                VerticalOptions="FillAndExpand"
+                                SelectionMode="Single"
+                                ItemsSource="{Binding Recent}">
+                                <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Frame HasShadow="True" Margin="2" Padding="5" BackgroundColor="White">
-                                            <Grid>
-                                                <Grid.Triggers>
-                                                    <DataTrigger TargetType="Grid" Binding="{Binding AvailOverBooked}" Value="True">
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource OverbookItemColor}" />
-                                                    </DataTrigger>
-                                                </Grid.Triggers>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="60" />
-                                                    <ColumnDefinition Width="2.5*" />
-                                                    <ColumnDefinition Width="2.5*" />
-                                                    <ColumnDefinition Width="2.5*" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding OrderDtlType}" Style="{DynamicResource LabelOrderType}" />
-                                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" HorizontalOptions="End" />
-                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2 ,Mode=TwoWay}" Style="{DynamicResource LabelDefaultBold}" />
-                                                <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelDefaultBold}" />
-                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:C}' ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
-                                                <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelDefaultBold}" />
-                                                <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty, Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
-                                            </Grid>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
+                                        <ViewCell>
+                                            <Frame CornerRadius="5" HasShadow="True" Margin="2" Padding="10" BackgroundColor="White" >
+                                                <Grid>
+                                                    <Grid.Triggers>
+                                                        <DataTrigger TargetType="Grid" Binding="{Binding AvailOverBooked}" Value="True">
+                                                            <Setter Property="BackgroundColor" Value="{DynamicResource OverbookItemColor}" />
+                                                        </DataTrigger>
+                                                    </Grid.Triggers>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="60" />
+                                                        <ColumnDefinition Width="2.5*" />
+                                                        <ColumnDefinition Width="2.5*" />
+                                                        <ColumnDefinition Width="2.5*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding OrderDtlType}" Style="{DynamicResource LabelOrderType}" />
+                                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding OrderDtlDscr ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" HorizontalOptions="End" />
+                                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Text="{Binding OrderDtlDscr2 ,Mode=TwoWay}" Style="{DynamicResource LabelDefaultBold}" />
+                                                    <Label Grid.Row="2" Grid.Column="0" Text="Amount:" Style="{DynamicResource LabelDefaultBold}" />
+                                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding OrderDtlAmt,StringFormat='{}{0:C}' ,Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
+                                                    <Label Grid.Row="2" Grid.Column="2" Text="Quantity:" Style="{DynamicResource LabelDefaultBold}" />
+                                                    <Label Grid.Row="2" Grid.Column="3" Text="{Binding OrderDtlQty, Mode=TwoWay}" Style="{DynamicResource LabelDefault}" />
+                                                </Grid>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </ViewCell>
                                     </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </StackLayout>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </Grid>
                     </Frame>
                 </Grid>
@@ -429,9 +431,10 @@
                 <Button Text="NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
                         BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_2"/>
                 <Button Grid.Column="2" BackgroundColor="{DynamicResource TabPageFavoriteColor}" 
+                        IsEnabled="{Binding IsSaveEnabled}"
                         TextColor="#FFFFFF" Text="PAYMENT" Clicked="Payment_Clicked" Style="{DynamicResource PrimaryButton}"/>
             </Grid>
-            <Grid Grid.Row="4" Style="{DynamicResource GridFooterDefault}">
+            <Grid Grid.Row="4" Style="{DynamicResource GridFooterDefault}" Padding="0" Margin="0" ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="1"/>
@@ -441,27 +444,75 @@
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackLayout Grid.Column="0">
-                    <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"/>
+                <StackLayout Grid.Column="0" IsEnabled="{Binding IsSaveEnabled}">
+                    <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"  Margin="0,0,0,5"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SaveTapped"/>
                     </StackLayout.GestureRecognizers>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterDisabledBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
                 </StackLayout>
-                <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
-                <StackLayout Grid.Column="2">
-                    <Image Source="return_order.png" Style="{DynamicResource ImageFooterDefault}"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save &amp; Email"/>
+                <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
+                <StackLayout Grid.Column="2" IsEnabled="{Binding IsSaveEnabled}">
+                    <Image Source="return_order.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save &amp; Email"  Margin="0,0,0,5"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SaveAndEmailTapped"/>
+                    </StackLayout.GestureRecognizers>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterDisabledBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
                 </StackLayout>
-                <BoxView Grid.Column="3" Style="{DynamicResource BoxViewFooterDefault}"/>
-                <StackLayout Grid.Column="4">
-                    <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save As Quote"/>
+                <BoxView Grid.Column="3" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
+                <StackLayout Grid.Column="4" IsEnabled="{Binding IsSaveEnabled}">
+                    <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save As Quote"  Margin="0,0,0,5"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SaveAsQuoteTapped"/>
+                    </StackLayout.GestureRecognizers>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource FooterDisabledBackgroundColor}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
                 </StackLayout>
-                <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
                 <StackLayout Grid.Column="6">
-                    <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Void"/>
+                    <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Void"  Margin="0,0,0,5"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="VoidOrder_Clicked"/>
                     </StackLayout.GestureRecognizers>

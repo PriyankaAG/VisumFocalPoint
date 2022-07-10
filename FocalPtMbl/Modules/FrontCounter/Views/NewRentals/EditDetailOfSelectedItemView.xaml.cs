@@ -50,12 +50,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "OrderDetailUpdated");
+            MessagingCenter.Send(this, "OrderDetailUpdated", CurrentOrderDtlUpdate.Detail);
             this.Navigation.PopAsync();
         }
         private async void StartUpdate()
         {
             if (_viewModel.IsPageLoading) return;
+
+            //_viewModel.OrderDetailUpdate.Detail.OrderDtlAmt
+
             OrderDtlUpdate orderUpdateResponse = await _viewModel.UpdateOrderDetail();
             AfterUpdate_OrderProcessing(orderUpdateResponse);
         }

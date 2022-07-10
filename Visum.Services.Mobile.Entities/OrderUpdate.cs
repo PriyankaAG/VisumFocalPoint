@@ -12,9 +12,9 @@ namespace Visum.Services.Mobile.Entities
         [Serializable]
         public enum OrderSaveTypes
         {
-            NoSave = 0,
-            Email = 1,
-            Quote = 2
+            SaveOnly = 0,
+            ExitOnly = 1,
+            ExitAsQuote = 2
        }
 
         [DataMember]
