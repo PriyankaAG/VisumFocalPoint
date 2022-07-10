@@ -37,8 +37,8 @@
                     <CollectionView ItemsSource="{Binding Recent}" 
                             ItemsLayout="VerticalGrid"
                             SelectionMode="Single"
-                                    SelectionChanged="CollectionView_SelectionChanged"
-                                    Grid.Row="1">
+                            SelectionChanged="CollectionView_SelectionChanged"
+                            Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame HasShadow="True" Padding="2" BackgroundColor="{DynamicResource BackgroundThemeColor}">
@@ -56,29 +56,26 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                            <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                                <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
-                                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
-                                                <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
-                                                <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
-                                            </Grid>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
+                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
+                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" />
+                                        <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" />
+                                        <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" />
+                                    </Grid>
+                                </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -87,7 +84,6 @@
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Button Text="CANCEL" Grid.Column="0" Style="{DynamicResource CancelButton}"
                         BackgroundColor="#f0142f" TextColor="#fff" HeightRequest="40"
