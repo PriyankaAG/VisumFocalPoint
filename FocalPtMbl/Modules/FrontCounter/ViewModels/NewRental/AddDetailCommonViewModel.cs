@@ -12,11 +12,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public AddDetailCommonViewModel(string title) : base(title)
         {
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
-            IsRentalAvailMinChgVisible = OrderSettings.AvailiblityRates?.Contains(RateTypes.Minimum) ?? false;
-            IsRentalAvailHourChgVisible = OrderSettings.AvailiblityRates?.Contains(RateTypes.Hourly) ?? false;
-            IsRentalAvailDayChgVisible = OrderSettings.AvailiblityRates?.Contains(RateTypes.Daily) ?? false;
-            IsRentalAvailWeekChgVisible = OrderSettings.AvailiblityRates?.Contains(RateTypes.Weekly) ?? false;
-            IsRentalAvailMonthChgVisible = OrderSettings.AvailiblityRates?.Contains(RateTypes.Monthly) ?? false;            
+            IsRentalAvailMinChgVisible = OrderSettings?.AvailiblityRates?.Contains(RateTypes.Minimum) ?? false;
+            IsRentalAvailHourChgVisible = OrderSettings?.AvailiblityRates?.Contains(RateTypes.Hourly) ?? false;
+            IsRentalAvailDayChgVisible = OrderSettings?.AvailiblityRates?.Contains(RateTypes.Daily) ?? false;
+            IsRentalAvailWeekChgVisible = OrderSettings?.AvailiblityRates?.Contains(RateTypes.Weekly) ?? false;
+            IsRentalAvailMonthChgVisible = OrderSettings?.AvailiblityRates?.Contains(RateTypes.Monthly) ?? false;            
         }
 
         public OrderUpdate orderUpdate;

@@ -57,7 +57,7 @@
                                                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
                                                 <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
                                                 <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailRetail, StringFormat='Retail: {0}'}" />
+                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailRetail, StringFormat='Retail: {0}'}" />
                                                 <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailSellPrice, StringFormat='Sell: {0}'}" />
                                             </Grid>
                                             <Frame.GestureRecognizers>
