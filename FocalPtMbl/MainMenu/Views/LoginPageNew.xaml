@@ -85,7 +85,7 @@
 
                             <Label Text="Keep me signed in" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
                         </StackLayout>
-                        <Button Text="Login" Grid.Row="5" Style="{DynamicResource PrimaryButton}" BackgroundColor="#fff17b" Clicked="LoginButton_Clicked" Margin="0,10,0,10" />
+                        <Button Text="Login" Grid.Row="5" Style="{DynamicResource PrimaryButton}" BackgroundColor="#fff17b" TextColor="Black" Clicked="LoginButton_Clicked" Margin="0,10,0,10" />
                         <ActivityIndicator x:Name="activityIndicator" Color="Blue" IsRunning="{Binding Indicator}" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
                     </Grid>
                 </Grid>

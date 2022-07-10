@@ -18,6 +18,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        public OrderUpdate CurrentOrderUpdate { get; set; }
         bool isPageLoading;
         public bool IsPageLoading
         {
@@ -148,10 +149,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (_currentOrder != null)
                 {
                     BalanceDue = _currentOrder.OrderAmount - _currentOrder.OrderPaid;
+                    OnPropertyChanged("OrderAmount");
+                    OnPropertyChanged("IsSaveEnabled");
                 }
             }
         }
-
+        public bool IsSaveEnabled
+        {
+            get
+            {
+                return CurrentOrder != null && CurrentOrder.Customer != null;
+            }
+        }
         Decimal? _balanceDue;
         public Decimal? BalanceDue
         {
@@ -165,7 +174,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged("BalanceDue");
             }
         }
-
+        public Decimal? OrderAmount
+        {
+            get
+            {
+                return CurrentOrder?.OrderAmount;
+            }
+            set
+            {
+                CurrentOrder.OrderAmount = value.HasValue ? value.Value : 0;
+                OnPropertyChanged("OrderAmount");
+            }
+        }
         Customer _selectedCustomer;
         public Customer SelectedCustomer
         {
@@ -179,6 +199,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged(nameof(SelectedCustomer));
                 OnPropertyChanged(nameof(SelectedCustomerEmail));
                 OnPropertyChanged(nameof(IsCustomerSelected));
+                OnPropertyChanged("IsSaveEnabled");
             }
         }
         Customer _selectedCustomerEmail;
@@ -353,6 +374,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     Recent.Add(item);
 
             });
+        }
+        public void ReloadRecents(OrderDtl ordDtl)
+        {
+            if (Recent.Contains(ordDtl))
+            {
+                var index = Recent.IndexOf(ordDtl);
+                Recent.Remove(ordDtl);
+                Recent.Insert(index, ordDtl);
+            }
+
+               OnPropertyChanged(nameof(Recent));
         }
 
         public void RefreshDateTimeProperties()
@@ -608,7 +640,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             return responseOrderUpdate;
         }
 
-        internal async Task<OrderUpdate> UpdateCust(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
+        internal async Task<OrderUpdate> UpdateCurrentOrder(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
         {
             OrderUpdate responseOrderUpdate = null;
             try
@@ -652,6 +684,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (responseOrderUpdate != null && responseOrderUpdate.Order != null)
                 {
                     CurrentOrder = responseOrderUpdate.Order;
+                    CurrentOrderUpdate.Order = responseOrderUpdate.Order;
+
                     OnPropertyChanged("CurrentOrder");
                 }
             }

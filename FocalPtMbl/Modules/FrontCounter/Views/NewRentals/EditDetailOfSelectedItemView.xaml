@@ -38,12 +38,15 @@
                     <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="0"
                             EditorText="{Binding Quantity, Mode=TwoWay}" 
                             MaxLenth="100" LabelText="Quantity" 
+                            Unfocused="{Binding DiscountEnteredCommand}"
                             PlaceHolder="Enter Quantity" Keyboard="Numeric">
                     </local:LabelEditorCustomControl>
 
                     <local:LabelEditorCustomControl Grid.Row="1" Grid.Column="1"
                             EditorText="{Binding Discount, Mode=TwoWay}" 
+                            IsEnabled="{Binding CurrentOrder.OrderDiscountable}"
                             MaxLenth="100" LabelText="Discount %" 
+                            Unfocused="{Binding DiscountEnteredCommand}"
                             PlaceHolder="Enter Discount" Keyboard="Numeric">
                     </local:LabelEditorCustomControl>
 
@@ -58,18 +61,19 @@
 
                             <CheckBox 
                             x:Name="overridePricingcheckbox"
-                            IsChecked="{Binding OverridePrice }"
+                            IsChecked="{Binding IsOverridePrice }"
                             HeightRequest="30"
                             WidthRequest="30"
                             VerticalOptions="Center" Margin="0,5,0,5"/>
 
-                            <Frame IsEnabled="{Binding OverridePrice}" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2" HorizontalOptions="FillAndExpand">
+                            <Frame IsEnabled="{Binding IsOverridePrice}" BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2" HorizontalOptions="FillAndExpand">
                                 <customrenderers:CustomEntry 
-                                IsEnabled="False" 
+                                IsEnabled="{Binding IsOverridePrice}" 
                                 HorizontalOptions="Fill"  
                                 VerticalOptions="Fill"
                                 Style="{DynamicResource EntryStyle}" 
-                                Text=""
+                                Text="{Binding OverridePrice }"
+                                Unfocused="CustomEntry_Unfocused"
                                 Placeholder="Enter Price"
                                 Keyboard="Text">
                                     <VisualStateManager.VisualStateGroups>
@@ -115,6 +119,7 @@
                             IsChecked="{Binding Taxable }"
                             HeightRequest="30"
                             WidthRequest="30"
+                            CheckedChanged="taxableheckbox_CheckedChanged"
                             VerticalOptions="Center" Margin="0,5,0,5"/>
                         <Label Text="Taxable" FontSize="Default" 
                             HeightRequest="30"
@@ -131,8 +136,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Text="Cancel" Style="{DynamicResource CancelButton}" BackgroundColor="#f0142f" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked"/>
-                <Button Grid.Column="1" Text="Save" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
+                <Button Grid.Column="1" Text="Done" Style="{DynamicResource SaveButton}" BackgroundColor="#57b8ff" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="Fill" Margin="10,0,10,0" Clicked="Button_Clicked_1"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

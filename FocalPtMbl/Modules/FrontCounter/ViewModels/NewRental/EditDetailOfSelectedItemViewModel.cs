@@ -1,25 +1,39 @@
-﻿using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
+using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class EditDetailOfSelectedItemViewModel : ThemeBaseViewModel
     {
+        public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        public OrderDtlUpdate OrderDetailUpdate { get; set; }
         public OrderDtl OrderDetails { get; set; }
+        public Order CurrentOrder { get; set; }
+        public ICommand DiscountEnteredCommand { get; set; }
+        public bool IsPageLoading { get; set; }
 
-        public EditDetailOfSelectedItemViewModel(OrderDtl ordDetails)
+        public EditDetailOfSelectedItemViewModel(OrderDtlUpdate ordDetailsUpdate, Order cOrder,ICommand cmdDiscount)
         {
-            OrderDetails = ordDetails;
+            OrderDetailUpdate = ordDetailsUpdate;
+            OrderDetails = OrderDetailUpdate.Detail;
+            CurrentOrder = cOrder;
+            NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
+            DiscountEnteredCommand = cmdDiscount;
         }
 
         public string ItemName
         {
             get
             {
-                return OrderDetails.OrderDtlDscr2;
+                return OrderDetails.OrderDtlDscr;
             }
         }
         public decimal Quantity
@@ -31,6 +45,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set 
             {
                 OrderDetails.OrderDtlQty = value;
+                OnPropertyChanged("Quantity");
             }
         }
         public decimal Discount
@@ -42,6 +57,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 OrderDetails.OrderDtlDiscount = value;
+                OnPropertyChanged("Discount");
             }
         }
         public bool Taxable
@@ -53,9 +69,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 OrderDetails.OrderDtlTaxable = value;
+                OnPropertyChanged("Taxable");
             }
         }
-        public bool OverridePrice
+        public bool IsOverridePrice
         {
             get
             {
@@ -64,7 +81,46 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             set
             {
                 OrderDetails.OrderDtlORide = value;
+                OnPropertyChanged("IsOverridePrice");
             }
+        }
+        public decimal OverridePrice
+        {
+            get
+            {
+                return OrderDetails.OrderDtlAmt;
+            }
+            set
+            {
+                OrderDetails.OrderDtlAmt = value;
+                OnPropertyChanged("OverridePrice");
+            }
+        }
+
+        internal async Task<OrderDtlUpdate> UpdateOrderDetail( )
+        {
+            OrderDtlUpdate responseOrderUpdateDetail = null;
+            try
+            {
+                responseOrderUpdateDetail = await NewQuickRentalEntityComponent.UpdateOrderDetail(OrderDetailUpdate);
+                if (responseOrderUpdateDetail != null && responseOrderUpdateDetail.Detail != null)
+                {
+                    OrderDetails = responseOrderUpdateDetail.Detail;
+                }
+
+                if (responseOrderUpdateDetail != null)
+                {
+                    if (responseOrderUpdateDetail.Answers == null || responseOrderUpdateDetail.Answers.Count == 0)
+                    {
+                        OrderDetailUpdate.Answers.Clear();
+                    }
+                } 
+            }
+            catch (Exception)
+            {
+
+            }
+            return responseOrderUpdateDetail;
         }
     }
 }

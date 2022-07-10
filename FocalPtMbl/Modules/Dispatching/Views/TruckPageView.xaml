@@ -24,8 +24,8 @@
             </Setter>
         </Style>
     </ContentPage.Resources>
-    <Grid>
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+    <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+        <StackLayout Margin="5,5" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <Grid RowSpacing="0" Padding="0,0,0,5" BackgroundColor="{DynamicResource BackgroundThemeColor}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
@@ -44,7 +44,7 @@
                 YAlign ="Center"
                 Font="black" FontAttributes="Bold" FontSize="18" />
 
-                <dxe:DateEdit Margin="5,0,5,0" Date="{Binding DispatchVm.SearchDate, Mode=TwoWay}" x:Name="startDate" DisplayFormat="M/d/yyyy" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Date" ReturnType="Default"></dxe:DateEdit>
+                <dxe:DateEdit Date="{Binding DispatchVm.SearchDate, Mode=TwoWay}" Style="{DynamicResource DxeDateTime}" x:Name="startDate" DisplayFormat="M/d/yyyy" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ReturnType="Default"></dxe:DateEdit>
             </Grid>
 
             <Grid IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -84,22 +84,18 @@
                 </Label>
             </Grid>
 
-            <BoxView  HeightRequest="4" HorizontalOptions="FillAndExpand" />
-
             <dxcv:DXCollectionView x:Name="listView"   
                         IndicatorColor="Lime"
-                        IsEnabled="True"
-                        BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+                        IsEnabled="True" BackgroundColor="{DynamicResource BackgroundThemeColor}"
                         SelectionMode="Single"
                         Tap="ItemSelected">
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowSpacing="0" Padding="0, 5, 0, 0"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                        <Grid RowSpacing="10" Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="22" />
                                 <RowDefinition Height="22" />
                                 <RowDefinition Height="22" />
-                                <RowDefinition Height="5" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
@@ -117,8 +113,6 @@
                             </Label>
                             <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
                             <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
-                            <BoxView Margin="0,0,0,0" Grid.Row="3" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
-                         HeightRequest="5"/>
                         </Grid>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>

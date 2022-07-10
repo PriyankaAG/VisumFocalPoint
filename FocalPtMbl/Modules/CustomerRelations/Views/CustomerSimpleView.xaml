@@ -6,17 +6,24 @@
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels"
-             ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+             ios:Page.UseSafeArea="True" BackgroundColor="{DynamicResource BackgroundThemeColor}">
     <ContentPage.BindingContext>
         <viewModel:CustomerSimpleViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout>
-        <dxe:TextEdit LabelText="Search" PlaceholderText="Customer Search" ClearIconClicked="TextEdit_Cleared" Completed="TextEdit_Completed" Text="" Margin="10,0"></dxe:TextEdit>
+    <StackLayout BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+        <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <Label Text="Search" Margin="5,10,10,0" 
+                   FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
+            <dxe:TextEdit
+                      PlaceholderText="Customer Search" 
+                      ClearIconClicked="TextEdit_Cleared" 
+                Completed="TextEdit_Completed" 
+                Style="{StaticResource Key=DxeTextEdit}" 
+                HeightRequest="40" 
+                Text="" 
+                Margin="5,0"></dxe:TextEdit>
         <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Recent}"
-                           IndicatorColor="Lime"
-                           Tap="ItemSelected"
+                           ItemsSource="{Binding Recent}" IndicatorColor="Lime" Margin="5,0" Tap="ItemSelected"
             LoadMoreCommand="{Binding LoadMoreCommand}"
             IsLoadMoreEnabled="True"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
@@ -24,7 +31,7 @@
 
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="0, 5, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                    <Grid Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -62,24 +69,7 @@
                 </DataTemplate> 
             </dxcv:DXCollectionView.ItemTemplate>
 
-            <!--Define the group header template.-->
-        <dxcv:DXCollectionView.GroupHeaderTemplate>
-            <DataTemplate>
-                <StackLayout Margin="2, 0, 18, 10">
-                    <Label FontFamily="Roboto-Medium"
-                       Margin="0,20,0,1"
-                       TextColor="#55575c"
-                       Text="{Binding Value}"/>
-                    <BoxView BackgroundColor="#ebebeb" 
-                         HeightRequest="1"/>
-                </StackLayout>
-            </DataTemplate>
-        </dxcv:DXCollectionView.GroupHeaderTemplate>
-
-        <!--Specify margins.-->
-            <!--<dxcv:DXCollectionView.Margin>
-            <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
-        </dxcv:DXCollectionView.Margin> -->
     </dxcv:DXCollectionView>
+    </StackLayout>
     </StackLayout>
 </ContentPage>

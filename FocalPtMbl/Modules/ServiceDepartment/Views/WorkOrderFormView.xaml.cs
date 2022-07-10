@@ -67,5 +67,10 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
         {
             ((WorkOrderFormViewModel)this.BindingContext).GetSearchedWorkOrdersInfo("");
         }
+
+        private void searchorderText_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)
+        {
+            ((WorkOrderFormViewModel)this.BindingContext).GetSearchedWorkOrdersInfo("");
+        }
     }
 }

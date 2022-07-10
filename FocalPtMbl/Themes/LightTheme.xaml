@@ -96,6 +96,7 @@
     <Color x:Key="ActionDefaultColor">#2185d0</Color>
     <Color x:Key="LabelFooterDefaultColor">#FFFFFF</Color>
     <Color x:Key="FooterBackgroundColor">#21d59b</Color>
+    <Color x:Key="FooterDisabledBackgroundColor">#66707070</Color>
     <Color x:Key="BoxViewFooterBackgroundColor">#e4eaf6</Color>
     <Color x:Key="EntryDefaultTextColor">#424242</Color>
     <Color x:Key="CostDefaultTextColor">#14b575</Color>
@@ -378,9 +379,9 @@
         <Setter Property="HeightRequest" Value="40" />
     </Style>
     <Style x:Key="PrimaryButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="#fff17b"/>
+        <Setter Property="BackgroundColor" Value="#57b8ff"/>
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
-        <Setter Property="TextColor" Value="#000"/>
+        <Setter Property="TextColor" Value="#fff"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
     
@@ -442,7 +443,7 @@
         <Setter Property="BackgroundColor" Value="{DynamicResource ControlBackgroundColor}" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="CornerMode" Value="Round" />
-        <Setter Property="Margin" Value="10,0,10,0" />
+        <Setter Property="HeightRequest" Value="40" />
     </Style>
 
 

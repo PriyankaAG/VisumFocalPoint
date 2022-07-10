@@ -75,11 +75,13 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     foreach (var foundCashDrawers in cashDrawersResult)
                         CurrentCashDrawers.Add(foundCashDrawers);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
         }
+
 
         private DateTime? selectedDate = new DateTime();
         public DateTime? SelectedDate
@@ -118,6 +120,16 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             }
         }
 
+
+        internal string Validate()
+        {
+            if (string.IsNullOrEmpty(SelectedCashDrawer.CashDrawerName))
+                return "Must Select Cash Drawer";
+            if (SelectedDate == null || SelectedDate.HasValue == false)
+                return "Must Select Date";
+            return "";
+        }
+
         internal void GetCashDrawerSummary()
         {
             try
@@ -146,7 +158,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                         Recent.Clear();
                     Recent.Add(cashDrawerResult);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
@@ -162,7 +175,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             selectedDate = SelectedDate;
         }
         public CashDrawerSummaryViewModel()
-            {
+        {
             Recent = new ObservableCollection<CashDrawerResult>();
             CurrentStores = new ObservableCollection<Company>();
             SelectedStore = new Company();
@@ -178,7 +191,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             //clientHttp.DefaultRequestHeaders.Add("TerminalNo", DataManager.Settings.Terminal.ToString());
             //GetCashDrawers();
         }
-    private void GetStores()
+        private void GetStores()
         {
             try
             {
@@ -189,7 +202,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     var content = responseDR.Content.ReadAsStringAsync().Result;
                     var Stores = JsonConvert.DeserializeObject<List<Company>>(content);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }

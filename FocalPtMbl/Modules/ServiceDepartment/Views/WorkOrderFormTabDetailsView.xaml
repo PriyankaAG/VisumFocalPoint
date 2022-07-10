@@ -378,16 +378,16 @@
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
 
-            <dxn:TabViewItem HeaderFontSize="10"
+            <dxn:TabViewItem HeaderFontSize="14"
                      HeaderFontAttributes="Bold"
                      HeaderTextColor="#99191919"
                      HeaderIconColor="#99191919"
                      HeaderIconPosition="Top"
                      HeaderIconSpacing="4"
                      HeaderWidth="*"
-                     HeaderMinWidth="90"
+                     HeaderMinWidth="100"
                      HeaderMaxWidth="400"
-                     HeaderPadding="16,0,16,0"
+                     HeaderPadding="12,0"
                      HeaderVisibleElements="TextAndIcon"
                      SelectedHeaderTextColor="#1e88e5"
                      SelectedHeaderIconColor="#1e88e5"

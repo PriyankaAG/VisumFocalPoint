@@ -46,6 +46,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
         }
 
         public ObservableCollection<PostCode> currentPostCodes;
+
+
         private PostCode selectedPostCode;
         public PostCode SelectedPostCode
         {
@@ -233,6 +235,17 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                 var Stores = JsonConvert.DeserializeObject<List<Company>>(content);
             }
         }
+        internal string Validate()
+        {
+            if (SelectedStore == null || SelectedStore.CmpNo == 0)
+                return "Must Select Store";
+            if (SelectedPostCode == null || SelectedPostCode.No == 0)
+                return "Must Select Post";
+            if (SelectedDate == null || SelectedDate.HasValue == false)
+                return "Must Select Date";
+            return "";
+        }
+
         public void GetDailyRev()
         {
             string RevDate = DateTime.Today.ToString();
