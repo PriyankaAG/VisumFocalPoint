@@ -20,8 +20,14 @@ namespace FocalPoint.Modules.Administrative.Views
             BindingContext = new RentalValuationSummaryViewModel();
             InitializeComponent();
         }
-        private void SimpleButton_Clicked(object sender, EventArgs e)
+        private async void SimpleButton_Clicked(object sender, EventArgs e)
         {
+            var store = ((RentalValuationSummaryViewModel)this.BindingContext).SelectedStore;
+            if (store == null || store.CmpNo == 0)
+            {
+                await DisplayAlert("FocalPoint", "Must Select Store", "OK");
+                return;
+            }
             ((RentalValuationSummaryViewModel)this.BindingContext).GetRentVal();
             // await Navigation.PopModalAsync();
         }

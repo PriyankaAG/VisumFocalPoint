@@ -4,7 +4,7 @@
              x:Class="FocalPoint.Modules.FrontCounter.Views.ReturnsView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label 
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"/>
         </StackLayout>

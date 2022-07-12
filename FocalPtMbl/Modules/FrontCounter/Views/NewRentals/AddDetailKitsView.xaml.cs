@@ -21,12 +21,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private AvailabilityKit selItem;
         private Int16 SearchIn = 1;
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-            var selectedItem = (e as TappedEventArgs).Parameter;
-            selItem = (AvailabilityKit)selectedItem;
-        }
-
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -335,6 +329,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private void CancelButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
+        }
+
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection != null && e.CurrentSelection.Any())
+            {
+                var selecteItem = e.CurrentSelection.First() as AvailabilityKit;
+                selItem = selecteItem;
+            }
         }
     }
 }

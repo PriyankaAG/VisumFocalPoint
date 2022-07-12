@@ -6,7 +6,7 @@
              xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" 
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels" 
              xmlns:converters="clr-namespace:FocalPoint.Converters" 
-             xmlns:controls="clr-namespace:FocalPoint.CustomControls" 
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -17,9 +17,20 @@
         <viewModel:ViewOrderDetailsViewModel />
     </ContentPage.BindingContext>
     <dxn:TabView>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" 
+                         HeaderTextColor="#99191919" 
+                         HeaderIconColor="#99191919"
+                         HeaderIconPosition="Top" 
+                         HeaderIconSpacing="4" 
+                         HeaderWidth="*" 
+                         HeaderMinWidth="100" 
+                         HeaderMaxWidth="360" 
+                         HeaderPadding="12,0"
+                         HeaderVisibleElements="TextAndIcon" 
+                         SelectedHeaderTextColor="#1e88e5" 
+                         SelectedHeaderIconColor="#1e88e5" 
                          HeaderText="Header">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
 
@@ -43,9 +54,9 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
                          HeaderText="Customer">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="  Info  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
@@ -101,9 +112,9 @@
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
 
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
                          HeaderText="Detail">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="  Customer  " Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
@@ -123,13 +134,13 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
                          HeaderText="Totals">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="Totals" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" />
-                            <Grid RowSpacing="5" VerticalOptions="FillAndExpand" Padding="10">
+                            <Grid RowSpacing="5" VerticalOptions="FillAndExpand">
                                 <controls:LabelTextCustomControl Grid.Row="0" Title="Rent Totals:" Value="{Binding Order.TotalRentalAmt, StringFormat='{0:C}'}" />
                                 <controls:LabelTextCustomControl Grid.Row="1" Title="Merchandise Totals:" Value="{Binding Order.TotalMerchAmt, StringFormat='{0:C}'}" />
                                 <controls:LabelTextCustomControl Grid.Row="2" Title="Rental Sales:" Value="{Binding Order.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
@@ -155,16 +166,16 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
                          HeaderText="Payments">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <ListView VerticalOptions="End" x:Name="listView" ItemSelected="listView_ItemSelected">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <StackLayout Padding="10,2,10,2" Spacing="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                            <StackLayout Spacing="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                                 <StackLayout Padding="0,0,0,0" Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                                     <Label TextColor="Black" Text="{Binding Payment.PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start" />
                                                     <Label TextColor="Black" Text="{Binding Payment.PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
@@ -180,13 +191,13 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
                          HeaderText="Shipping">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="Shipping" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                            <Grid RowSpacing="5" VerticalOptions="Fill" Padding="10">
+                            <Grid RowSpacing="5" VerticalOptions="Fill">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
@@ -214,9 +225,9 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5"
                          HeaderText="Dispatching">
-            <dxn:TabViewItem.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content>
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="Delivery" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
@@ -227,9 +238,9 @@
                     </ScrollView>
             </dxn:TabViewItem.Content>
         </dxn:TabViewItem>
-        <dxn:TabViewItem HeaderFontSize="12" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="16,0,16,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="TextAndIcon" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" 
                          HeaderText="Images">
-            <dxn:TabViewItem.Content HeightRequest="500" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <dxn:TabViewItem.Content HeightRequest="500">
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                             <ListView x:Name="ImageListView" VerticalOptions="FillAndExpand" ItemsSource="{Binding ImageList}" HeightRequest="500" SelectionMode="Single" IsGroupingEnabled="true" HasUnevenRows="true" IsPullToRefreshEnabled="True" Refreshing="OnRefresh">

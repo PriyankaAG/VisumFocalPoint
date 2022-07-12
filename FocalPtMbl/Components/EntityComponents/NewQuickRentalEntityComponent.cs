@@ -27,6 +27,7 @@ namespace FocalPoint.Components.EntityComponents
         const string AvailabilityRentalSalesAPIKey = "Availability/RentalSales/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
         const string AvailabilityMerchandiseSerialsAPIKey = "Availability/MerchandiseSerials/{0}/{1}";
+        const string OrderDetailAPIKey = "OrderDetail/";
 
         const string CheckPhoneNumberAPIKey = "CustomerPhoneDupes/{0}/{1}";
         const string CheckCustomerNameAPIKey = "CustomerNameCheck/{0}/{1}/{2}";
@@ -176,6 +177,25 @@ namespace FocalPoint.Components.EntityComponents
             }
 
             return responseOrderUpdate;
+        }
+        public async Task<OrderDtlUpdate> UpdateOrderDetail(OrderDtlUpdate Update)
+        {
+            OrderDtlUpdate responseOrderDetailUpdate = null;
+            try
+            {
+                var stringContent = new StringContent(
+            JsonConvert.SerializeObject(new { Update }),
+              Encoding.UTF8,
+              "application/json");
+                string res = await stringContent.ReadAsStringAsync();
+                responseOrderDetailUpdate = await apiComponent.SendAsyncUpdateOrderDetails(OrderDetailAPIKey, res);
+
+            }
+            catch (Exception)
+            {
+            }
+
+            return responseOrderDetailUpdate;
         }
 
         public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType)

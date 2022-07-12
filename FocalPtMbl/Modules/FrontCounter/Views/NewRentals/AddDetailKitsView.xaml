@@ -31,17 +31,29 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
-                    <ListView ItemsSource="{Binding Recent}" 
-                            HasUnevenRows="True"
-                            VerticalOptions="FillAndExpand"
+                    <CollectionView ItemsSource="{Binding Recent}" 
+                            ItemsLayout="VerticalGrid"
                             SelectionMode="Single"
+                            SelectionChanged="CollectionView_SelectionChanged"
                             Grid.Row="1">
-                        <ListView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <customcontrols:CustomViewCell SelectedItemBackgroundColor="#ADF3BE">
-                                    <ViewCell.View>
-                                        <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                                            <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Frame HasShadow="True" Padding="2" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderColor" Value="Orange" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundThemeColor}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
@@ -64,15 +76,10 @@
                                                 <Label Grid.Row="4" Grid.Column="1" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
 
                                             </Grid>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </ViewCell.View>
-                                </customcontrols:CustomViewCell>
+                                </Frame>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </ScrollView>
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">

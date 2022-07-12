@@ -34,12 +34,12 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
-                    <ListView ItemsSource="{Binding Recent}" 
-                            HasUnevenRows="True"
-                            VerticalOptions="FillAndExpand"
+                    <CollectionView ItemsSource="{Binding Recent}" 
+                            ItemsLayout="VerticalGrid"
                             SelectionMode="Single"
+                            SelectionChanged="CollectionView_SelectionChanged"
                             Grid.Row="1">
-                        <ListView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <customcontrols:CustomViewCell SelectedItemBackgroundColor="#ADF3BE">
                                     <ViewCell.View>
@@ -67,11 +67,14 @@
                                     </ViewCell.View>
                                 </customcontrols:CustomViewCell>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </ScrollView>
             <Grid Grid.Row="1" Style="{DynamicResource FooterGrid}" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
                 <Button Text="CANCEL" Grid.Column="0" Style="{DynamicResource CancelButton}"
                         BackgroundColor="#f0142f" TextColor="#fff" HeightRequest="40"
                         Clicked="CancelButton_Clicked" />

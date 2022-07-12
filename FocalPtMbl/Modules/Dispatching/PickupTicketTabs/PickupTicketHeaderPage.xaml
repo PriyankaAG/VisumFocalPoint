@@ -1,87 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketHeaderPage"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:FocalPoint.CustomControls" x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketHeaderPage"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <Label Text="Ticket Information"  TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*" />
-                        <ColumnDefinition Width="65*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                    </Grid.RowDefinitions>
-                    <!-- *************************** Ticket Information *************************** -->
+        <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <StackLayout Margin="5,5">
+                <Label Text="Ticket Information" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <controls:LabelTextCustomControl Title="Contract:" Value="{Binding OrderNumberT}" />
+                <controls:LabelTextCustomControl Title="Called In:" Value="{Binding PuCDte}" />
+                <controls:LabelTextCustomControl Title="Billing Stop:" Value="{Binding PuPDte}" />
+                <controls:LabelTextCustomControl Title="Created On:" Value="{Binding PuEDte}" />
+                <controls:LabelTextCustomControl Title="Created By:" Value="{Binding PuEEmpid}" />
 
-                    <Label Text="Contract:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
-                    <Label Text="{Binding OrderNumberT}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Called In:  " Grid.Row="1" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuCDte}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Billing Stop:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuPDte}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Created On:  " Grid.Row="3" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuEDte}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Created By:  " Grid.Row="4" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding PuEEmpid}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
-                </Grid>
-                <Label Text="Customer" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" Margin="0,10,0,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
-                <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35*" />
-                        <ColumnDefinition Width="65*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                    </Grid.RowDefinitions>
-                    <!--*************************** Phone Numbers ***************************-->
-                    <Label Text="Company:  " Grid.Row="0" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
-                    <Label Text="{Binding CustomerName }" Grid.Row="0" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Contact:  " Grid.Row="1" Grid.Column="0" TextColor="Black"  FontAttributes="Bold"/>
-                    <Label Text="{Binding PuContact }" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                    <Label Text="Address:  " Grid.Row="2" Grid.Column="0" TextColor="Black" FontAttributes="Bold"/>
-                    <Label Text="{Binding Address1}" Grid.Row="2" Grid.Column="1" 
-                       TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                        Command="{x:Binding OpenMapApplicationCommand}"
-                                        CommandParameter="{x:Binding Address1}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Label Text="" Grid.Row="3" Grid.Column="0" TextColor="Black"  FontAttributes="Bold" />
-                    <Label Text="{Binding CityStateZip}" Grid.Row="3" Grid.Column="1" TextColor="Black" />
-
-                    <Label Text="Phone 1:  " Grid.Row="4" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
-                    <Label Text="{Binding Phone}" Grid.Row="4" Grid.Column="1"  VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" 
-                       TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                        Command="{x:Binding OpenPhoneDialerCommand}"
-                                        CommandParameter="{x:Binding Phone}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-
-                    <Label Text="Phone 2:  " Grid.Row="5" Grid.Column="0" TextColor="Black" VerticalTextAlignment="Center" FontAttributes="Bold" />
-                    <Label Text="{Binding Phone2}" Grid.Row="5" Grid.Column="1" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  
-                       TextColor="Blue" TextDecorations="Underline">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer
-                                        Command="{x:Binding OpenPhoneDialerCommand}"
-                                        CommandParameter="{x:Binding Phone2}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </Grid>
+                <Label Text="Customer" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <controls:LabelTextCustomControl Title="Company:" Value="{Binding CustomerName}" />
+                <controls:LabelTextCustomControl Title="Contact:" Value="{Binding PuContact}" />
+                <controls:LabelTextCustomControl Title="Address:" Value="{Binding Address1}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenMapApplicationCommand}" CommandParameter="{x:Binding Address1}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
+                <controls:LabelTextCustomControl Title="" Value="{Binding CityStateZip}" />
+                <controls:LabelTextCustomControl Title="Phone 1" Value="{Binding Phone}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenPhoneDialerCommand}" CommandParameter="{x:Binding Phone}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
+                <controls:LabelTextCustomControl Title="Phone 2" Value="{Binding Phone2}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenPhoneDialerCommand}" CommandParameter="{x:Binding Phone2}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
                 <Button Text="Complete Counts" VerticalOptions="EndAndExpand" Margin="0,20" HorizontalOptions="CenterAndExpand" Clicked="CompleteCountButton_Clicked"></Button>
             </StackLayout>
         </ScrollView>

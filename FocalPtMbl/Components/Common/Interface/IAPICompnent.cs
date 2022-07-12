@@ -22,5 +22,7 @@ namespace FocalPoint
         void AddTerminalToHeader(string terminalNo);
 
         Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false);
+
+        Task<OrderDtlUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent);
     }
 }

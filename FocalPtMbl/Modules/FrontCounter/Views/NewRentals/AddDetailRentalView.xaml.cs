@@ -351,5 +351,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Navigation.PopAsync();
         }
+
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection != null && e.CurrentSelection.Any())
+            {
+                var selecteItem = e.CurrentSelection.First() as AvailabilityRent;
+                selItem = selecteItem;
+            }
+        }
     }
 }

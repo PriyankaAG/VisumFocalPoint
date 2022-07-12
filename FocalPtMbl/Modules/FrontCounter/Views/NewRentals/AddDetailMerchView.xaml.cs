@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -29,13 +30,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     currentOrder = value;
                 }
             }
-        }
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-            var selectedItem = (e as TappedEventArgs).Parameter;
-            selItem = (AvailabilityMerch)selectedItem;
-        }
+        }        
 
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
@@ -102,6 +97,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private void CancelButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
+        }
+
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection != null && e.CurrentSelection.Any())
+            {
+                var selecteItem = e.CurrentSelection.First() as AvailabilityMerch;
+                selItem = selecteItem;
+            }
         }
     }
 }

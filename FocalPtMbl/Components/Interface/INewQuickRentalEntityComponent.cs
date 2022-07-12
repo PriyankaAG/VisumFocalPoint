@@ -44,5 +44,7 @@ namespace FocalPoint.Components.Interface
 
         Task<string> CheckDrivLicID(string drivLicID);
         Task<OrderUpdate> UpdateOrder(OrderUpdate Update);
+
+        Task<OrderDtlUpdate> UpdateOrderDetail(OrderDtlUpdate OrderDetailUpdate);
     }
 }
