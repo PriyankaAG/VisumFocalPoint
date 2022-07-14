@@ -41,31 +41,38 @@
                             Grid.Row="1">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <customcontrols:CustomViewCell SelectedItemBackgroundColor="#ADF3BE">
-                                    <ViewCell.View>
-                                        <Frame HasShadow="True" Padding="0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                                            <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                                <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
-                                                <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailRetail, StringFormat='Retail: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailSellPrice, StringFormat='Sell: {0}'}" />
-                                            </Grid>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
-                                    </ViewCell.View>
-                                </customcontrols:CustomViewCell>
+                                <Frame HasShadow="True" Padding="2" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BorderColor" Value="Orange" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundThemeColor}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid RowSpacing="5" Margin="0,5" Padding="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
+                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailRetail, StringFormat='Retail: {0:C}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailSellPrice, StringFormat='Sell: {0:C}'}" />
+                                    </Grid>
+                                </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

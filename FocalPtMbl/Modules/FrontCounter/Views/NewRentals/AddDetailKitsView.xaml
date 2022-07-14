@@ -69,11 +69,11 @@
                                                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailPotenQty, StringFormat='Potential: {0}'}" />
                                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
                                                 <Label Grid.Row="2" Grid.Column="0" Text="{Binding AvailType, StringFormat='Type: {0}'}" />
-                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailMinChg, StringFormat='Minimum Charge: {0}'}" IsVisible="{Binding IsRentalAvailMinChgVisible}" />
-                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding AvailHourChg, StringFormat='Hourly Charge: {0}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
-                                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding AvailDayChg, StringFormat='Daily Charge: {0}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
-                                                <Label Grid.Row="4" Grid.Column="0" Text="{Binding AvailWeekChg, StringFormat='Weekly Charge: {0}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
-                                                <Label Grid.Row="4" Grid.Column="1" Text="{Binding AvailMonthChg, StringFormat='Monthly Charge: {0}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
+                                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailMinChg, StringFormat='Minimum: {0:C}'}" IsVisible="{Binding IsRentalAvailMinChgVisible}" />
+                                                <Label Grid.Row="3" Grid.Column="0" Text="{Binding AvailHourChg, StringFormat='Hourly: {0:C}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
+                                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding AvailDayChg, StringFormat='Daily: {0:C}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
+                                                <Label Grid.Row="4" Grid.Column="0" Text="{Binding AvailWeekChg, StringFormat='Weekly: {0:C}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
+                                                <Label Grid.Row="4" Grid.Column="1" Text="{Binding AvailMonthChg, StringFormat='Monthly: {0:C}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
 
                                             </Grid>
                                 </Frame>
