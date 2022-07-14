@@ -284,7 +284,12 @@ namespace FocalPoint.MainMenu.ViewModels
         }
 
         public void OnTimeClock()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
+            NavSer.PushPageFromMenu(typeof(FocalPoint.MainMenu.Views.TimeClockView), "Time Clock");
+
+        }
         public void OnManageProfile()
         { }
         public async void OnLogOut()
