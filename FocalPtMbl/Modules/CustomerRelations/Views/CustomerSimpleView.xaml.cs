@@ -26,7 +26,10 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            ((CustomerSimpleViewModel)this.BindingContext).GetCustomersInfo();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((CustomerSimpleViewModel)this.BindingContext).GetCustomersInfo();
+            });
             //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)

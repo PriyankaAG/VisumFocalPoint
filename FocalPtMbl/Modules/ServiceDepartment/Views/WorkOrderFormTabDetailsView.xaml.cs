@@ -27,7 +27,7 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
 
             this.ToolbarItems.Add(new ToolbarItem()
             {
-                IconImageSource = "more.png",
+                IconImageSource = "more_black.png",
                 Command = this.CogCommand,
             });
 

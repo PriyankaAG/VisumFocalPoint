@@ -367,7 +367,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             if (!CheckNumber.IsValid)
                 message = CheckNumber.Errors?.First() ?? "Validation failed";
 
-            else if (string.IsNullOrEmpty(SelectedLicenseState.Display))
+            else if (LicenseStates != null && LicenseStates.Any() && string.IsNullOrEmpty(SelectedLicenseState?.Display))
                 message = "Must select a LicenseState";
             return message;
         }
@@ -407,7 +407,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 };
                 return await paymentEntityComponent.PostPaymentProcess(request);
             }
-            catch
+            catch(Exception ex)
             {
                 throw;
             }
@@ -427,7 +427,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 {
                     Number = CheckNumber.Value,
                     DLNumber = LicenseNumber,
-                    DLState = SelectedLicenseState.Value
+                    DLState = SelectedLicenseState?.Value ?? ""
                 }
                 : null;
         }

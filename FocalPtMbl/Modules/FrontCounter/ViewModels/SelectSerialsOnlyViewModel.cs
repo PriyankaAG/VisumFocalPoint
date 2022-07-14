@@ -4,6 +4,7 @@ using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
@@ -38,14 +39,14 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             try
             {
                 //update searchText
-                List<string> merchSerials = null;
+                List<MerchandiseSerial> merchSerials = null;
                 string StoreNo = selectedItem.AvailCmp.ToString();
                 string MerchNo = selectedItem.AvailItem.ToString();
                 merchSerials = await NewQuickRentalEntityComponent.AvailabilityMerchandiseSerials(MerchNo, StoreNo);
                 //StartIdx = customersCntAndList.TotalCnt;
                 if (recent == null)
                 {
-                    SelectedSerialsFound = new ObservableCollection<string>(merchSerials);
+                    SelectedSerialsFound = new ObservableCollection<MerchandiseSerial>(merchSerials);
                 }
                 else
                 {
@@ -81,8 +82,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 OnPropertyChanged(nameof(CurrentOrder));
             }
         }
-        private ObservableCollection<string> selectedSerialsFound = new ObservableCollection<string>();
-        public ObservableCollection<string> SelectedSerialsFound
+        private ObservableCollection<MerchandiseSerial> selectedSerialsFound = new ObservableCollection<MerchandiseSerial>();
+        public ObservableCollection<MerchandiseSerial> SelectedSerialsFound
         {
             get => this.selectedSerialsFound;
             private set
@@ -92,8 +93,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
 
         }
-        private ObservableCollection<string> selectedSerials = new ObservableCollection<string>();
-        public ObservableCollection<string> SelectedSerials
+
+        public bool AddToSelectedSerial(MerchandiseSerial value)
+        {
+            if (!SelectedSerials.Any(x => x.MerchSerSerial == value.MerchSerSerial))
+            {
+                SelectedSerials.Add(value);
+                return true;
+            }
+            return false;
+        }
+
+        private ObservableCollection<MerchandiseSerial> selectedSerials = new ObservableCollection<MerchandiseSerial>();
+        public ObservableCollection<MerchandiseSerial> SelectedSerials
         {
             get => this.selectedSerials;
             private set

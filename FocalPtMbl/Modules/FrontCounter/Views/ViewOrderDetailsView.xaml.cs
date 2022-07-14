@@ -31,7 +31,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
             this.ToolbarItems.Add(new ToolbarItem()
             {
-                IconImageSource = "more.png",
+                IconImageSource = "more_black.png",
                 Command = this.CogCommand,
             });
             Task.Run(async () =>

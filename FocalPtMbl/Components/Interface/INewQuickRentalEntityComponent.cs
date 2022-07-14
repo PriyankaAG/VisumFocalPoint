@@ -24,7 +24,7 @@ namespace FocalPoint.Components.Interface
 
         Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, Int16 searchIn);
 
-        Task<List<string>> AvailabilityMerchandiseSerials(string merchNo, string storeNo);
+        Task<List<MerchandiseSerial>> AvailabilityMerchandiseSerials(string merchNo, string storeNo);
 
         Task<List<AvailabilityKit>> GetAvailabilityKits(string text, Int16 SearchIn, string SearchType);
 

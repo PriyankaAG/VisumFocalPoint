@@ -27,7 +27,11 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            ((WorkOrderFormViewModel)this.BindingContext).GetSearchedWorkOrdersInfo("");
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await ((WorkOrderFormViewModel)BindingContext).GetSearchedWorkOrdersInfo("");
+            });
+            //((WorkOrderFormViewModel)this.BindingContext).GetSearchedWorkOrdersInfo("");
             //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         protected override void OnDisappearing()

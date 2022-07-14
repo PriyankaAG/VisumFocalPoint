@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -39,11 +40,12 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 
         public WorkOrderFormViewModel(): base("View Work Orders")
         {
-            // recent = new ObservableCollection<WorkOrder>();
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
-            //clientHttp.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
-            GetWorkOrdersInfo();
+            Task.Run(() =>
+            {
+                _ = GetWorkOrdersInfo();
+            });
         }
 
         internal WorkOrder GetWorkOrderDetail(WorkOrder WO)
@@ -78,8 +80,9 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         private string SearchText = "";
         private int StartIdx = 0;
         private int MaxCnt = 100;
-        public WorkOrders GetWorkOrdersInfo()
+        public async Task<WorkOrders> GetWorkOrdersInfo()
         {
+            Indicator = true;
             WorkOrders woCntAndList = null;
             try
             {
@@ -91,7 +94,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
                                           "application/json");
 
 
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -114,10 +117,15 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             }
             catch (Exception ex)
             { return woCntAndList; }
+            finally
+            {
+                Indicator = false;
+            }
         }
 
-        internal void GetSearchedWorkOrdersInfo(string text)
+        internal async Task GetSearchedWorkOrdersInfo(string text)
         {
+            Indicator = true;
             Recent?.Clear();
             SearchText = text;
             StartIdx = 0;
@@ -130,7 +138,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
                                           Encoding.UTF8,
                                           "application/json");
 
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -153,6 +161,10 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
     }
