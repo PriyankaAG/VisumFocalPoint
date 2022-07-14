@@ -191,22 +191,52 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 //await DisplayAlert("Select Type", "Please select a search type", "OK");
                 return;
             }
-            if (selectedItem == "Merchandise")
-            {
-                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
-                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
-                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
-                addDetailMerchView.BindingContext = addDetailMerchViewModel;
-                await Navigation.PushAsync(addDetailMerchView);
-            }
-            else
+            if (selectedItem == "Rentals")
             {
                 AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
                 AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
                 await Navigation.PushAsync(addDetailRentalView);
             }
+            else if (selectedItem == "Merchandise")
+            {
+                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
+                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
+                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailMerchViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailMerchView.BindingContext = addDetailMerchViewModel;
+                await Navigation.PushAsync(addDetailMerchView);
+            }
+            else if (selectedItem == "Rental Saleable")
+            {
+                AddDetailRentalSalesView addDetailRentalSalesView = new AddDetailRentalSalesView();
+                AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = new AddDetailRentalSalesViewModel(selectedItem, 1);
+                addDetailRentalSalesViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalSalesViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailRentalSalesView.BindingContext = addDetailRentalSalesViewModel;
+                await Navigation.PushAsync(addDetailRentalSalesView);
+            }
+            else if (selectedItem == "Rate Tables")
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
+            }
+            else if (selectedItem == "Kits")
+            {
+                AddDetailKitsView addDetailKitsView = new AddDetailKitsView();
+                AddDetailKitsViewModel addDetailKitsViewModel = new AddDetailKitsViewModel(selectedItem, 1);
+                addDetailKitsViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailKitsViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailKitsView.BindingContext = addDetailKitsViewModel;
+                await Navigation.PushAsync(addDetailKitsView);
+            }
+
         }
 
         private void Button_Clicked_1(object sender, EventArgs e)
