@@ -3,6 +3,7 @@ using FocalPoint.Components.Interface;
 using FocalPtMbl.MainMenu.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,7 +21,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public ICommand DiscountEnteredCommand { get; set; }
         public bool IsPageLoading { get; set; }
 
-        public EditDetailOfSelectedItemViewModel(OrderDtlUpdate ordDetailsUpdate, Order cOrder,ICommand cmdDiscount)
+        public EditDetailOfSelectedItemViewModel(OrderDtlUpdate ordDetailsUpdate, Order cOrder, ICommand cmdDiscount)
         {
             OrderDetailUpdate = ordDetailsUpdate;
             OrderDetails = OrderDetailUpdate.Detail;
@@ -42,7 +43,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
                 return OrderDetails.OrderDtlQty;
             }
-            set 
+            set
             {
                 OrderDetails.OrderDtlQty = value;
                 OnPropertyChanged("Quantity");
@@ -97,28 +98,34 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal async Task<OrderDtlUpdate> UpdateOrderDetail( )
+        internal async Task<OrderUpdate> UpdateOrderDetail()
         {
-            OrderDtlUpdate responseOrderUpdateDetail = null;
+            Indicator = true;
+            OrderUpdate responseOrderUpdateDetail = null;
             try
             {
                 responseOrderUpdateDetail = await NewQuickRentalEntityComponent.UpdateOrderDetail(OrderDetailUpdate);
-                if (responseOrderUpdateDetail != null && responseOrderUpdateDetail.Detail != null)
+                if (responseOrderUpdateDetail != null && responseOrderUpdateDetail.Order != null)
                 {
-                    OrderDetails = responseOrderUpdateDetail.Detail;
-                }
+                    CurrentOrder = responseOrderUpdateDetail.Order;
+                    OrderDetails = CurrentOrder.OrderDtls.First(p => p.OrderNo == OrderDetails.OrderNo
+                    && p.OrderDtlLine == OrderDetails.OrderDtlLine
+                    && p.OrderDtlNewLine == OrderDetails.OrderDtlNewLine);
 
-                if (responseOrderUpdateDetail != null)
-                {
                     if (responseOrderUpdateDetail.Answers == null || responseOrderUpdateDetail.Answers.Count == 0)
                     {
                         OrderDetailUpdate.Answers.Clear();
+
+                        _ = Task.Delay(500).ContinueWith((a) =>
+                        {
+                            Indicator = false;
+                        });
                     }
-                } 
+                }
             }
             catch (Exception)
             {
-
+                Indicator = false;
             }
             return responseOrderUpdateDetail;
         }
