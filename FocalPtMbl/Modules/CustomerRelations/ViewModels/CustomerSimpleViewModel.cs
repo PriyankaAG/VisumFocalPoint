@@ -160,8 +160,9 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         private int StartIdx = 0;
         private int MaxCnt = 100;
 
-        public Customers GetCustomersInfo()
+        public async Task<Customers> GetCustomersInfo()
         {
+            Indicator = true;
             Customers customersCntAndList = null;
             Customer customersist = null;
             try
@@ -176,7 +177,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                 // ClientHTTP.DefaultRequestHeaders.UserAgent.Add(productValue); 05fe29ff-6640-487b-9331-6b5759851bca
 
                 //"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08"); 70e2aad8-6216-48cc-ab13-3439970a189a
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -202,6 +203,10 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
             }
             catch(Exception ex) 
             { return customersCntAndList; }
+            finally
+            {
+                Indicator = false;
+            }
         }
         void ExecuteLoadMoreCommand()
         {
