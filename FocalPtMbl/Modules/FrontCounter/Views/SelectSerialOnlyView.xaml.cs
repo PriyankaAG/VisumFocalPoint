@@ -33,5 +33,12 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
 
         }
+
+        private void Serial_Tap(object sender, DevExpress.XamarinForms.CollectionView.CollectionViewGestureEventArgs e)
+        {
+            var item = e.Item as MerchandiseSerial;
+            if (item != null)
+                ((SelectSerialsOnlyViewModel)this.BindingContext).AddToSelectedSerial(item);
+        }
     }
 }

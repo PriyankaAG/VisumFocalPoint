@@ -26,7 +26,7 @@ namespace FocalPoint.Components.EntityComponents
         const string AvailabilityKitsAPIKey = "Availability/Kits/";
         const string AvailabilityRentalSalesAPIKey = "Availability/RentalSales/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
-        const string AvailabilityMerchandiseSerialsAPIKey = "AvailabilityMerchandiseSerials/{0}/{1}";
+        const string AvailabilityMerchandiseSerialsAPIKey = "Availability/MerchandiseSerials/{0}/{1}";
         const string OrderDetailAPIKey = "OrderDetail/";
 
         const string CheckPhoneNumberAPIKey = "CustomerPhoneDupes/{0}/{1}";
@@ -228,12 +228,12 @@ namespace FocalPoint.Components.EntityComponents
             return res;
         }
 
-        public async Task<List<string>> AvailabilityMerchandiseSerials(string merchNo, string storeNo)
+        public async Task<List<MerchandiseSerial>> AvailabilityMerchandiseSerials(string merchNo, string storeNo)
         {
-            List<string> res = null;
+            List<MerchandiseSerial> res = null;
             try
             {
-                res = await apiComponent.GetAsync<List<string>>(string.Format(AvailabilityMerchandiseSerialsAPIKey, merchNo, storeNo));
+                res = await apiComponent.GetAsync<List<MerchandiseSerial>>(string.Format(AvailabilityMerchandiseSerialsAPIKey, merchNo, storeNo));
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
@@ -52,6 +53,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search, SearchIn);
                 if (merchCntAndList != null)
                 {
+                    //merchCntAndList = merchCntAndList.Where(x => x.AvailSerialized == true).ToList();
                     //StartIdx = customersCntAndList.TotalCnt;
                     if (recent == null)
                     {
