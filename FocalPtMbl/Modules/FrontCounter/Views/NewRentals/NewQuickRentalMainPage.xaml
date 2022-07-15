@@ -34,7 +34,7 @@
                        BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="25" />
 
                 <Label
-                       TextColor="Gray"
+                       TextColor="Black"
                        Margin="0"
                        FontSize="{StaticResource DefaultFontSize}"
                         Text="Loading..."  IsVisible="{Binding IsPageLoading}"
@@ -431,7 +431,7 @@
                 <Button Text="NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
                         BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_2"/>
                 <Button Grid.Column="2" BackgroundColor="{DynamicResource TabPageFavoriteColor}" 
-                        IsEnabled="{Binding IsSaveEnabled}"
+                        IsEnabled="{Binding IsPaymentEnabled}"
                         TextColor="#FFFFFF" Text="PAYMENT" Clicked="Payment_Clicked" Style="{DynamicResource PrimaryButton}"/>
             </Grid>
             <Grid Grid.Row="4" Style="{DynamicResource GridFooterDefault}" Padding="0" Margin="0" ColumnSpacing="0">
@@ -518,6 +518,12 @@
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Grid>
+
+
+            <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.RowSpan="5" IsVisible="{Binding IsPageLoading}" 
+                       BackgroundColor="#66000000" HorizontalOptions="Fill" VerticalOptions="Fill" Margin="0,5,0,0">
+
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

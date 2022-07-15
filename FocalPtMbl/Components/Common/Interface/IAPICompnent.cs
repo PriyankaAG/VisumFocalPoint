@@ -23,6 +23,6 @@ namespace FocalPoint
 
         Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false);
 
-        Task<OrderDtlUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent);
+        Task<OrderUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent);
     }
 }
