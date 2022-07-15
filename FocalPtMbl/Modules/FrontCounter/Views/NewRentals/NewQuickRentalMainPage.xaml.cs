@@ -123,7 +123,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             AfterUpdate_OrderProcessing(orderRefresh);
         }
 
-        public async bool AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
+        public async Task<bool> AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
         {
             try
             {
@@ -183,11 +183,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return true;
                 else
                 {
-                   AfterUpdate_OrderProcessing(orderRefresh);
+                    return await AfterUpdate_OrderProcessing(orderRefresh);
                 }
             }
             catch (Exception)
             {
+                return false;
             }
         }
 
@@ -412,7 +413,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
             var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
-            if (isSuccess)
+            if (isSuccess.Result)
                 NavigateToDashboard();
             else
                 await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
@@ -441,7 +442,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
                         var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
 
-                        if (isSuccess)
+                        if (isSuccess.Result)
                         {
                             ////SEND EMAIL
                             IGeneralComponent generalComponent = new GeneralComponent();

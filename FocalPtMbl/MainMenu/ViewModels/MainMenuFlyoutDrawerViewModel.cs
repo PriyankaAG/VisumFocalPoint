@@ -291,7 +291,10 @@ namespace FocalPoint.MainMenu.ViewModels
 
         }
         public void OnManageProfile()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushPageFromMenu(typeof(AboutPageNew), "About");
+        }
         public async void OnLogOut()
         {
             bool loggedOut = await FocalPtMbl.App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");
