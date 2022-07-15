@@ -7,7 +7,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
         <ListView x:Name="MenuItemsListView" Grid.Row="0"
               SeparatorVisibility="None"
@@ -110,6 +110,7 @@
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageProfileCommand}"/>
+                    <!--<TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>-->
                 </Frame.GestureRecognizers>
             </Frame>
             <Frame Grid.Column="2" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >

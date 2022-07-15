@@ -285,8 +285,11 @@ namespace FocalPoint.MainMenu.ViewModels
 
         public void OnTimeClock()
         { }
-        public void OnManageProfile()
-        { }
+        public async void OnManageProfile()
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new AboutPageNew());
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new AboutPageNew());
+        }
         public async void OnLogOut()
         {
             bool loggedOut = await FocalPtMbl.App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");
