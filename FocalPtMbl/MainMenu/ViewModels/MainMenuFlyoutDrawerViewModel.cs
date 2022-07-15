@@ -294,6 +294,7 @@ namespace FocalPoint.MainMenu.ViewModels
         {
             var NavSer = DependencyService.Resolve<INavigationService>();
             NavSer.PushPageFromMenu(typeof(AboutPageNew), "About");
+
         }
         public async void OnLogOut()
         {

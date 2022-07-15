@@ -183,7 +183,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return true;
                 else
                 {
-                    return await AfterUpdate_OrderProcessing(orderRefresh);
+                   return await AfterUpdate_OrderProcessing(orderRefresh);
                 }
             }
             catch (Exception)
