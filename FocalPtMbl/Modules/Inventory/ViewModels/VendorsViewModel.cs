@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.Inventory.ViewModels
 {
@@ -70,12 +71,12 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         private string SearchText = "";
         private int StartIdx = 0;
         private int MaxCnt = 100;
-        public Vendors GetVendorsInfo()
+        public async Task<Vendors> GetVendorsInfo()
         {
             Vendors vendorsCntAndList = null;
             try
             {
-
+                Indicator = true;
                 Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Vendors/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
                 var stringContent = new StringContent(
                                           JsonConvert.SerializeObject(new { StoreID, SearchText, StartIdx, MaxCnt }),
@@ -83,7 +84,7 @@ namespace FocalPoint.Modules.Inventory.ViewModels
                                           "application/json");
 
                // ClientHTTP.DefaultRequestHeaders.Add("Token", "581543bd-ac48-414b-a356-643b2403eba3");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08");
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -106,6 +107,10 @@ namespace FocalPoint.Modules.Inventory.ViewModels
             }
             catch (Exception ex)
             { return vendorsCntAndList; }
+            finally
+            {
+                Indicator = false;
+            }
         }
 
         internal void GetSearchedVendorsInfo(string text)

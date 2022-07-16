@@ -52,12 +52,12 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         private string SearchText = "";
         private int StartIdx = 0;
         private int MaxCnt = 100;
-        internal void GetRentals()
+        internal async void GetRentals()
         {
             Visum.Services.Mobile.Entities.Rentals rentalCntAndList = null;
             try
             {
-
+                Indicator = true;
                 Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Rentals/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
                 var stringContent = new StringContent(
                                           JsonConvert.SerializeObject(new { SearchText, StartIdx, MaxCnt }),
@@ -65,7 +65,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
                                           "application/json");
 
 
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -89,7 +89,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
             catch (Exception ex)
             { 
             }
-
+            finally
+            {
+                Indicator = false;
+            }
         }
     }
 }

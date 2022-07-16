@@ -20,6 +20,7 @@
     <ContentPage.BindingContext>
         <viewModel:CashDrawerSummaryViewModel/>
     </ContentPage.BindingContext>
+    <Grid>
     <StackLayout BackgroundColor="#f5f6fa" Padding="5,5" Margin="5,5">
         <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
             <Grid.RowDefinitions>
@@ -41,8 +42,7 @@
                               SelectionChanged="ComboBoxEdit_SelectionChanged">
             </dxe:ComboBoxEdit>
             <Label Text="Date" Grid.Row="0" Grid.Column="1" FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
-            <dxe:DateEdit Date="{Binding SelectedDate}" DisplayFormat="d" 
-                          DateChanged="DateEdit_DateChanged" 
+            <dxe:DateEdit Date="{Binding SelectedDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Style="{StaticResource Key=DxeDateTime}" 
                           Grid.Row="1" Grid.Column="1" ReturnType="Default"></dxe:DateEdit>
             <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Search" HeightRequest="40" 
                     Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked" 
@@ -73,4 +73,6 @@
             
         </Grid>
     </StackLayout>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

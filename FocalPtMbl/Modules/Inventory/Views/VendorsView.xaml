@@ -10,7 +10,7 @@
     <ContentPage.BindingContext>
         <viewModel:VendorsViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
         <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Label Text="Search" Margin="5,10,10,0" FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
             <dxe:TextEdit PlaceholderText="Vendor Search" 
@@ -31,52 +31,54 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="5, 5, 0, 0" Margin="0,5" 
-                              BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding VenName}" Margin="0,2" TextColor="#3A3A3A"></Label>
-                            <Label Grid.Row="1" Grid.Column="0" TextColor="DarkSlateBlue">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <FormattedString.Spans>
-                                            <Span Text="Phone: " FontAttributes="Bold" />
-                                            <Span Text="{Binding VenPhone}" />
-                                        </FormattedString.Spans>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Grid.Row="1" Grid.Column="1" Margin="20,2" TextColor="DarkSlateBlue">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <FormattedString.Spans>
-                                            <Span Text="City: " FontAttributes="Bold" />
-                                            <Span Text="{Binding VenCity}" />
-                                        </FormattedString.Spans>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,2" TextColor="DarkSlateBlue">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <FormattedString.Spans>
-                                            <Span Text="Email: " FontAttributes="Bold" />
-                                            <Span Text="{Binding VenEMail}" />
-                                        </FormattedString.Spans>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </Grid>
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding VenName}" Margin="0,2" TextColor="Black"></Label>
+                                <Label Grid.Row="1" Grid.Column="0" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Phone: " FontAttributes="Bold"/>
+                                                <Span Text="{Binding VenPhone, TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="1" Grid.Column="1" Margin="20,2" LineBreakMode="TailTruncation" MaxLines="2" TextColor="Black">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="City: " FontAttributes="Bold" />
+                                                <Span Text="{Binding VenCity, TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,2" TextColor="Black" LineBreakMode="TailTruncation" MaxLines="2">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Email: " FontAttributes="Bold" />
+                                                <Span Text="{Binding VenEMail, TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>
             </dxcv:DXCollectionView>
         </StackLayout>
-    </StackLayout>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

@@ -91,29 +91,31 @@
                         Tap="ItemSelected">
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowSpacing="10" Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                            </Grid.RowDefinitions>
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <Grid RowSpacing="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" FontAttributes="Bold" Grid.Row="0" Font="black" LineBreakMode="TailTruncation">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <FormattedString.Spans>
-                                            <Span Text="{Binding Line1}" FontAttributes="Bold" />
-                                        </FormattedString.Spans>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
-                        </Grid>
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" FontAttributes="Bold" Grid.Row="0" Font="black" LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Line1}" FontAttributes="Bold" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>
             </dxcv:DXCollectionView>

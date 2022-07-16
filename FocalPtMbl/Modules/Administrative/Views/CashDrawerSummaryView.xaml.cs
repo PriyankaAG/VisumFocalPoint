@@ -40,12 +40,15 @@ namespace FocalPoint.Modules.Administrative.Views
             DevExpress.XamarinForms.Editors.Initializer.Init();
             //BindingContext = new CashDrawerSummaryViewModel();
             InitializeComponent();
-            
+
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawers();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawers();
+            });
         }
 
 

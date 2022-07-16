@@ -17,8 +17,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
         public OpenRentalsView()
         {
             InitializeComponent();
-            ((OpenRentalsViewModel)this.BindingContext).GetRentals();
             //this.Title = "View";
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((OpenRentalsViewModel)this.BindingContext).GetRentals();
+            });
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {

@@ -12,7 +12,7 @@
     <ContentPage.BindingContext>
         <viewModel:OpenRentalsViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
         <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Label Text="Search" Margin="10,10,10,0" FontSize="Default" Style="{StaticResource Key=LabelDashboardHeader}" />
             <dxe:TextEdit PlaceholderText="Rental Item Search" 
@@ -32,36 +32,38 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                            </Grid.RowDefinitions>
-                            <!--<StackLayout Grid.Column="0" 
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <!--<StackLayout Grid.Column="0" 
                              Padding="18,1,18,7"
                              Orientation="Vertical">-->
-                            <Label Grid.Row="0" Grid.Column="0" Text="Description: " FontAttributes="Bold" Margin="10,0" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="0" Text="Equip ID:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="0" Text="Store:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+                                <Label Grid.Row="0" Grid.Column="0" Text="Description: " FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="Equip ID:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
+                                <Label Grid.Row="2" Grid.Column="0" Text="Store:" FontAttributes="Bold" Margin="10,0" TextColor="Black" />
 
-                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding RentalDscr}" TextColor="Black" />
-                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding RentalEquipID}" TextColor="Black" />
-                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding RentalBelongsTo}" TextColor="Black" />
-                            <!--<BoxView WidthRequest=".5" BackgroundColor="Black" Grid.Row="4" Grid.ColumnSpan="3"/>-->
-                            <!--<Label Grid.Row="1" Grid.Column="3"  Text="{Binding State}"
+                                <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RentalDscr , TargetNullValue={StaticResource UnknownValue}}" TextColor="Black" LineBreakMode="TailTruncation" MaxLines="2" />
+                                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RentalEquipID , TargetNullValue={StaticResource UnknownValue}}" TextColor="Black" />
+                                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RentalBelongsTo, TargetNullValue={StaticResource UnknownValue}}" TextColor="Black" />
+                                <!--<BoxView WidthRequest=".5" BackgroundColor="Black" Grid.Row="4" Grid.ColumnSpan="3"/>-->
+                                <!--<Label Grid.Row="1" Grid.Column="3"  Text="{Binding State}"
                                Margin="0,2"
                                TextColor="#505050"/>
                         <Label Grid.Row="2" Grid.Column="3"  Text="{Binding Zip}"
                                Margin="0,2"
                                TextColor="#505050"/>-->
-                            <!--</StackLayout>-->
-                        </Grid>
+                                <!--</StackLayout>-->
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>
 
@@ -89,5 +91,6 @@
                               HeightRequest="50"
                               Clicked="SimpleButton_Clicked" />-->
         </StackLayout>
-    </StackLayout>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>
