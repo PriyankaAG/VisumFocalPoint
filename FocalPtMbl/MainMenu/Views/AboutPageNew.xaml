@@ -1,13 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.MainMenu.Views.AboutPageNew"
-             BackgroundColor="White">
+             xmlns:viewModel="clr-namespace:FocalPtMbl.MainMenu.ViewModels"
+             x:Class="FocalPoint.MainMenu.Views.AboutPageNew" 
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+             Title="FocalPoint Mobile">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+        <StackLayout Grid.Row="0" VerticalOptions="Start" Margin="5,15,5,5">
+            <Image HorizontalOptions="Center" Aspect="AspectFill" Source="FPMobile.png" />
+                <Label x:Name="version" Grid.Row="0" Text="Version:" HorizontalOptions="Center" Style="{DynamicResource LabelDefault}" />
+            <Grid Grid.Row="0" ColumnSpacing="20" Margin="5,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+                    <Label TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start" Text="Visum LLC" Grid.Row="0" Style="{DynamicResource LabelDashboardHeader}" />
+                    <Label TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start" Text="901 159th Avenue NE" Grid.Row="1" Style="{DynamicResource LabelDefault}"/>
+                    <Label TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start" Text="Ham Lake. MN 55304" Grid.Row="2" Style="{DynamicResource LabelDefault}"/>
+                    <Label VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text="(763)244-8050" Grid.Row="3" Style="{DynamicResource LabelDefault}">
+                <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+                    <Label VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text="www.Visum-Corp.com" Grid.Row="4" Style="{DynamicResource LabelDefault}">
+                <Label.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1"/>
+                </Label.GestureRecognizers>
+            </Label>
+                    <Label VerticalTextAlignment="Start" TextDecorations="Underline" TextColor="Blue" Text="Support@Visum-Corp.com" Grid.Row="5" Style="{DynamicResource LabelDefault}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
+                </Label.GestureRecognizers>
+            </Label>
+                    <Label x:Name="apiVersion" TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start" Margin="0,30,0,0" Grid.Row="6" Style="{DynamicResource LabelDefault}"/>
+                    <Label x:Name="apiSvcVersion" TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start"  Grid.Row="7" Style="{DynamicResource LabelDefault}"/>
+                    <Label x:Name="dbVersion" TextColor="{DynamicResource TextThemeColor}" VerticalTextAlignment="Start" Grid.Row="8" Style="{DynamicResource LabelDefault}"/>
+        </Grid>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -293,7 +293,7 @@ namespace FocalPoint.MainMenu.ViewModels
         public void OnManageProfile()
         {
             var NavSer = DependencyService.Resolve<INavigationService>();
-            NavSer.PushPageFromMenu(typeof(AboutPageNew), "About");
+            NavSer.PushPageFromMenu(typeof(AboutPageNew), "FocalPoint Mobile");
 
         }
         public async void OnLogOut()

@@ -132,30 +132,34 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     if (OrderType == 1)
                     {
                         OpenOrders.Clear();
-                        Parallel.ForEach(orderCntAndList.List, order =>
-                        {
-                            OpenOrders.Add(order);
-                        });
+                        OpenOrders = new ObservableCollection<Order>(orderCntAndList.List);
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenOrders.Add(order);
+                        //};
                         StartIdxOrd = MaxCntOrd;
                         MaxCntOrd = StartIdxOrd + 100;
                     }
                     if (OrderType == 2)
                     {
                         OpenReserv.Clear();
-                        Parallel.ForEach(orderCntAndList.List, order =>
-                        {
-                            OpenReserv.Add(order);
-                        });
+                        OpenReserv = new ObservableCollection<Order>(orderCntAndList.List);
+
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenReserv.Add(order);
+                        //};
                         StartIdxRes = MaxCntRes;
                         MaxCntRes = StartIdxRes + 100;
                     }
                     if (OrderType == 3)
                     {
                         OpenQuote.Clear();
-                        Parallel.ForEach(orderCntAndList.List, order =>
-                        {
-                            OpenQuote.Add(order);
-                        });
+                        OpenQuote = new ObservableCollection<Order>(orderCntAndList.List);
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenQuote.Add(order);
+                        //};
                         StartIdxQuote = MaxCntQuote;
                         MaxCntQuote = StartIdxQuote + 100;
                     }
