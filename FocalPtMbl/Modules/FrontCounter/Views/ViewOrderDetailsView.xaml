@@ -11,6 +11,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter" />
+            <converters:StringToPhoneConverter x:Key="stringToPhoneConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.BindingContext>
@@ -37,8 +38,8 @@
                             <Label Grid.Row="0" Grid.Column="0" Text="{Binding SelectedOrder.Customer.CustomerName, StringFormat='Company: {0}'}" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                             <!--<Label Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.Customer.CustomerName}" TextColor="Black" YAlign="Center"  />-->
                             <Grid>
-                                <controls:LabelTextCustomControl Grid.Row="0" Title="Out Date/Time:" Value="{Binding SelectedOrder.OrderODte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
-                                <controls:LabelTextCustomControl Grid.Row="1" Title="Due Date/Time:" Value="{Binding SelectedOrder.OrderDDte, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="0" Title="Out Date/Time:" Value="{Binding SelectedOrder.OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Due Date/Time:" Value="{Binding SelectedOrder.OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                                 <controls:LabelTextCustomControl Grid.Row="2" Title="PO Number:" Value="{Binding SelectedOrder.OrderPO}" />
                                 <controls:LabelTextCustomControl Grid.Row="3" Title="Job Number:" Value="{Binding SelectedOrder.OrderCustJobNo}" />
                                 <controls:LabelTextCustomControl Grid.Row="4" Title="Tax Code:" Value="{Binding SelectedOrder.TaxCodeDscr}" />
@@ -82,21 +83,21 @@
                                 <StackLayout Grid.Row="2" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
                                     <controls:LabelTextCustomControl VerticalOptions="FillAndExpand" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}" Title="" Value="{Binding SelectedOrder.Customer.CustomerAddr2}" />
                                 </StackLayout>
-                                <StackLayout Grid.Row="3" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone,StringFormat='{}{0:}', Converter={StaticResource StringNullOrEmptyBoolConverter}}">
-                                    <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType}" Value="{Binding SelectedOrder.Customer.CustomerPhone, StringFormat='{}{0:(###) ###-####}'}">
-                                        <controls:LabelTextCustomControl.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
-                                        </controls:LabelTextCustomControl.GestureRecognizers>
-                                    </controls:LabelTextCustomControl>
-                                </StackLayout>
-                                <StackLayout Grid.Row="4" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
-                                    <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType2}" Value="{Binding SelectedOrder.Customer.CustomerPhone2, StringFormat='{}{0:(###) ###-####}'}">
-                                        <controls:LabelTextCustomControl.GestureRecognizers>
-                                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
-                                        </controls:LabelTextCustomControl.GestureRecognizers>
-                                    </controls:LabelTextCustomControl>
-                                </StackLayout>
-                                <controls:LabelTextCustomControl Grid.Row="5" Title="Email:" Value="{Binding SelectedOrder.Customer.CustomerEmail}" TextColorValue="Blue">
+                            <StackLayout Grid.Row="3" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone,StringFormat='{}{0:}', Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType}" Value="{Binding SelectedOrder.Customer.CustomerPhone, StringFormat='{}{0:(###) ###-####}'}">
+                                    <controls:LabelTextCustomControl.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
+                                    </controls:LabelTextCustomControl.GestureRecognizers>
+                                </controls:LabelTextCustomControl>
+                            </StackLayout>
+                            <StackLayout Grid.Row="4" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType2}" Value="{Binding SelectedOrder.Customer.CustomerPhone2, StringFormat='{}{0:(###) ###-####}'}">
+                                    <controls:LabelTextCustomControl.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
+                                    </controls:LabelTextCustomControl.GestureRecognizers>
+                                </controls:LabelTextCustomControl>
+                            </StackLayout>
+                            <controls:LabelTextCustomControl Grid.Row="5" Title="Email:" Value="{Binding SelectedOrder.Customer.CustomerEmail}" TextColorValue="Blue">
                                     <controls:LabelTextCustomControl.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_3" />
                                     </controls:LabelTextCustomControl.GestureRecognizers>
@@ -160,7 +161,7 @@
                                 <controls:LabelTextCustomControl Grid.Row="16" Title="Security Deposit:" Value="{Binding Order.TotalSecDepositAmt, StringFormat='{}{0:C}'}" />
                                 <controls:LabelTextCustomControl Grid.Row="17" Title="Balance Due:" Value="{Binding Order.TotalDueAmt, StringFormat='{}{0:C}'}" />
                                 <controls:LabelTextCustomControl Grid.Row="18" Title="Deposit Requested:" Value="{Binding Order.OrderDepositRequested, StringFormat='{}{0:C}'}" />
-                                <controls:LabelTextCustomControl Grid.Row="19" Title="Deposit Due Date:" Value="{Binding Order.OrderDepositDueDte, StringFormat='{0:MM/dd/yy}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="19" Title="Deposit Due Date:" Value="{Binding Order.OrderDepositDueDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                             </Grid>
                         </StackLayout>
                     </ScrollView>
@@ -181,7 +182,7 @@
                                                     <Label TextColor="Black" Text="{Binding Payment.PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
                                                     <Label TextColor="Black" Text="{Binding Payment.PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
                                                 </StackLayout>
-                                                <Label TextColor="Black" Text="  {Binding Payment.PaymentPDte, StringFormat='{0:MM/dd/yy}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
+                                            <Label TextColor="Black" Text="  {Binding Payment.PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
                                             </StackLayout>
                                         </ViewCell>
                                     </DataTemplate>
@@ -231,9 +232,9 @@
                     <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <StackLayout Margin="5,5">
                             <Label Text="Delivery" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                            <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                             <Label Text="Pickup" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                            <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yy}'}" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                         </StackLayout>
                     </ScrollView>
             </dxn:TabViewItem.Content>

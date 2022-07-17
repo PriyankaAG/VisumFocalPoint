@@ -56,13 +56,13 @@
                     <ColumnDefinition Width="65*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Truck  "
+                <!--<Label Text="Truck  "
                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  
                  Margin="5,0"
                  TextColor="Black"
                  XAlign="Start"
                  YAlign="Center"
-                 Font="black" FontAttributes="Bold"/>
+                 Font="black" FontAttributes="Bold"/>-->
             </Grid>
 
             <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -76,7 +76,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Description: " FontAttributes="Bold"/>
+                                <Span Text="Truck: " FontAttributes="Bold"/>
                                 <Span Text="{Binding Truck.TruckDscr}" />
                             </FormattedString.Spans>
                         </FormattedString>
@@ -92,6 +92,20 @@
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Grid RowSpacing="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

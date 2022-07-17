@@ -32,10 +32,17 @@ namespace FocalPoint.Modules.CustomerRelations.Views
             });
             //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
+            {
                 await OpenDetailPage(GetCustInfo(args.Item));
+                collectionView.SelectedItem = null;
+            }
         }
         private Customer GetCustInfo(object item)
         {

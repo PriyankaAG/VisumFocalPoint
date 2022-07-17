@@ -12,7 +12,7 @@
              ItemHeaderWidth="*" Title="{Binding Name}" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Info" Icon="user.png">
+            <ContentPage Title="Info" Icon="our_customers_b_96.png">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                         <Label Text="{Binding Name, StringFormat='Customer Information {0}'}" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
@@ -55,7 +55,7 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Notes" Icon="Order_32.png">
+            <ContentPage Title="Notes" Icon="notes_96.png">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <Label Margin="5,5" Text="{Binding Notes}" />
                 </ScrollView>
@@ -65,7 +65,7 @@
 
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Balance" Icon="dollar.png" 
+            <ContentPage Title="Balance" Icon="sign_dollar_96.png" 
                          Appearing="ContentPage_Appearing">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">

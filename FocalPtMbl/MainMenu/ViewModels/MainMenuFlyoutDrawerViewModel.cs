@@ -196,7 +196,7 @@ namespace FocalPoint.MainMenu.ViewModels
                 MenuItems.Add(new MainMenuFlyoutFlyoutMenuItem()
                 {
                     Id = 4,
-                    Title = "Customer Relations",
+                    Title = "Customer Center",
                     Icon = "customer_relations.png",
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
@@ -235,8 +235,8 @@ namespace FocalPoint.MainMenu.ViewModels
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
-                            Title = "Rental File List",
-                            SubItemText = "Rental File List",
+                            Title = "Rental List",
+                            SubItemText = "Rental List",
                             IsVisible = true,
                             SubText_TargetType = typeof(OpenRentalsView)
                         },

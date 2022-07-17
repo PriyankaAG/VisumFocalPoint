@@ -52,9 +52,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         private string SearchText = "";
         private int StartIdx = 0;
         private int MaxCnt = 100;
-        internal async void GetRentals()
+        internal async void GetRentals(string searchText)
         {
-            Visum.Services.Mobile.Entities.Rentals rentalCntAndList = null;
+            StartIdx = 0;
+            SearchText = searchText;
             try
             {
                 Indicator = true;
@@ -69,19 +70,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
-                    rentalCntAndList = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.Rentals>(content);
-                    StartIdx = rentalCntAndList.TotalCnt;
-                    if (recent == null)
-                    {
-                        Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
-                    }
-                    else
-                    {
-                        foreach (var rental in rentalCntAndList.List)
-                        {
-                            Recent.Add(rental);
-                        }
-                    }
+                    Visum.Services.Mobile.Entities.Rentals rentalCntAndList = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.Rentals>(content);
+                    //StartIdx = rentalCntAndList.TotalCnt;
+                    Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
+
+                    //if (recent == null)
+                    //{
+                    //    Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
+                    //}
+                    //else
+                    //{
+                    //    foreach (var rental in rentalCntAndList.List)
+                    //    {
+                    //        Recent.Add(rental);
+                    //    }
+                    //}
 
                 }
                

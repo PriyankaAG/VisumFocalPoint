@@ -58,7 +58,7 @@
 
                                 <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
 
-                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{}{0:MM/dd/yyyy}'}" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" Style="{DynamicResource LabelListDetail}"/>
                                 
                                 <BoxView Grid.Row="1" Grid.ColumnSpan="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
 

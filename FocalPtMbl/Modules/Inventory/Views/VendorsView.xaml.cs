@@ -29,13 +29,16 @@ namespace FocalPoint.Modules.Inventory.Views
             this.inNavigation = false;
             Device.BeginInvokeOnMainThread(() =>
             {
-                ((VendorsViewModel)this.BindingContext).GetVendorsInfo();
+                _ = ((VendorsViewModel)this.BindingContext).GetVendorsInfo();
             });
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
+            {
                 await OpenDetailPage(GetCustInfo(args.Item));
+                collectionView.SelectedItem = null;
+            }
         }
         private Vendor GetCustInfo(object item)
         {

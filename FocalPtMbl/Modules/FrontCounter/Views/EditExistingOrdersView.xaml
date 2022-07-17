@@ -49,7 +49,21 @@
 
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 0, 0" Margin="0,5">
+                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 5, 5" Margin="0,5">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BorderColor" Value="Orange" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
                                         <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -75,8 +89,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Out Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Out: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>
@@ -85,8 +99,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Due Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Due: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>
@@ -145,7 +159,21 @@
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True"
-                                           Padding="5, 5, 0, 0" Margin="0,5">
+                                           Padding="5, 5" Margin="0,5">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BorderColor" Value="Orange" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
                                         <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -171,8 +199,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Out Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Out: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>
@@ -181,8 +209,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Due Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Due: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>
@@ -240,7 +268,21 @@
 
                             <dxcv:DXCollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 0, 0" Margin="0,5">
+                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 5, 5" Margin="0,5">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BorderColor" Value="Orange" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
                                         <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -266,8 +308,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Out Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Out: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>
@@ -276,8 +318,8 @@
                                                 <Label.FormattedText>
                                                     <FormattedString>
                                                         <FormattedString.Spans>
-                                                            <Span Text="Due Date: " FontAttributes="Bold" />
-                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm}', TargetNullValue={StaticResource UnknownValue}}" />
+                                                            <Span Text="Due: " FontAttributes="Bold" />
+                                                            <Span Text="{Binding OrderDDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                                         </FormattedString.Spans>
                                                     </FormattedString>
                                                 </Label.FormattedText>

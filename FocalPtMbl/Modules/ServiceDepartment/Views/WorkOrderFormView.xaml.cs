@@ -27,6 +27,7 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
+            searchorderText.Text = "";
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await ((WorkOrderFormViewModel)BindingContext).GetSearchedWorkOrdersInfo("");
@@ -66,6 +67,7 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
         private void TextEdit_Completed(object sender, EventArgs e)
         {
             ((WorkOrderFormViewModel)this.BindingContext).GetSearchedWorkOrdersInfo((sender as TextEdit).Text);
+            (sender as TextEdit).Focus();
         }
         private void TextEdit_Cleared(object sender, EventArgs e)
         {

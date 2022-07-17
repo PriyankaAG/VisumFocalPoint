@@ -7,9 +7,9 @@
             <StackLayout Margin="5,5">
                 <Label Text="Ticket Information" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                 <controls:LabelTextCustomControl Title="Contract:" Value="{Binding OrderNumberT}" />
-                <controls:LabelTextCustomControl Title="Called In:" Value="{Binding PuCDte}" />
-                <controls:LabelTextCustomControl Title="Billing Stop:" Value="{Binding PuPDte}" />
-                <controls:LabelTextCustomControl Title="Created On:" Value="{Binding PuEDte}" />
+                <controls:LabelTextCustomControl Title="Called In:" Value="{Binding PuCDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                <controls:LabelTextCustomControl Title="Billing Stop:" Value="{Binding PuPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                <controls:LabelTextCustomControl Title="Created On:" Value="{Binding PuEDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                 <controls:LabelTextCustomControl Title="Created By:" Value="{Binding PuEEmpid}" />
 
                 <Label Text="Customer" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />

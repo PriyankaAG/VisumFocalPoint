@@ -5,11 +5,13 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels"
-             ios:Page.UseSafeArea="True" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels" xmlns:conv="clr-namespace:FocalPoint.Converters" ios:Page.UseSafeArea="True" BackgroundColor="{DynamicResource BackgroundThemeColor}">
     <ContentPage.BindingContext>
         <viewModel:CustomerSimpleViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <conv:StringToPhoneConverter x:Key="stringToPhoneConverter" />
+    </ContentPage.Resources>
     <Grid BackgroundColor="{DynamicResource MainPageBackgroundColor}">
         <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Label Text="Search" Margin="5,10,10,0" 
@@ -23,16 +25,34 @@
                 Text="" 
                 Margin="5,0"></dxe:TextEdit>
         <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Recent}" IndicatorColor="Lime" Margin="5,0" Tap="ItemSelected"
-            LoadMoreCommand="{Binding LoadMoreCommand}"
-            IsLoadMoreEnabled="True"
-                           IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+                           ItemsSource="{Binding Recent}" 
+                               IndicatorColor="Lime"
+                               Margin="5,0" 
+                               Tap="ItemSelected"
+                               SelectionMode="Single"
+                               LoadMoreCommand="{Binding LoadMoreCommand}"
+                               IsLoadMoreEnabled="True"
+                               IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
             <!--Define the item template.-->
 
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate>
                         <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True"
                                Padding="5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -43,13 +63,23 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CustomerName}" Margin="10,0" TextColor="#3A3A3A" />
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CustomerName}" Margin="10,0" TextColor="#3A3A3A">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding CustomerNo}"/>
+                                                <Span Text=" " />
+                                                <Span Text="{Binding CustomerName}"/>
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
                                 <Label Grid.Row="1" Grid.Column="0" LineBreakMode="TailTruncation" MaxLines="2" Margin="10,0" TextColor="#3A3A3A">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
                                                 <Span Text="Phone: " FontAttributes="Bold" />
-                                                <Span Text="{Binding CustomerPhone, TargetNullValue={StaticResource UnknownValue}}" TextColor="Blue" />
+                                                <Span Text="{Binding CustomerPhone, Converter={StaticResource stringToPhoneConverter}, TargetNullValue={StaticResource UnknownValue}}" TextColor="Blue" />
                                             </FormattedString.Spans>
                                         </FormattedString>
                                     </Label.FormattedText>

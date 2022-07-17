@@ -165,6 +165,8 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
             Indicator = true;
             Customers customersCntAndList = null;
             Customer customersist = null;
+            StartIdx = 0;
+            StoreID = DataManager.Settings.HomeStore;
             try
             {
                 Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Customers/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
@@ -184,17 +186,19 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                     // var asdf  = JsonConvert.DeserializeObject(content);
                     customersCntAndList = JsonConvert.DeserializeObject<Customers>(content);
                     StartIdx = customersCntAndList.TotalCnt;
-                    if (recent == null)
-                    {
-                        Recent = new ObservableCollection<Customer>(customersCntAndList.List);
-                    }
-                    else
-                    {
-                        foreach (var customer in customersCntAndList.List)
-                        {
-                            Recent.Add(customer);
-                        }
-                    }
+                    Recent = new ObservableCollection<Customer>(customersCntAndList.List);
+
+                    //if (recent == null)
+                    //{
+                    //    Recent = new ObservableCollection<Customer>(customersCntAndList.List);
+                    //}
+                    //else
+                    //{
+                    //    foreach (var customer in customersCntAndList.List)
+                    //    {
+                    //        Recent.Add(customer);
+                    //    }
+                    //}
 
                     //var custList = JsonConvert.DeserializeObject<List<FocalPoint.Data.DataLayer.Customer>(content);
                     // Recent = (ObservableCollection<FocalPoint.Data.DataLayer.Customer>)CustList;

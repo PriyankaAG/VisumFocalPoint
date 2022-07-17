@@ -19,7 +19,7 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
     {
         public WorkOrderFormTabDetailsView(WorkOrder workOrder)
         {
-            DevExpress.XamarinForms.Navigation.Initializer.Init();
+            //DevExpress.XamarinForms.Navigation.Initializer.Init();
             this.viewModel = new WorkOrderFormTabDetailsViewModel(workOrder);
             BindingContext = this.viewModel;
             this.Title = "Work Order: " + workOrder.WONo.ToString();

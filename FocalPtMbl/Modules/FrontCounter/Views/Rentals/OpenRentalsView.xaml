@@ -24,6 +24,7 @@
                                    SelectedItem="{Binding SelectedRentalItem}" 
                                    IndicatorColor="Lime"
                                    Tap="ItemSelected"
+                                   SelectionMode="Single"
                                    SelectionChanged="collectionView_SelectionChanged" 
                                    LoadMoreCommand="{Binding LoadMoreCommand}" 
                                    IsLoadMoreEnabled="True" Margin="5,0"
@@ -33,6 +34,20 @@
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />

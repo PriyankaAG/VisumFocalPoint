@@ -26,7 +26,7 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         readonly CustomerDetailViewModel viewModel;
         public CustomerDetailView(Customer cust)
         {
-            DevExpress.XamarinForms.Navigation.Initializer.Init();
+            //DevExpress.XamarinForms.Navigation.Initializer.Init();
             this.viewModel = new CustomerDetailViewModel(cust);
             InitializeComponent();
             BindingContext = this.viewModel;

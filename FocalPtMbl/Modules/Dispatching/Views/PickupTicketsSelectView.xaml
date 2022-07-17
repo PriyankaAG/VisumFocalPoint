@@ -23,6 +23,7 @@
                            SelectedItem="{Binding SelectedTicket}"
                            IndicatorColor="Lime"
                            Tap="ItemSelected"
+                                   SelectionMode="Single"
                         LoadMoreCommand="{Binding LoadMoreCommand}"
                         IsLoadMoreEnabled="True"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
@@ -31,16 +32,29 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True"
-                               Padding="0, 5" Margin="0,5">
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="22" />
-                                    <RowDefinition Height="22" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" TextColor="#3A3A3A"

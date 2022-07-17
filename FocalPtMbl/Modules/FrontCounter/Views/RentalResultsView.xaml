@@ -12,12 +12,27 @@
                 <dxcv:DXCollectionView x:Name="collectionView" 
                                        ItemsSource="{Binding Recent}"
                                        Margin="5,0" 
+                                       SelectionMode="Single"
                                        IndicatorColor="Lime">
                     <!--Define the item template.-->
 
                     <dxcv:DXCollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="Orange" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
                                 <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -99,7 +114,7 @@
                                             <FormattedString>
                                                 <FormattedString.Spans>
                                                     <Span Text="Start Date: " FontAttributes="Bold" />
-                                                    <Span Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    <Span Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                                                 </FormattedString.Spans>
                                             </FormattedString>
                                         </Label.FormattedText>
@@ -109,7 +124,7 @@
                                             <FormattedString>
                                                 <FormattedString.Spans>
                                                     <Span Text="End Date: " FontAttributes="Bold" />
-                                                    <Span Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy hh:mm}'}" />
+                                                    <Span Text="{Binding EndDate, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                                                 </FormattedString.Spans>
                                             </FormattedString>
                                         </Label.FormattedText>
