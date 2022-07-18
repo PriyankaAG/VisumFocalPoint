@@ -21,32 +21,32 @@
                         <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Type:" Value="{Binding Type_Display}" />
 
                         <Label Text="Phone Numbers" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="4" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 1:" Value="{Binding Phone}" TextColorValue="#959aa0">
+                        <controls:LabelTextCustomControl Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 1:" Value="{Binding Phone}" TextColorValue="#959aa0">
                             <!--<controls:LabelTextCustomControl.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CallPhone}" />
                             </controls:LabelTextCustomControl.GestureRecognizers>-->
                         </controls:LabelTextCustomControl>
-                        <controls:LabelTextCustomControl Grid.Row="4" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 2:" Value="{Binding Phone2}" />
+                        <controls:LabelTextCustomControl Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 2:" Value="{Binding Phone2}" />
 
-                        <Label Text="Email Addresses" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="6" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 1:" Value="{Binding Email}" />
-                        <controls:LabelTextCustomControl Grid.Row="6" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 2:" Value="{Binding Email2}" />
-                        <controls:LabelTextCustomControl Grid.Row="7" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 3:" Value="{Binding Email3}" />
+                        <Label Text="Email Addresses" Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 1:" Value="{Binding Email}" />
+                        <controls:LabelTextCustomControl Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 2:" Value="{Binding Email2}" />
+                        <controls:LabelTextCustomControl Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 3:" Value="{Binding Email3}" />
 
-                        <Label Text="Primary Address" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding Addr1}" />
-                        <controls:LabelTextCustomControl Grid.Row="10" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding City}" />
-                        <controls:LabelTextCustomControl Grid.Row="10" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding State}" />
-                        <controls:LabelTextCustomControl Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding Zip}" />
+                        <Label Text="Primary Address" Grid.Row="10" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding Addr1}" />
+                        <controls:LabelTextCustomControl Grid.Row="12" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding City}" />
+                        <controls:LabelTextCustomControl Grid.Row="12" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding State}" />
+                        <controls:LabelTextCustomControl Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding Zip}" />
 
-                        <Label Text="Billing Address" Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding BillAddr1}" />
-                        <controls:LabelTextCustomControl Grid.Row="14" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding BillCity}" />
-                        <controls:LabelTextCustomControl Grid.Row="14" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding BillState}" />
-                        <controls:LabelTextCustomControl Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"  RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding BillZip}" />
+                        <Label Text="Billing Address" Grid.Row="14" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding BillAddr1}" />
+                        <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding BillCity}" />
+                        <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding BillState}" />
+                        <controls:LabelTextCustomControl Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"  RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding BillZip}" />
 
-                        <Label Text="Other" Grid.Row="16" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="17" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Last Updated:" Value="{Binding BillZip}" />
+                        <Label Text="Other" Grid.Row="18" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="19" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Last Updated:" Value="{Binding BillZip}" />
                     </Grid>
                 </ScrollView>
             </ContentPage>
