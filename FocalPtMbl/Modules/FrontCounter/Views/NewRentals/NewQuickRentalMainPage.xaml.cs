@@ -328,7 +328,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             var NavSer = DependencyService.Resolve<INavigationService>();
 
-            await NavSer.PushPageFromMenu(typeof(FrontCounter), "Dashboard");
+            await NavSer.PushPageFromMenu(typeof(FocalPtMbl.MainMenu.Views.MainPage), "Dashboard");
         }
         private async void InternalNotes_Clicked(object sender, EventArgs e)
         {

@@ -165,7 +165,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
-                return IsSaveEnabled && CurrentOrder.Customer.CustomerType != "C";
+                return IsSaveEnabled && SelectedCustomer.CustomerType != "C";
             }
         }
         Decimal? _balanceDue;
@@ -207,6 +207,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 OnPropertyChanged(nameof(SelectedCustomerEmail));
                 OnPropertyChanged(nameof(IsCustomerSelected));
                 OnPropertyChanged("IsSaveEnabled");
+                OnPropertyChanged("IsPaymentEnabled");
             }
         }
         Customer _selectedCustomerEmail;
