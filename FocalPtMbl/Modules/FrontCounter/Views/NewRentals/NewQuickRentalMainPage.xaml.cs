@@ -221,7 +221,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             else if (selectedItem == "Rate Tables")
             {
                 AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 6);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;

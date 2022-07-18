@@ -16,12 +16,12 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
 
-                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}"
+                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}" x:Name="pickerSearchIn"
                                                        ItemsSource="{Binding SearchInList}"/>
 
                         <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
@@ -62,8 +62,8 @@
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="5*" />
+                                                    <ColumnDefinition Width="5*" />
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
                                                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailPotenQty, StringFormat='Potential: {0}'}" />

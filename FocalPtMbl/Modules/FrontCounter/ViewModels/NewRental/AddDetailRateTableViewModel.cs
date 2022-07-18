@@ -10,7 +10,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 {
     public class AddDetailRateTableViewModel : AddDetailCommonViewModel
     {
-        public AddDetailRateTableViewModel(string itemType, Int16 searchIn = 1) : base(itemType)
+        public AddDetailRateTableViewModel(string itemType, Int16 searchIn = 6) : base(itemType)
         {
             SearchIn = searchIn;
             populateSearchInList();
@@ -47,7 +47,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             try
             {
                 Indicator = true;
-                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn), CurrentOrder.OrderType);
+                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn), CurrentOrder.OrderType, SearchIn);
 
                 if (customersCntAndList != null)
                 {

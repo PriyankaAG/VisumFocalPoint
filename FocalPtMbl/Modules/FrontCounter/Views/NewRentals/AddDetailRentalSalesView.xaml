@@ -19,7 +19,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
                         <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}"
                                                        ItemsSource="{Binding SearchInList}"/>
 
-                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
+                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Saleable" x:Name="SearchTextEditor"/>
                         <Image Source="search.png" Grid.Column="2" WidthRequest="40" HorizontalOptions="End">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Search_Tapped"/>
@@ -63,14 +63,14 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition Width="5*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailRetail, StringFormat='Retail: {0:C}'}" />
-                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailSellPrice, StringFormat='Sell: {0:C}'}" />
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
+                                        <Label Grid.Row="2" Grid.Column="0" Text="{Binding AvailRetail, StringFormat='Retail: {0:C}'}" />
+                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailSellPrice, StringFormat='Sell: {0:C}'}" />
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

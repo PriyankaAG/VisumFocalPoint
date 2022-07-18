@@ -13,8 +13,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         public AddDetailRentalViewModel(string itemType, Int16 searchIn = 1) : base(itemType)
         {
             SearchIn = searchIn;
+            ItemType = itemType;
             populateSearchInList();
         }
+
+        public string ItemType { get; set; }
 
         ObservableCollection<AvailabilityRent> recent;
         public ObservableCollection<AvailabilityRent> Recent
@@ -29,11 +32,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         public override void populateSearchInList()
         {
-            SearchInList = new String[4];
-            SearchInList[0] = "Description";
-            SearchInList[1] = "Equipment ID";
-            SearchInList[2] = "Barcode";
-            SearchInList[3] = "Serial Number";
+            if (ItemType == "Rentals")
+            {
+                SearchInList = new String[4];
+                SearchInList[0] = "Description";
+                SearchInList[1] = "Equipment ID";
+                SearchInList[2] = "Barcode";
+                SearchInList[3] = "Serial Number";
+            }
+            else
+            {
+                SearchInList = new String[3];
+                SearchInList[0] = "Description";
+                SearchInList[1] = "Item Number";
+                SearchInList[2] = "Top 20";
+            }
 
             OnPropertyChanged(nameof(SearchInList));
         }
@@ -42,12 +55,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             //update searchText
             if (text == null)
-                text = "%";
+            {
+                if (SearchIn == 1 || SelectedSearchIn != "Top 20")
+                    text = "%";
+                else
+                    text = string.Empty;
+            }
+                
             List<AvailabilityRent> customersCntAndList = null;
             try
             {
                 Indicator = true;
-                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn), CurrentOrder.OrderType);
+                customersCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityRentals(text, (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn), CurrentOrder.OrderType, SearchIn);
 
                 if (customersCntAndList != null)
                 {

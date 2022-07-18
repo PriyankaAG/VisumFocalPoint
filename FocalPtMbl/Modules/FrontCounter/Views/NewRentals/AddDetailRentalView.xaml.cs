@@ -63,9 +63,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             OrderUpdate UpdatedOrder = null;
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
+            AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
             do
             {
-                AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
                 Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
@@ -344,6 +344,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
+            if (pickerSearchIn.SelectedItem == "Item Number")
+            {
+                if (!int.TryParse(SearchTextEditor.Text, out int itemNumber))
+                {
+                    await DisplayAlert("Validation", "Invalid Search For, must be a numeric value!", "OK");
+                    return;
+                }
+            }
             await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
         }
 
@@ -358,6 +366,17 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 var selecteItem = e.CurrentSelection.First() as AvailabilityRent;
                 selItem = selecteItem;
+            }
+        }
+
+        private void SearchIn_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            if (pickerSearchIn.SelectedItem == "Top 20")
+            {
+                Task.Run(async () =>
+                {
+                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                });
             }
         }
     }
