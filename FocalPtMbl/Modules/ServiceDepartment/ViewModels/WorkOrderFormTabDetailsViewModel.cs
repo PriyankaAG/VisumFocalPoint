@@ -123,27 +123,27 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string CustomerName
         {
-            get => this.order.Customer.CustomerName;
+            get => this.order?.Customer?.CustomerName ?? "";
         }
         public string CustomerContact
         {
-            get => this.order.Customer.CustomerContact;
+            get => this.order.Customer?.CustomerContact ?? "";
         }
         public string AddressText1
         {
-            get => this.order.Customer.CustomerAddr1;
+            get => this.order.Customer?.CustomerAddr1 ?? "";
         }
 
         public string AddressText2
         {
-            get => this.order.Customer.CityStateZip + ";";
+            get => this.order.Customer?.CityStateZip + ";";
         }
         /// <summary>
         /// //////////////////////////////////////////////////////////////////////////////
         /// </summary>
         public string Phone1Header
         {
-            get => GetPhoneHeadder(this.order.Customer.CustomerPhoneType);
+            get => GetPhoneHeadder(this.order.Customer?.CustomerPhoneType);
         }
         private string GetPhoneHeadder(string type)
         {
@@ -160,7 +160,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public string CustomerPhone1
         {
-            get => FormatNumber(this.order.Customer.CustomerPhone);
+            get => FormatNumber(this.order.Customer?.CustomerPhone);
         }
         private string FormatNumber(string phoneNumber)
         {
@@ -175,30 +175,30 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
 
         public string Phone2Header
         {
-            get => GetPhoneHeadder(this.order.Customer.CustomerPhoneType2);
+            get => GetPhoneHeadder(this.order.Customer?.CustomerPhoneType2);
         }
         public string CustomerPhone2
         {
-            get => FormatNumber(this.order.Customer.CustomerPhone2);
+            get => FormatNumber(this.order.Customer?.CustomerPhone2);
         }
         public string CustomerEmail
         {
-            get => this.order.Customer.CustomerEmail;
+            get => this.order.Customer?.CustomerEmail;
         }
         /// <summary>
         /// ////////////////////////////////////////////////////////////////////////
         /// </summary>
         public string CustomerTypeText
         {
-            get => GetCustomerType(this.order.Customer.CustomerType);
+            get => GetCustomerType(this.order.Customer?.CustomerType);
         }
         private string GetCustomerType(string type)
         {
-            if (type.ToUpper() == "F")
+            if (type?.ToUpper() == "F")
                 return "Credit";
-            else if (type.ToUpper() == "C")
+            else if (type?.ToUpper() == "C")
                 return "Cash";
-            else if (type.ToUpper() == "H")
+            else if (type?.ToUpper() == "H")
                 return "Home";
             else
                 return "";
@@ -209,11 +209,11 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
         }
         public decimal CustomerLimit
         {
-            get => this.order.Customer.CustomerLimit;
+            get => this.order.Customer?.CustomerLimit ?? 0;
         }
         public decimal CustomerARBal
         {
-            get => this.order.Customer.CustomerARBal;
+            get => this.order.Customer?.CustomerARBal ?? 0;
         }
         /// <summary>
         /// ItemInfoPage

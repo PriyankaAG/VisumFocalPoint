@@ -26,7 +26,10 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            ((RentalsViewModel)this.BindingContext).GetCustomersInfo();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((RentalsViewModel)this.BindingContext).GetCustomersInfo();
+            });
             //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
@@ -197,7 +200,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
         private void TextEdit_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)
         {
-;           textSearched = "";
+            ; textSearched = "";
             ((RentalsViewModel)this.BindingContext).SearchTextEdit = "";
         }
     }

@@ -196,7 +196,7 @@ namespace FocalPoint.MainMenu.ViewModels
                 MenuItems.Add(new MainMenuFlyoutFlyoutMenuItem()
                 {
                     Id = 4,
-                    Title = "Customer Relations",
+                    Title = "Customer Center",
                     Icon = "customer_relations.png",
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
@@ -235,8 +235,8 @@ namespace FocalPoint.MainMenu.ViewModels
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
-                            Title = "Rental File List",
-                            SubItemText = "Rental File List",
+                            Title = "Rental List",
+                            SubItemText = "Rental List",
                             IsVisible = true,
                             SubText_TargetType = typeof(OpenRentalsView)
                         },
@@ -284,9 +284,18 @@ namespace FocalPoint.MainMenu.ViewModels
         }
 
         public void OnTimeClock()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
+            NavSer.PushPageFromMenu(typeof(FocalPoint.MainMenu.Views.TimeClockView), "Time Clock");
+
+        }
         public void OnManageProfile()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushPageFromMenu(typeof(AboutPageNew), "FocalPoint Mobile");
+
+        }
         public async void OnLogOut()
         {
             bool loggedOut = await FocalPtMbl.App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");

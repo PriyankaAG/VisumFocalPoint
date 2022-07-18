@@ -18,7 +18,7 @@ namespace FocalPoint.Components.Interface
 
         Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings);
 
-        Task<bool> VoidOrder(Order CurrentOrder);
+        Task<string> VoidOrder(Order CurrentOrder);
 
         Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType, int SearchFor);
 
@@ -45,6 +45,6 @@ namespace FocalPoint.Components.Interface
         Task<string> CheckDrivLicID(string drivLicID);
         Task<OrderUpdate> UpdateOrder(OrderUpdate Update);
 
-        Task<OrderDtlUpdate> UpdateOrderDetail(OrderDtlUpdate OrderDetailUpdate);
+        Task<OrderUpdate> UpdateOrderDetail(OrderDtlUpdate OrderDetailUpdate);
     }
 }

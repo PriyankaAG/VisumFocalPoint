@@ -134,6 +134,8 @@
     <Color x:Key="FooterButtonBackgroundColor">#f5f6fa</Color>
     <Color x:Key="OverbookItemColor">#f0142f</Color>
 
+    <x:String x:Key="UnknownValue">N/A</x:String>
+
     <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundThemeColor}" />
         <Setter Property="BarTextColor" Value="{StaticResource TextThemeColor}" />

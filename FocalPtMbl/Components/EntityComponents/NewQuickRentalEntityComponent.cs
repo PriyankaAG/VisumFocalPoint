@@ -138,7 +138,7 @@ namespace FocalPoint.Components.EntityComponents
             return orderUpdate;
         }
 
-        public async Task<bool> VoidOrder(Order CurrentOrder)
+        public async Task<string> VoidOrder(Order CurrentOrder)
         {
             try
             {
@@ -147,14 +147,15 @@ namespace FocalPoint.Components.EntityComponents
                     CurrentOrder.OrderStatus = "V";
                     var Update = new OrderUpdate();
                     Update.Order = CurrentOrder;
-                    return await apiComponent.PostAsync<bool>(OrderAPIKey, JsonConvert.SerializeObject(new { Update }));
+                    return await apiComponent.PutAsync<string>(OrderAPIKey, JsonConvert.SerializeObject(new { Update }));
                 }
+                return "failed";
             }
             catch (Exception ex)
             {
                 //TODO: Log error
+                return "failed";
             }
-            return false;
         }
 
         public async Task<OrderUpdate> UpdateOrder(OrderUpdate Update)
@@ -176,9 +177,9 @@ namespace FocalPoint.Components.EntityComponents
 
             return responseOrderUpdate;
         }
-        public async Task<OrderDtlUpdate> UpdateOrderDetail(OrderDtlUpdate Update)
+        public async Task<OrderUpdate> UpdateOrderDetail(OrderDtlUpdate Update)
         {
-            OrderDtlUpdate responseOrderDetailUpdate = null;
+            OrderUpdate responseOrderDetailUpdate = null;
             try
             {
                 var stringContent = new StringContent(
@@ -209,7 +210,7 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return res;
-        }       
+        }
 
         public async Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, Int16 SearchIn)
         {

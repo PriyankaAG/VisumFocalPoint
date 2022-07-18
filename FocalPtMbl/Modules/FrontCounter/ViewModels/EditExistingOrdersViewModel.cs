@@ -70,8 +70,9 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
-        internal void GetSearchedOrdersInfo(string text, int orderType, bool isNewSearch)
+        internal async Task GetSearchedOrdersInfo(string text, int orderType, bool isNewSearch)
         {
+            Indicator = true;
             //  Function Orders(ByVal OrderType As Integer, ByVal SearchText As String, ByVal StartIdx As Integer, ByVal MaxCnt As Integer) As Orders
             try
             {
@@ -121,7 +122,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                                           Encoding.UTF8,
                                           "application/json");
                 //ClientHTTP.DefaultRequestHeaders.Add("Token", "987919a1-b105-4c16-99d8-9c8ec2b81dcf");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08"); 70e2aad8-6216-48cc-ab13-3439970a189a
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
@@ -131,30 +132,34 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     if (OrderType == 1)
                     {
                         OpenOrders.Clear();
-                        foreach (var order in orderCntAndList.List)
-                        {
-                            OpenOrders.Add(order);
-                        }
+                        OpenOrders = new ObservableCollection<Order>(orderCntAndList.List);
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenOrders.Add(order);
+                        //};
                         StartIdxOrd = MaxCntOrd;
                         MaxCntOrd = StartIdxOrd + 100;
                     }
                     if (OrderType == 2)
                     {
                         OpenReserv.Clear();
-                        foreach (var order in orderCntAndList.List)
-                        {
-                            OpenReserv.Add(order);
-                        }
+                        OpenReserv = new ObservableCollection<Order>(orderCntAndList.List);
+
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenReserv.Add(order);
+                        //};
                         StartIdxRes = MaxCntRes;
                         MaxCntRes = StartIdxRes + 100;
                     }
                     if (OrderType == 3)
                     {
                         OpenQuote.Clear();
-                        foreach (var order in orderCntAndList.List)
-                        {
-                            OpenQuote.Add(order);
-                        }
+                        OpenQuote = new ObservableCollection<Order>(orderCntAndList.List);
+                        //foreach (var order in orderCntAndList.List)
+                        //{
+                        //    OpenQuote.Add(order);
+                        //};
                         StartIdxQuote = MaxCntQuote;
                         MaxCntQuote = StartIdxQuote + 100;
                     }
@@ -168,6 +173,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
         internal void SearchForOrder(string text, int OrderType, bool isNewSearch)

@@ -56,13 +56,13 @@
                     <ColumnDefinition Width="65*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Truck  "
+                <!--<Label Text="Truck  "
                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  
                  Margin="5,0"
                  TextColor="Black"
                  XAlign="Start"
                  YAlign="Center"
-                 Font="black" FontAttributes="Bold"/>
+                 Font="black" FontAttributes="Bold"/>-->
             </Grid>
 
             <Grid RowSpacing="0" IsVisible="{Binding ShowDescription}" IsEnabled="{Binding ShowDescription}" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -76,7 +76,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Description: " FontAttributes="Bold"/>
+                                <Span Text="Truck: " FontAttributes="Bold"/>
                                 <Span Text="{Binding Truck.TruckDscr}" />
                             </FormattedString.Spans>
                         </FormattedString>
@@ -91,29 +91,45 @@
                         Tap="ItemSelected">
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid RowSpacing="10" Padding="0, 5, 0, 0" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                                <RowDefinition Height="22" />
-                            </Grid.RowDefinitions>
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid RowSpacing="5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" FontAttributes="Bold" Grid.Row="0" Font="black" LineBreakMode="TailTruncation">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <FormattedString.Spans>
-                                            <Span Text="{Binding Line1}" FontAttributes="Bold" />
-                                        </FormattedString.Spans>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
-                            <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
-                        </Grid>
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" FontAttributes="Bold" Grid.Row="0" Font="black" LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Line1}" FontAttributes="Bold" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>
             </dxcv:DXCollectionView>

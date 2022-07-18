@@ -20,6 +20,7 @@
         <viewModel:RentalValuationSummaryViewModel/>
     </ContentPage.BindingContext>
 
+    <Grid>
     <Grid RowSpacing="0" Padding="5,5" Margin="5,5"
           HorizontalOptions="FillAndExpand" 
           VerticalOptions="Start" 
@@ -71,8 +72,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
-        
-        
+    </Grid>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
     </Grid>
 </ContentPage>

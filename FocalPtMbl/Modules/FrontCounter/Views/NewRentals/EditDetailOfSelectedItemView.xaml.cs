@@ -50,19 +50,45 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Button_Clicked_1(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "OrderDetailUpdated", CurrentOrderDtlUpdate.Detail);
+            if (!await isDataValid())
+            {
+                return;
+            }
+
+            Tuple<Order, OrderDtl> retVal = new Tuple<Order, OrderDtl>(_viewModel.CurrentOrder, _viewModel.OrderDetails);
+            MessagingCenter.Send(this, "OrderDetailUpdated", retVal);
             this.Navigation.PopAsync();
+        }
+        public async Task<bool> isDataValid()
+        {
+            if (qtyEntry.EditorText == "0" || qtyEntry.EditorText == "" || _viewModel.OrderDetails.OrderDtlQty == 0)
+            {
+                await DisplayAlert("Invalid", "Quantity can not be Zero.", "Ok");
+                return false;
+            }
+            else if (overridePriceEntry.Text == "0" || overridePriceEntry.Text == "" || _viewModel.OrderDetails.OrderDtlAmt == 0)
+            {
+                await DisplayAlert("Invalid", "Price can not be Zero.", "Ok");
+                return false;
+            }
+
+            return true;
         }
         private async void StartUpdate()
         {
             if (_viewModel.IsPageLoading) return;
 
-            //_viewModel.OrderDetailUpdate.Detail.OrderDtlAmt
+            if (!await isDataValid())
+            {
+                return;
+            }
 
-            OrderDtlUpdate orderUpdateResponse = await _viewModel.UpdateOrderDetail();
+            _viewModel.Indicator = true;
+
+            OrderUpdate orderUpdateResponse = await _viewModel.UpdateOrderDetail();
             AfterUpdate_OrderProcessing(orderUpdateResponse);
         }
-        public async void AfterUpdate_OrderProcessing(OrderDtlUpdate orderRefresh)
+        public async void AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
         {
             try
             {
@@ -90,9 +116,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
 
                             var ordUpdate = _viewModel.OrderDetailUpdate;
-                            if (ordUpdate == null)
-                                ordUpdate = orderRefresh;
-                            else
+                            //if (ordUpdate == null)
+                            //    ordUpdate = orderRefresh;
+                            //else
                             {
                                 var ord = orderRefresh.Answers.Find(qa => qa.Code == question.Code);
                                 ordUpdate.Answers.Add(ord);
@@ -109,6 +135,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
             catch (Exception)
             {
+                _viewModel.Indicator = false;
             }
         }
 

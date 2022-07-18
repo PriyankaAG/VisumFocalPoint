@@ -23,6 +23,7 @@ namespace FocalPoint.Modules.Dispatching.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            ((PickupTicketsSelectViewModel)BindingContext).SelectedTicket = null;
             ((PickupTicketsSelectViewModel)BindingContext).GetSearchedTicketInfo(searchText.Text.ToLower());
         }
         protected override void OnDisappearing()
@@ -35,6 +36,7 @@ namespace FocalPoint.Modules.Dispatching.Views
             {
                 ((PickupTicketsSelectViewModel)BindingContext).SelectedTicket = (PickupTicket)args.Item;
                 await OpenDetailPage(((PickupTicketsSelectViewModel)BindingContext).GetTicketInfo(args.Item));
+                collectionView.SelectedItem = null;
             }
         }
         async Task OpenDetailPage(PickupTicket ticket)

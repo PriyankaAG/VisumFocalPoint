@@ -23,6 +23,7 @@
                            SelectedItem="{Binding SelectedTicket}"
                            IndicatorColor="Lime"
                            Tap="ItemSelected"
+                                   SelectionMode="Single"
                         LoadMoreCommand="{Binding LoadMoreCommand}"
                         IsLoadMoreEnabled="True"
                            IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
@@ -31,35 +32,64 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Padding="0, 5" Margin="0,5" BackgroundColor="{DynamicResource ControlBackgroundColor}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                            </Grid.RowDefinitions>
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5, 5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0"  Text="Number: " FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                            <Label Grid.Row="1" Grid.Column="0"  Text="Customer:" FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                            <Label Grid.Row="2" Grid.Column="0"  Text="Contract:" FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-                            <Label Grid.Row="3" Grid.Column="0"  Text="Stop Date:" FontAttributes="Bold" Margin="10,0" TextColor="Black"/>
-
-                            <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PuTNo}" TextColor="Black"/>
-                            <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding CustomerName}" TextColor="Black"/>
-                            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding OrderNumberT}" TextColor="Black"/>
-                            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PuPDte, StringFormat='{0:MM/dd/yyyy}'}" TextColor="Black"/>
-                            
-                          <!--  <Label Text="{Binding PuTNo, StringFormat='Number: {0}'}" TextColor="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  />
-                            <Label Text="{Binding CustomerName, StringFormat='Customer: {0}'}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"  />
-                            <Label Text="{Binding OrderNumberT, StringFormat='Contract: {0}'}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"  />
-                            <Label Text="{Binding PuPDte ,StringFormat='Stop Date: {0:MM/dd/yyyy}'}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"  />
-                            <BoxView Margin="0,0,0,0" HeightRequest="5" Grid.Row="4" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource MainPageBackgroundColor}"/>
-                            -->
-                        </Grid>
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,0" TextColor="#3A3A3A"
+                                       MaxLines="2" LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding PuTNo, StringFormat='{0}  '}" />
+                                                <Span Text="{Binding CustomerName, StringFormat='  {0}'}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="1" Grid.Column="0" Margin="10,0" TextColor="#3A3A3A" MaxLines="2" LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Contract:" FontAttributes="Bold" />
+                                                <Span Text="{Binding OrderNumberT, StringFormat='  {0}', TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="1" Grid.Column="1"  Margin="10,0" TextColor="#3A3A3A" MaxLines="2" LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Stop Date: " FontAttributes="Bold" />
+                                                <Span Text="{Binding PuPDte, StringFormat='{0:MM/dd/yyyy}', TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </Frame>
 
                     </DataTemplate>
                 </dxcv:DXCollectionView.ItemTemplate>

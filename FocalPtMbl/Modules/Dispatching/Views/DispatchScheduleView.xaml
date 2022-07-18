@@ -43,18 +43,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="5, 5" Margin="0,5">
 
-                            <StackLayout
-               Padding="10,2,10,2"
-               Spacing="0"
-               Orientation="Vertical"
-               HorizontalOptions = "FillAndExpand" VerticalOptions="CenterAndExpand">
+                                <StackLayout Padding="10,2,10,2" Spacing="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
 
-                                <Label TextColor="Black" Text="{Binding Line1}"  LineBreakMode="TailTruncation" />
-                                <Label TextColor="Black" Text="{Binding Line2}"  LineBreakMode="TailTruncation" />
-                                <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}"   LineBreakMode="TailTruncation" />
+                                    <Label TextColor="Black" Text="{Binding Line1}" LineBreakMode="TailTruncation" />
+                                    <Label TextColor="Black" Text="{Binding Line2}" LineBreakMode="TailTruncation" />
+                                    <Label TextColor="Black" Text="{Binding Line3}" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" LineBreakMode="TailTruncation" />
 
-                            </StackLayout>
+                                </StackLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

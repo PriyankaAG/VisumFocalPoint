@@ -12,11 +12,12 @@
              ItemHeaderWidth="*"  
              Title="Vendors" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPageItem>
-        <dxn:TabPageItem.Content> 
-            <ContentPage Title="Info" Icon="user.png">
+        <dxn:TabPageItem.Content>
+            <ContentPage Title="Info" Icon="provider_96.png">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
-                        <Label Text="{Binding Name, StringFormat='Vendor Information: {0}'}" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <!--<Label Text="{Binding Name, StringFormat='Vendor Information: {0}'}" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />-->
+                        <Label Text="Vendor Information:" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Title="NO:" Value="{Binding No}" />
                         <controls:LabelTextCustomControl Title="Web URL:" Value="{Binding Link}" />
 
@@ -46,7 +47,7 @@
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Notes" Icon="Order_32.png">
+            <ContentPage Title="Notes" Icon="notes_96.png">
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <Label Text="{Binding Notes}" Margin="5,5"/>
                 </ScrollView>
@@ -54,7 +55,7 @@
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
 
-    <dxn:TabPageItem >
+    <!--<dxn:TabPageItem >
         <dxn:TabPageItem.Content>
             <ContentPage Title="Balance" Icon="dollar.png"
                          Appearing="ContentPage_Appearing">
@@ -63,5 +64,5 @@
                 </StackLayout>
             </ContentPage>
         </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
+    </dxn:TabPageItem>-->
 </dxn:TabPage>

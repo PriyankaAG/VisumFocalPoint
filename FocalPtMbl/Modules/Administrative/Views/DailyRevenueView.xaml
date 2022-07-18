@@ -19,6 +19,7 @@
     <ContentPage.BindingContext>
         <viewModel:DailyRevenueViewModel />
     </ContentPage.BindingContext>
+    <Grid>
     <StackLayout BackgroundColor="#f5f6fa" Padding="5,5" Margin="5,5">
         <Label Text="Store" FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
         <dxe:ComboBoxEdit ItemsSource="{Binding CurrentStores}" 
@@ -79,6 +80,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
+        
         <!--<dxcv:DXCollectionView x:Name="collectionView"
                            ItemsSource="{Binding Recent}"
                            IndicatorColor="Lime" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
@@ -204,4 +206,6 @@
             </dxcv:DXCollectionView.Margin>
         </dxcv:DXCollectionView>-->
     </StackLayout>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

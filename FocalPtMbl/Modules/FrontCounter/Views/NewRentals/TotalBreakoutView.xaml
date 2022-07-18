@@ -26,7 +26,7 @@
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Security Deposit:" Value="{Binding OrdersObj.Totals.TotalSecDepositAmt, StringFormat='{0:C}'}" />
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Balance Due:" Value="{Binding OrdersObj.Totals.TotalDueAmt, StringFormat='{0:C}'}" />
                     <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Deposit Requested:" Value="{Binding OrdersObj.OrderDepositRequested, StringFormat='{0:C}'}" />
-                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Deposit Due Date:" Value="{Binding OrdersObj.OrderDepositDueDte, StringFormat='{0:MM/dd/yy}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth="4*" Title="Deposit Due Date:" Value="{Binding OrdersObj.OrderDepositDueDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                 </StackLayout>
             </Frame>
         </ScrollView>

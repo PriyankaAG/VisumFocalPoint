@@ -193,6 +193,18 @@ namespace FocalPoint
                     orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
                     //orderUpdate.Answers.
                 }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                    //exceptionMessage = questionFaultExceptiom.Message;
+
+                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
                 else
                 {
                     //TODO: Handle failure API's, add logs to server
@@ -204,16 +216,16 @@ namespace FocalPoint
             return orderUpdateRefresh;
         }
 
-        public async Task<OrderDtlUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent)
+        public async Task<OrderUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent)
         {
-            OrderDtlUpdate orderDetailUpdateRefresh = new OrderDtlUpdate();
+            OrderUpdate orderDetailUpdateRefresh = new OrderUpdate();
             try
             {
                 HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, false);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    orderDetailUpdateRefresh = JsonConvert.DeserializeObject<OrderDtlUpdate>(content);
+                    orderDetailUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
                     if (orderDetailUpdateRefresh != null)
                     {
                         if (orderDetailUpdateRefresh.Answers != null && orderDetailUpdateRefresh.Answers.Count > 0)

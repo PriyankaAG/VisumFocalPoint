@@ -1,6 +1,10 @@
-﻿using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
+﻿using FocalPoint.Data.API;
+using FocalPoint.MainMenu.ViewModels;
+using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
 using FocalPoint.Modules.Payments.Views;
 using FocalPoint.Utils;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -87,7 +91,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
             MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
             MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
-            MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, OrderDtl>(this, "NotesAdded");
+            MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "NotesAdded");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
@@ -105,9 +109,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
             });
-            MessagingCenter.Subscribe<EditDetailOfSelectedItemView, OrderDtl>(this, "OrderDetailUpdated", async (a, ordDtl) =>
+            MessagingCenter.Subscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "OrderDetailUpdated", async (a, tup) =>
             {
-                (BindingContext as NewQuickRentalMainPageViewModel).ReloadRecents(ordDtl);
+                var retOrder = tup.Item1;
+                var retOrderDtl = tup.Item2;
+                (BindingContext as NewQuickRentalMainPageViewModel).ReloadOrder(retOrder, retOrderDtl);
             });
         }
 
@@ -117,11 +123,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             AfterUpdate_OrderProcessing(orderRefresh);
         }
 
-        public async void AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
+        public async Task<bool> AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
         {
             try
             {
-                if (orderRefresh == null) return;
+                if (orderRefresh == null) return false;
                 if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
                 {
                     while (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
@@ -159,7 +165,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         }
 
                     }
-
                 }
                 if (orderRefresh.Notifications.Count > 0)
                 {
@@ -167,15 +172,23 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     {
                         await DisplayAlert("Customer Notification", notification, "OK");
                     }
+                    return false;
                 }
                 if (orderRefresh.CustomerMessage != null && orderRefresh.CustomerMessage.Length > 0)
                 {
                     await DisplayAlert("Customer Message", orderRefresh.CustomerMessage, "OK");
+                    return false;
                 }
-                // await OpenDetailPage((orderRefresh));}
+                if (orderRefresh.Answers == null || orderRefresh.Answers.Count == 0)
+                    return true;
+                else
+                {
+                   return await AfterUpdate_OrderProcessing(orderRefresh);
+                }
             }
             catch (Exception)
             {
+                return false;
             }
         }
 
@@ -288,23 +301,35 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 bool doVoid = await DisplayAlert("Void", "Are you sure you want to void?", "OK", "Cancel");
                 if (doVoid)
                 {
-                    if (await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder())
+                    string result = await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder();
+                    if (!result.HasData())
                     {
-                        //TODO: Navigate to the Main Page
+                        NavigateToDashboard();
                     }
                     else
                         await DisplayAlert("Void", "Void did not succeed try again", "OK");
                 }
 
 
-            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = true;
             }
             catch (Exception ex)
             {
                 //TODO: log error
             }
         }
+        public async void NavigateToDashboard()
+        {
+            //TODO: Navigate to the Main Page
+            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = true;
+            //FrontCounter
+            ((Application.Current.MainPage as MainMenuFlyout).FlyoutPageDrawerObject.BindingContext as MainMenuFlyoutDrawerViewModel).ResetSelectedItem();
 
+            //IsSelected = true;
+
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
+            await NavSer.PushPageFromMenu(typeof(FrontCounter), "Dashboard");
+        }
         private async void InternalNotes_Clicked(object sender, EventArgs e)
         {
             //await Navigation.PushAsync(QOInternalNV);
@@ -384,10 +409,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 vm.CurrentOrderUpdate = new OrderUpdate();
                 vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
             }
-            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.SaveOnly;
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
 
             var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-            AfterUpdate_OrderProcessing(orderRefresh);
+            var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
+            if (isSuccess.Result)
+                NavigateToDashboard();
+            else
+                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
         }
         private async void SaveAndEmailTapped(object sender, EventArgs e)
         {
@@ -411,7 +440,32 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
 
                         var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-                        AfterUpdate_OrderProcessing(orderRefresh);
+                        var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
+
+                        if (isSuccess.Result)
+                        {
+                            ////SEND EMAIL
+                            IGeneralComponent generalComponent = new GeneralComponent();
+                            EmailDocumentInputDTO emailDocumentInputDTO = new EmailDocumentInputDTO();
+                            emailDocumentInputDTO.DocKind = (int)DocKinds.Order;
+                            emailDocumentInputDTO.RecordID = theViewModel.CurrentOrder.OrderNo;
+                            emailDocumentInputDTO.ToAddr = customersEmail;
+                            bool response = await generalComponent.SendEmailDocument(emailDocumentInputDTO);
+                            if (response)
+                            {
+                                await DisplayAlert("Success", "Document sent successfully", "OK");
+                                NavigateToDashboard();
+                            }
+                            else
+                            {
+                                await DisplayAlert("FocalPoint Mobile", "Failed to send an email", "OK");
+                            }
+                        }
+                        else
+                        {
+                            await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+                        }
+
                     }
                     else
                     {
