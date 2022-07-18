@@ -36,17 +36,17 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid RowSpacing="10" BackgroundColor="#f5f6fa" x:Name="grdUtilization">
-                                <controls:UtilizationBlock Grid.Row="0" HeightRequest="40" Title="Cash In:" Value="{Binding CashDCashIn, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="1" Title="Cash Out:" Value="{Binding CashDCashOut, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="2" Title="Checks In:" Value="{Binding CashDCheckIn, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="3" Title="Checks Out:" Value="{Binding CheckOut, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="4" Title="Credit Cards In:" Value="{Binding CashDCheckOut, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="5" Title="Credit Cards Out:" Value="{Binding CashDCCOut, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="6" Title="Other In:" Value="{Binding CashDOtherIn, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="7" Title="Other Out:" Value="{Binding CashDOtherOut, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="8" Title="Starting Balance:" Value="{Binding CashDSAmt, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="9" Title="Ending Balance:" Value="{Binding CashDEAmt, StringFormat='{}{0:C}'}" />
-                                <controls:UtilizationBlock Grid.Row="10" Title="Deposit Amount:" Value="{Binding CashDDeposit, StringFormat='{}{0:C}'}" />
+                                <controls:UtilizationBlock Grid.Row="0" HeightRequest="40" Title="Cash In:" Value="{Binding CashDCashIn, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="1" Title="Cash Out:" Value="{Binding CashDCashOut, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="2" Title="Checks In:" Value="{Binding CashDCheckIn, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="3" Title="Checks Out:" Value="{Binding CashDCheckOut, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="4" Title="Credit Cards In:" Value="{Binding CashDCCIn, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="5" Title="Credit Cards Out:" Value="{Binding CashDCCOut, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="6" Title="Other In:" Value="{Binding CashDOtherIn, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="7" Title="Other Out:" Value="{Binding CashDOtherOut, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="8" Title="Starting Balance:" Value="{Binding CashDSAmt, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="9" Title="Ending Balance:" Value="{Binding CashDEAmt, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
+                                <controls:UtilizationBlock Grid.Row="10" Title="Deposit Amount:" Value="{Binding CashDDeposit, StringFormat='{}{0:C}', TargetNullValue={StaticResource UnknownValue}}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

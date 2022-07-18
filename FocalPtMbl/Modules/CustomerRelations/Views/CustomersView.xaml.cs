@@ -48,7 +48,7 @@ namespace FocalPoint.Modules.Customer_Relations.Views
                 return Task.CompletedTask;
 
             this.inNavigation = true;
-            return Navigation.PushAsync(new CustomerDetailView(cust));
+            return Navigation.PushAsync(new CustomerDetailView(cust,null));
         }
     }
     public class ContactItemTemplateSelector : DataTemplateSelector

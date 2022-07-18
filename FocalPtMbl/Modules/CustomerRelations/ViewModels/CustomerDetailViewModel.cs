@@ -9,9 +9,11 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
     public class CustomerDetailViewModel : ThemeBaseViewModel
     {
         readonly Customer cust;
-        public CustomerDetailViewModel(Customer contact)
+        public CustomerBalance Balance { get; set; }
+        public CustomerDetailViewModel(Customer contact, CustomerBalance balance)
         {
             this.cust = contact;
+            Balance = balance;
         }
 
         public int No
@@ -125,6 +127,11 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         public string Notes
         {
             get => this.cust.CustomerNotes;
+        }
+
+        public string CustomerNotes_HTML
+        {
+            get => cust.CustomerNotes_HTML;
         }
 
         public int Store

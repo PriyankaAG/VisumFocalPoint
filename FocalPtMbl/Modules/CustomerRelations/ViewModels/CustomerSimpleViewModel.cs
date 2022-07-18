@@ -78,32 +78,33 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
             SearchText = text;
             StartIdx = 0;
             Visum.Services.Mobile.Entities.Customers customersCntAndList = null;
-            try { 
-            Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Customers/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-            var stringContent = new StringContent(
-                                      JsonConvert.SerializeObject(new { StoreID, SearchText, StartIdx, MaxCnt }),
-                                      Encoding.UTF8,
-                                      "application/json");
-            //ClientHTTP.DefaultRequestHeaders.Add("Token", "987919a1-b105-4c16-99d8-9c8ec2b81dcf");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08"); 70e2aad8-6216-48cc-ab13-3439970a189a
-            var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string content = response.Content.ReadAsStringAsync().Result;
-                customersCntAndList = JsonConvert.DeserializeObject<Customers>(content);
-                StartIdx = customersCntAndList.TotalCnt;
-                if (recent == null)
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Customers/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+                var stringContent = new StringContent(
+                                          JsonConvert.SerializeObject(new { StoreID, SearchText, StartIdx, MaxCnt }),
+                                          Encoding.UTF8,
+                                          "application/json");
+                //ClientHTTP.DefaultRequestHeaders.Add("Token", "987919a1-b105-4c16-99d8-9c8ec2b81dcf");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08"); 70e2aad8-6216-48cc-ab13-3439970a189a
+                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
                 {
-                    Recent = new ObservableCollection<Customer>(customersCntAndList.List);
-                }
-                else
-                {
-                    Recent.Clear();
-                    foreach (var customer in customersCntAndList.List)
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    customersCntAndList = JsonConvert.DeserializeObject<Customers>(content);
+                    StartIdx = customersCntAndList.TotalCnt;
+                    if (recent == null)
                     {
-                        Recent.Add(customer);
+                        Recent = new ObservableCollection<Customer>(customersCntAndList.List);
+                    }
+                    else
+                    {
+                        Recent.Clear();
+                        foreach (var customer in customersCntAndList.List)
+                        {
+                            Recent.Add(customer);
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -205,7 +206,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                 }
                 return customersCntAndList;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             { return customersCntAndList; }
             finally
             {
@@ -229,43 +230,42 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         }
         public void GetCustomerInfo()
         {
-            try { 
-            Uri uri = new Uri(string.Format("https://10.0.2.2:56883/Mobile/V1/Customer/1"));
-
-            var stringContent = new StringContent(
-                          JsonConvert.SerializeObject(new { SelectedCustomer }),
-                          Encoding.UTF8,
-                          "application/json");
-            
-            var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+            try
             {
+                Uri uri = new Uri(string.Format("https://10.0.2.2:56883/Mobile/V1/Customer/1"));
 
-            }
+                var stringContent = new StringContent(
+                              JsonConvert.SerializeObject(new { SelectedCustomer }),
+                              Encoding.UTF8,
+                              "application/json");
+
+                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
             }
             catch (Exception ex)
             {
 
             }
         }
-        private void GetCustomerBalance()
+        public async Task<CustomerBalance> GetCustomerBalance(int custNo)
         {
-            try { 
-            Uri uri = new Uri(string.Format("https://10.0.2.2:56883/Mobile/V1/CustomerBalance/1"));
-            var stringContent = new StringContent(
-                          JsonConvert.SerializeObject(new { Recent }),
-                          Encoding.UTF8,
-                          "application/json");
-            var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+            try
             {
-
-            }
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "CustomerBalance/" + custNo));
+                var response = await ClientHTTP.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<CustomerBalance>(content);
+                }
             }
             catch (Exception ex)
             {
-
             }
+            return null;
         }
         private void GetCustomerEmail()
         {

@@ -24,16 +24,17 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         public ICommand CallPhone { get; }
        // private Command CallPhone = new Command(() => AttemptCall(number1));
         readonly CustomerDetailViewModel viewModel;
-        public CustomerDetailView(Customer cust)
+        public CustomerDetailView(Customer cust, CustomerBalance balance)
         {
             //DevExpress.XamarinForms.Navigation.Initializer.Init();
-            this.viewModel = new CustomerDetailViewModel(cust);
+            this.viewModel = new CustomerDetailViewModel(cust, balance);
             InitializeComponent();
             BindingContext = this.viewModel;
             number1 = this.viewModel.Phone;
             CallPhone = new Command(() => AttemptCall(number1));
 
         }
+
         async protected override void OnAppearing()
         {
             base.OnAppearing();
