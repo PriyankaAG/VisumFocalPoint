@@ -20,7 +20,7 @@ namespace FocalPoint.Components.Interface
 
         Task<string> VoidOrder(Order CurrentOrder);
 
-        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType);
+        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType, int SearchFor);
 
         Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, Int16 searchIn);
 

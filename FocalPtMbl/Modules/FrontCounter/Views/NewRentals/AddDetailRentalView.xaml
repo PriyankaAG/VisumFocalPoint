@@ -19,13 +19,13 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
 
-                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}"
-                                                       ItemsSource="{Binding SearchInList}"/>
+                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}" x:Name="pickerSearchIn"
+                                                       ItemsSource="{Binding SearchInList}" ItemSelected="SearchIn_ItemSelected"/>
 
                         <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
                         <Image Source="search.png" Grid.Column="2" WidthRequest="40" HorizontalOptions="End">
@@ -64,16 +64,25 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition Width="5*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" Text="{Binding AvailMinChg, StringFormat='Minimum: {0:C}'}" IsVisible="{Binding IsRentalAvailMinChgVisible}"/>
-                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailHourChg, StringFormat='Hourly: {0:C}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
-                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailDayChg, StringFormat='Daily: {0:C}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
-                                        <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Center" Text="{Binding AvailWeekChg, StringFormat='Weekly: {0:C}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
-                                        <Label Grid.Row="3" Grid.Column="1" HorizontalOptions="End" Text="{Binding AvailMonthChg, StringFormat='Monthly: {0:C}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
+                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
+                                        <Label Grid.Row="1" Grid.Column="1" IsVisible="{Binding IsRentalAvailMinChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Minimum: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMinChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" Text="{Binding AvailHourChg, StringFormat='Hourly: {0:C}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
+                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailDayChg, StringFormat='Daily: {0:C}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
+                                        <Label Grid.Row="3" Grid.Column="0" Text="{Binding AvailWeekChg, StringFormat='Weekly: {0:C}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
+                                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding AvailMonthChg, StringFormat='Monthly: {0:C}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

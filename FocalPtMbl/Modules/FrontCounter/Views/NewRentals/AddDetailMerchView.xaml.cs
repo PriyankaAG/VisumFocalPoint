@@ -30,24 +30,27 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     currentOrder = value;
                 }
             }
-        }        
+        }
 
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-
+                OrderUpdate UpdatedOrder = null;
+                QuestionFaultExceptiom questionFault = null;
+                Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
                 List<string> selectedSerials = new List<string>();
                 string result = "0";
 
-                //if serials exist popup a selection dialog select multi? 
                 if (selItem != null)
                 {
-                    //Check Serialized on selcted item
+                    //Check Serialized on selected item
                     if (selItem.AvailSerialized)
                     {
                         //get the serial numbers
-                        await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
+                        var selectSerialOnlyPage = new SelectSerialOnlyView(selItem);
+                        await this.Navigation.PushModalAsync(selectSerialOnlyPage);
+                        selectedSerials = await selectSerialOnlyPage.Result.Task;
                     }
                     else
                     {
@@ -56,26 +59,54 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
                     if (result != null && Convert.ToDecimal(result) > 0)
                     {
-                        decimal numberOfItems = Convert.ToDecimal(result);
-                        OrderUpdate UpdatedOrder = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, CurrentOrder);
-                        if (UpdatedOrder != null && UpdatedOrder.Order != null)
+                        do
                         {
-                            MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
-                            await Navigation.PopAsync();
-                        }
-                        else if (UpdatedOrder == null || UpdatedOrder.Order == null)
-                        {
-                            //ask questions ' Show Message and return no numbers for not assigning else return number to assign equal to qty
-                            await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
-                        }
-                        else
-                        {
-                            await DisplayAlert("Item not added", "Item not added", "ok");
-                        }
+                            decimal numberOfItems = Convert.ToDecimal(result);
+                            Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, selectedSerials, questionFault);
+
+                            if (addRentalAPIResult != null)
+                            {
+                                UpdatedOrder = addRentalAPIResult.Item1;
+                                questionFault = addRentalAPIResult.Item2;
+                            }
+                            if (questionFault != null)
+                            {
+                                if (questionFault.Message == "Do you want to Select Serial Numbers Now?")
+                                {
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
+                                }
+                                else
+                                {
+                                    var selectSerialOnlyPage = new SelectSerialOnlyView(selItem);
+                                    await this.Navigation.PushModalAsync(selectSerialOnlyPage);
+                                    selectedSerials = await selectSerialOnlyPage.Result.Task;
+                                    currentAnswers[questionFault.Code] = true.ToString();
+                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                }
+
+                            }
+                            else if (questionFault == null)
+                            {
+                                MessagingCenter.Send<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
+                                await Navigation.PopAsync();
+                            }
+                            else if (UpdatedOrder == null)
+                            {
+                                await DisplayAlert("Item not added", "Item not added", "ok");
+                            }
+
+                        } while (UpdatedOrder != null && questionFault != null);
                     }
+                    else
+                        await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
                 }
-                else
-                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
             });
         }
 
@@ -87,7 +118,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 {
                     await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }

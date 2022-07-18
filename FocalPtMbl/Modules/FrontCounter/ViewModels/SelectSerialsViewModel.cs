@@ -20,6 +20,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 OnPropertyChanged(nameof(Recent));
             }
         }
+
         private Order currentOrder = new Order();
         public Order CurrentOrder
         {
@@ -30,6 +31,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 OnPropertyChanged(nameof(Recent));
             }
         }
+
+        private AvailabilityMerch selItem;
+        public AvailabilityMerch SelItem
+        {
+            get => this.selItem;
+            set
+            {
+                this.selItem = value;
+            }
+        }
+
         private List<string> selectedSerials = new List<string>();
         public List<string> SelectedSerials
         {
@@ -70,6 +82,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 this.overridePricing = value;
                 OnPropertyChanged(nameof(OverridePricing));
             }
+        }
+        public SelectSerialsViewModel(AvailabilityMerch selItem)
+        {
+            SelItem = selItem;
         }
         public SelectSerialsViewModel()
         {

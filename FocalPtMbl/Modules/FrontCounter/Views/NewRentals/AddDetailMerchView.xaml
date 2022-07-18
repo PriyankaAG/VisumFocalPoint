@@ -19,12 +19,12 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
                         <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}" ItemsSource="{Binding SearchInList}"/>
-                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
+                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Merchandise" x:Name="SearchTextEditor"/>
                         <Image Source="search.png" Grid.Column="2" WidthRequest="40" HorizontalOptions="End">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Search_Tapped"/>
@@ -59,6 +59,10 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition Width="5*" />
+                                        </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
                                         <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
                                         <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />

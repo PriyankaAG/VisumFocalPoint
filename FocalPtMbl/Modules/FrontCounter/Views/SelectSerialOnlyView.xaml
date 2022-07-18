@@ -153,7 +153,7 @@
             </dxcv:DXCollectionView.ItemTemplate>
         </dxcv:DXCollectionView>
 
-        <dxe:SimpleButton  Grid.Row="7" Grid.Column="0" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="SimpleButton_Clicked" />
-        <dxe:SimpleButton  Grid.Row="7" Grid.Column="1" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Continue" Clicked="SimpleButton_Clicked_1" />
+        <dxe:SimpleButton  Grid.Row="7" Grid.Column="0" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Cancel" Clicked="Cancel_Clicked" />
+        <dxe:SimpleButton  Grid.Row="7" Grid.Column="1" TextColor="White" Padding="0" BackgroundColor="#2088ff" Text="Continue" Clicked="Continue_Clicked" />
     </Grid>
 </ContentPage>
