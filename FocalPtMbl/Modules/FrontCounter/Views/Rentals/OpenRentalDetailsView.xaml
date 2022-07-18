@@ -41,7 +41,7 @@
                         <controls:LabelTextCustomControl Title="Average Cost:" Value="{Binding CurrentRental.RentalCost, StringFormat='{}{0:C}'}" />
                         <Label Text="Rental History" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Title="First Rented:" Value="{Binding CurrentRental.RentalFirstRented}" />
-                        <controls:LabelTextCustomControl Title="Last Rented:" Value="{Binding CurrentRental.RentalLastRented}" />
+                        <controls:LabelTextCustomControl Title="Last Rented:" Value="{Binding CurrentRental.RentalLastRented,StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                         <controls:LabelTextCustomControl Title="YTD Amount:" Value="{Binding CurrentRental.RentalYTDAmt}" />
                         <controls:LabelTextCustomControl Title="LTD Amount:" Value="{Binding CurrentRental.RentalLTDAmt}" />
                         <controls:LabelTextCustomControl Title="YTD Rented Units:" Value="{Binding CurrentRental.RentalYTDUnit}" />
@@ -51,7 +51,7 @@
                         <controls:LabelTextCustomControl Title="ROI YTD:" Value="{Binding CurrentRental.RentalLTDAmt}" />
                         <controls:LabelTextCustomControl  Title="ROI LTD:" Value="{Binding CurrentRental.LTDPct}" />
                         <Label Text="Other" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Title="Last Updated:" Value="{Binding RentalLastUpdated}" />
+                        <controls:LabelTextCustomControl Title="Last Updated:" Value="{Binding RentalLastUpdated,StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                     </StackLayout>
                 </ScrollView>
             </dxn:TabViewItem.Content>

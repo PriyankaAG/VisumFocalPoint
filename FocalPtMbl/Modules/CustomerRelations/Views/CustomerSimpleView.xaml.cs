@@ -32,10 +32,22 @@ namespace FocalPoint.Modules.CustomerRelations.Views
             });
             //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
-                await OpenDetailPage(GetCustInfo(args.Item));
+            {
+                var customer = args.Item as Customer;
+                if (customer != null)
+                {
+                    var balance = await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerBalance(customer.CustomerNo);
+                    await OpenDetailPage(GetCustInfo(args.Item), balance);
+                    collectionView.SelectedItem = null;
+                }
+            }
         }
         private Customer GetCustInfo(object item)
         {
@@ -43,7 +55,7 @@ namespace FocalPoint.Modules.CustomerRelations.Views
                 return custInfo;
             return new Customer();
         }
-        Task OpenDetailPage(Customer cust)
+        Task OpenDetailPage(Customer cust, CustomerBalance balance)
         {
             if (cust == null)
                 return Task.CompletedTask;
@@ -52,7 +64,7 @@ namespace FocalPoint.Modules.CustomerRelations.Views
                 return Task.CompletedTask;
 
             this.inNavigation = true;
-            return Navigation.PushAsync(new CustomerDetailView(cust));
+            return Navigation.PushAsync(new CustomerDetailView(cust, balance));
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

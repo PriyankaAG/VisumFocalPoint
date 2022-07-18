@@ -53,7 +53,7 @@
 
                                     <Label Grid.Column="2" Text="{Binding InfoText}" Style="{DynamicResource LabelListDetail}" />
 
-                                    <Label Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{}{0:MM/DD/YYYY}'}" Style="{DynamicResource LabelListDetail}" />
+                                <Label Grid.Column="3" Text="{Binding InfoExpireDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" Style="{DynamicResource LabelListDetail}" />
 
                                     <BoxView Grid.Row="1" Grid.ColumnSpan="5" Style="{DynamicResource BoxViewListSeperatorDefault}" />
 

@@ -25,23 +25,46 @@
     </ContentPage.Resources>
     <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
         <StackLayout>
-            <Label  Text="Search Order" Margin="5,10,10,0" FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
-            <dxe:TextEdit x:Name="searchorderText" Margin="5,0" PlaceholderText="Order Search" Text="{Binding OrderToSearch}" HeightRequest="40" Style="{StaticResource Key=DxeTextEdit}" Completed="TextEdit_Completed" ClearIconClicked="searchorderText_ClearIconClicked">
+            <Label  Text="Search Work Order" Margin="5,10,10,0" FontSize="Default" Style="{DynamicResource LabelDashboardHeader}" />
+            <dxe:TextEdit x:Name="searchorderText" Margin="5,0" PlaceholderText="Work Order Search" Text="{Binding OrderToSearch}" HeightRequest="40" Style="{StaticResource Key=DxeTextEdit}" Completed="TextEdit_Completed" ClearIconClicked="searchorderText_ClearIconClicked">
             </dxe:TextEdit>
-            <dxcv:DXCollectionView x:Name="collectionView" ItemsSource="{Binding Recent}" IndicatorColor="Lime" Tap="ItemSelected" Margin="5,0" LoadMoreCommand="{Binding LoadMoreCommand}" IsLoadMoreEnabled="True" IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+            <dxcv:DXCollectionView x:Name="collectionView" 
+                                   ItemsSource="{Binding Recent}" 
+                                   IndicatorColor="Lime" 
+                                   Tap="ItemSelected" 
+                                   Margin="5,0"
+                                   SelectionMode="Single"
+                                   LoadMoreCommand="{Binding LoadMoreCommand}" 
+                                   IsLoadMoreEnabled="True"
+                                   IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
                 <!--Define the item template.-->
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Padding="0, 5" Margin="0,5">
+                        <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5"
+                               HasShadow="True" Padding="5, 5" Margin="0,5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Orange" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource BackgroundPageColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Grid BackgroundColor="{DynamicResource ControlBackgroundColor}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="22" />
-                                    <RowDefinition Height="22" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <!--<StackLayout Grid.Column="0" 
                              Padding="18,1,18,7"

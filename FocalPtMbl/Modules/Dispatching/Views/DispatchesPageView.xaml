@@ -16,7 +16,7 @@
             <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="0,5,0,0"
                          HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                 <controls:LabelTextCustomControl Title="Type:" Value="{Binding Type}" />
-                <controls:LabelTextCustomControl Title="Time:" Value="{Binding Dispatch.DispatchStartDte, StringFormat='{}{0:MM/dd/yyyy h:mm tt}'}" />
+                <controls:LabelTextCustomControl Title="Time:" Value="{Binding Dispatch.DispatchStartDte, StringFormat='{}{0:MM/dd/yyyy hh:mm tt}'}" />
                 <controls:LabelTextCustomControl Title="Time Window:" Value="{Binding TimeWindow}" />
                 <controls:LabelTextCustomControl Title="Time Notes:" Value="{Binding Dispatch.OriginTimeNotes}" />
                 <controls:LabelTextCustomControl Title="Contact:" Value="{Binding Dispatch.OriginContact}" />

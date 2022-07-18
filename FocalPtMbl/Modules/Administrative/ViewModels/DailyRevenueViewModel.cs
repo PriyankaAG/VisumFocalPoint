@@ -9,10 +9,11 @@ using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.Administrative.ViewModels
 {
-   public class DailyRevenueViewModel : ThemeBaseViewModel
+    public class DailyRevenueViewModel : ThemeBaseViewModel
     {
         ObservableCollection<DailyRevenue> recent;
         public ObservableCollection<DailyRevenue> Recent
@@ -97,9 +98,9 @@ namespace FocalPoint.Modules.Administrative.ViewModels
         internal void DateChanged(DateTime? SelectedDate)
         {
             selectedDate = SelectedDate;
-          }
+        }
 
-    private DailyRevenue dailyRevDL = new DailyRevenue();
+        private DailyRevenue dailyRevDL = new DailyRevenue();
         public DailyRevenue DailyRevDL
         {
             get { return dailyRevDL; }
@@ -161,23 +162,27 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             //add store
             // ClientHTTP.DefaultRequestHeaders.Add("StoreNo", "1");
             //ClientHTTP.DefaultRequestHeaders.Add("TerminalNo", "3");
-            GetLoginStores();
-            GetPostCodes();
+            Task.Run(() =>
+            {
+                GetLoginStores();
+                GetPostCodes();
+            });
             //GetDailyRev();
         }
 
-            HttpClient clientHttp = null;
+        HttpClient clientHttp = null;
         public HttpClient ClientHTTP
         {
             get { return clientHttp; }
         }
         //List<Vendor> vendList = new List<Data.DataLayer.Vendor>();
-        public void GetLoginStores()
+        public async void GetLoginStores()
         {
             try
             {
+                Indicator = true;
                 Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "LoginStores"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-                var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriStores);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -185,34 +190,40 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     foreach (var store in Stores)
                         CurrentStores.Add(store);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
         private DateTime? selectedDate = new DateTime();
         public DateTime? SelectedDate
         {
-            get {return selectedDate; }
+            get { return selectedDate; }
             set
             {
                 if (selectedDate != value)
                 {
-                selectedDate = value;
+                    selectedDate = value;
                     OnPropertyChanged("SelectedDate");
                 }
             }
         }
-        private void GetPostCodes()
+        private async void GetPostCodes()
         {
             try
             {
+                Indicator = true;
                 Uri uriPostCodes = new Uri(string.Format(DataManager.Settings.ApiUri + "PostCodes"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
                                                                                                      //var stringContentDR = new StringContent(
                                                                                                      //                          JsonConvert.SerializeObject(new { RevDate, Store, PostCode }),
                                                                                                      //                          Encoding.UTF8,
                                                                                                      //                          "application/json");
-                var responseDR = ClientHTTP.GetAsync(uriPostCodes).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriPostCodes);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -220,15 +231,20 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     foreach (var post in PostCodes)
                         CurrentPostCodes.Add(post);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
+            finally
+            {
+                Indicator = false;
+            }
         }
-        private void GetStores()
+        private async void GetStores()
         {
             Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "LoginStores"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-            var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+            var responseDR = await ClientHTTP.GetAsync(uriStores);
             if (responseDR.IsSuccessStatusCode)
             {
                 var content = responseDR.Content.ReadAsStringAsync().Result;

@@ -13,6 +13,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SelectSerialOnlyView : ContentPage
     {
+        public TaskCompletionSource<List<string>> Result = new TaskCompletionSource<List<string>>();
         public SelectSerialOnlyView(AvailabilityMerch selectedItem)
         {
             this.Title = "Select Serials";
@@ -24,14 +25,23 @@ namespace FocalPoint.Modules.FrontCounter.Views
             });
         }
 
-        private void SimpleButton_Clicked(object sender, EventArgs e)
+        private void Cancel_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PopAsync();
         }
 
-        private void SimpleButton_Clicked_1(object sender, EventArgs e)
+        private void Continue_Clicked(object sender, EventArgs e)
         {
-
+            SelectSerialsOnlyViewModel SelectSerialsOnlyViewModel = (SelectSerialsOnlyViewModel)this.BindingContext;
+            if (SelectSerialsOnlyViewModel.SelectedSerials?.Count() > 0)
+            {
+                Result.SetResult(SelectSerialsOnlyViewModel.SelectedSerials.Select(r => r.MerchSerSerial).ToList());
+                Navigation.PopAsync();
+            }
+            else
+            {
+                DisplayAlert("Error", "Select Serial Numbers", "ok", "cancel");
+            }
         }
 
         private void Serial_Tap(object sender, DevExpress.XamarinForms.CollectionView.CollectionViewGestureEventArgs e)

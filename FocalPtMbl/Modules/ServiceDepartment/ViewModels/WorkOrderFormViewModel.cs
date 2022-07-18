@@ -129,6 +129,7 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             Recent?.Clear();
             SearchText = text;
             StartIdx = 0;
+            StoreID = DataManager.Settings.HomeStore;
             WorkOrders woCntAndList = null;
             try
             {
@@ -144,17 +145,19 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
                     string content = response.Content.ReadAsStringAsync().Result;
                     woCntAndList = JsonConvert.DeserializeObject<WorkOrders>(content);
                     StartIdx = woCntAndList.TotalCnt;
-                    if (recent == null)
-                    {
-                        Recent = new ObservableCollection<WorkOrder>(woCntAndList.List);
-                    }
-                    else
-                    {
-                        foreach (var workOrder in woCntAndList.List)
-                        {
-                            Recent.Add(workOrder);
-                        }
-                    }
+                    Recent = new ObservableCollection<WorkOrder>(woCntAndList.List);
+
+                    //if (recent == null)
+                    //{
+                    //    Recent = new ObservableCollection<WorkOrder>(woCntAndList.List);
+                    //}
+                    //else
+                    //{
+                    //    foreach (var workOrder in woCntAndList.List)
+                    //    {
+                    //        Recent.Add(workOrder);
+                    //    }
+                    //}
 
                 }
             }

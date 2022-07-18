@@ -323,6 +323,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
+            if (pickerSearchIn.SelectedItem == "Item Number")
+            {
+                if (!int.TryParse(SearchTextEditor.Text, out int itemNumber))
+                {
+                    await DisplayAlert("Validation", "Invalid Search For, must be a numeric value!", "OK");
+                    return;
+                }
+            }
             await ((AddDetailKitsViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
         }
 

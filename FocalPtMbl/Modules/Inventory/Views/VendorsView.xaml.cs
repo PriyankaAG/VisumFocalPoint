@@ -19,7 +19,7 @@ namespace FocalPoint.Modules.Inventory.Views
 
         public VendorsView()
         {
-            DevExpress.XamarinForms.CollectionView.Initializer.Init();
+            //DevExpress.XamarinForms.CollectionView.Initializer.Init();
             InitializeComponent();
             //BindingContext = new VendorsViewModel();
         }
@@ -27,14 +27,18 @@ namespace FocalPoint.Modules.Inventory.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            ((VendorsViewModel)this.BindingContext).GetVendorsInfo();
-            //((VendorsViewModel)this.BindingContext).GetCustomersInfo();
-            //((VendorsViewModel)this.BindingContext).GetCustomerInfo();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _ = ((VendorsViewModel)this.BindingContext).GetVendorsInfo();
+            });
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
+            {
                 await OpenDetailPage(GetCustInfo(args.Item));
+                collectionView.SelectedItem = null;
+            }
         }
         private Vendor GetCustInfo(object item)
         {

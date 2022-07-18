@@ -33,11 +33,9 @@ namespace FocalPoint.Components.EntityComponents
         const string CheckCustomerNameAPIKey = "CustomerNameCheck/{0}/{1}/{2}";
         const string CheckCustomerIDAPIKey = "CustomerIDCheck/{0}/{1}";
 
-        private int StoreID = 1;
         private string Search = "%";
         private string OutDate = "2020-01-01T18:25:00.000";
         private string DueDate = "2020-01-01T18:25:00.000";
-        private Int16 SearchFor = 1;
 
         public NewQuickRentalEntityComponent()
         {
@@ -199,7 +197,7 @@ namespace FocalPoint.Components.EntityComponents
             return responseOrderDetailUpdate;
         }
 
-        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType)
+        public async Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType, int SearchFor)
         {
             List<AvailabilityRent> res = null;
             try

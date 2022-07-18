@@ -8,9 +8,6 @@
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{DynamicResource MainPageBackgroundColor }">
-    <ContentPage.BindingContext>
-        <viewModel:SelectSerialsViewModel/>
-    </ContentPage.BindingContext>
     <Grid Padding="0, 0, 0, 0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
