@@ -25,6 +25,17 @@ namespace FocalPoint.MainMenu.Views
         {
             base.OnAppearing();
         }
+        //// SUSHIL: Check this back
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    bool result = true;
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+        //    });
+        //    return result;
+
+        //}
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as MainMenuFlyoutFlyoutMenuItem;

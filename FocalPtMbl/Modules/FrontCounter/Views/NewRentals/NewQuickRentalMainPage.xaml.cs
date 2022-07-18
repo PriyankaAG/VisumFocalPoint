@@ -180,10 +180,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return false;
                 }
                 if (orderRefresh.Answers == null || orderRefresh.Answers.Count == 0)
-                    return true;
+                {
+                    if (orderRefresh.Order != null)
+                        return true;
+                    else
+                        return false;
+                }
                 else
                 {
-                   return await AfterUpdate_OrderProcessing(orderRefresh);
+                    return await AfterUpdate_OrderProcessing(orderRefresh);
                 }
             }
             catch (Exception)
@@ -407,13 +412,13 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             if (vm.CurrentOrderUpdate == null)
             {
                 vm.CurrentOrderUpdate = new OrderUpdate();
-                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
             }
+            vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
             vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
 
             var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-            var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
-            if (isSuccess.Result)
+            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+            if (isSuccess)
                 NavigateToDashboard();
             else
                 await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
@@ -440,9 +445,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
 
                         var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-                        var isSuccess = AfterUpdate_OrderProcessing(orderRefresh);
+                        var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
 
-                        if (isSuccess.Result)
+                        if (isSuccess)
                         {
                             ////SEND EMAIL
                             IGeneralComponent generalComponent = new GeneralComponent();
@@ -485,7 +490,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitAsQuote;
 
             var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-            AfterUpdate_OrderProcessing(orderRefresh);
+            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+            if (isSuccess)
+                NavigateToDashboard();
+            else
+                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
         }
 
         public static bool IsValidEmail(string email)
