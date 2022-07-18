@@ -10,11 +10,19 @@ using System.Text;
 using System.Timers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
     public class TimeClockViewModel : ThemeBaseViewModel
     {
+        public bool IsButtonEnabled
+        {
+            get
+            {
+                return !Indicator;
+            }
+        }
         private string dateString = "";
         public string DateString
         {
@@ -28,7 +36,7 @@ namespace FocalPoint.MainMenu.ViewModels
         private string timeString = "";
         public string TimeString
         {
-            get =>  this.timeString;
+            get => this.timeString;
             set
             {
                 this.timeString = value;
@@ -155,21 +163,21 @@ namespace FocalPoint.MainMenu.ViewModels
             GetUsers();
             //GetCurrentStoreAndUsers();
         }
-        
+
         internal void GetCurrentStoreAndUsers()
         {
             throw new NotImplementedException();
         }
 
-        private void GetStores()
+        private async Task GetStores()
         {
             if (CurrentStores.Count > 0)
                 CurrentStores.Clear();
 
             if (selectedUser != null)
             {
-               foreach (var store in selectedUser.Stores)
-                   CurrentStores.Add(store);
+                foreach (var store in selectedUser.Stores)
+                    CurrentStores.Add(store);
             }
         }
         public void UserChanged(TimeClockUser selUser)
@@ -178,7 +186,7 @@ namespace FocalPoint.MainMenu.ViewModels
             TimeClockStore selNewStore = new TimeClockStore();
             SelectedStore = selNewStore;
             SelectedUser = selUser;
-            
+
             if (selectedUser != null)
             {
                 CurrentUser = selUser;
@@ -190,51 +198,68 @@ namespace FocalPoint.MainMenu.ViewModels
         {
             SelectedStore = store;
         }
-        private void GetUsers()
+        private async Task GetUsers()
         {
-            try
+            Indicator = true;
+            _ = Task.Run(() =>
             {
-                Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "TimeClock/Users"));
-                var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
-                if (responseDR.IsSuccessStatusCode)
+                try
                 {
-                    var content = responseDR.Content.ReadAsStringAsync().Result;
-                    var Users = JsonConvert.DeserializeObject<List<TimeClockUser>>(content);
-                    foreach (var user in Users)
-                        CurrentUsers.Add(user);
+                    Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "TimeClock/Users"));
+                    var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+                    if (responseDR.IsSuccessStatusCode)
+                    {
+                        var content = responseDR.Content.ReadAsStringAsync().Result;
+                        var Users = JsonConvert.DeserializeObject<List<TimeClockUser>>(content);
+                        foreach (var user in Users)
+                            CurrentUsers.Add(user);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
 
-            }
+                }
+            }).ContinueWith((o) =>
+            {
+                Indicator = false;
+                OnPropertyChanged("IsButtonEnabled");
+            });
+
         }
-        private void GetStatus()
+        private async Task GetStatus()
         {
-            try
+            Indicator = true;
+            _ = Task.Run(() =>
             {
-                if (CurrentUser.UserID != null)
-                { 
-                    Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "TimeClock/Status/" + CurrentUser.UserID.ToString()));
-                var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
-                if (responseDR.IsSuccessStatusCode)
+                try
                 {
-                    var content = responseDR.Content.ReadAsStringAsync().Result;
-                    var tcs = JsonConvert.DeserializeObject<TimeClockStat>(content);
-                        TimeClockStatCu = tcs;
+                    if (CurrentUser.UserID != null)
+                    {
+                        Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "TimeClock/Status/" + CurrentUser.UserID.ToString()));
+                        var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+                        if (responseDR.IsSuccessStatusCode)
+                        {
+                            var content = responseDR.Content.ReadAsStringAsync().Result;
+                            var tcs = JsonConvert.DeserializeObject<TimeClockStat>(content);
+                            TimeClockStatCu = tcs;
+                        }
+                        if (TimeClockStatCu.ClockedIn)
+                            TimeClockStatus = "Status: Clocked In";
+                        else
+                            TimeClockStatus = "Status: Clocked Out";
+                        if (TimeClockStatCu.LastActivity != null)
+                            LastActivity = "Last Activity: " + TimeClockStatCu.LastActivity;
+                    }
                 }
-                    if (TimeClockStatCu.ClockedIn)
-                        TimeClockStatus = "Status: Clocked In";
-                    else
-                        TimeClockStatus = "Status: Clocked Out";
-                    if (TimeClockStatCu.LastActivity != null)
-                        LastActivity = "Last Activity: " + TimeClockStatCu.LastActivity;
-            }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
 
-            }
+                }
+            }).ContinueWith((o) =>
+            {
+                Indicator = false;
+                OnPropertyChanged("IsButtonEnabled");
+            });
         }
 
         public clockQuestionsAndStatus ClockInQuestions()
@@ -262,7 +287,7 @@ namespace FocalPoint.MainMenu.ViewModels
                 clockResult.YesNoOrNotification = true;
                 return clockResult;
             }
-                return clockResult;
+            return clockResult;
         }
         public bool ClockIn(double longit, double lat)
         {
@@ -280,14 +305,14 @@ namespace FocalPoint.MainMenu.ViewModels
                   "application/json");
 
                 Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "TimeClock/ClockIn/"));
-                    var responseDR = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-                    if (responseDR.IsSuccessStatusCode)
-                    {
-                        var content = responseDR.Content.ReadAsStringAsync().Result;
-                        var clocked = JsonConvert.DeserializeObject<bool>(content);
+                var responseDR = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (responseDR.IsSuccessStatusCode)
+                {
+                    var content = responseDR.Content.ReadAsStringAsync().Result;
+                    var clocked = JsonConvert.DeserializeObject<bool>(content);
                     GetStatus();
-                        return clocked;
-                    }
+                    return clocked;
+                }
             }
             catch (Exception ex)
             {
@@ -360,8 +385,8 @@ namespace FocalPoint.MainMenu.ViewModels
             TimeString = currentTime.ToString("T");
             UtcTime = e.SignalTime.ToUniversalTime();
             //DateString = e.SignalTime.DayOfWeek.
-           // DateString =  e.SignalTime.Date.ToShortDateString();
-           // TimeString = e.SignalTime.Hour.ToString() + ":" + e.SignalTime.Minute.ToString() + ":" + e.SignalTime.Second.ToString();
+            // DateString =  e.SignalTime.Date.ToShortDateString();
+            // TimeString = e.SignalTime.Hour.ToString() + ":" + e.SignalTime.Minute.ToString() + ":" + e.SignalTime.Second.ToString();
             //TimeString = string.Format("{0:HH:mm:ss tt}",e.SignalTime.TimeOfDay.ToString()); // String.Format("{0:dddd, MMMM d, yyyy}", e.SignalTime.ToString());
         }
     }

@@ -159,10 +159,9 @@ namespace FocalPoint.MainMenu.Views
         {
             await OpenDetailPage();
         }
-        Task OpenDetailPage()
+        async Task OpenDetailPage()
         {
-
-            return Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         private void ComboBoxEdit_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)
