@@ -60,9 +60,14 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 0,
                     Title = "Dashboard",
                     Icon = "dashboard.png",
-                    TargetType = typeof(FrontCounter),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
+                        new MainMenuFlyoutSubItem() {
+                            Title = "Dashboard",
+                            SubItemText = "Dashboard",
+                            IsVisible = true,
+                            SubText_TargetType = typeof(MainPage)
+                        },
                         new MainMenuFlyoutSubItem() {
                             Title = "Daily Revenue",
                             SubItemText = "Daily Revenue",
@@ -102,7 +107,6 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 1,
                     Title = "Front Counter",
                     Icon = "storefront.png",
-                    TargetType = typeof(FrontCounter),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
@@ -138,7 +142,6 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 2,
                     Title = "Dispatch",
                     Icon = "dispatch.png",
-                    TargetType = typeof(ScheduleDispatchingPageView),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
