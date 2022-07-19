@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FocalPoint.Modules.Inventory.ViewModels
 {
@@ -74,6 +75,8 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         public async Task<Vendors> GetVendorsInfo()
         {
             Vendors vendorsCntAndList = null;
+            StoreID = DataManager.Settings.HomeStore;
+            StartIdx = 0;
             try
             {
                 Indicator = true;
@@ -90,17 +93,19 @@ namespace FocalPoint.Modules.Inventory.ViewModels
                     string content = response.Content.ReadAsStringAsync().Result;
                     vendorsCntAndList = JsonConvert.DeserializeObject<Vendors>(content);
                     StartIdx = vendorsCntAndList.TotalCnt;
-                    if (recent == null)
-                    {
-                        Recent = new ObservableCollection<Vendor>(vendorsCntAndList.List);
-                    }
-                    else
-                    {
-                        foreach (var vendor in vendorsCntAndList.List)
-                        {
-                            Recent.Add(vendor);
-                        }
-                    }
+                    Recent = new ObservableCollection<Vendor>(vendorsCntAndList.List);
+                    OnPropertyChanged(nameof(Recent));
+                    //if (recent == null)
+                    //{
+                    //    Recent = new ObservableCollection<Vendor>(vendorsCntAndList.List);
+                    //}
+                    //else
+                    //{
+                    //    foreach (var vendor in vendorsCntAndList.List)
+                    //    {
+                    //        Recent.Add(vendor);
+                    //    }
+                    //}
 
                 }
                 return vendorsCntAndList;

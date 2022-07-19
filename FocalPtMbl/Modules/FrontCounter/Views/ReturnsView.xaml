@@ -7,6 +7,7 @@
         <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
             <Label Text="In development. Coming next version"
                    Style="{DynamicResource LabelDefault}"
+                   FontSize="Medium"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"/>
         </StackLayout>
