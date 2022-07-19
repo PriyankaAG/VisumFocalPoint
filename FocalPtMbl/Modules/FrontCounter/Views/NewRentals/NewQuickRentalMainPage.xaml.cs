@@ -335,6 +335,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             await NavSer.PushPageFromMenu(typeof(FocalPtMbl.MainMenu.Views.MainPage), "Dashboard");
         }
+
         private async void InternalNotes_Clicked(object sender, EventArgs e)
         {
             //await Navigation.PushAsync(QOInternalNV);
@@ -423,6 +424,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             else
                 await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
         }
+
         private async void SaveAndEmailTapped(object sender, EventArgs e)
         {
             var vm = (BindingContext as NewQuickRentalMainPageViewModel);
@@ -479,6 +481,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
             }
         }
+
         private async void SaveAsQuoteTapped(object sender, EventArgs e)
         {
             var vm = (BindingContext as NewQuickRentalMainPageViewModel);
