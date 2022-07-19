@@ -45,16 +45,13 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 if (selItem != null)
                 {
                     //Check Serialized on selected item
-                    if (selItem.AvailSerialized)
+                    if (!selItem.AvailSerialized)
                     {
-                        //get the serial numbers
-                        var selectSerialOnlyPage = new SelectSerialOnlyView(selItem);
-                        await this.Navigation.PushModalAsync(selectSerialOnlyPage);
-                        selectedSerials = await selectSerialOnlyPage.Result.Task;
+                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
                     }
                     else
                     {
-                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                        result = "1";
                     }
 
                     if (result != null && Convert.ToDecimal(result) > 0)
