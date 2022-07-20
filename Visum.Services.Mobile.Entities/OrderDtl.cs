@@ -76,5 +76,10 @@ namespace Visum.Services.Mobile.Entities
         public decimal OrderDtlFuelQty { get; set; }
         public bool OrderDtlSold { get; set; }
 
+        public int OrderDtlKitNo { get; set; }
+        public bool OrderDtlMainKit { get; set; }
+        public bool OrderDtlKitPricing { get; set; }
+        public short OrderDtlKitLine { get; set; }
+
     }
 }
