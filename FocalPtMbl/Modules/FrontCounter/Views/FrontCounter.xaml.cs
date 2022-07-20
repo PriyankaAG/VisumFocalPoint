@@ -121,5 +121,18 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 //TODO: log error
             }
         }
+
+        private async void Return_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ReturnsView returnsView = new ReturnsView();
+                await this.Navigation.PushAsync(returnsView);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
     }
 }

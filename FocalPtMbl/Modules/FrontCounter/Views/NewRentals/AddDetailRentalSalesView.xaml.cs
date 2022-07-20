@@ -38,291 +38,313 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async Task FinishQuestions(int count)
         {
-            OrderUpdate UpdatedOrder = null;
-            QuestionFaultExceptiom questionFault = null;
-            Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
-            do
+            try
             {
-                AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = (AddDetailRentalSalesViewModel)this.BindingContext;
-                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
-                if (addRentalAPIResult != null)
+                OrderUpdate UpdatedOrder = null;
+                QuestionFaultExceptiom questionFault = null;
+                Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
+                do
                 {
-                    UpdatedOrder = addRentalAPIResult.Item1;
-                    questionFault = addRentalAPIResult.Item2;
-                }
-                if (questionFault != null)
-                {
-                    switch (questionFault.Code)
+                    AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = (AddDetailRentalSalesViewModel)this.BindingContext;
+                    Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                    if (addRentalAPIResult != null)
                     {
+                        UpdatedOrder = addRentalAPIResult.Item1;
+                        questionFault = addRentalAPIResult.Item2;
+                    }
+                    if (questionFault != null)
+                    {
+                        switch (questionFault.Code)
+                        {
 
-                        case 1000:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                            case 1000:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1001:
-                            {
-                                // if(UpdatedOrder)
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1001:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    // if(UpdatedOrder)
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1002:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1002:
                                 {
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
 
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1003:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1003:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1004:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1004:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1005:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1005:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1006:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1006:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1007:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1007:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1008:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1008:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1009:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1009:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1010:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1010:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1011:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1011:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1012:
-                            {
-                                //Get Meter Value in Double 3 decimal places
-                                string action = await DisplayPromptAsync("Enter Meter", questionFault.Message, initialValue: "1", keyboard: Keyboard.Numeric);
-                                if (action == null && action == "")
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1012:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    //Get Meter Value in Double 3 decimal places
+                                    string action = await DisplayPromptAsync("Enter Meter", questionFault.Message, initialValue: "1", keyboard: Keyboard.Numeric);
+                                    if (action == null && action == "")
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1013:
-                            {
-                                //See Rentals.frmRateTablePackage, display rate and use selected package as short
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1013:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    //See Rentals.frmRateTablePackage, display rate and use selected package as short
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1014:
-                            {
-                                //Get Job Number String
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1014:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    //Get Job Number String
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1015:
-                            {
-                                //Get PO Number String
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1015:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    //Get PO Number String
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1016:
-                            {
-                                //  call GET SalesPeople and return selected value
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1016:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    //  call GET SalesPeople and return selected value
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1017:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1017:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1018:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1018:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
-                        case 1019:
-                            {
-                                var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                                if (!action)
-                                    UpdatedOrder = null;
-                                else
+                                break;
+                            case 1019:
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
+                                    if (!action)
+                                        UpdatedOrder = null;
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        default:
-                            break;
-                    };
-                }
-                else if (questionFault == null)
-                {
-                    MessagingCenter.Send<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
-                    await Navigation.PopAsync();
-                }
-                else if (UpdatedOrder == null)
-                {
-                    await DisplayAlert("Item not added", "Item not added", "ok");
-                }
+                            default:
+                                break;
+                        };
+                    }
+                    else if (questionFault == null)
+                    {
+                        MessagingCenter.Send<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
+                        await Navigation.PopAsync();
+                    }
+                    else if (UpdatedOrder == null)
+                    {
+                        await DisplayAlert("Item not added", "Item not added", "ok");
+                    }
 
-            } while (UpdatedOrder != null && questionFault != null);
+                } while (UpdatedOrder != null && questionFault != null);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
-        private async void Search_Tapped(object sender, EventArgs e)
+        private void Search_Tapped(object sender, EventArgs e)
         {
-            await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    if (SearchTextEditor.Text == null)
+                    {
+                        await DisplayAlert("Validation", "Please enter Search For.", "OK");
+                        return;
+                    }
+                    await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            });
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)

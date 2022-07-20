@@ -113,6 +113,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 try
                 {
+                    if (SearchTextEditor.Text == null)
+                    {
+                        await DisplayAlert("Validation", "Please enter Search For.", "OK");
+                        return;
+                    }
                     await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
                 }
                 catch (Exception ex)
