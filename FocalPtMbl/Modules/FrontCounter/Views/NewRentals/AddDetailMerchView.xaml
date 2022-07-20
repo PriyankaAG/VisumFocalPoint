@@ -58,16 +58,63 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="5*" />
                                             <ColumnDefinition Width="5*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" FontSize="Default" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailPart, StringFormat='Part Num: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailQty, StringFormat='Avail Qty: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Text="{Binding AvailMSRPAmt, StringFormat='Price: {0:C}'}" />
-                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Text="{Binding AvailMonthChg, StringFormat='MSRP: {0:C}'}" />
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
+                                        <Label Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Part #: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailPart, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Avail Qty: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailQty, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Price: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailAmt, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="MSRP: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMSRPAmt, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Mfg: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMfg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

@@ -62,14 +62,34 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="5*" />
                                             <ColumnDefinition Width="5*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailQty, StringFormat='Available Qty: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" IsVisible="{Binding IsRentalAvailMinChgVisible}" Style="{DynamicResource LabelDefault}">
+                                        <Label Grid.Row="1" Grid.Column="0" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Equip ID: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailEquipID, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Available Qty: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailQty, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsRentalAvailMinChgVisible}" Style="{DynamicResource LabelDefault}">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <FormattedString.Spans>
@@ -79,10 +99,46 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="2" Grid.Column="0" Text="{Binding AvailHourChg, StringFormat='Hourly: {0:C}'}" IsVisible="{Binding IsRentalAvailHourChgVisible}"/>
-                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailDayChg, StringFormat='Daily: {0:C}'}" IsVisible="{Binding IsRentalAvailDayChgVisible}"/>
-                                        <Label Grid.Row="3" Grid.Column="0" Text="{Binding AvailWeekChg, StringFormat='Weekly: {0:C}'}" IsVisible="{Binding IsRentalAvailWeekChgVisible}"/>
-                                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding AvailMonthChg, StringFormat='Monthly: {0:C}'}" IsVisible="{Binding IsRentalAvailMonthChgVisible}"/>
+                                        <Label Grid.Row="2" Grid.Column="1" IsVisible="{Binding IsRentalAvailHourChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Hourly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailHourChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsRentalAvailDayChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Daily: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailDayChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsRentalAvailWeekChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Weekly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailWeekChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsRentalAvailMonthChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Monthly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMonthChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
