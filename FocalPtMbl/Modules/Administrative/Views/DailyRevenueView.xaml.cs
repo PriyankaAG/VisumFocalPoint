@@ -39,10 +39,15 @@ namespace FocalPoint.Modules.Administrative.Views
             Date = startdateEdit.Date;
             ((DailyRevenueViewModel)this.BindingContext).DateChanged(Date);
         }
-        private  void SimpleButton_Clicked(object sender, EventArgs e)
+        private async void SimpleButton_Clicked(object sender, EventArgs e)
         {
+            var validationMsg = ((DailyRevenueViewModel)this.BindingContext).Validate();
+            if (!string.IsNullOrEmpty(validationMsg))
+            {
+                await DisplayAlert("FocalPoint", validationMsg, "OK");
+                return;
+            }
             ((DailyRevenueViewModel)this.BindingContext).GetDailyRev();
-           // await Navigation.PopModalAsync();
         }
         private void ComboBoxEdit_SelectionChanged(object sender, EventArgs e)
         {
@@ -53,6 +58,13 @@ namespace FocalPoint.Modules.Administrative.Views
         {
             var comboBox = sender as ComboBoxEdit;
             ((DailyRevenueViewModel)this.BindingContext).SelectedPostCode = (PostCode)comboBox.SelectedItem;
+        }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var startdateEdit = sender as DatePicker;
+            Date = startdateEdit.Date;
+            ((DailyRevenueViewModel)this.BindingContext).DateChanged(Date);
         }
     }
 }

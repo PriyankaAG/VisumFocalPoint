@@ -117,20 +117,6 @@ namespace FocalPoint.CustomControls
             }
         }
 
-        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(LabelEditorCustomControl), true, BindingMode.TwoWay);
-        public bool IsEnabled
-        {
-            get
-            {
-                return (bool)GetValue(IsEnabledProperty);
-            }
-
-            set
-            {
-                SetValue(IsEnabledProperty, value);
-            }
-        }
-
         public static readonly BindableProperty UnfocusedProperty = BindableProperty.Create(nameof(Unfocused), typeof(ICommand), typeof(LabelEditorCustomControl), null, BindingMode.TwoWay);
         public new ICommand Unfocused
         {
@@ -155,6 +141,21 @@ namespace FocalPoint.CustomControls
             set
             {
                 SetValue(CompletedProperty, value);
+            }
+        }
+
+
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(LabelEditorCustomControl), true, BindingMode.TwoWay);
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)GetValue(IsEnabledProperty);
+            }
+
+            set
+            {
+                SetValue(IsEnabledProperty, value);
             }
         }
 

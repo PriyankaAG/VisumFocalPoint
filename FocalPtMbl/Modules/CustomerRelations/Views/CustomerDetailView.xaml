@@ -2,188 +2,87 @@
 <dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.CustomerRelations.Views.CustomerDetailView"
-             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
-             HeaderPanelPosition="Top"
-             IsSelectedItemIndicatorVisible="False"
-             ItemHeaderWidth="*"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" 
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls" xmlns:viewmodels="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels" x:DataType="viewmodels:CustomerDetailViewModel" HeaderPanelPosition="Top" 
+             IsSelectedItemIndicatorVisible="True" 
+             SelectedItemHeaderTextColor="OrangeRed" 
+             SelectedItemHeaderIconColor="Transparent" 
+             ItemHeaderIconColor="Transparent" 
+             ItemHeaderWidth="*" Title="{Binding Name}" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Info" Icon="user.png" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <Grid>
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding OpenWebCommand}" CommandParameter="{Binding CompanyUrl}"/>
-                    </Grid.GestureRecognizers>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Text="Customer Information"/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="NO: "/>
-                    <Label Grid.Row="2" Grid.Column="0" Text="Store: "/>
-                    <Label Grid.Row="3" Grid.Column="0" Text="Status: "/>
-                    <Label Grid.Row="4" Grid.Column="0" Text="Type: "/>
+            <ContentPage Title="Info" Icon="our_customers_b_96.png">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                        <Label Text="{Binding Name, StringFormat='Customer Information {0}'}" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="1" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="NO:" Value="{Binding No}" />
+                        <controls:LabelTextCustomControl Grid.Row="1" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Store:" Value="{Binding Store}" />
+                        <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Status:" Value="{Binding Status}" />
+                        <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Type:" Value="{Binding Type_Display}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Text="Phone Numbers"/>
-                    <Label Grid.Row="6" Grid.Column="0" Text="Phone 1: " />
-                    <Label Grid.Row="7" Grid.Column="0" Text="Phone 2: "/>
+                        <Label Text="Phone Numbers" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 1:" Value="{Binding Phone}" TextColorValue="#959aa0">
+                            <!--<controls:LabelTextCustomControl.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CallPhone}" />
+                            </controls:LabelTextCustomControl.GestureRecognizers>-->
+                        </controls:LabelTextCustomControl>
+                        <controls:LabelTextCustomControl Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Phone 2:" Value="{Binding Phone2}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="8" Grid.ColumnSpan="2" Grid.Column="0" Text="Email Addresses"/>
-                    <Label Grid.Row="9" Grid.Column="0" Text="Email 1: "/>
-                    <Label Grid.Row="10" Grid.Column="0" Text="Email 2: "/>
-                    <Label Grid.Row="11" Grid.Column="0" Text="Email 3: "/>
+                        <Label Text="Email Addresses" Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 1:" Value="{Binding Email}" />
+                        <controls:LabelTextCustomControl Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 2:" Value="{Binding Email2}" />
+                        <controls:LabelTextCustomControl Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Email 3:" Value="{Binding Email3}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="12" Grid.ColumnSpan="2" Grid.Column="0" Text="Primary Address"/>
-                    <Label Grid.Row="13" Grid.Column="0" Text="Address: "/>
-                    <Label Grid.Row="14" Grid.Column="0" Text="City: "/>
-                    <Label Grid.Row="15" Grid.Column="0" Text="State: "/>
-                    <Label Grid.Row="16" Grid.Column="0" Text="Zip: "/>
+                        <Label Text="Primary Address" Grid.Row="10" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding Addr1}" />
+                        <controls:LabelTextCustomControl Grid.Row="12" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding City}" />
+                        <controls:LabelTextCustomControl Grid.Row="12" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding State}" />
+                        <controls:LabelTextCustomControl Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding Zip}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="17" Grid.ColumnSpan="2" Grid.Column="0" Text="Billing Address "/>
-                    <Label Grid.Row="18" Grid.Column="0" Text="Address: "/>
-                    <Label Grid.Row="19" Grid.Column="0" Text="City: "/>
-                    <Label Grid.Row="20" Grid.Column="0" Text="State: "/>
-                    <Label Grid.Row="21" Grid.Column="0" Text="Zip: "/>
-
-                    <Label BackgroundColor="SteelBlue" Grid.Row="22" Grid.ColumnSpan="2" Grid.Column="0" Text="Other: "/>
-                    <Label Grid.Row="23" Grid.Column="0" Text="Last Updated: "/>
-
-                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.Column="1"  Text="{Binding Name}"/>
-                    <Label Grid.Row="1" Grid.Column="1"  Text="{Binding No}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Grid.Row="1" Grid.Column="1"  Text="{Binding Name}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="13" Grid.Column="1"  Text="{Binding Addr1}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding Addr2}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding City}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="16" Grid.Column="1" Text="{Binding Zip}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding State}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="18" Grid.Column="1"  Text="{Binding BillAddr1}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding BillAddr2}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="19" Grid.Column="1" Text="{Binding BillCity}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding BillZip}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding BillState}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="6" Grid.Column="1"  Focused="Phone1_Focused" Text="{Binding Phone} "
-                               TextColor="#959aa0">
-                    <Label.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CallPhone}"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <!--<Label Text="{Binding PhoneType}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Phone2}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding PhoneType2}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Phone3}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding PhoneType3}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="3" Grid.Column="1"  Text="{Binding Email}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding Email2}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Email3}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding Type}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Notes}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Store}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Status}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Status_Display}"
-                               TextColor="#959aa0"/>
-                <Label Text="{Binding Type_Display}"
-                               TextColor="#959aa0"/>-->
-                </Grid>
+                        <Label Text="Billing Address" Grid.Row="14" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Address:" Value="{Binding BillAddr1}" />
+                        <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding BillCity}" />
+                        <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding BillState}" />
+                        <controls:LabelTextCustomControl Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"  RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding BillZip}" />
+                    </Grid>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Notes" Icon="Order_32.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <Label Text=""/>
+            <ContentPage Title="Notes" Icon="notes_96.png">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Label Margin="5,5" Text="{Binding CustomerNotes_HTML}" />
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
 
     <dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Balance" Icon="dollar.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}" Appearing="ContentPage_Appearing">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Text="Total: " 
-                        HorizontalOptions="FillAndExpand" />
-                    <Label Grid.Row="1" Grid.Column="0" Text="0 - 30 Days: "/>
-                    <Label Grid.Row="2" Grid.Column="0" Text="31 - 60 Days: "/>
-                    <Label Grid.Row="3" Grid.Column="0" Text="61 - 90 Days: "/>
-                    <Label Grid.Row="4" Grid.Column="0" Text="91 - 120 Days: "/>
-                    <Label Grid.Row="5" Grid.Column="0" Text="Over 120 Days: "/>
-
-                    <Label Grid.Row="0" Grid.Column="1"  Text="$0"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="1" Grid.Column="1"  Text="$0"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="2" Grid.Column="1"  Text="$0"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="3" Grid.Column="1" Text="$0"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="4" Grid.Column="1" Text="$0"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="5" Grid.Column="1" Text="$0"
-                               TextColor="#959aa0"/>
-                </Grid>
+            <ContentPage Title="Balance" Icon="sign_dollar_96.png" 
+                         Appearing="ContentPage_Appearing">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <controls:LabelTextCustomControl Grid.Row="0" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="Total:" Value="{Binding Balance.ARBalance, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="1" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="0 - 30 Days:" Value="{Binding Balance.AR30, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="2" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="31 - 60 Days:" Value="{Binding Balance.AR60, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="3" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="61 - 90 Days:" Value="{Binding Balance.AR90, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="4" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="91 - 120 Days:" Value="{Binding Balance.AR120, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="5" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="Over 120 Days:" Value="{Binding Balance.AROver120, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Grid.Row="6" RequestedTitleWidth="3*" RequestedValueWidth="7*" Title="Unapplied:" Value="{Binding Balance.ARUnapplied, StringFormat='{0:C}'}" />
+                    </Grid>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>

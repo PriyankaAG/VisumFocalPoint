@@ -40,12 +40,15 @@ namespace FocalPoint.Modules.Administrative.Views
             DevExpress.XamarinForms.Editors.Initializer.Init();
             //BindingContext = new CashDrawerSummaryViewModel();
             InitializeComponent();
-            
+
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawers();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawers();
+            });
         }
 
 
@@ -54,10 +57,15 @@ namespace FocalPoint.Modules.Administrative.Views
             var comboBox = sender as ComboBoxEdit;
             ((CashDrawerSummaryViewModel)this.BindingContext).SelectedCashDrawer = (CashDrawer)comboBox.SelectedItem;
         }
-        private void SimpleButton_Clicked(object sender, EventArgs e)
+        private async void SimpleButton_Clicked(object sender, EventArgs e)
         {
+            var validationMsg = ((CashDrawerSummaryViewModel)this.BindingContext).Validate();
+            if (!string.IsNullOrEmpty(validationMsg))
+            {
+                await DisplayAlert("FocalPoint", validationMsg, "OK");
+                return;
+            }
             ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawerSummary();
-            // await Navigation.PopModalAsync();
         }
     }
 }

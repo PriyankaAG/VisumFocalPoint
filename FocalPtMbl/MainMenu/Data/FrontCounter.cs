@@ -1,4 +1,5 @@
 ﻿using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.Models;
 using FocalPtMbl.Modules.Orders.Views;
 using System;

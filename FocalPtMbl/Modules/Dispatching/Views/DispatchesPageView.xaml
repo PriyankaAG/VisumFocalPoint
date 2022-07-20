@@ -1,20 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FocalPoint.Modules.Dispatching.Views.DispatchesPageView"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:FocalPoint.CustomControls" x:Class="FocalPoint.Modules.Dispatching.Views.DispatchesPageView"
              Title="Dispatch"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness" iOS="0, 10, 0, 0" />
     </ContentPage.Padding>
 
-    <ScrollView Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-        <StackLayout Padding="0" Spacing="0" Orientation="Vertical">
+    <ScrollView  Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5" Padding="0" Spacing="0" Orientation="Vertical">
             <Label Text="{Binding Dispatch.DispatchSubject}"           
                TextColor="Black" Padding="10,10" XAlign="Start" FontSize="Title"
                YAlign="Center" BackgroundColor="#008ead"/>
 
-            <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Margin="10,10">
+            <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="0,5,0,0"
+                         HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                <controls:LabelTextCustomControl Title="Type:" Value="{Binding Type}" />
+                <controls:LabelTextCustomControl Title="Time:" Value="{Binding Dispatch.DispatchStartDte, StringFormat='{}{0:MM/dd/yyyy hh:mm tt}'}" />
+                <controls:LabelTextCustomControl Title="Time Window:" Value="{Binding TimeWindow}" />
+                <controls:LabelTextCustomControl Title="Time Notes:" Value="{Binding Dispatch.OriginTimeNotes}" />
+                <controls:LabelTextCustomControl Title="Contact:" Value="{Binding Dispatch.OriginContact}" />
+                <controls:LabelTextCustomControl Title="Phone:" Value="{Binding Dispatch.OriginPhone}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenPhoneDialerCommand}" CommandParameter="{x:Binding Dispatch.OriginPhone}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
+                <controls:LabelTextCustomControl Title="Ship Contact:" Value="{Binding Dispatch.ShipToContact}" />
+                <controls:LabelTextCustomControl Title="Phone:" Value="{Binding Dispatch.ShipToPhone}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenPhoneDialerCommand}" CommandParameter="{x:Binding Dispatch.ShipToPhone}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
+                <controls:LabelTextCustomControl Title="Address:" Value="{Binding AddressText}" TextColorValue="Blue">
+                    <controls:LabelTextCustomControl.GestureRecognizers>
+                        <TapGestureRecognizer Command="{x:Binding OpenPhoneDialerCommand}" CommandParameter="{x:Binding AddressText}" />
+                    </controls:LabelTextCustomControl.GestureRecognizers>
+                </controls:LabelTextCustomControl>
+                <controls:LabelTextCustomControl Title="" Value="{Binding AddressText2}" />
+                <controls:LabelTextCustomControl Title="Dispatcher Notes:" Value="{Binding Dispatch.DispatchDscr}" />
+                <controls:LabelTextCustomControl Title="OriginNotesHeader:" Value="{Binding Dispatch.OriginNotes}" />
+            </StackLayout>
+            <!--<Grid RowSpacing="0" BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5" Padding="5,5" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="35*" />
                     <ColumnDefinition Width="65*" />
@@ -33,7 +59,7 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <!-- *************************** Ticket Information *************************** -->
+                --><!-- *************************** Ticket Information *************************** --><!--
 
                 <Label Text="Type:  " Grid.Row="0" Grid.Column="0" TextColor="Black" FontAttributes="Bold" />
                 <Label Text="{Binding Type}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
@@ -86,7 +112,7 @@
 
                 <Label Grid.Row="11" Grid.Column="0" Text="{Binding OriginNotesHeader}" TextColor="Black" FontAttributes="Bold"/>
                 <Label Grid.Row="11" Grid.Column="1" Text="{Binding Dispatch.OriginNotes}" TextColor="Black" Font="black"/>
-            </Grid>
+            </Grid>-->
         </StackLayout>
 
     </ScrollView>

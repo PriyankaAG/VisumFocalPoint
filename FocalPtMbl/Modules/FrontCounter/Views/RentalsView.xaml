@@ -4,46 +4,78 @@
              x:Class="FocalPoint.Modules.FrontCounter.Views.RentalsView"
               xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.CustomerRelations.ViewModels" 
+             BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.BindingContext>
         <viewModel:CustomerSimpleViewModel/>
     </ContentPage.BindingContext>
-    <StackLayout>
-        <dxe:TextEdit LabelText="Search" PlaceholderText="Rental Availability Search" TextChanged="TextEdit_Completed"  ClearIconClicked="TextEdit_ClearIconClicked" Text=""></dxe:TextEdit>
-        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}"
-                  DisplayMember="CmpName"
-                  ValueMember="CmpNo" 
-                          SelectionChanged="ComboBoxEdit_SelectionChanged">
-            <dxe:ComboBoxEdit.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Label Padding="10" Text="{Binding CmpName}" FontAttributes="Bold" />
-                        <Label Padding="10" Grid.Column="1" Text="{Binding CmpNo}" />
-                        <!--<Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />-->
-                    </Grid>
-                </DataTemplate>
-            </dxe:ComboBoxEdit.ItemTemplate>
+    <ContentPage.Content>
+    <ScrollView BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+            <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                <StackLayout Margin="10,0,10,0">
+                <Label Text="Search" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:TextEdit PlaceholderText="Rental Availability Search" TextChanged="TextEdit_Completed" 
+                              ClearIconClicked="TextEdit_ClearIconClicked" 
+                              Text="" 
+                              Style="{DynamicResource DxeTextEdit}"></dxe:TextEdit>
+                <Label Text="Store" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:ComboBoxEdit
+                              ItemsSource="{Binding CurrentStores}" 
+                              DisplayMember="CmpName" ValueMember="CmpNo" 
+                              SelectionChanged="ComboBoxEdit_SelectionChanged" 
+                    HeightRequest="40"
+                              Style="{DynamicResource DxeComboBoxStyle}">
+                <dxe:ComboBoxEdit.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Label Padding="10" Text="{Binding CmpName}" FontAttributes="Bold" />
+                            <Label Padding="10" Grid.Column="1" Text="{Binding CmpNo}" />
+                            <!--<Label Padding="10" Grid.Column="2" Text="{Binding Location}" HorizontalTextAlignment="End" />-->
+                        </Grid>
+                    </DataTemplate>
+                </dxe:ComboBoxEdit.ItemTemplate>
 
-        </dxe:ComboBoxEdit>
+            </dxe:ComboBoxEdit>
 
-        <dxe:ComboBoxEdit LabelText="Search In"
-                          SelectionChanged="ComboBoxEdit_SelectionChanged_1">
-            <dxe:ComboBoxEdit.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Rental File</x:String>
-                    <x:String>Rate Table</x:String>
-                </x:Array>
-            </dxe:ComboBoxEdit.ItemsSource>
+                <Label Text="Search In" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:ComboBoxEdit SelectionChanged="ComboBoxEdit_SelectionChanged_1" 
+                                  Style="{DynamicResource DxeComboBoxStyle}" 
+                                  HeightRequest="40">
+                <dxe:ComboBoxEdit.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Rental File</x:String>
+                        <x:String>Rate Table</x:String>
+                    </x:Array>
+                </dxe:ComboBoxEdit.ItemsSource>
 
-        </dxe:ComboBoxEdit>
-        
-        
-        <dxe:DateEdit Date="{Binding StartDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Start Date" ReturnType="Default"></dxe:DateEdit>
-        <dxe:TimeEdit Time="{Binding StartTime}" TimeChanged="TimeEdit_TimeChanged" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="Start Time" ReturnType="Default" ></dxe:TimeEdit>
+            </dxe:ComboBoxEdit>
 
-        <dxe:DateEdit Date="{Binding EndDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="End Date" ReturnType="Default"></dxe:DateEdit>
-        <dxe:TimeEdit Time="{Binding EndTime}" TimeChanged="TimeEdit_TimeChanged_1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" LabelText="End Time" ReturnType="Default" ></dxe:TimeEdit>
-        <dxe:SimpleButton TextColor="White" BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />
-    </StackLayout>
+                <Label Text="Start Date" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:DateEdit Date="{Binding StartDate}" DisplayFormat="d" 
+                              DateChanged="DateEdit_DateChanged"
+                              Style="{DynamicResource DxeDateTime}" 
+                              HeightRequest="40"
+                              ReturnType="Default"></dxe:DateEdit>
+                <Label Text="Start Time" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:TimeEdit Time="{Binding StartTime}" TimeChanged="TimeEdit_TimeChanged" 
+                              Style="{DynamicResource DxeDateTime}"
+                              HeightRequest="40" ReturnType="Default"></dxe:TimeEdit>
+
+                <Label Text="End Date" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:DateEdit Date="{Binding EndDate}" DisplayFormat="d" 
+                              DateChanged="DateEdit_DateChanged_1"
+                              Style="{DynamicResource DxeDateTime}" 
+                              HeightRequest="40" ReturnType="Default"></dxe:DateEdit>
+                <Label Text="End Time" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                <dxe:TimeEdit Time="{Binding EndTime}" 
+                              TimeChanged="TimeEdit_TimeChanged_1" 
+                              Style="{DynamicResource DxeDateTime}"
+                              HeightRequest="40" ReturnType="Default"></dxe:TimeEdit>
+                <Button Text="Search" VerticalOptions="End"
+                            Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked"
+                             />
+        </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

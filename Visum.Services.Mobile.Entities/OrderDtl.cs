@@ -8,8 +8,8 @@ namespace Visum.Services.Mobile.Entities
     public class OrderDtl
     {
         public int OrderNo { get; set; }
-        public int OrderDtlLine { get; set; }
-        public int OrderDtlNewLine { get; set; }
+        public short OrderDtlLine { get; set; }
+        public short OrderDtlNewLine { get; set; }
         public string OrderDtlType { get; set; }
         public string OrderDtlDscr { get; set; }
         public string OrderDtlDscr2 { get; set; }
@@ -18,7 +18,7 @@ namespace Visum.Services.Mobile.Entities
         public decimal OrderDtlDiscount { get; set; }
         public string OrderDtlStatus { get; set; }
         public int OrderDtlNo { get; set; }
-        public decimal? OrderDtlMeterOut { get; set; }
+        public decimal OrderDtlMeterOut { get; set; }
         public bool OrderDtlGeneric { get; set; }
         public bool OrderDtlParty { get; set; }
         public bool OrderDtlORide { get; set; }
@@ -75,6 +75,11 @@ namespace Visum.Services.Mobile.Entities
         public bool OrderDtlPreBillF { get; set; }
         public decimal OrderDtlFuelQty { get; set; }
         public bool OrderDtlSold { get; set; }
+
+        public int OrderDtlKitNo { get; set; }
+        public bool OrderDtlMainKit { get; set; }
+        public bool OrderDtlKitPricing { get; set; }
+        public short OrderDtlKitLine { get; set; }
 
     }
 }

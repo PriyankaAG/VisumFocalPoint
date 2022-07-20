@@ -1,9 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FocalPoint.Data.API;
+using FocalPoint.MainMenu.ViewModels;
+using FocalPoint.MainMenu.Views;
 using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
+using FocalPoint.Modules.Payments.Views;
+using FocalPoint.Utils;
+using FocalPtMbl.MainMenu.ViewModels.Services;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,14 +19,28 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewQuickRentalMainPage : ContentPage
     {
+        NewQuickRentalMainPageViewModel theViewModel;
         public NewQuickRentalMainPage()
         {
             InitializeComponent();
-            BindingContext = new NewQuickRentalMainPageViewModel();
+
+            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = false;
+            theViewModel = new NewQuickRentalMainPageViewModel();
+            theViewModel.IsPageLoading = true;
+            BindingContext = theViewModel;
+
             GetOrderInfo();
+
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
 
         private List<string> notifications = new List<string>();
+        private string selectedItem = "";
+
         private void GetOrderInfo()
         {
             Device.BeginInvokeOnMainThread(async () =>
@@ -36,6 +56,19 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 //{
                 //    await DisplayAlert("Problem Creating an order", "There was a problem creating the order. Please try again with a better connection", "OK");
                 //}
+
+                //Lets say we load default values
+                _ = Task.Delay(300).ContinueWith((a) =>
+                  {
+                      Device.BeginInvokeOnMainThread(async () =>
+                      {
+                          theViewModel.SetDefaultValues();
+                          _ = Task.Delay(1000).ContinueWith((a) =>
+                            {
+                                theViewModel.IsPageLoading = false;
+                            });
+                      });
+                  });
             });
         }
 
@@ -48,34 +81,468 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             base.OnAppearing();
             SubscribeEvents();
+
+            theViewModel.SelectedItem = "Select Item Type";
+            selectedItem = "Select Item Type";
         }
 
         public void SubscribeEvents()
         {
             MessagingCenter.Unsubscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected");
+            MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
+            MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
+            MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "NotesAdded");
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
                 (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
                 (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
+                UpdateTheOrder(customer);
+            });
+            MessagingCenter.Subscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD", async (sender, customer) =>
+            {
+                (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
+                (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
+                UpdateTheOrder(customer);
+            });
+            MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
+            {
+                UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+            });
+            MessagingCenter.Subscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "OrderDetailUpdated", async (a, tup) =>
+            {
+                var retOrder = tup.Item1;
+                var retOrderDtl = tup.Item2;
+                (BindingContext as NewQuickRentalMainPageViewModel).ReloadOrder(retOrder, retOrderDtl);
             });
         }
 
-        private void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
+        {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(customer, theNotes);
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        public async Task<bool> AfterUpdate_OrderProcessing(OrderUpdate orderRefresh)
+        {
+            try
+            {
+                if (orderRefresh == null) return false;
+                if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
+                {
+                    while (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
+                    {
+                        //display answer if key does not have a value update that value
+                        //checkUpdate.Answers.
+                        if (orderRefresh.Answers.Count > 0)
+                        {
+                            // KIRK REM KeyValuePair<int, string> question = new KeyValuePair<int, string>();
+                            QuestionAnswer question = null;
+                            foreach (var answer in orderRefresh.Answers)
+                            {
+                                //0 or 1 is not found
+                                if (!(answer.Answer == "True" || answer.Answer == "False"))
+                                {
+                                    question = answer;
+                                    break;
+                                }
+                            }
+                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
+                            orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
+
+                            var ordUpdate = (BindingContext as NewQuickRentalMainPageViewModel).OrderUpdate;
+                            if (ordUpdate == null)
+                                ordUpdate = orderRefresh;
+                            else
+                            {
+                                var ord = orderRefresh.Answers.Find(qa => qa.Code == question.Code);
+                                ordUpdate.Answers.Add(ord);
+                            }
+
+                            ordUpdate.Order = theViewModel.CurrentOrder;
+                            theViewModel.CurrentOrderUpdate = ordUpdate;
+                            orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(updateOrder: ordUpdate);
+                        }
+
+                    }
+                }
+                if (orderRefresh.Notifications.Count > 0)
+                {
+                    foreach (var notification in orderRefresh.Notifications)
+                    {
+                        await DisplayAlert("Customer Notification", notification, "OK");
+                    }
+                    return false;
+                }
+                if (orderRefresh.CustomerMessage != null && orderRefresh.CustomerMessage.Length > 0)
+                {
+                    await DisplayAlert("Customer Message", orderRefresh.CustomerMessage, "OK");
+                    return false;
+                }
+                if (orderRefresh.Answers == null || orderRefresh.Answers.Count == 0)
+                {
+                    if (orderRefresh.Order != null)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                {
+                    return await AfterUpdate_OrderProcessing(orderRefresh);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private async void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
         {
             var data = e.SelectedIndex;
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
-                var selected = myPicker.ItemsSource[e.SelectedIndex];
-                DisplayAlert("Great!!", $"You chose {selected}", "Cancel");
+                selectedItem = myPicker.ItemsSource[e.SelectedIndex];
             }
+            if (selectedItem == "" || selectedItem.ToLower() == "Select Item Type".ToLower())
+            {
+                //await DisplayAlert("Select Type", "Please select a search type", "OK");
+                return;
+            }
+            if (selectedItem == "Rentals")
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
+            }
+            else if (selectedItem == "Merchandise")
+            {
+                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
+                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
+                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailMerchViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailMerchView.BindingContext = addDetailMerchViewModel;
+                await Navigation.PushAsync(addDetailMerchView);
+            }
+            else if (selectedItem == "Rental Saleable")
+            {
+                AddDetailRentalSalesView addDetailRentalSalesView = new AddDetailRentalSalesView();
+                AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = new AddDetailRentalSalesViewModel(selectedItem, 1);
+                addDetailRentalSalesViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalSalesViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailRentalSalesView.BindingContext = addDetailRentalSalesViewModel;
+                await Navigation.PushAsync(addDetailRentalSalesView);
+            }
+            else if (selectedItem == "Rate Tables")
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 6);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
+            }
+            else if (selectedItem == "Kits")
+            {
+                AddDetailKitsView addDetailKitsView = new AddDetailKitsView();
+                AddDetailKitsViewModel addDetailKitsViewModel = new AddDetailKitsViewModel(selectedItem, 1);
+                addDetailKitsViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailKitsViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
+                addDetailKitsView.BindingContext = addDetailKitsViewModel;
+                await Navigation.PushAsync(addDetailKitsView);
+            }
+
         }
 
         private void Button_Clicked_1(object sender, EventArgs e)
         {
             var a = myPicker.SelectedItem;
             var b = myPicker.SelectedIndex;
-            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentalsss";
+            (BindingContext as NewQuickRentalMainPageViewModel).SelectedItem = "Rentals";
         }
+
+        private async void LabelDropDownCustomControl_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+
+            (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
+
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void AddDetails_Clicked(object sender, EventArgs e)
+        {
+            if (selectedItem == "")
+            {
+                await DisplayAlert("Select Type", "Please select a search type", "OK");
+                return;
+            }
+            if (selectedItem == "Merchandise")
+            {
+                AddDetailMerchView addDetailMerchView = new AddDetailMerchView();
+                AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
+                addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailMerchView.BindingContext = addDetailMerchViewModel;
+                await Navigation.PushAsync(addDetailMerchView);
+            }
+            else
+            {
+                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
+                addDetailRentalView.BindingContext = addDetailRentalViewModel;
+                await Navigation.PushAsync(addDetailRentalView);
+            }
+        }
+
+        private async void VoidOrder_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                bool doVoid = await DisplayAlert("Void", "Are you sure you want to void?", "OK", "Cancel");
+                if (doVoid)
+                {
+                    string result = await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder();
+                    if (!result.HasData())
+                    {
+                        NavigateToDashboard();
+                    }
+                    else
+                        await DisplayAlert("Void", "Void did not succeed try again", "OK");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+        public async void NavigateToDashboard()
+        {
+            //TODO: Navigate to the Main Page
+            (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = true;
+            //FrontCounter
+            ((Application.Current.MainPage as MainMenuFlyout).FlyoutPageDrawerObject.BindingContext as MainMenuFlyoutDrawerViewModel).ResetSelectedItem();
+
+            //IsSelected = true;
+
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
+            await NavSer.PushPageFromMenu(typeof(FocalPtMbl.MainMenu.Views.MainPage), "Dashboard");
+        }
+
+        private async void InternalNotes_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushAsync(QOInternalNV);
+        }
+
+        private async void PrintNotes_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushAsync(QOPrintNV);
+        }
+
+        private async void TotalBreakout_Clicked(object sender, EventArgs e)
+        {
+            // await Navigation.PushAsync(QOTotalBV);
+        }
+
+        private async void Payment_Clicked(object sender, EventArgs e)
+        {
+            ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
+            var orderDetails = await viewOrderEntityComponent.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
+            if (orderDetails != null)
+            {
+                await Navigation.PushAsync(new PaymentView(orderDetails));
+            }
+        }
+
+        private void Button_Clicked_2(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new OrderNotesView(new Tuple<string, string>(theViewModel.CurrentOrder.OrderIntNotes, theViewModel.CurrentOrder.OrderNotes)));
+
+        }
+
+        private async void Button_Clicked_3(object sender, EventArgs e)
+        {
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var a = (e as TappedEventArgs).Parameter;
+            this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl, theViewModel.CurrentOrder));
+        }
+
+        private void Button_Clicked_4(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            this.Navigation.PushAsync(new TotalBreakoutView(vm.CurrentOrder));
+        }
+
+        private async void LabelDropDownCustomControl_ItemSelected_1(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void TimePicker_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (theViewModel.IsPageLoading) return;
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            AfterUpdate_OrderProcessing(orderRefresh);
+        }
+
+        private async void SaveTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+            }
+            vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
+
+            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+            if (isSuccess)
+                NavigateToDashboard();
+            else
+                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+        }
+
+        private async void SaveAndEmailTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            //Customer EMAIL Check
+            if (!vm.CurrentOrderUpdate.Order.Customer.CustomerEmail.HasData())
+            {
+                bool confirmation = await DisplayAlert("No Email Found", "No Email on file for customer. Would you like to send to a new address? ", "Yes", "No");
+                if (confirmation)
+                {
+                    string customersEmail = await DisplayPromptAsync("Customer's Email", "What's the customers email address", keyboard: Keyboard.Email);
+                    if (IsValidEmail(customersEmail))
+                    {
+                        vm.CurrentOrderUpdate.Order.Customer.CustomerEmail = customersEmail;
+
+                        vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
+
+                        var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+                        var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+
+                        if (isSuccess)
+                        {
+                            ////SEND EMAIL
+                            IGeneralComponent generalComponent = new GeneralComponent();
+                            EmailDocumentInputDTO emailDocumentInputDTO = new EmailDocumentInputDTO();
+                            emailDocumentInputDTO.DocKind = (int)DocKinds.Order;
+                            emailDocumentInputDTO.RecordID = theViewModel.CurrentOrder.OrderNo;
+                            emailDocumentInputDTO.ToAddr = customersEmail;
+                            bool response = await generalComponent.SendEmailDocument(emailDocumentInputDTO);
+                            if (response)
+                            {
+                                await DisplayAlert("Success", "Document sent successfully", "OK");
+                                NavigateToDashboard();
+                            }
+                            else
+                            {
+                                await DisplayAlert("FocalPoint Mobile", "Failed to send an email", "OK");
+                            }
+                        }
+                        else
+                        {
+                            await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+                        }
+
+                    }
+                    else
+                    {
+                        await DisplayAlert("Email Incorrect", "The entered Email is invalid.", "Ok");
+                    }
+                }
+            }
+        }
+
+        private async void SaveAsQuoteTapped(object sender, EventArgs e)
+        {
+            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
+            if (vm.CurrentOrderUpdate == null)
+            {
+                vm.CurrentOrderUpdate = new OrderUpdate();
+                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
+            }
+            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitAsQuote;
+
+            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
+            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+            if (isSuccess)
+                NavigateToDashboard();
+            else
+                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+        }
+
+        public static bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                // Normalize the domain
+                email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
+                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
+
+                // Examines the domain part of the email and normalizes it.
+                string DomainMapper(Match match)
+                {
+                    // Use IdnMapping class to convert Unicode domain names.
+                    var idn = new IdnMapping();
+
+                    // Pull out and process domain name (throws ArgumentException on invalid)
+                    string domainName = idn.GetAscii(match.Groups[2].Value);
+
+                    return match.Groups[1].Value + domainName;
+                }
+            }
+            catch (RegexMatchTimeoutException e)
+            {
+                return false;
+            }
+            catch (ArgumentException e)
+            {
+                return false;
+            }
+
+            try
+            {
+                return Regex.IsMatch(email,
+                    @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                    RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+
     }
 }

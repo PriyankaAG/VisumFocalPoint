@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls"
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.TotalBreakoutView" 
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             BackgroundColor="{StaticResource BackgroundPageColor}">
+    <ContentPage.Content>
+        <ScrollView>
+            <Frame Style="{DynamicResource NewQuickRentalFrameStyle}" CornerRadius="5" HasShadow="True"  
+                       Padding="5" Margin="10,10,10,10" IsVisible="{Binding IsCustomerNotSelected}">
+                <StackLayout>
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Rental Totals:" Value="{Binding OrdersObj.Totals.TotalRentalAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Merchandise Totals:" Value="{Binding OrdersObj.Totals.TotalMerchAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Rental Sales:" Value="{Binding OrdersObj.Totals.TotalRentalSaleAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Cleaning Charges:" Value="{Binding OrdersObj.Totals.TotalCleaningAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Damage Waiver:" Value="{Binding OrdersObj.Totals.TotalDWAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Additional Charges:" Value="{Binding OrdersObj.Totals.TotalAddChgAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Interval Charges:" Value="{Binding OrdersObj.Totals.TotalMeterAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Fuel Charges:" Value="{Binding OrdersObj.Totals.TotalFuelAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*" Title="Tax:" Value="{Binding OrdersObj.OrderTax, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Order Total:" Value="{Binding OrdersObj.OrderAmount, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Amount Paid:" Value="{Binding OrdersObj.OrderPaid, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Deposit Paid:" Value="{Binding OrdersObj.OrderDeposit, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Suggested Deposit:" Value="{Binding OrdersObj.Totals.TotalSugDepositAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Security Deposit:" Value="{Binding OrdersObj.Totals.TotalSecDepositAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Balance Due:" Value="{Binding OrdersObj.Totals.TotalDueAmt, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth ="4*"  Title="Deposit Requested:" Value="{Binding OrdersObj.OrderDepositRequested, StringFormat='{0:C}'}" />
+                    <controls:LabelTextCustomControl RequestedTitleWidth="6*" RequestedValueWidth="4*" Title="Deposit Due Date:" Value="{Binding OrdersObj.OrderDepositDueDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                </StackLayout>
+            </Frame>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

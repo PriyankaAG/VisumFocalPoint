@@ -1,17 +1,24 @@
 ﻿using FocalPoint.Modules.FrontCounter.ViewModels;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
+using FocalPoint.Modules.Dispatching.Views;
+using FocalPoint.Modules.ServiceDepartment.Views;
+using FocalPoint.Data;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrontCounter : ContentPage
+    public partial class FrontCounter : ContentView
     {
         public FrontCounter()
         {
             InitializeComponent();
-            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();           
+            if (DataManager.Settings != null && string.IsNullOrEmpty(DataManager.Settings.UserName))
+                return;
+            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();
             BindingContext = frontCounterDashboardViewModel;
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -53,7 +60,14 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await OpenFilterPopup();
+                try
+                {
+                    await OpenFilterPopup();
+                }
+                catch (Exception ex)
+                {
+                    //TODO: Log Error
+                }
             });
 
             async Task OpenFilterPopup()
@@ -66,6 +80,58 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 {
                     await frontCounterViewModel.GetDashboardDetail();
                 }
+            }
+        }
+
+        private async void QuickRental_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                NewQuickRentalMainPage newQuickRentalMainPage = new NewQuickRentalMainPage();
+                await this.Navigation.PushAsync(newQuickRentalMainPage);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+
+        private async void Dispatching_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ScheduleDispatchingPageView scheduleDispatchingPageView = new ScheduleDispatchingPageView();
+                await this.Navigation.PushAsync(scheduleDispatchingPageView);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+
+        private async void ServiceDept_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                WorkOrderFormView workOrderFormView = new WorkOrderFormView();
+                await this.Navigation.PushAsync(workOrderFormView);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
+            }
+        }
+
+        private async void Return_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ReturnsView returnsView = new ReturnsView();
+                await this.Navigation.PushAsync(returnsView);
+            }
+            catch (Exception ex)
+            {
+                //TODO: log error
             }
         }
     }

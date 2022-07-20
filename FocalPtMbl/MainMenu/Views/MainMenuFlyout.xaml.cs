@@ -19,11 +19,23 @@ namespace FocalPoint.MainMenu.Views
         {
             InitializeComponent();
             FlyoutPageDrawer.ListView.ItemSelected += ListView_ItemSelected;
+            IsGestureEnabled = true;
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
         }
+        //// SUSHIL: Check this back
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    bool result = true;
+        //    Device.BeginInvokeOnMainThread(async () =>
+        //    {
+        //        result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+        //    });
+        //    return result;
+
+        //}
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as MainMenuFlyoutFlyoutMenuItem;
@@ -43,7 +55,7 @@ namespace FocalPoint.MainMenu.Views
             }
             else
             {
-                page = (Page)Activator.CreateInstance(item.TargetType);
+                page = Activator.CreateInstance(item.TargetType) as Page;
                 if (page != null)
                 {
                     page.Title = item.Title;

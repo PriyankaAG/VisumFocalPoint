@@ -21,8 +21,8 @@ namespace FocalPoint.Components.EntityComponents
         public PaymentEntityComponent()
         {
             apiComponent = new APIComponent();
-            apiComponent.AddStoreToHeader("1");
-            apiComponent.AddTerminalToHeader("1");
+            //apiComponent.AddStoreToHeader("1");
+            //apiComponent.AddTerminalToHeader("1");
         }
 
         public async Task<PaymentSettings> GetPaymentSettings()

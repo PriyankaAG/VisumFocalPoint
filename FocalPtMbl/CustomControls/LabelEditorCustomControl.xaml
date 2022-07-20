@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" x:Name="customEntryView" x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Name="customEntryView" 
+             x:Class="FocalPoint.CustomControls.LabelEditorCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -10,7 +16,7 @@
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default">
+            <Label Text="{Binding LabelText, Source={x:Reference customEntryView}}" FontSize="Default" >
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding IsValid, Source={x:Reference customEntryView}, Mode=TwoWay}" Value="False">
                         <Setter Property="TextColor" Value="{StaticResource ErrorColor}" />
@@ -19,13 +25,17 @@
                 </Label.Triggers>
             </Label>
             <Frame BackgroundColor="#fff" CornerRadius="5" HasShadow="True" BorderColor="#e6e9f4" Padding="2">
-                <customrenderers:CustomEntry HorizontalOptions="Fill" Style="{DynamicResource EntryStyle}" 
-                                             IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}" 
-                                             MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}" 
-                                             Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
-                                             Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
-                                             Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}" 
-                                             Unfocused="CustomEntry_Unfocused" TextChanged="CustomEntry_TextChanged">
+                <customrenderers:CustomEntry 
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference customEntryView}}" 
+                    HorizontalOptions="Fill"  
+                    VerticalOptions="Fill"
+                    Style="{DynamicResource EntryStyle}" 
+                    MaxLength="{Binding MaxLenth,Source={x:Reference customEntryView}}"
+                    Text="{Binding EditorText, Source={x:Reference customEntryView}, Mode=TwoWay}"
+                    Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}"
+                    Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                    Unfocused="CustomEntry_Unfocused"
+                    TextChanged="CustomEntry_TextChanged">
                     <customrenderers:CustomEntry.Behaviors>
                         <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Completed}" CommandParameter="1" EventName="Completed" />
                         <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Command}" CommandParameter="1" EventName="TextChanged" />

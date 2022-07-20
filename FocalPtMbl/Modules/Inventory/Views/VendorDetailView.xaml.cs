@@ -17,7 +17,7 @@ namespace FocalPoint.Modules.Inventory.Views
         readonly VendorDetailViewModel viewModel;
         public VendorDetailView(Vendor vend)
         {
-            DevExpress.XamarinForms.Navigation.Initializer.Init();
+            //DevExpress.XamarinForms.Navigation.Initializer.Init();
             this.viewModel = new VendorDetailViewModel(vend);
             InitializeComponent();
             BindingContext = this.viewModel;

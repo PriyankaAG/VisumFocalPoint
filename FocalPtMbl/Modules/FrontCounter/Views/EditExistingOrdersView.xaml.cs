@@ -19,12 +19,13 @@ namespace FocalPoint.Modules.FrontCounter.Views
         public EditExistingOrdersView()
         {
             InitializeComponent();
-            DevExpress.XamarinForms.Navigation.Initializer.Init();
-            //this.viewModel = new EditExistingOrdersViewModel();
-            //BindingContext = new EditExistingOrdersViewModel();
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 1, true);
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
-            ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
+            //DevExpress.XamarinForms.Navigation.Initializer.Init();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 1, true);
+                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
+                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
+            });
         }
         protected override void OnAppearing()
         {
@@ -36,6 +37,8 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             base.OnDisappearing();
             collectionView.SelectedItem = null;
+            collectionView2.SelectedItem = null;
+            collectionView3.SelectedItem = null;
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {

@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint
@@ -98,6 +99,34 @@ namespace FocalPoint
             return typedRequestContent;
         }
 
+        public async Task<T> PutAsync<T>(string url, string requestContent)
+        {
+            T typedRequestContent = default;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await PutAsync(url, requestContent);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else
+                {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return typedRequestContent;
+        }
+
         public async Task<T> SendAsync<T>(string url, string requestContent, bool isLoginMethod = false)
         {
             T typedRequestContent = default;
@@ -123,6 +152,114 @@ namespace FocalPoint
                 throw;
             }
             return typedRequestContent;
+        }
+        public async Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false)
+        {
+            OrderUpdate orderUpdateRefresh = new OrderUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, isLoginMethod);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                    //orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent);
+                    //check if empty result
+                    if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                    {
+                        //CurrentOrder = orderUpdateRefresh.Order;
+                        if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
+                        {
+                            orderUpdateRefresh.Answers.Clear();
+                            return orderUpdateRefresh;
+                        }
+                    }
+                    else
+                        throw new Exception("Order customer not changed");
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                    //exceptionMessage = questionFaultExceptiom.Message;
+
+                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                    //exceptionMessage = questionFaultExceptiom.Message;
+
+                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+            }
+            return orderUpdateRefresh;
+        }
+
+        public async Task<OrderUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent)
+        {
+            OrderUpdate orderDetailUpdateRefresh = new OrderUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, false);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    orderDetailUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                    if (orderDetailUpdateRefresh != null)
+                    {
+                        if (orderDetailUpdateRefresh.Answers != null && orderDetailUpdateRefresh.Answers.Count > 0)
+                        {
+                            orderDetailUpdateRefresh.Answers.Clear();
+                            return orderDetailUpdateRefresh;
+                        }
+                    }
+                    else
+                        throw new Exception("Order customer not changed");
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                   
+                    orderDetailUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+            }
+            return orderDetailUpdateRefresh;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string url)
@@ -157,7 +294,24 @@ namespace FocalPoint
             return responseMessage;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod)
+        public async Task<HttpResponseMessage> PutAsync(string url, string requestConentString)
+        {
+            HttpResponseMessage responseMessage = null;
+            try
+            {
+                StringContent requestContent = new StringContent(requestConentString);
+                HttpContent content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
+                responseMessage = await ClientHTTP.PutAsync(GetCompleteURL(url), content);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return responseMessage;
+        }
+
+        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
         {
             HttpResponseMessage responseMessage;
             try
@@ -167,9 +321,8 @@ namespace FocalPoint
                 request.Content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
 
                 responseMessage = await ClientHTTP.SendAsync(request);
-                responseMessage.EnsureSuccessStatusCode();
             }
-            catch
+            catch(Exception ex)
             {
                 throw;
             }

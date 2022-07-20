@@ -1,693 +1,178 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.FrontCounter.Views.Rentals.OpenRentalDetailsView"
              xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.Rentals"
-             HeaderPanelPosition="Top"
-             ItemHeaderWidth="*"
-             ItemHeaderMinWidth="120"
-             ItemHeaderMaxWidth="360"
-             IsSelectedItemIndicatorVisible="False"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.Rentals" 
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls" 
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-    <dxn:TabPage.BindingContext>
+    <ContentPage.BindingContext>
         <viewModel:OpenRentalDetailsViewModel/>
-    </dxn:TabPage.BindingContext>
-    <dxn:TabPageItem>
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Info" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
-                <StackLayout>
-
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-               <RowDefinition   />
-            </Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- *************************** Rental Detail *************************** -->
-                        <Label Text="  Rental Detail  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start"     />
-                        <Label Text="{Binding CurrentRental.RentalDscr}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black"   BackgroundColor="White" />
-                        <Label Text="Store:  " Grid.Row="2" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalBelongsTo}" Grid.Row="2" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Equipment ID:  " Grid.Row="3" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalEquipID}" Grid.Row="3" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Manufacturer:  " Grid.Row="4" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.MfgName}" Grid.Row="4" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Make:  " Grid.Row="5" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalMake}" Grid.Row="5" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Model:  " Grid.Row="6" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalModel}" Grid.Row="6" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Year:  " Grid.Row="7" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalYr}" Grid.Row="7" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Retail:  " Grid.Row="8" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalRetail, StringFormat='{}{0:C}'}" Grid.Row="8" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Average Cost:  " Grid.Row="9" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalCost, StringFormat='{}{0:C}'}" Grid.Row="9" Grid.Column="1" TextColor="Black"   />
-                        <!-- *************************** Rental History *************************** -->
-                        <Label Text="  Rental History  " Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start"     />
-                        <Label Text="First Rented:  " Grid.Row="11" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalFirstRented, StringFormat='{}{0:d}'}" Grid.Row="11" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Last Rented:  " Grid.Row="12" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalLastRented, StringFormat='{}{0:d}'}" Grid.Row="12" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="YTD Amount:  " Grid.Row="13" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalYTDAmt, StringFormat='{}{0:C}'}" Grid.Row="13" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="LTD Amount:  " Grid.Row="14" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalLTDAmt, StringFormat='{}{0:C}'}" Grid.Row="14" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="YTD Rented Units:  " Grid.Row="15" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalYTDUnit, StringFormat='{}{0:N2}'}" Grid.Row="15" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="LTD Rented Units:  " Grid.Row="16" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalLTDUnit, StringFormat='{}{0:N2}'}" Grid.Row="16" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="YTD Repairs:  " Grid.Row="17" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalRepairYTD, StringFormat='{}{0:C}'}" Grid.Row="17" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="LTD Repairs:  " Grid.Row="18" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalRepairLTD, StringFormat='{}{0:C}'}" Grid.Row="18" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="ROI YTD:  " Grid.Row="19" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalLTDAmt, StringFormat='{}{0:P2}'}" Grid.Row="19" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="ROI LTD:  " Grid.Row="20" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.LTDPct, StringFormat='{}{0:P2}'}" Grid.Row="20" Grid.Column="1" TextColor="Black"   />
-
-
-                        <Label Text="  Other  " Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start"     />
-
-                        <Label Text="Last Updated:  " Grid.Row="22" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding RentalLastUpdated}" Grid.Row="22" Grid.Column="1" TextColor="Black"   />
-
-                    </Grid>
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <dxn:TabPageItem>
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Notes"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <StackLayout Orientation="Vertical"	VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-					<RowDefinition   />
-				</Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- *************************** Notes *************************** -->
-                        <Label Text="  Rental Notes  " Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" XAlign="Start"     />
-
-                    </Grid>
-
-                    <StackLayout Orientation="Vertical"	VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="10, 10, 10, 10">
-                        <Label Text="{Binding CurrentRental.RentalNote}" TextColor="Black"   BackgroundColor="White" HorizontalOptions="FillAndExpand" />
+    </ContentPage.BindingContext>
+    <dxn:TabView>
+        <dxn:TabViewItem 
+            HeaderFontSize="14" 
+            HeaderFontAttributes="Bold" 
+            HeaderTextColor="#99191919" 
+            HeaderIconColor="#99191919"
+            HeaderIconPosition="Top" 
+            HeaderIconSpacing="4"
+            HeaderWidth="*"
+            HeaderMinWidth="100"
+            HeaderMaxWidth="360" 
+            HeaderPadding="12,0" 
+            HeaderVisibleElements="Text" 
+            SelectedHeaderTextColor="#1e88e5"
+            SelectedHeaderIconColor="#1e88e5" 
+            HeaderText="Info">
+            <dxn:TabViewItem.Content>
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5" Grid.Row="0" VerticalOptions="Start">
+                        <Label Text="Rental Detail" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Store:" Value="{Binding CurrentRental.RentalBelongsTo}" />
+                        <controls:LabelTextCustomControl Title="Equipment ID:" Value="{Binding CurrentRental.RentalEquipID}" />
+                        <controls:LabelTextCustomControl Title="Manufacturer:" Value="{Binding CurrentRental.MfgName}" />
+                        <controls:LabelTextCustomControl Title="Make:" Value="{Binding CurrentRental.RentalMake}" />
+                        <controls:LabelTextCustomControl Title="Model:" Value="{Binding CurrentRental.RentalModel}" />
+                        <controls:LabelTextCustomControl Title="Year:" Value="{Binding CurrentRental.RentalYr}" />
+                        <controls:LabelTextCustomControl Title="Retail:" Value="{Binding CurrentRental.RentalRetail, StringFormat='{}{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Average Cost:" Value="{Binding CurrentRental.RentalCost, StringFormat='{}{0:C}'}" />
+                        <Label Text="Rental History" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="First Rented:" Value="{Binding CurrentRental.RentalFirstRented}" />
+                        <controls:LabelTextCustomControl Title="Last Rented:" Value="{Binding CurrentRental.RentalLastRented,StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                        <controls:LabelTextCustomControl Title="YTD Amount:" Value="{Binding CurrentRental.RentalYTDAmt}" />
+                        <controls:LabelTextCustomControl Title="LTD Amount:" Value="{Binding CurrentRental.RentalLTDAmt}" />
+                        <controls:LabelTextCustomControl Title="YTD Rented Units:" Value="{Binding CurrentRental.RentalYTDUnit}" />
+                        <controls:LabelTextCustomControl Title="LTD Rented Units:" Value="{Binding CurrentRental.RentalLTDUnit}" />
+                        <controls:LabelTextCustomControl Title="YTD Repairs:" Value="{Binding CurrentRental.RentalRepairYTD}" />
+                        <controls:LabelTextCustomControl Title="LTD Repairs:" Value="{Binding CurrentRental.RentalRepairLTD}" />
+                        <controls:LabelTextCustomControl Title="ROI YTD:" Value="{Binding CurrentRental.RentalLTDAmt}" />
+                        <controls:LabelTextCustomControl  Title="ROI LTD:" Value="{Binding CurrentRental.LTDPct}" />
+                        <Label Text="Other" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Last Updated:" Value="{Binding RentalLastUpdated,StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                     </StackLayout>
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
+                </ScrollView>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="Text" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" HeaderText="Notes">
+            <dxn:TabViewItem.Content>
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                    <Label Text="Rental Notes" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Label Text="{Binding CurrentRental.RentalNote}" Style="{StaticResource Key=LabelDefault}" XAlign="Start" YAlign="Center" />
+                    </StackLayout>
+                </ScrollView>
+            </dxn:TabViewItem.Content>
+            </dxn:TabViewItem>
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="Text" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" HeaderText="Rates">
+            <dxn:TabViewItem.Content>
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="Rental Rate Information" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Minimum:" Value="{Binding CurrentRentalRates.SubDtlMinChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Minimum Hours:" Value="{Binding CurrentRentalRates.SubDtlMinHrs}" />
+                        <controls:LabelTextCustomControl Title="Charge 2:" Value="{Binding CurrentRentalRates.SubDtlMinChg2}" />
+                        <controls:LabelTextCustomControl Title="Charge 2 Hours:" Value="{Binding CurrentRentalRates.SubDtlMinHrs2}" />
+                        <controls:LabelTextCustomControl Title="Charge 3:" Value="{Binding CurrentRentalRates.SubDtlMinChg3, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Charge 3 Hours:" Value="{Binding CurrentRentalRates.SubDtlMinHrs3}" />
+                        <controls:LabelTextCustomControl Title="Per Hour:" Value="{Binding SubGroupHourChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Per Day:" Value="{Binding CurrentRentalRates.SubDtlDayChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Per Week:" Value="{Binding SubGroupWeeklyChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Days In Week:" Value="{Binding CurrentRentalRates.SubDtlDaysInWeek}" />
+                        <controls:LabelTextCustomControl Title="Per Month:" Value="{Binding CurrentRentalRates.SubDtlMonthChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Over Night:" Value="{Binding SubGroupOverNightChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Saturday - Monday:" Value="{Binding CurrentRentalRates.SubDtlSatMonChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Friday - Monday:" Value="{Binding SubGroupFriMonChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Open To Close:" Value="{Binding SubGroupOpenToCloseChg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Last Updated:" Value="{Binding SubGroupLastUpdated}" />
+                    </StackLayout>
+                </ScrollView>
+            </dxn:TabViewItem.Content>
+    </dxn:TabViewItem>
+        <dxn:TabViewItem HeaderFontSize="14"
+                         HeaderFontAttributes="Bold"
+                         HeaderTextColor="#99191919"
+                         HeaderIconColor="#99191919"
+                         HeaderIconPosition="Top"
+                         HeaderIconSpacing="4"
+                         HeaderWidth="*" 
+                         HeaderMinWidth="90"
+                         HeaderMaxWidth="360"
+                         HeaderPadding="12,0"
+                         HeaderVisibleElements="Text" 
+                         SelectedHeaderTextColor="#1e88e5"
+                         SelectedHeaderIconColor="#1e88e5"
+                         HeaderText="Packages">
+            <dxn:TabViewItem.Content>
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout Margin="5,5">
+                        <Label Text="Rental Rate Package 1" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Label Text="Package 1" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Monday:" Value="{Binding SubGroupPack1Day1Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Tuesday:" Value="{Binding SubGroupPack1Day2Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Wednesday:" Value="{Binding SubGroupPack1Day3Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Thursday:" Value="{Binding SubGroupPack1Day4Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Friday:" Value="{Binding SubGroupPack1Day5Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Saturday:" Value="{Binding SubGroupPack1Day6Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Sunday:" Value="{Binding SubGroupPack1Day7Chg, StringFormat='{0:C}'}" />
 
-    <dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Rates"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-               <RowDefinition   />
-            </Grid.RowDefinitions>-->
+                        <Label Text="Rental Rate Package 2" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Label Text="Package 2" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Monday:" Value="{Binding SubGroupPack2Day1Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Tuesday:" Value="{Binding SubGroupPack2Day2Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Wednesday:" Value="{Binding SubGroupPack2Day3Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Thursday:" Value="{Binding SubGroupPack2Day4Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Friday:" Value="{Binding SubGroupPack2Day5Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Saturday:" Value="{Binding SubGroupPack2Day6Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Sunday:" Value="{Binding SubGroupPack2Day7Chg, StringFormat='{0:C}'}" />
+
+                        <Label Text="Rental Rate Package 3" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <Label Text="Package 3" Padding="0,2,10,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Day 1:" Value="{Binding SubGroupPack3Day1Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 2:" Value="{Binding SubGroupPack3Day2Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 3:" Value="{Binding SubGroupPack3Day3Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 4:" Value="{Binding SubGroupPack3Day4Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 5:" Value="{Binding SubGroupPack3Day5Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 6:" Value="{Binding SubGroupPack3Day6Chg, StringFormat='{0:C}'}" />
+                        <controls:LabelTextCustomControl Title="Day 7:" Value="{Binding SubGroupPack3Day7Chg, StringFormat='{0:C}'}" />
+                    </StackLayout>
+                </ScrollView>
+            </dxn:TabViewItem.Content>
+                </dxn:TabViewItem>
+        <dxn:TabViewItem HeaderFontSize="14" HeaderFontAttributes="Bold" HeaderTextColor="#99191919" HeaderIconColor="#99191919" HeaderIconPosition="Top" HeaderIconSpacing="4" HeaderWidth="*" HeaderMinWidth="100" HeaderMaxWidth="360" HeaderPadding="12,0" HeaderVisibleElements="Text" SelectedHeaderTextColor="#1e88e5" SelectedHeaderIconColor="#1e88e5" HeaderText="Availability">
+            <dxn:TabViewItem.Content>
+                <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Grid Margin="5,10,5,0"  RowSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="50*" />
                         </Grid.ColumnDefinitions>
+                        <dxe:DateEdit Date="{Binding StartDate}" PlaceholderText="Start Date" Style="{DynamicResource DxeDateTime}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="0" Grid.Column="0" ReturnType="Default"></dxe:DateEdit>
+                        <dxe:TimeEdit Time="{Binding StartTime}" TimeChanged="TimeEdit_TimeChanged" Grid.Row="0" Grid.Column="1" Style="{DynamicResource DxeDateTime}" PlaceholderText="Start Time" ReturnType="Default"></dxe:TimeEdit>
 
-                        <Label Text="  Rental Rate Information  "
-               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-               TextColor="Black"
-               XAlign="Start"
-                
-                 />
+                        <dxe:DateEdit Date="{Binding EndDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="1" Grid.Column="0" Style="{DynamicResource DxeDateTime}" PlaceholderText="End Date" ReturnType="Default"></dxe:DateEdit>
+                        <dxe:TimeEdit Time="{Binding EndTime}" TimeChanged="TimeEdit_TimeChanged_1" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DxeDateTime}" PlaceholderText="End Time" ReturnType="Default"></dxe:TimeEdit>
+                        <!--<dxe:SimpleButton Grid.Row="2" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />-->
+                        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Search" Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked"  Margin="10,10" />
 
-                        <Label Text="{Binding CurrentRentalRates.SubDscr}"
-               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-               TextColor="Black"
-                
-               BackgroundColor="White" />
-
-                        <Label Text="Minimum:  "
-               Grid.Row="2" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinChg, StringFormat='{0:C}'}"
-               Grid.Row="2" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Minimum Hours:  "
-               Grid.Row="3" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinHrs}"
-               Grid.Row="3" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Charge 2:  "
-               Grid.Row="4" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinChg2, StringFormat='{0:C}'}"
-               Grid.Row="4" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Charge 2 Hours:  "
-               Grid.Row="5" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinHrs2}"
-               Grid.Row="5" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Charge 3:  "
-               Grid.Row="6" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinChg3, StringFormat='{0:C}'}"
-               Grid.Row="6" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Charge 3 Hours:  "
-               Grid.Row="7" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMinHrs3}"
-               Grid.Row="7" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Per Hour:  "
-               Grid.Row="8" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupHourChg, StringFormat='{0:C}'}"
-               Grid.Row="8" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Per Day:  "
-               Grid.Row="9" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlDayChg, StringFormat='{0:C}'}"
-               Grid.Row="9" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Per Week:  "
-               Grid.Row="10" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupWeeklyChg, StringFormat='{0:C}'}"
-               Grid.Row="10" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Days In Week:  "
-               Grid.Row="11" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlDaysInWeek}"
-               Grid.Row="11" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Per Month:  "
-               Grid.Row="12" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlMonthChg, StringFormat='{0:C}'}"
-               Grid.Row="12" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Over Night:  "
-               Grid.Row="13" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupOverNightChg, StringFormat='{0:C}'}"
-               Grid.Row="13" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Saturday - Monday:  "
-               Grid.Row="14" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding CurrentRentalRates.SubDtlSatMonChg, StringFormat='{0:C}'}"
-               Grid.Row="14" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Friday - Monday:  "
-               Grid.Row="15" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupFriMonChg, StringFormat='{0:C}'}"
-               Grid.Row="15" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <Label Text="Open To Close:  "
-               Grid.Row="16" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupOpenToCloseChg, StringFormat='{0:C}'}"
-               Grid.Row="16" Grid.Column="1"
-               TextColor="Black"
-                />
-
-                        <!-- *************************** Last Updated *************************** -->
-
-                        <Label Text="Last Updated:  "
-               Grid.Row="17" Grid.Column="0"
-               TextColor="Black"
-               XAlign="End"
-                
-                 />
-
-                        <Label Text="{Binding SubGroupLastUpdated}"
-               Grid.Row="17" Grid.Column="1"
-               TextColor="Black"
-                />
-
+                        <controls:LabelTextCustomControl Grid.Row="3" Grid.ColumnSpan="2" Title="Availability:" Value="{Binding CurrentRental.RentalDscr}" />
+                        <controls:LabelTextCustomControl Grid.Row="4" Grid.ColumnSpan="2" Title="Store:" Value="{Binding CurrentRental.RentalBelongsTo}" />
+                        <controls:LabelTextCustomControl Grid.Row="5" Grid.ColumnSpan="2" Title="Equipment ID:" Value="{Binding CurrentRental.RentalEquipID}" />
+                        <controls:LabelTextCustomControl Grid.Row="6" Grid.ColumnSpan="2" Title="Manufacturer:" Value="{Binding CurrentRental.MfgName}" />
                     </Grid>
                 </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Packages"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-					<RowDefinition   />
-				</Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- *************************** Rental Rate Package 1 *************************** -->
-
-                        <Label Text="  Rental Rate Package 1  "
-					 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					 XAlign="Start"
-					  
-					   />
-
-                        <Label Text="Package 1"
-					 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					  
-					 BackgroundColor="White" />
-
-                        <Label Text="Monday:  "
-					 Grid.Row="2" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day1Chg, StringFormat='{0:C}'}"
-					 Grid.Row="2" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Tuesday:  "
-					 Grid.Row="3" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day2Chg, StringFormat='{0:C}'}"
-					 Grid.Row="3" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Wednesday:  "
-					 Grid.Row="4" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day3Chg, StringFormat='{0:C}'}"
-					 Grid.Row="4" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Thursday:  "
-					 Grid.Row="5" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day4Chg, StringFormat='{0:C}'}"
-					 Grid.Row="5" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Friday:  "
-					 Grid.Row="6" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day5Chg, StringFormat='{0:C}'}"
-					 Grid.Row="6" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Saturday:  "
-					 Grid.Row="7" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day6Chg, StringFormat='{0:C}'}"
-					 Grid.Row="7" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Sunday:  "
-					 Grid.Row="8" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack1Day7Chg, StringFormat='{0:C}'}"
-					 Grid.Row="8" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <!-- *************************** Rental Rate Package 2 *************************** -->
-
-                        <Label Text="  Rental Rate Package 2  "
-					 Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					 XAlign="Start"
-					  
-					   />
-
-                        <Label Text="Package 2"
-					 Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					  
-					 BackgroundColor="White" />
-
-                        <Label Text="Monday:  "
-					 Grid.Row="11" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day1Chg, StringFormat='{0:C}'}"
-					 Grid.Row="11" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Tuesday:  "
-					 Grid.Row="12" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day2Chg, StringFormat='{0:C}'}"
-					 Grid.Row="12" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Wednesday:  "
-					 Grid.Row="13" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day3Chg, StringFormat='{0:C}'}"
-					 Grid.Row="13" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Thursday:  "
-					 Grid.Row="14" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day4Chg, StringFormat='{0:C}'}"
-					 Grid.Row="14" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Friday:  "
-					 Grid.Row="15" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day5Chg, StringFormat='{0:C}'}"
-					 Grid.Row="15" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Saturday:  "
-					 Grid.Row="16" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day6Chg, StringFormat='{0:C}'}"
-					 Grid.Row="16" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Sunday:  "
-					 Grid.Row="17" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack2Day7Chg, StringFormat='{0:C}'}"
-					 Grid.Row="17" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <!-- *************************** Rental Rate Package 3 *************************** -->
-
-                        <Label Text="  Rental Rate Package 3  "
-					 Grid.Row="18" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					 XAlign="Start"
-					  
-					   />
-
-                        <Label Text="Package 3"
-					 Grid.Row="19" Grid.Column="0" Grid.ColumnSpan="2"
-					 TextColor="Black"
-					  
-					 BackgroundColor="White" />
-
-                        <Label Text="Day 1:  "
-					 Grid.Row="20" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day1Chg, StringFormat='{0:C}'}"
-					 Grid.Row="20" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 2:  "
-					 Grid.Row="21" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day2Chg, StringFormat='{0:C}'}"
-					 Grid.Row="21" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 3:  "
-					 Grid.Row="22" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day3Chg, StringFormat='{0:C}'}"
-					 Grid.Row="22" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 4:  "
-					 Grid.Row="23" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day4Chg, StringFormat='{0:C}'}"
-					 Grid.Row="23" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 5:  "
-					 Grid.Row="24" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day5Chg, StringFormat='{0:C}'}"
-					 Grid.Row="24" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 6:  "
-					 Grid.Row="25" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day6Chg, StringFormat='{0:C}'}"
-					 Grid.Row="25" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                        <Label Text="Day 7:  "
-					 Grid.Row="26" Grid.Column="0"
-					 TextColor="Black"
-					 XAlign="End"
-					  
-					   />
-
-                        <Label Text="{Binding SubGroupPack3Day7Chg, StringFormat='{0:C}'}"
-					 Grid.Row="26" Grid.Column="1"
-					 TextColor="Black"
-					  />
-
-                    </Grid>
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="Availability"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <StackLayout>
-                    <Grid RowSpacing="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                        <!--<Grid.RowDefinitions>
-					<RowDefinition   />
-				</Grid.RowDefinitions>-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35*" />
-                            <ColumnDefinition Width="65*" />
-                        </Grid.ColumnDefinitions>
-                        <dxe:DateEdit Date="{Binding StartDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="0" Grid.Column="0" LabelText="Start Date" ReturnType="Default"></dxe:DateEdit>
-                        <dxe:TimeEdit Time="{Binding StartTime}" TimeChanged="TimeEdit_TimeChanged" Grid.Row="0" Grid.Column="1" LabelText="Start Time" ReturnType="Default" ></dxe:TimeEdit>
-
-                        <dxe:DateEdit Date="{Binding EndDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="1" Grid.Column="0"  LabelText="End Date" ReturnType="Default"></dxe:DateEdit>
-                        <dxe:TimeEdit Time="{Binding EndTime}" TimeChanged="TimeEdit_TimeChanged_1" Grid.Row="1" Grid.Column="1"  LabelText="End Time" ReturnType="Default" ></dxe:TimeEdit>
-                        <dxe:SimpleButton Grid.Row="2" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />
-
-                        <Label Text="  Availability  " Grid.Row="3" Grid.Column="0"  TextColor="Black" XAlign="Start"     />
-                        <Label Text="{Binding CurrentRental.RentalDscr}" Grid.Row="3" Grid.Column="1"  TextColor="Black"   BackgroundColor="White" />
-                        <Label Text="Store:  " Grid.Row="4" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalBelongsTo}" Grid.Row="4" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Equipment ID:  " Grid.Row="5" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalEquipID}" Grid.Row="5" Grid.Column="1" TextColor="Black"   />
-                        <Label Text="Manufacturer:  " Grid.Row="6" Grid.Column="0" TextColor="Black" XAlign="End"     />
-                        <Label Text="{Binding CurrentRental.RentalEquipID}" Grid.Row="6" Grid.Column="1" TextColor="Black"   />
-                    </Grid>
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
-    <!--<dxn:TabPageItem >
-        <dxn:TabPageItem.Content>
-            <ContentPage Title="ExtraFunctions"   BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <StackLayout>
-
-                </StackLayout>
-            </ContentPage>
-        </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>-->
-
-</dxn:TabPage>
+            </dxn:TabViewItem.Content>
+        </dxn:TabViewItem>
+    </dxn:TabView>
+</ContentPage>

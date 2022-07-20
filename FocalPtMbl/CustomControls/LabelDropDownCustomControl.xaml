@@ -16,15 +16,24 @@
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding LabelText, Source={x:Reference labelDropDownView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+            <Label Text="{Binding LabelText, Source={x:Reference labelDropDownView}}" FontSize="Default" Style="{DynamicResource LabelDefault}" >
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsValid, Source={x:Reference labelDropDownView}, Mode=TwoWay}" Value="False">
+                        <Setter Property="TextColor" Value="{StaticResource ErrorColor}" />
+                        <Setter Property="FontAttributes" Value="Bold" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
             <local:CustomDropDown VerticalOptions="Center" x:Name="myPicker" 
-                                  IsFirstRowPlaceholder="True"
+                                  IsFirstRowPlaceholder="{Binding IsFirstRowPlaceholder, Source={x:Reference labelDropDownView}, Mode=TwoWay}"
                                   HasLabel="True" 
                                   ItemsSource="{Binding ItemsSource, Source={x:Reference labelDropDownView}, Mode=TwoWay}"
                                   SelectedItem="{Binding SelectedItem, Source={x:Reference labelDropDownView}, Mode=TwoWay}" 
                                   SelectedIndex="{Binding SelectedIndex, Source={x:Reference labelDropDownView}, Mode=TwoWay}" 
                                   Text="{Binding Text, Source={x:Reference labelDropDownView}}" 
                                   Image="{Binding Image, Source={x:Reference labelDropDownView}}" 
+                                  IsValid="{Binding IsValid, Source={x:Reference labelDropDownView}}" 
+                                  IsIndicatorRunning="{Binding IsIndicatorRunning, Source={x:Reference labelDropDownView}}" 
                                   ItemSelected="myPicker_ItemSelected">
             </local:CustomDropDown>
         </StackLayout>

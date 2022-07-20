@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FocalPoint.Modules.Payments.ViewModels;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,16 +16,20 @@ namespace FocalPoint.Modules.Payments.Views
     public partial class PaymentManual : ContentPage
     {
         PaymentPageViewModel viewModel;
+        PaymentRequest.RequestTypes requestType;
+        bool isCardOnFile;
 
-        public PaymentManual()
+        public PaymentManual(PaymentRequest.RequestTypes requestType, bool isCardOnFile)
         {
             InitializeComponent();
+            this.requestType = requestType;
+            this.isCardOnFile = isCardOnFile;
             hybridWebView.RegisterAction(data => GetResultFromJavaScript(data));
             //hybridWebView.Source = "https://visumbanyan.fpsdns.com:8080/cardconnect/Xamarin.html";
             hybridWebView.Navigated += CardConnectWebView_Navigated;
         }
 
-        private  void GetResultFromJavaScript(string data)
+        private void GetResultFromJavaScript(string data)
         {
             viewModel.CreditCardDetails.ManualToken = string.IsNullOrEmpty(data) ? null : data;
             EditorTest.Focus();
@@ -44,6 +49,16 @@ namespace FocalPoint.Modules.Payments.Views
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('address').setAttribute('value', '" + viewModel.CreditCardDetails.AvsStreetAddress.Value + "')");
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('zip').setAttribute('value', '" + viewModel.CreditCardDetails.AvsZipCode.Value + "')");
             hybridWebView.EvaluateJavaScriptAsync("document.getElementById('tokenframe').setAttribute('src', '" + viewModel.Settings.POSPublicKey + "')");
+            if (requestType == PaymentRequest.RequestTypes.PreAuthDeposit)
+            {
+                var htmlStr = "PreAuth: " + viewModel.Payment.Value;
+                hybridWebView.EvaluateJavaScriptAsync("document.getElementById('lblTrans').innerHTML = '" + htmlStr + "'");
+            }
+            else
+            {
+                var htmlString = "PreAuth: " + (isCardOnFile ? "Token" : "Sale");
+                hybridWebView.EvaluateJavaScriptAsync("document.getElementById('lblTrans').innerHTML = '" + htmlString + "'");
+            }
         }
 
         protected override void OnAppearing()

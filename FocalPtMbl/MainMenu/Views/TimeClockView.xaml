@@ -17,7 +17,7 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -25,7 +25,6 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -40,12 +39,12 @@
         <Label TextColor="Black" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="{Binding TimeString}" FontSize="20" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
         <!--User and store-->
 
-        <dxe:ComboBoxEdit Grid.Row="3"  Grid.ColumnSpan="2" LabelText="User" ItemsSource="{Binding CurrentUsers}"
+        <dxe:ComboBoxEdit Grid.Row="3"  Grid.ColumnSpan="2" LabelText="User" ItemsSource="{Binding CurrentUsers}" IsEnabled="{Binding IsButtonEnabled}"
                   DisplayMember="FullName"
                   ValueMember="UserID" 
                   SelectionChanged="User_SelectionChanged">
         </dxe:ComboBoxEdit>
-        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}"
+        <dxe:ComboBoxEdit LabelText="Store" ItemsSource="{Binding CurrentStores}" IsEnabled="{Binding IsButtonEnabled}"
                           SelectedItem="{Binding SelectedStore}"
                   DisplayMember="CmpName"
                   ValueMember="CmpNo" 
@@ -65,8 +64,11 @@
 
         <Label TextColor="Black" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding TimeClockStatus}" FontSize="20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
         <Label TextColor="Black" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding LastActivity}" FontSize="16" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" />
-        <dxe:SimpleButton IconVisible="True" Icon="TimeClockIn" Grid.Row="7" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Clock In" Clicked="ClockIn_Clicked" />
-        <dxe:SimpleButton IconVisible="True" Icon="TimeClockOut" Grid.Row="8" Grid.ColumnSpan="2"  TextColor="White" BackgroundColor="#2088ff" Text="Clock Out" Clicked="ClockOut_Clicked" />
-        <dxe:SimpleButton IconVisible="True"  Grid.Row="9" Grid.ColumnSpan="2"  TextColor="White" BackgroundColor="#2088ff" Text="Back" Clicked="SimpleButton_Clicked" />
+        <dxe:SimpleButton IconVisible="True" IsEnabled="{Binding IsButtonEnabled}" DisabledBackgroundColor="#C0C0C0"  Icon="TimeClockIn" Grid.Row="7" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#57b8ff" Text="Clock In" Clicked="ClockIn_Clicked" />
+        <dxe:SimpleButton IconVisible="True" IsEnabled="{Binding IsButtonEnabled}" DisabledBackgroundColor="#C0C0C0" Icon="TimeClockOut" Grid.Row="8" Grid.ColumnSpan="2"  TextColor="White" BackgroundColor="#57b8ff" Text="Clock Out" Clicked="ClockOut_Clicked" />
+
+        <ActivityIndicator Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="2" x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue"  
+                       BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+
     </Grid>
 </ContentPage>
