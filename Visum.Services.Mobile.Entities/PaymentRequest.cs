@@ -16,11 +16,11 @@ namespace Visum.Services.Mobile.Entities
         public RequestTypes RequestType { get; set; }
         public string Source { get; set; } // FC = Front Counter, WO = Work Order
         public int SourceID { get; set; } // OrderNo, WONo
-        public int CustomerNo { get; set; }
+        public int CustomerNo { get; set; } 
         public int PaymentTNo { get; set; }
         public decimal PaymentAmt { get; set; } // PaymentAmt - CashBackAmt = Amount Applied
         public decimal CashBackAmt { get; set; } // Not all Types supported
-        public decimal TaxAmt { get; set; }
+        public decimal TaxAmt { get; set; } 
         public int OnFileNo { get; set; }
 
         public PaymentRequestOther Other { get; set; }
@@ -66,7 +66,7 @@ namespace Visum.Services.Mobile.Entities
         public string DLNumber { get; set; }
         public string DLState { get; set; }
         public string SSNLast4 { get; set; }
-        public bool StoreInfo { get; set; }
+        public bool  StoreInfo { get; set; }
     }
 
     // "CC"

@@ -19,7 +19,7 @@ namespace Visum.Services.Mobile.Entities
         // Show Message Question and return True/False
         MerchAddSerial = 1005,
         // Show Message and return no numbers for not assigning else return number to assign equal to qty
-        KitsVoid = 1006,
+        VoidKit = 1006,
         // Show Message Question and return True/False
         LengthMoveDueDate = 1007,
         // Show Message Question and return True/False
@@ -79,5 +79,61 @@ namespace Visum.Services.Mobile.Entities
         FriToMon = 10,
         [Description("Open-Close")]
         OpenToClose = 11
+    }
+
+    public enum AvailSearchFors
+    {
+        [Description("Rentals")]
+        Rentals = 1,
+        [Description("Merchandise")]
+        Merchandise = 2,
+        [Description("Non-Stock")]
+        NonStock = 3,
+        [Description("Kits")]
+        Kits = 4,
+        [Description("Rentals Salable")]
+        Salable = 5,
+        [Description("Rate Table")]
+        SubGroup = 6
+    }
+
+    public enum AvailSearchIns
+    {
+        [Description("Description")]
+        Dscr = 1,
+        [Description("Part Number")]
+        PartNo = 2,
+        [Description("Equipment ID")]
+        EquipID = 3,
+        [Description("Barcode")]
+        Barcode = 4,
+        [Description("Serial Number")]
+        Serial = 5,
+        [Description("Rental Rate")]
+        SubGroup = 6,
+        [Description("Group")]
+        Group = 7,
+        [Description("Item Number")]
+        Item = 8,
+        [Description("UPC Number")]
+        UPC = 9,
+        [Description("Manufacturer")]
+        Mfg = 10,
+        [Description("SKU Number")]
+        SKU = 11,
+        [Description("Retail Price")]
+        RetailAmt = 12,
+        [Description("Extended")]
+        Extended = 13,
+        [Description("Exact Equipment ID")]
+        EquipIDExact = 14,
+        [Description("Rental Rate ID")]
+        SubGroupItem = 15,
+        [Description("Part History")]
+        HistoryID = 16,
+        [Description("Top 20")]
+        TopXStore = 17,
+        [Description("Tiles")]
+        Tiles = 18
     }
 }
