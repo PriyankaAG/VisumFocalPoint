@@ -44,9 +44,6 @@
                         <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="City:" Value="{Binding BillCity}" />
                         <controls:LabelTextCustomControl Grid.Row="16" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="State:" Value="{Binding BillState}" />
                         <controls:LabelTextCustomControl Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"  RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Zip:" Value="{Binding BillZip}" />
-
-                        <Label Text="Other" Grid.Row="18" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Grid.Row="19" Grid.ColumnSpan="2" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Last Updated:" Value="{Binding BillZip}" />
                     </Grid>
                 </ScrollView>
             </ContentPage>

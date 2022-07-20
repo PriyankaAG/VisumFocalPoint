@@ -59,13 +59,13 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Text="{Binding VenName}" Margin="0,2" TextColor="Black"></Label>
-                                <Label Grid.Row="0" Grid.Column="1" Margin="0,2" TextColor="Black">
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Margin="0,2" TextColor="Black">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
-                                                <Span Text="Number: " FontAttributes="Bold" />
-                                                <Span Text="{Binding VenNo, TargetNullValue={StaticResource UnknownValue}}" />
+                                                <Span Text="{Binding VenNo}" />
+                                                <Span Text=" " />
+                                                <Span Text="{Binding VenName}" />
                                             </FormattedString.Spans>
                                         </FormattedString>
                                     </Label.FormattedText>
@@ -80,14 +80,16 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
+                                <!--<Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding CityStateZip, StringFormat='Address: {0}', TargetNullValue={StaticResource UnknownValue}}" LineBreakMode="WordWrap" MaxLines="2" TextColor="Black" />-->
                                 <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" LineBreakMode="WordWrap" MaxLines="2" TextColor="Black">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
-                                                <Span Text="City: " FontAttributes="Bold" />
-                                                <Span Text="{Binding VenCity, StringFormat='{0},',TargetNullValue=''}" />
+                                                <Span Text="Address: " FontAttributes="Bold" />
+                                                <Span Text="{Binding CityStateZip,TargetNullValue={StaticResource UnknownValue}}" />
+                                                <!--<Span Text="{Binding VenCity, StringFormat='{0},',TargetNullValue=''}" />
                                                 <Span Text="{Binding VenState, StringFormat=' {0},', TargetNullValue=''}"/>
-                                                <Span Text="{Binding VenZip, StringFormat=' {0}', TargetNullValue=''}" />
+                                                <Span Text="{Binding VenZip, StringFormat=' {0}', TargetNullValue=''}" />-->
                                             </FormattedString.Spans>
                                         </FormattedString>
                                     </Label.FormattedText>
