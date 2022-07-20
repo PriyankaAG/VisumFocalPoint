@@ -78,7 +78,17 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <NavigationPage.TitleView>
-        <Grid
+        <Grid ColumnSpacing="0" RowSpacing="0"  Margin="0,0,80,0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <Label Text="Dashboard" FontSize="Large" 
+                   FontFamily="Univia-Pro Medium" 
+                   HorizontalOptions="Center" TextColor="{DynamicResource TextThemeColor}" 
+                   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                <Label.Margin>
+                    <OnPlatform x:TypeArguments="Thickness" Android="4,0,0,0" iOS="4,4,0,0" />
+                </Label.Margin>
+            </Label>
+        </Grid>
+            <!--<Grid
             Margin="0"
             ColumnSpacing="0"
             RowSpacing="0"
@@ -117,7 +127,7 @@
                     <OnPlatform x:TypeArguments="Thickness" Android="4,0,0,0" iOS="4,4,0,0"/>
                 </Label.Margin>
             </Label>
-        </Grid>
+        </Grid>-->
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>

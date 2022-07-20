@@ -244,8 +244,18 @@ namespace FocalPoint.Modules.Payments.Types
     public class PaymentHistoryDetail
     {
         public string Header { get; set; }
-
+        public ICommand VoidPaymentCommand { get; }
         public ObservableCollection<Payment> PaymentHistory { get; set; }
+
+        public PaymentHistoryDetail()
+        {
+            VoidPaymentCommand = new Command<Payment>(payment => VoidPayment(payment));
+        }
+
+        private void VoidPayment(Payment payment)
+        {
+            var res = "";
+        }
     }
 
     public class CreditCardPaymentDetails

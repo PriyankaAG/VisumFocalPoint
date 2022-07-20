@@ -16,7 +16,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
             <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,5">
@@ -31,17 +31,25 @@
                 <Label Grid.Column="2" Text="Amount" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="3" Text="Date" Style="{DynamicResource LabelListHeader}" />
             </Grid>
-                <ListView Grid.Row="2"
-                        VerticalOptions="Start"
-                        HorizontalOptions="Center"
+                <ListView Grid.Row="2" VerticalOptions="Center"
                         ItemsSource="{Binding PaymentHistory, Mode=TwoWay}"
-                        SeparatorVisibility="None"
-                        VerticalScrollBarVisibility="Always"
-                        Margin="5,0,5,5">
+                          SelectionMode="None"
+                        SeparatorVisibility="Default"
+                        VerticalScrollBarVisibility="Always">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
+                            <SwipeView>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems SwipeBehaviorOnInvoked="Auto">
+                                        <SwipeItem IconImageSource="void_96.png" 
+                                                   BackgroundColor="Transparent" 
+                                                   Command="{Binding VoidPaymentCommand,Mode=TwoWay}" 
+                                                   CommandParameter="{Binding .}"
+                                                    />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
@@ -49,20 +57,14 @@
                                     <ColumnDefinition Width="70"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="35"/>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding PayID}" Style="{DynamicResource LabelListDetail}"/>
-
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding PaymentDscr}" Style="{DynamicResource LabelListDetail}"/>
-
-                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" Style="{DynamicResource LabelListDetail}"/>
-
-                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" Style="{DynamicResource LabelListDetail}"/>
-                                
-                                <BoxView Grid.Row="1" Grid.ColumnSpan="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
-
-                            </Grid>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding PayID}" Style="{DynamicResource LabelListDetail}" VerticalOptions="Center"  />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding PaymentDscr}" VerticalOptions="Center" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="2" Text="{Binding PaymentAmt, StringFormat='{}{0:C}'}" VerticalOptions="Center" Style="{DynamicResource LabelListDetail}"/>
+                                <Label Grid.Row="0" Grid.Column="3" Text="{Binding PaymentPDte, StringFormat='{0:MM/dd/yyyy}'}" VerticalOptions="Center" Style="{DynamicResource LabelListDetail}"/>
+                                </Grid>
+                            </SwipeView>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
