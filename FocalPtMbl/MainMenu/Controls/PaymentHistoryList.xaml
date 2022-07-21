@@ -2,7 +2,8 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             x:Class="FocalPoint.MainMenu.Controls.PaymentHistoryList">
+             x:Class="FocalPoint.MainMenu.Controls.PaymentHistoryList"
+             x:Name="HistoryDtl">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,10 +22,10 @@
             <Label Grid.Row="0" Text="{Binding Header}" Style="{DynamicResource LabelSubHeader}"/>
             <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center" Padding="5,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="70"/>
-                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Text="Transaction" Style="{DynamicResource LabelListHeader}" />
                 <Label Grid.Column="1" Text="Type" Style="{DynamicResource LabelListHeader}" />
@@ -35,26 +36,28 @@
                         ItemsSource="{Binding PaymentHistory, Mode=TwoWay}"
                           SelectionMode="None"
                         SeparatorVisibility="Default"
+                          CachingStrategy="RecycleElement"
                         VerticalScrollBarVisibility="Always">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <SwipeView>
-                                <SwipeView.LeftItems>
+                            <SwipeView >
+                                <SwipeView.RightItems>
                                     <SwipeItems SwipeBehaviorOnInvoked="Auto">
-                                        <SwipeItem IconImageSource="void_96.png" 
-                                                   BackgroundColor="Transparent" 
-                                                   Command="{Binding VoidPaymentCommand,Mode=TwoWay}" 
+                                        <SwipeItem BackgroundColor="Red"
+                                                   Text="Void"
+                                                   IsVisible="{Binding BindingContext.ShowVoid,Source={x:Reference HistoryDtl}}" IsEnabled="{Binding BindingContext.ShowVoid,Source={x:Reference HistoryDtl}}"
+                                                   Command="{Binding BindingContext.VoidPaymentCommand,Source={x:Reference HistoryDtl}}" 
                                                    CommandParameter="{Binding .}"
-                                                    />
+                                                   />
                                     </SwipeItems>
-                                </SwipeView.LeftItems>
+                                </SwipeView.RightItems>
                                 <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="35"/>

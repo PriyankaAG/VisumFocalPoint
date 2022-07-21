@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FocalPoint.Components.Interface;
+using FocalPoint.Modules.Payments.Entity;
 using Newtonsoft.Json;
 using Visum.Services.Mobile.Entities;
 
@@ -110,13 +112,13 @@ namespace FocalPoint.Components.EntityComponents
             return result;
         }
 
-        public async Task<Payment> PaymentUpdate(Payment pay, bool paymentVoid)
+        public async Task<HttpResponseMessage> PaymentUpdate(Payment payment, bool paymentVoid)
         {
-            Payment result;
+            HttpResponseMessage result;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(new { pay, paymentVoid });
-                result = await apiComponent.SendAsync<Payment>("Payment", requestContent, false);
+                var serRequest = JsonConvert.SerializeObject(new VoidRequest { Pay = payment, PayVoid = true });
+                result = await apiComponent.SendAsync("Payment", serRequest, false);
             }
             catch (Exception ex)
             {

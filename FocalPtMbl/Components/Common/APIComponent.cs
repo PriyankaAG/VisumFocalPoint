@@ -311,7 +311,7 @@ namespace FocalPoint
             return responseMessage;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
+        public async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
         {
             HttpResponseMessage responseMessage;
             try
