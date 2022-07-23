@@ -89,14 +89,14 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             get { return getCashPayments(); }
         }
-        private PaymentHistoryDetail _paymentHistory;
-        public PaymentHistoryDetail PaymentHistory
+        private PaymentHistoryDetail _paymentHistoryDtl;
+        public PaymentHistoryDetail PaymentHistoryDtl
         {
-            get => _paymentHistory;
+            get => _paymentHistoryDtl;
             set
             {
-                _paymentHistory = value;
-                OnPropertyChanged(nameof(PaymentHistory));
+                _paymentHistoryDtl = value;
+                OnPropertyChanged(nameof(PaymentHistoryDtl));
             }
         }
         private PaymentHistoryDetail _depositPaymentHistory;
@@ -144,36 +144,43 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 Settings = a.Result;
                 //Settings.POSEnabled = false;
             });
-            PaymentHistory = new PaymentHistoryDetail
+            PaymentHistoryDtl = new PaymentHistoryDetail(paymentEntityComponent)
             {
-                Header = "Payment History"
+                Header = "Payment History",
+                ShowVoid = true
             };
-            DepositPaymentHistory = new PaymentHistoryDetail
+            DepositPaymentHistory = new PaymentHistoryDetail(paymentEntityComponent)
             {
-                Header = "Deposits & Security Deposits"
+                Header = "Deposits & Security Deposits",
+                ShowVoid = false
             };
             //GetOrderDetails();
-            //SetPaymentData();
-            //if (Order?.Customer != null)
-            //    GetLicenseStates(Order.Customer.CustomerCountry);
+            SetPaymentData();
+            if (Order?.Customer != null)
+                GetLicenseStates(Order.Customer.CustomerCountry);
 
             CheckNumber = new ValidatableObject<string>();
             Payment = new ValidatableObject<string>();
             AddValidation();
-            //SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+            SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
         }
 
-        private void GetOrderDetails()
+        public async void GetOrderDetails()
         {
             Indicator = true;
-            orderComponent.GetOrderDetails(501842).ContinueWith(task =>
-            {
-                Order = task.Result;
-                GetLicenseStates(Order.Customer.CustomerCountry);
-                SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
-                SetPaymentData();
-                Indicator = false;
-            });
+            //orderComponent.GetOrderDetails(501842).ContinueWith(task =>
+            //{
+            //    Order = task.Result;
+            //    GetLicenseStates(Order.Customer.CustomerCountry);
+            //    SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+            //    SetPaymentData();
+            //    Indicator = false;
+            //});
+            Order = await orderComponent.GetOrderDetails(501842);
+            GetLicenseStates(Order.Customer.CustomerCountry);
+            SetEntityDetails(DocKinds.Order, Order.OrderNo, "P");
+            SetPaymentData();
+            Indicator = false;
             OnPropertyChanged(nameof(Order));
         }
         #endregion
@@ -246,7 +253,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     {
                         IsCreditCardPOS = true;
                     }
-                    else if (Settings?.POSType == 0) 
+                    else if (Settings?.POSType == 0)
                     {
                         IsCreditCard = true;
                     }
@@ -304,9 +311,9 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             if (Order?.Payments?.Count > 0)
             {
-                PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
+                PaymentHistoryDtl.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
                 DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
-                OnPropertyChanged(nameof(PaymentHistory.PaymentHistory));
+                OnPropertyChanged(nameof(PaymentHistoryDtl.PaymentHistory));
             }
         }
         internal void SetSelectedPayment(decimal value)
@@ -407,7 +414,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 };
                 return await paymentEntityComponent.PostPaymentProcess(request);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 
@@ -12,6 +13,6 @@ namespace FocalPoint.Components.Interface
         Task<PaymentInfo> GetPaymentACHInfo(int customerNo);
         Task<PaymentResponse> PostPaymentProcess(PaymentRequest request);
         Task<bool> PostPaymentEmail(string emailAddress, int paymentNo);
-        Task<Payment> PaymentUpdate(Payment pay, bool paymentVoid);
+        Task<HttpResponseMessage> PaymentUpdate(Payment pay, bool paymentVoid);
     }
 }

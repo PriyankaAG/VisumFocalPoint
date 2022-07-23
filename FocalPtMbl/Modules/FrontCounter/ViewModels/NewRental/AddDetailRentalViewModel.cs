@@ -1,5 +1,4 @@
-﻿using FocalPoint.Models.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,12 +55,14 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             //update searchText
             if (text == null)
             {
-                if (SearchIn == 1 || SelectedSearchIn != "Top 20")
-                    text = "%";
+                if (SelectedSearchIn == "Item Number")
+                    text = "";
                 else
-                    text = string.Empty;
+                    text = "%";
             }
-                
+            if (SelectedSearchIn == "Top 20")
+                text = "20";
+
             List<AvailabilityRent> customersCntAndList = null;
             try
             {

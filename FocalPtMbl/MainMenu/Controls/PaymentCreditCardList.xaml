@@ -16,7 +16,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Text="{Binding CreditCardPaymentDetails.Header}" Style="{DynamicResource LabelSubHeader}" />
-            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Start" Padding="5,5">
+            <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" Padding="5,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="80" />
@@ -29,7 +29,7 @@
                 <Label Grid.Column="3" Text="Expiration Date" Style="{DynamicResource LabelListHeader}" />
             </Grid>
             <ScrollView Grid.Row="2" Margin="0,10">
-                <StackLayout Orientation="Vertical" VerticalOptions="Start" HorizontalOptions="Center" BindableLayout.ItemsSource="{Binding CreditCardPaymentDetails.CreditCardDetailList}" Padding="5,0">
+                <StackLayout Orientation="Vertical" BindableLayout.ItemsSource="{Binding CreditCardPaymentDetails.CreditCardDetailList}" Padding="5,0">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                                 <Grid>

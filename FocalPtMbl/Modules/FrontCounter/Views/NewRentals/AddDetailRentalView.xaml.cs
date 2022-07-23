@@ -344,6 +344,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
+            if(SearchTextEditor.Text==null)
+            {
+                await DisplayAlert("Validation", "Please enter Search For.", "OK");
+                return;
+            }
             if (pickerSearchIn.SelectedItem == "Item Number")
             {
                 if (!int.TryParse(SearchTextEditor.Text, out int itemNumber))

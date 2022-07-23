@@ -67,10 +67,46 @@
                                             <ColumnDefinition Width="5*" />
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Style="{DynamicResource LabelDefaultBold}" Text="{Binding AvailDscr}" />
-                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding AvailEquipID, StringFormat='Equip ID: {0}'}" />
-                                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding AvailQty, StringFormat='Quantity: {0}'}" />
-                                        <Label Grid.Row="2" Grid.Column="0" Text="{Binding AvailRetail, StringFormat='Retail: {0:C}'}" />
-                                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding AvailSellPrice, StringFormat='Sell: {0:C}'}" />
+                                        <Label Grid.Row="1" Grid.Column="0" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Equip ID: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailEquipID, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Quantity: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailQty, StringFormat='{}{0}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Retail: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailRetail, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Sell: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailSellPrice, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

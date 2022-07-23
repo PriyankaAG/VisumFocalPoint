@@ -15,7 +15,10 @@ namespace FocalPoint.Modules.Payments.Views
         {
             InitializeComponent();
             BindingContext = new PaymentPageViewModel();
-            //((PaymentPageViewModel)BindingContext).GetOrderDetails(501842);
+            //Task.Run(() =>
+            //{
+            //    ((PaymentPageViewModel)BindingContext).GetOrderDetails();
+            //});
             //order.GetOrderDetails(501842).ContinueWith(task =>
             //{
             //    ((PaymentPageViewModel)BindingContext).Order = task.Result;

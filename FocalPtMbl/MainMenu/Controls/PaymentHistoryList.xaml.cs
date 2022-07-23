@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using FocalPoint.Modules.Payments.Types;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,5 +17,6 @@ namespace FocalPoint.MainMenu.Controls
         {
             InitializeComponent();
         }
+
     }
 }
