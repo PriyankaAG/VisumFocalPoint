@@ -30,6 +30,10 @@ namespace FocalPoint.Components.Interface
 
         Task<List<AvailabilityRentSale>> GetAvailabilitySalable(string text, Int16 SearchIn);
 
+        Task<List<AvailabilityKit>> GetOrderKits(int OrderDtlNo);
+
+        Task<List<AvailabilityKit>> OrderKitDetails(int OrderDtlNo);
+
         Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem);
 
         Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem RentalItem);

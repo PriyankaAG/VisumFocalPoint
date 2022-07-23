@@ -27,6 +27,8 @@ namespace FocalPoint.Components.EntityComponents
         const string AvailabilityRentalSalesAPIKey = "Availability/RentalSales/";
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
         const string AvailabilityMerchandiseSerialsAPIKey = "Availability/MerchandiseSerials/{0}/{1}";
+        const string OrderKitsAPIKey = "OrderKits/{0}";
+        const string OrderKitDetailsAPIKey = "OrderKitDetails/{0}";
         const string OrderDetailAPIKey = "OrderDetail/";
         const string StoreSettingsKey = "Settings/";
         const string OrderLockKey = "OrderLock/{0}/{1}/{2}";
@@ -299,6 +301,34 @@ namespace FocalPoint.Components.EntityComponents
                 //TODO: Log error
             }
             return res;
+        }
+
+        public async Task<List<AvailabilityKit>> GetOrderKits(int OrderDtlNo)
+        {
+            List<AvailabilityKit> availabilityKits = null;
+            try
+            {
+                availabilityKits = await apiComponent.GetAsync<List<AvailabilityKit>>(string.Format(OrderKitsAPIKey, OrderDtlNo));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return availabilityKits;
+        }
+
+        public async Task<List<AvailabilityKit>> OrderKitDetails(int OrderDtlNo)
+        {
+            List<AvailabilityKit> availabilityKits = null;
+            try
+            {
+                availabilityKits = await apiComponent.GetAsync<List<AvailabilityKit>>(string.Format(OrderKitDetailsAPIKey, OrderDtlNo));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return availabilityKits;
         }
 
         public async Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem)
