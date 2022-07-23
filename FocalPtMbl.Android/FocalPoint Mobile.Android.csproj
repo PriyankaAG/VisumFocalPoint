@@ -126,6 +126,7 @@
     <Compile Include="CustomRenderer\CustomEitorRenderer.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\ExtendedTabbedPageRenderer.cs" />
+    <Compile Include="CustomRenderer\HtmlFormattedLabelRenderer.cs" />
     <Compile Include="CustomRenderer\HybridWebViewRenderer.cs" />
     <Compile Include="Helpers\JavascriptWebViewClient.cs" />
     <Compile Include="DeviceInfo.cs" />

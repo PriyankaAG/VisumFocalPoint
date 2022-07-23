@@ -11,9 +11,9 @@ namespace FocalPoint.Components.Interface
         Task<List<Customer>> GetCustomers(string searchCustomer);
 
         Task<CustomerSettings> GetCustomerSettings();
-
+        Task<StoreSettings> GetStoreSettings();
         Task<List<DisplayValueString>> GetStates(string countryCode);
-
+        Task<string> GetOrderLock(int OrderNo, string OrderNumT, bool Locked);
         Task<CitiesStates> GetCityByState(string countryCode, string stateCode);
 
         Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings);

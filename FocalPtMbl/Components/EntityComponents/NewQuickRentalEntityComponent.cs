@@ -28,6 +28,8 @@ namespace FocalPoint.Components.EntityComponents
         const string AvailabilityMerchandiseAPIKey = "Availability/Merchandise/";
         const string AvailabilityMerchandiseSerialsAPIKey = "Availability/MerchandiseSerials/{0}/{1}";
         const string OrderDetailAPIKey = "OrderDetail/";
+        const string StoreSettingsKey = "Settings/";
+        const string OrderLockKey = "OrderLock/{0}/{1}/{2}";
 
         const string CheckPhoneNumberAPIKey = "CustomerPhoneDupes/{0}/{1}";
         const string CheckCustomerNameAPIKey = "CustomerNameCheck/{0}/{1}/{2}";
@@ -65,6 +67,19 @@ namespace FocalPoint.Components.EntityComponents
             return custList;
         }
 
+        public async Task<string> GetOrderLock( int OrderNo, string OrderNumT , bool Locked)
+        {
+            string res = "";
+            try
+            {
+                res = await apiComponent.GetAsync<string>(string.Format(OrderLockKey, OrderNo, OrderNumT, Locked));
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return res;
+        }
         public async Task<CustomerSettings> GetCustomerSettings()
         {
             CustomerSettings settings = null;
@@ -72,6 +87,21 @@ namespace FocalPoint.Components.EntityComponents
             {
 
                 settings = await apiComponent.GetAsync<CustomerSettings>(CustomerSettingsAPIKey);
+                //await Task.Delay(10000);
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
+            }
+            return settings;
+        }
+        public async Task<StoreSettings> GetStoreSettings()
+        {
+            StoreSettings settings = null;
+            try
+            {
+
+                settings = await apiComponent.GetAsync<StoreSettings>(StoreSettingsKey);
                 //await Task.Delay(10000);
             }
             catch (Exception ex)

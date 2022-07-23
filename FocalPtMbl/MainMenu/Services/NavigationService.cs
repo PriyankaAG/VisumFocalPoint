@@ -130,7 +130,6 @@ namespace FocalPtMbl.MainMenu.Services
                             }
                         }
                         (Application.Current.MainPage as MainMenuFlyout).IsPresented = false;
-                        //(Application.Current.MainPage as MainMenuFlyout).FlyoutPageDrawerObject.ListView.SelectedItem = null;
                     }
                     else
                         await PushAsync(page);

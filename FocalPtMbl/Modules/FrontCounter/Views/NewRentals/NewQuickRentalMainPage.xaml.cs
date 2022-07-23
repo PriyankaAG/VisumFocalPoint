@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Visum.Services.Mobile.Entities.OrderUpdate;
 
 namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 {
@@ -20,6 +21,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     public partial class NewQuickRentalMainPage : ContentPage
     {
         NewQuickRentalMainPageViewModel theViewModel;
+        public StoreSettings StoreSettingsProp { get; set; }
         public NewQuickRentalMainPage()
         {
             InitializeComponent();
@@ -28,6 +30,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             theViewModel = new NewQuickRentalMainPageViewModel();
             theViewModel.IsPageLoading = true;
             BindingContext = theViewModel;
+
+            SubscribeEvents();
 
             GetOrderInfo();
 
@@ -52,10 +56,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         foreach (var notification in notifications)
                             await DisplayAlert("Notification", notification, "OK");
                 }
-                //else
-                //{
-                //    await DisplayAlert("Problem Creating an order", "There was a problem creating the order. Please try again with a better connection", "OK");
-                //}
+
+                StoreSettingsProp = await ((NewQuickRentalMainPageViewModel)BindingContext).GetStoreSettings();
 
                 //Lets say we load default values
                 _ = Task.Delay(300).ContinueWith((a) =>
@@ -80,10 +82,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            SubscribeEvents();
 
             theViewModel.SelectedItem = "Select Item Type";
             selectedItem = "Select Item Type";
+
+            (Application.Current.MainPage as MainMenuFlyout).IsQuickRentalScreenDisplaying = true;
         }
 
         public void SubscribeEvents()
@@ -95,9 +98,13 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             MessagingCenter.Subscribe<NewQuickRentalSelectCustomerPage, Customer>(this, "CustomerSelected", async (sender, customer) =>
             {
-                (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
-                (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
-                UpdateTheOrder(customer);
+                //// SUSHIL: Check this back
+                if ((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer?.CustomerNo != customer.CustomerNo)
+                {
+                    (BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer = customer;
+                    (BindingContext as NewQuickRentalMainPageViewModel).RefreshAllProperties();
+                    UpdateTheOrder(customer);
+                }
             });
             MessagingCenter.Subscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD", async (sender, customer) =>
             {
@@ -107,13 +114,18 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
             MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
             {
-                UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+                //// SUSHIL: Check this back
+                if ((BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder?.OrderIntNotes != theNotes.Item1
+                || (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder?.OrderNotes != theNotes.Item2)
+                {
+                    UpdateTheOrder((BindingContext as NewQuickRentalMainPageViewModel).SelectedCustomer, theNotes);
+                }
             });
             MessagingCenter.Subscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "OrderDetailUpdated", async (a, tup) =>
             {
                 var retOrder = tup.Item1;
                 var retOrderDtl = tup.Item2;
-                (BindingContext as NewQuickRentalMainPageViewModel).ReloadOrder(retOrder, retOrderDtl);
+                (BindingContext as NewQuickRentalMainPageViewModel).ReloadOrderDetailItems(retOrder, retOrderDtl);
             });
         }
 
@@ -128,6 +140,18 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             try
             {
                 if (orderRefresh == null) return false;
+
+                if (!string.IsNullOrEmpty(orderRefresh.NotAcceptableErrorMessage))
+                {
+                    await DisplayAlert("Invalid", orderRefresh.NotAcceptableErrorMessage, "Ok");
+
+                    var res = await theViewModel.OrderLock(false);
+
+                    NavigateToDashboard();
+
+                    return false;
+                }
+
                 if (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
                 {
                     while (orderRefresh.Answers != null && orderRefresh.Answers.Count > 0)
@@ -177,6 +201,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 if (orderRefresh.CustomerMessage != null && orderRefresh.CustomerMessage.Length > 0)
                 {
                     await DisplayAlert("Customer Message", orderRefresh.CustomerMessage, "OK");
+                    return false;
+                }
+                if (!string.IsNullOrEmpty(orderRefresh.NotAcceptableErrorMessage))
+                {
+                    await DisplayAlert("Invalid", orderRefresh.NotAcceptableErrorMessage, "Ok");
+
+                    var res = await theViewModel.OrderLock(false);
+
+                    NavigateToDashboard();
+
                     return false;
                 }
                 if (orderRefresh.Answers == null || orderRefresh.Answers.Count == 0)
@@ -326,6 +360,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             //TODO: Navigate to the Main Page
             (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = true;
+            (Application.Current.MainPage as MainMenuFlyout).IsQuickRentalScreenDisplaying = false;
             //FrontCounter
             ((Application.Current.MainPage as MainMenuFlyout).FlyoutPageDrawerObject.BindingContext as MainMenuFlyoutDrawerViewModel).ResetSelectedItem();
 
@@ -409,95 +444,128 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void SaveTapped(object sender, EventArgs e)
         {
+            var result = await SaveItNow();
+            if (result)
+            {
+                NavigateToDashboard();
+            }
+        }
+
+        public async Task<bool> SaveItNow(OrderSaveTypes saveType = OrderUpdate.OrderSaveTypes.ExitOnly)
+        {
             var vm = (BindingContext as NewQuickRentalMainPageViewModel);
             if (vm.CurrentOrderUpdate == null)
             {
                 vm.CurrentOrderUpdate = new OrderUpdate();
             }
             vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
-            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
+            vm.CurrentOrderUpdate.Save = saveType;
 
+            bool isSaveSuccessfull = false;
             var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
-            if (isSuccess)
-                NavigateToDashboard();
+            if (orderRefresh == null)
+            {
+                await DisplayAlert("Success", "Record Saved.", "Ok");
+                isSaveSuccessfull = true;
+            }
             else
-                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+            {
+                var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
+                if (isSuccess)
+                {
+                    await DisplayAlert("Success", "Record Saved.", "Ok");
+                    isSaveSuccessfull = true;
+                }
+                else
+                {
+                    await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+                    isSaveSuccessfull = false;
+                }
+            }
+
+            return isSaveSuccessfull;
         }
 
-        private async void SaveAndEmailTapped(object sender, EventArgs e)
+        public async Task<bool> EmailItNow()
         {
-            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
-            if (vm.CurrentOrderUpdate == null)
-            {
-                vm.CurrentOrderUpdate = new OrderUpdate();
-                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
-            }
-            //Customer EMAIL Check
-            if (!vm.CurrentOrderUpdate.Order.Customer.CustomerEmail.HasData())
+            string customersEmail = theViewModel.CurrentOrderUpdate.Order.Customer.CustomerEmail;
+            bool isEmailSuccess = false;
+            if (!customersEmail.HasData())
             {
                 bool confirmation = await DisplayAlert("No Email Found", "No Email on file for customer. Would you like to send to a new address? ", "Yes", "No");
                 if (confirmation)
                 {
-                    string customersEmail = await DisplayPromptAsync("Customer's Email", "What's the customers email address", keyboard: Keyboard.Email);
+                    customersEmail = await DisplayPromptAsync("Customer's Email", "What's the customers email address", keyboard: Keyboard.Email);
                     if (IsValidEmail(customersEmail))
                     {
-                        vm.CurrentOrderUpdate.Order.Customer.CustomerEmail = customersEmail;
+                        theViewModel.CurrentOrderUpdate.Order.Customer.CustomerEmail = customersEmail;
 
-                        vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitOnly;
+                        var emailUpdate = await theViewModel.UpdateOrder(theViewModel.CurrentOrderUpdate);
 
-                        var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-                        var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
-
-                        if (isSuccess)
+                        if (emailUpdate == null)
                         {
-                            ////SEND EMAIL
-                            IGeneralComponent generalComponent = new GeneralComponent();
-                            EmailDocumentInputDTO emailDocumentInputDTO = new EmailDocumentInputDTO();
-                            emailDocumentInputDTO.DocKind = (int)DocKinds.Order;
-                            emailDocumentInputDTO.RecordID = theViewModel.CurrentOrder.OrderNo;
-                            emailDocumentInputDTO.ToAddr = customersEmail;
-                            bool response = await generalComponent.SendEmailDocument(emailDocumentInputDTO);
-                            if (response)
-                            {
-                                await DisplayAlert("Success", "Document sent successfully", "OK");
-                                NavigateToDashboard();
-                            }
-                            else
-                            {
-                                await DisplayAlert("FocalPoint Mobile", "Failed to send an email", "OK");
-                            }
+                            isEmailSuccess = true;
                         }
                         else
                         {
-                            await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+                            isEmailSuccess = await AfterUpdate_OrderProcessing(emailUpdate);
                         }
-
                     }
                     else
                     {
                         await DisplayAlert("Email Incorrect", "The entered Email is invalid.", "Ok");
+                        isEmailSuccess = false;
                     }
                 }
             }
+            else
+            {
+                isEmailSuccess = true;
+            }
+
+            return isEmailSuccess;
         }
+
+        private async void SaveAndEmailTapped(object sender, EventArgs e)
+        {
+            var isSaveSuccessfull = await SaveItNow();
+            if (!isSaveSuccessfull)
+                return;
+
+            if (await EmailItNow())
+            {
+                if (!string.IsNullOrEmpty(theViewModel.CurrentOrderUpdate.Order.Customer.CustomerEmail))
+                {
+                    ////SEND EMAIL
+                    IGeneralComponent generalComponent = new GeneralComponent();
+                    EmailDocumentInputDTO emailDocumentInputDTO = new EmailDocumentInputDTO();
+                    emailDocumentInputDTO.DocKind = (int)DocKinds.Order;
+                    emailDocumentInputDTO.RecordID = theViewModel.CurrentOrder.OrderNo;
+                    emailDocumentInputDTO.ToAddr = theViewModel.CurrentOrderUpdate.Order.Customer.CustomerEmail;
+                    bool response = await generalComponent.SendEmailDocument(emailDocumentInputDTO);
+                    if (response)
+                    {
+                        await DisplayAlert("Success", "Saved and Document sent successfully", "OK");
+                        NavigateToDashboard();
+                    }
+                    else
+                    {
+                        await DisplayAlert("FocalPoint Mobile", "Failed to send an email", "OK");
+                    }
+                }
+            }
+
+        }
+
 
         private async void SaveAsQuoteTapped(object sender, EventArgs e)
         {
-            var vm = (BindingContext as NewQuickRentalMainPageViewModel);
-            if (vm.CurrentOrderUpdate == null)
-            {
-                vm.CurrentOrderUpdate = new OrderUpdate();
-                vm.CurrentOrderUpdate.Order = vm.CurrentOrder;
-            }
-            vm.CurrentOrderUpdate.Save = OrderUpdate.OrderSaveTypes.ExitAsQuote;
+            var result = await SaveItNow(OrderUpdate.OrderSaveTypes.ExitAsQuote);
 
-            var orderRefresh = await vm.UpdateOrder(vm.CurrentOrderUpdate);
-            var isSuccess = await AfterUpdate_OrderProcessing(orderRefresh);
-            if (isSuccess)
+            if (result)
+            {
                 NavigateToDashboard();
-            else
-                await DisplayAlert("Save Failed", "Could Not Save.", "Ok");
+            }
         }
 
         public static bool IsValidEmail(string email)

@@ -162,20 +162,23 @@ namespace FocalPoint
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
-                    //orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent);
-                    //check if empty result
-                    if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                    if (string.IsNullOrEmpty(content))
                     {
-                        //CurrentOrder = orderUpdateRefresh.Order;
-                        if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
-                        {
-                            orderUpdateRefresh.Answers.Clear();
-                            return orderUpdateRefresh;
-                        }
+                        //success
                     }
                     else
-                        throw new Exception("Order customer not changed");
+                    {
+                        orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                        //check if empty result
+                        if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                        {
+                            if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
+                            {
+                                orderUpdateRefresh.Answers.Clear();
+                                return orderUpdateRefresh;
+                            }
+                        }
+                    }
                 }
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
@@ -184,30 +187,16 @@ namespace FocalPoint
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
                 {
                     string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
-
                     QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                    //exceptionMessage = questionFaultExceptiom.Message;
-
                     orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
-                    //orderUpdate.Answers.
                 }
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
                 {
                     string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
-
-                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                    //exceptionMessage = questionFaultExceptiom.Message;
-
-                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
-                    //orderUpdate.Answers.
-                }
-                else
-                {
-                    //TODO: Handle failure API's, add logs to server
+                    string errorMessage= JsonConvert.DeserializeObject<string>(readErrorContent, settings);
+                    orderUpdateRefresh.NotAcceptableErrorMessage = errorMessage;
                 }
             }
             catch

@@ -136,6 +136,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 _theOrderSettings = value;
             }
         }
+        public StoreSettings StoreSettingsProp { get; set; }
+
         Order _currentOrder;
         public Order CurrentOrder
         {
@@ -158,7 +160,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
-                return CurrentOrder != null && CurrentOrder.Customer != null;
+                return SelectedCustomer != null
+                    && StoreSettingsProp != null && !StoreSettingsProp.CashCustomers.Contains(SelectedCustomer.CustomerNo);
             }
         }
         public bool IsPaymentEnabled
@@ -383,7 +386,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             });
         }
-        public void ReloadOrder(Order ord, OrderDtl ordDtl)
+        public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)
         {
             if (Recent.Contains(ordDtl))
             {
@@ -394,8 +397,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             CurrentOrder = ord;
 
-               OnPropertyChanged(nameof(CurrentOrder));
-               OnPropertyChanged(nameof(Recent));
+            OnPropertyChanged(nameof(CurrentOrder));
+            OnPropertyChanged(nameof(Recent));
         }
 
         public void RefreshDateTimeProperties()
@@ -607,11 +610,23 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             return null;
         }
 
+        internal async Task<StoreSettings> GetStoreSettings()
+        {
+            StoreSettingsProp = await NewQuickRentalEntityComponent.GetStoreSettings();
+            OnPropertyChanged(nameof(IsSaveEnabled));
+            OnPropertyChanged(nameof(IsPaymentEnabled));
+            OnPropertyChanged(nameof(StoreSettingsProp));
+            return StoreSettingsProp;
+        }
         internal async Task<string> VoidOrder()
         {
             return await NewQuickRentalEntityComponent.VoidOrder(CurrentOrder);
         }
-
+        internal async Task<string> OrderLock(bool isLocked)
+        {
+            var res = await NewQuickRentalEntityComponent.GetOrderLock(CurrentOrder.OrderNo, CurrentOrder.OrderNumberT, isLocked);
+            return res;
+        }
         internal async Task<OrderUpdate> UpdateDateValues()
         {
             Indicator = true;
@@ -695,6 +710,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (responseOrderUpdate != null && responseOrderUpdate.Order != null)
                 {
                     CurrentOrder = responseOrderUpdate.Order;
+
+                    if (CurrentOrderUpdate == null)
+                        CurrentOrderUpdate = new OrderUpdate();
+
                     CurrentOrderUpdate.Order = responseOrderUpdate.Order;
 
                     OnPropertyChanged("CurrentOrder");
@@ -704,7 +723,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
 
             }
-            return responseOrderUpdate;
+            if (responseOrderUpdate != null && (responseOrderUpdate.Answers == null || responseOrderUpdate.Answers.Count == 0)
+                && (responseOrderUpdate.Notifications == null || responseOrderUpdate.Notifications.Count == 0)
+                && responseOrderUpdate.Order == null && responseOrderUpdate.NotAcceptableErrorMessage == string.Empty)
+            {
+                //Update was sucessfull
+                return null;
+            }
+            else
+                return responseOrderUpdate;
         }
     }
 }
