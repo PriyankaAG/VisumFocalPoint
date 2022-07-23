@@ -7,6 +7,7 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPoint.Modules.Dispatching.Views;
 using FocalPoint.Modules.ServiceDepartment.Views;
 using FocalPoint.Data;
+using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
@@ -22,7 +23,14 @@ namespace FocalPoint.Modules.FrontCounter.Views
             BindingContext = frontCounterDashboardViewModel;
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await frontCounterDashboardViewModel.GetDashboardDetail();
+                if (frontCounterDashboardViewModel.IsFrontCounterAccess)
+                {
+                    await frontCounterDashboardViewModel.GetDashboardDetail();
+                }
+                else
+                {
+                    await frontCounterDashboardViewModel.GetDashboardHomeDetail();
+                }
             });
         }
 
