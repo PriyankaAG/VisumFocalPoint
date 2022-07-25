@@ -42,6 +42,10 @@ namespace FocalPoint.MainMenu.Views
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+                    if (result)
+                    {
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
+                    }
                 });
             }
             return result;

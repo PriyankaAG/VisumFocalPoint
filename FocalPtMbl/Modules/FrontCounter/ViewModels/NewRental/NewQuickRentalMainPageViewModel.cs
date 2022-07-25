@@ -168,7 +168,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
-                return IsSaveEnabled && SelectedCustomer.CustomerType != "C";
+                return IsSaveEnabled;
             }
         }
         Decimal? _balanceDue;
@@ -592,10 +592,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             TheOrderSettings = await NewQuickRentalEntityComponent.GetOrderSettings();
             PopulateMasters();
-            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
-            if (OrderUpdate != null && OrderUpdate.Order != null)
+            CurrentOrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
+            if (CurrentOrderUpdate != null && CurrentOrderUpdate.Order != null)
             {
-                CurrentOrder = OrderUpdate.Order;
+                CurrentOrder = CurrentOrderUpdate.Order;
 
                 //SelectedCustomerNameBox = CurrentOrder.Customer.CustomerName + " " + Regex.Replace(CurrentOrder.Customer.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3") + Environment.NewLine + "Type: " + displayCustType + " " + CurrentOrder.Customer.CustomerCity + ", " + CurrentOrder.Customer.CustomerState + " " + CurrentOrder.Customer.CustomerZip + " ";
 
@@ -603,8 +603,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 SelectedCustomer = CurrentOrder.Customer;
 
                 RefreshAllProperties();
-                if (OrderUpdate.Notifications.Count > 0)
-                    return OrderUpdate.Notifications;
+                if (CurrentOrderUpdate.Notifications.Count > 0)
+                    return CurrentOrderUpdate.Notifications;
             }
 
             return null;
@@ -652,7 +652,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                     CurrentOrder.OrderTaxExempt = ExemptID;
 
-                    var Update = OrderUpdate;
+                    var Update = CurrentOrderUpdate;
                     Update.Order = CurrentOrder;
 
                     responseOrderUpdate = await UpdateOrder(Update);
@@ -684,7 +684,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                             CurrentOrder.OrderNotes = theNotes.Item2;
                         }
 
-                        var Update = OrderUpdate;
+                        var Update = CurrentOrderUpdate;
                         Update.Order = CurrentOrder;
 
                         responseOrderUpdate = await UpdateOrder(Update);
@@ -725,7 +725,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             if (responseOrderUpdate != null && (responseOrderUpdate.Answers == null || responseOrderUpdate.Answers.Count == 0)
                 && (responseOrderUpdate.Notifications == null || responseOrderUpdate.Notifications.Count == 0)
-                && responseOrderUpdate.Order == null && responseOrderUpdate.NotAcceptableErrorMessage == string.Empty)
+                && responseOrderUpdate.Order == null && string.IsNullOrEmpty(responseOrderUpdate.NotAcceptableErrorMessage))
             {
                 //Update was sucessfull
                 return null;
