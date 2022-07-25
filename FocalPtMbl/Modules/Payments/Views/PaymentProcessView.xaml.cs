@@ -12,20 +12,16 @@ namespace FocalPoint.Modules.Payments.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentProcessView : ContentView
     {
-        PaymentPageViewModel viewModel;
         public PaymentProcessView()
         {
             InitializeComponent();
         }
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-            viewModel = (PaymentPageViewModel)BindingContext;
-        }
 
         private void Payment_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (viewModel != null && viewModel.SelectedPaymentType.PaymentKind != "CA" && viewModel.SelectedPaymentType.PaymentKind != "CK")
+            if ((PaymentPageViewModel)BindingContext != null 
+                && ((PaymentPageViewModel)BindingContext).SelectedPaymentType.PaymentKind != "CA" 
+                && ((PaymentPageViewModel)BindingContext).SelectedPaymentType.PaymentKind != "CK")
             {
                 return;
             }
