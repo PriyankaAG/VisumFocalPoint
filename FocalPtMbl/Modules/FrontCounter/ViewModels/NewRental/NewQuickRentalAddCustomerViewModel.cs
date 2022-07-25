@@ -1253,7 +1253,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                 CustSettings = await NewQuickRentalEntityComponent.GetCustomerSettings();
 
-
                 List<string> itemHolders = new List<string>();
 
                 //Countrys
