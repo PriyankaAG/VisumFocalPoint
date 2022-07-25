@@ -24,8 +24,8 @@ namespace FocalPoint.Modules.FrontCounter.Views
             BindingContext = frontCounterDashboardViewModel;
             Device.BeginInvokeOnMainThread(async () =>
             {
-                //SUSHIL COme back here
-                frontCounterDashboardViewModel.IsFrontCounterAccess = true;
+                //SUSHIL Come back here
+                frontCounterDashboardViewModel.IsFrontCounterAccess = false;
 
                 //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
                 //{

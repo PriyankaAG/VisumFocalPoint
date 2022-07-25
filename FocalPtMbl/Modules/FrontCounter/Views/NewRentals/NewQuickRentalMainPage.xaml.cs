@@ -390,6 +390,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Payment_Clicked(object sender, EventArgs e)
         {
+            if (!await CheckIsCashCustomer()) return;
+
             ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
             var orderDetails = await viewOrderEntityComponent.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
             if (orderDetails != null)
@@ -426,7 +428,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private async void UpdateODateEDate()
         {
             theViewModel.IsPageLoading = true;
-            var orderRefresh = await(BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
+            var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateDateValues();
             await AfterUpdate_OrderProcessing(orderRefresh);
             theViewModel.IsPageLoading = false;
         }
@@ -460,9 +462,21 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             UpdateODateEDate();
         }
-
+        private async Task<bool> CheckIsCashCustomer()
+        {
+            if (!theViewModel.IsSaveEnabled)
+            {
+                await DisplayAlert("Alert!", "Please select a valid customer.", "Ok");
+                this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
+                return false;
+            }
+            return true;
+        }
         private async void SaveTapped(object sender, EventArgs e)
         {
+            var isOk = await CheckIsCashCustomer();
+            if (!isOk) return;
+
             var result = await SaveItNow();
             if (result)
             {
@@ -547,6 +561,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void SaveAndEmailTapped(object sender, EventArgs e)
         {
+            var isOk = await CheckIsCashCustomer();
+            if (!isOk) return;
+
             var isSaveSuccessfull = await SaveItNow();
             if (!isSaveSuccessfull)
                 return;
@@ -576,9 +593,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         }
 
-
         private async void SaveAsQuoteTapped(object sender, EventArgs e)
         {
+            var isOk = await CheckIsCashCustomer();
+            if (!isOk) return;
+
             var result = await SaveItNow(OrderUpdate.OrderSaveTypes.ExitAsQuote);
 
             if (result)
