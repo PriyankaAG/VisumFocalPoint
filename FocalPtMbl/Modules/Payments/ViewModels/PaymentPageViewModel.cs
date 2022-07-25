@@ -5,6 +5,7 @@ using FocalPoint.Validations;
 using FocalPoint.Validations.Rules;
 using FocalPtMbl.MainMenu.ViewModels;
 using MvvmHelpers.Commands;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 using static Visum.Services.Mobile.Entities.PaymentRequest;
 
 namespace FocalPoint.Modules.Payments.ViewModels
@@ -120,8 +122,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(CreditCardDetails));
             }
         }
-        public ICommand ValidateCheckNumberCommand => new Command(() => ValidateField(CheckNumber));
-        public ICommand ValidatePaymentCommand => new Command(() => ValidateField(Payment));
+        public ICommand ValidateCheckNumberCommand => new MvvmHelpers.Commands.Command(() => ValidateField(CheckNumber));
+        public ICommand ValidatePaymentCommand => new MvvmHelpers.Commands.Command(() => ValidateField(Payment));
 
         #region const
         public PaymentPageViewModel() : base("Payments")
@@ -281,6 +283,32 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(ShowDueAndReceived));
             OnPropertyChanged(nameof(OtherTitle));
         }
+
+        internal async Task<bool> SendEmailToCustomer(string email,int paymentNo)
+        {
+            try
+            {
+                Indicator = true;
+                var httpResponseMessage = await paymentEntityComponent.PaymentEmailPost(email, paymentNo);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string resContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var resResult = JsonConvert.DeserializeObject<bool>(resContent);
+                    return resResult;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
+
         public string GetPaymentImage(byte paymentTIcon)
         {
             return paymentTIcon switch
@@ -412,7 +440,24 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     eCheck = null,
                     Card = SelectedPaymentType?.PaymentKind == "CC" ? _creditCardDetails.GetCardDetails() : null
                 };
-                return await paymentEntityComponent.PostPaymentProcess(request);
+                var httpResponseMessage = await paymentEntityComponent.PostPaymentProcess(request);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject<PaymentResponse>(content);
+                    return response;
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    paymentEntityComponent.HandleTokenExpired();
+                    return null;
+                }
+                else
+                {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
+                    await Application.Current.MainPage.DisplayAlert("Focal Point", contentStr, "Ok");
+                    return null;
+                }
             }
             catch (Exception ex)
             {

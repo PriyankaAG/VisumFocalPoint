@@ -39,10 +39,7 @@ namespace FocalPoint.Modules.Payments.Types
                     {
                         if (voidResponse.Notifications != null && voidResponse.Notifications.Any())
                         {
-                            foreach (var item in voidResponse.Notifications)
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Focal Point", item, "Ok");
-                            }
+                            await Application.Current.MainPage.DisplayAlert("Focal Point", string.Join(Environment.NewLine, voidResponse.Notifications), "Ok");
                         }
                         else if (voidResponse.Payment != null)
                         {
@@ -52,7 +49,7 @@ namespace FocalPoint.Modules.Payments.Types
                 }
                 else
                 {
-                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
+                    string contentStr = await httpResponseMessage.Content?.ReadAsStringAsync() ?? "Something went wrong";
                     await Application.Current.MainPage.DisplayAlert("Focal Point", contentStr, "Ok");
                 }
             }

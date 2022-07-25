@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
@@ -128,6 +129,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             CurrentStores = new ObservableCollection<Company>();
             GetCurrentStores();
+            Task.Run(() =>
+            {
+                GetCustomersInfo();
+            });
             // GetRentVal();
         }
 

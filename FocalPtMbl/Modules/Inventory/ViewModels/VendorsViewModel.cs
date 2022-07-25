@@ -57,6 +57,10 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            Task.Run(() =>
+            {
+                _ = GetVendorsInfo();
+            });
             //var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes("c6760347-c341-47c6-9d90-8171615edc92"));
 
             //clientHttp.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);

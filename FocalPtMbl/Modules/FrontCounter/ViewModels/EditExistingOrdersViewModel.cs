@@ -133,10 +133,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     {
                         OpenOrders.Clear();
                         OpenOrders = new ObservableCollection<Order>(orderCntAndList.List);
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenOrders.Add(order);
-                        //};
                         StartIdxOrd = MaxCntOrd;
                         MaxCntOrd = StartIdxOrd + 100;
                     }
@@ -144,11 +140,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     {
                         OpenReserv.Clear();
                         OpenReserv = new ObservableCollection<Order>(orderCntAndList.List);
-
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenReserv.Add(order);
-                        //};
                         StartIdxRes = MaxCntRes;
                         MaxCntRes = StartIdxRes + 100;
                     }
@@ -156,10 +147,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     {
                         OpenQuote.Clear();
                         OpenQuote = new ObservableCollection<Order>(orderCntAndList.List);
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenQuote.Add(order);
-                        //};
                         StartIdxQuote = MaxCntQuote;
                         MaxCntQuote = StartIdxQuote + 100;
                     }
@@ -286,9 +273,35 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
+            GetData();
             SearchCommand = new Command<string>((a) => Search(a));
             ClearCommand = new Command<string>((a) => Clear(a));
         }
+
+        private void GetData()
+        {
+            try
+            {
+                Indicator = true;
+                Task.Run(() =>
+                {
+                    _ = GetSearchedOrdersInfo("", 1, true);
+                });
+                Task.Run(() =>
+                {
+                    _ = GetSearchedOrdersInfo("", 2, true);
+                });
+                Task.Run(() =>
+                {
+                    _ = GetSearchedOrdersInfo("", 3, true);
+                });
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
+
         private void Clear(string ordType)
         {
             if (Indicator)

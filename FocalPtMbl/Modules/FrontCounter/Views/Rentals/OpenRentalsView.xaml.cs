@@ -20,14 +20,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
             InitializeComponent();
             //this.Title = "View";
         }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ((OpenRentalsViewModel)this.BindingContext).GetRentals("");
-            });
-        }
+        
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)

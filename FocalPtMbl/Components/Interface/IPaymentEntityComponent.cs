@@ -11,8 +11,9 @@ namespace FocalPoint.Components.Interface
         Task<List<PaymentType>> GetPaymentTypes(int paymentType);
         Task<List<PaymentInfo>> GetPaymentCardInfo(int customerNo);
         Task<PaymentInfo> GetPaymentACHInfo(int customerNo);
-        Task<PaymentResponse> PostPaymentProcess(PaymentRequest request);
-        Task<bool> PostPaymentEmail(string emailAddress, int paymentNo);
+        Task<HttpResponseMessage> PostPaymentProcess(PaymentRequest request);
+        Task<HttpResponseMessage> PaymentEmailPost(string emailAddress, int paymentNo);
         Task<HttpResponseMessage> PaymentUpdate(Payment pay, bool paymentVoid);
+        void HandleTokenExpired();
     }
 }

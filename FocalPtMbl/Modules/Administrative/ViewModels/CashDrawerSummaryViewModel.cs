@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.Administrative.ViewModels
 {
@@ -185,11 +186,10 @@ namespace FocalPoint.Modules.Administrative.ViewModels
 
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
-            //clientHttp = PreparedClient();
-            //clientHttp.DefaultRequestHeaders.Add("Token", DataManager.Settings.UserToken);
-            //ClientHTTP.DefaultRequestHeaders.Add("StoreNo", DataManager.Settings.HomeStore.ToString());
-            //clientHttp.DefaultRequestHeaders.Add("TerminalNo", DataManager.Settings.Terminal.ToString());
-            //GetCashDrawers();
+            Task.Run(() => 
+            {
+                GetCashDrawers();
+            });
         }
         private async void GetStores()
         {

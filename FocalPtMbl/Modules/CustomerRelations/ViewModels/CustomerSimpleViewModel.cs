@@ -129,6 +129,10 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            Task.Run(() =>
+            {
+                _ = GetCustomersInfo();
+            });
         }
 
         private HttpClient PreparedClient()

@@ -24,5 +24,7 @@ namespace FocalPoint
         Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false);
 
         Task<OrderUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent);
+
+        void HandleTokenExpired();
     }
 }

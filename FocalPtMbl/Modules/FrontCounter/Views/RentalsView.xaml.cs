@@ -26,11 +26,6 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ((RentalsViewModel)this.BindingContext).GetCustomersInfo();
-            });
-            //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {

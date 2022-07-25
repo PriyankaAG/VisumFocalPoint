@@ -27,10 +27,6 @@ namespace FocalPoint.Modules.Inventory.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                _ = ((VendorsViewModel)this.BindingContext).GetVendorsInfo();
-            });
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
