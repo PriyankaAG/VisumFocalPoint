@@ -5,7 +5,8 @@
              xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
              x:Name="frontCounter"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter">
+             x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter"
+              BackgroundColor="#fff">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -37,7 +38,7 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Closed Order Summary" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        <Image Grid.Column="1" Source="filter.png" Style="{DynamicResource ImageDefault}">
+                        <Image Grid.Column="1" Source="filter.png" Style="{DynamicResource ImageDefault}" IsVisible="{Binding IsFrontCounterAccess}">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="FilterIconTapped" NumberOfTapsRequired="1" />
                             </Image.GestureRecognizers>
@@ -110,72 +111,13 @@
 
                     </Grid>
 
-                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="True">
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterNotAccessible}">
                         <ContentView.Content>
-                            <Grid Margin="0" RowSpacing="15">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!--Closed Orders-->
-                                <Grid Grid.Row="0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="1"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Label Grid.Row="0" Text="Closed Orders" Style="{DynamicResource LabelSubHeader}"/>
-                                    <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="1" Text="Daily" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="2" Text="Week" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="3" Text="Month" Style="{DynamicResource LabelListHeader}"  VerticalTextAlignment="Center"/>
-                                    </Grid>
-                                    <Grid Grid.Row="2" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
-                                        <Label Grid.Column="1" Text="10" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="2" Text="12" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="3" Text="30" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
-                                    </Grid>
-                                    <Grid Grid.Row="3" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="Amount" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
-                                        <Label Grid.Column="1" Text="$100" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="2" Text="$200" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
-                                        <Label Grid.Column="3" Text="$300" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
-                                    </Grid>
-                                    <BoxView Grid.Row="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
-                                </Grid>
-
-
-                            </Grid>
+                            <controls:HomeDashboardContent BindingContext="{Binding .}" />
                         </ContentView.Content>
                     </ContentView>
 
-                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="False">
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterAccess}">
                         <ContentView.Content>
                             <Grid Margin="0" RowSpacing="15">
                                 <Grid.RowDefinitions>
