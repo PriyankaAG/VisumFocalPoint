@@ -83,15 +83,15 @@
                                 <StackLayout Grid.Row="2" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
                                     <controls:LabelTextCustomControl VerticalOptions="FillAndExpand" IsVisible="{Binding SelectedOrder.Customer.CustomerAddr2, Converter={StaticResource StringNullOrEmptyBoolConverter}}" Title="" Value="{Binding SelectedOrder.Customer.CustomerAddr2}" />
                                 </StackLayout>
-                            <StackLayout Grid.Row="3" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone,StringFormat='{}{0:}', Converter={StaticResource StringNullOrEmptyBoolConverter}}">
-                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType}" Value="{Binding SelectedOrder.Customer.CustomerPhone, StringFormat='{}{0:(###) ###-####}'}">
+                            <StackLayout Grid.Row="3" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
+                                <controls:LabelTextCustomControl Title="{Binding CustomerPhoneTypeText}" Value="{Binding SelectedOrder.Customer.CustomerPhone, Converter={StaticResource stringToPhoneConverter}}">
                                     <controls:LabelTextCustomControl.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
                                     </controls:LabelTextCustomControl.GestureRecognizers>
                                 </controls:LabelTextCustomControl>
                             </StackLayout>
                             <StackLayout Grid.Row="4" IsVisible="{Binding SelectedOrder.Customer.CustomerPhone2, Converter={StaticResource StringNullOrEmptyBoolConverter}}">
-                                <controls:LabelTextCustomControl Title="{Binding SelectedOrder.Customer.CustomerPhoneType2}" Value="{Binding SelectedOrder.Customer.CustomerPhone2, StringFormat='{}{0:(###) ###-####}'}">
+                                <controls:LabelTextCustomControl Title="{Binding CustomerPhoneType2Text}" Value="{Binding SelectedOrder.Customer.CustomerPhone2, Converter={StaticResource stringToPhoneConverter}}">
                                     <controls:LabelTextCustomControl.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_2" />
                                     </controls:LabelTextCustomControl.GestureRecognizers>
@@ -206,7 +206,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <controls:LabelTextCustomControl HeightRequest="40" Grid.Row="0" Title="Ship To:" Value="{Binding SelectedOrder.ShipTo.ShipToCity}" />
+                            <controls:LabelTextCustomControl HeightRequest="40" Grid.Row="0" Title="Ship To:" Value="{Binding SelectedOrder.ShipTo.ShipToDscr}" />
                                 <controls:LabelTextCustomControl Grid.Row="1" Title="Contact:" Value="{Binding SelectedOrder.ShipTo.ShipToContact}" />
                                 <controls:LabelTextCustomControl Grid.Row="2" Title="Phone:" Value="{Binding SelectedOrder.ShipTo.ShipToPhone, StringFormat='{0:(###) ###-####}'}" TextColorValue="Blue">
                                     <controls:LabelTextCustomControl.GestureRecognizers>

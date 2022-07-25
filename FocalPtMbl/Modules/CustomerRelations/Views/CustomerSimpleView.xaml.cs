@@ -18,7 +18,6 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         bool inNavigation = false;
         public CustomerSimpleView()
         {
-            DevExpress.XamarinForms.CollectionView.Initializer.Init();
             InitializeComponent();
             BindingContext = new CustomerSimpleViewModel();
         }
@@ -26,11 +25,6 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ((CustomerSimpleViewModel)this.BindingContext).GetCustomersInfo();
-            });
-            //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         protected override void OnDisappearing()
         {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FocalPoint.Modules.FrontCounter.Views;
 using FocalPoint.Modules.Payments.ViewModels;
 using FocalPoint.Modules.ViewModels;
+using FocalPoint.Utils;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -89,7 +90,7 @@ namespace FocalPoint.Modules.Payments.Views
             {
                 _ = ProcessPayment();
                 return;
-            }            
+            }
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -135,13 +136,10 @@ namespace FocalPoint.Modules.Payments.Views
             {
                 var response = await viewModel.ProcessPayment();
                 if (viewModel?.CreditCardDetails != null) viewModel.CreditCardDetails.ManualToken = null;
-                if (response == null)
+                if (response == null) return;
+                else if (response.Notifications != null && response.Notifications.Any())
                 {
-                    _ = DisplayAlert("Error", "Something went wrong. Please try again.", "Ok");
-                }
-                else if (response?.Notifications != null && response.Notifications.Any())
-                {
-                    _ = DisplayAlert("FocalPoint", string.Join(Environment.NewLine, response.Notifications) , "Ok");
+                    _ = DisplayAlert("FocalPoint", string.Join(Environment.NewLine, response.Notifications), "Ok");
                 }
                 else if (response?.Payment != null)
                 {
@@ -152,6 +150,7 @@ namespace FocalPoint.Modules.Payments.Views
                     {
                         await Signature();
                     }
+                    await SendEmail(response.Payment.PaymentNo);
                     viewModel.ResetCards();
                     _ = Navigation.PopAsync();
                     _ = Navigation.PopAsync();
@@ -163,7 +162,7 @@ namespace FocalPoint.Modules.Payments.Views
                     _ = DisplayAlert("FocalPoint", "Something went wrong.", "Ok");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _ = DisplayAlert("FocalPoint", ex.Message, "Ok");
             }
@@ -173,10 +172,33 @@ namespace FocalPoint.Modules.Payments.Views
             }
         }
 
+        private async Task SendEmail(int paymentNo)
+        {
+            bool sendEmail = await DisplayAlert("Send Email", "Do you want to email a receipt? ", "Yes", "No");
+            if (!sendEmail) return;
+
+            var customerEmail = viewModel.Order.Customer?.CustomerEmail;
+            if (!customerEmail.HasData() || !Utils.Utils.IsValidEmail(customerEmail))
+            {
+                bool confirmation = await DisplayAlert("Send Email", "No Email on file for customer. Would you like to send to a new address? ", "Yes", "No");
+                if (confirmation)
+                    customerEmail = await DisplayPromptAsync("Send Email", "Please enter email address", keyboard: Keyboard.Email);
+                else return;
+            }
+            if (Utils.Utils.IsValidEmail(customerEmail))
+            {
+                var res = await viewModel.SendEmailToCustomer(customerEmail, paymentNo);
+                await DisplayAlert("Send Email", res ? "Email sent succesfully." : "Unable to send Email.", "Ok");
+            }
+            else
+            {
+                await DisplayAlert("Email Incorrect", "The Email Address is invalid.", "Ok");
+            }
+        }
+
         private async Task Signature()
         {
-            PaymentPageViewModel paymentPageViewModel = ((PaymentPageViewModel)this.BindingContext);
-            await paymentPageViewModel.SignatureCommand(this.Navigation);
+            await viewModel.SignatureCommand(this.Navigation);
         }
     }
 }

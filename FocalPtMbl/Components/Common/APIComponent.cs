@@ -13,6 +13,7 @@ namespace FocalPoint
     public class APIComponent : IAPICompnent
     {
         private string mediaType = "application/json";
+        static object locker = new object();
 
         public APIComponent()
         {
@@ -247,7 +248,7 @@ namespace FocalPoint
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
 
                     QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                   
+
                     orderDetailUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
                     //orderUpdate.Answers.
                 }
@@ -322,7 +323,7 @@ namespace FocalPoint
 
                 responseMessage = await ClientHTTP.SendAsync(request);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -340,13 +341,21 @@ namespace FocalPoint
             return baseURL.Replace("V1/", "") + url;
         }
 
-        private void HandleTokenExpired()
+        public void HandleTokenExpired()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            lock (locker)
             {
-                await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
-            });
+                if (DataManager.IsTokenExpired == false)
+                {
+                    DataManager.IsTokenExpired = true;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        DataManager.ClearSettings();
+                        await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
+                    });
+                }
+            }
         }
     }
 }

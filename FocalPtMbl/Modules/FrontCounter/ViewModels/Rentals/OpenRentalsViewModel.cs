@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -48,6 +49,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            Task.Run(() =>
+            {
+                GetRentals("");
+            });
         }
         private string SearchText = "";
         private int StartIdx = 0;

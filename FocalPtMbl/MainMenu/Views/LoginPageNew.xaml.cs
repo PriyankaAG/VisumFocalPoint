@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FocalPoint.Data;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPtMbl;
 using FocalPtMbl.MainMenu.Services;
@@ -126,6 +127,7 @@ namespace FocalPoint.MainMenu.Views
                 activityIndicator.IsRunning = true;
                 if (viewModel.LoginSecurity())
                 {
+                    DataManager.IsTokenExpired = false;
                     ShowMainPage();
                 }
             }

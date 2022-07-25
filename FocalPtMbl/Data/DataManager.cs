@@ -17,6 +17,8 @@ namespace FocalPoint.Data
         /// If there are upgrades to this table, do them before the first save
         /// </summary>
         public static bool FirstSave = true;
+        public static bool IsTokenExpired;
+
 
         public static string DatabaseFilename = "FocalPtSQL.db3";
 
