@@ -10,6 +10,7 @@ namespace FocalPoint.Components.EntityComponents
         IAPICompnent apiComponent;
 
         const string GetDashboard = "Order/Dashboard/{0}/{1}";
+        const string HomeDashboardAPIKey = "Dashboard/";
 
         public FrontCounterEntityComponent()
         {
@@ -30,6 +31,20 @@ namespace FocalPoint.Components.EntityComponents
                 throw ex;
             }
             return orderDashboardDetail;
+        }
+
+        public async Task<DashboardHome> GetHomeDashboardDetails()
+        {
+            DashboardHome dashboardHomeDetail;
+            try
+            {
+                dashboardHomeDetail = await apiComponent.GetAsync<DashboardHome>(HomeDashboardAPIKey);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dashboardHomeDetail;
         }
     }
 }

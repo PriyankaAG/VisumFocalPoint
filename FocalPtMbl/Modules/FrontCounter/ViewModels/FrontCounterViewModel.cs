@@ -93,6 +93,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             GrandTotalDetail.OrderDashboardOverviews = new ObservableCollection<OrderDashboardOverviewDetail>();
 
             ButtonSelectedCommand = new Command<bool>((bool isCounterSelected) => ChangeButtonStyle(isCounterSelected));
+            IsFrontCounterAccess =  DataManager.UserIsAllowed(Security.Areas.MBL_FC) &&
+                                    DataManager.UserIsAllowed(Security.Areas.MBL_FC_Order) &&
+                                    DataManager.UserIsAllowed(Security.Areas.MBL_FC_Orders) &&
+                                    DataManager.UserIsAllowed(Security.Areas.MBL_FC_Return);
         }
 
         #endregion Constructor & Initialization
@@ -100,6 +104,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         #region Properties
 
         public IFrontCounterEntityComponent FrontCounterEntityComponent { get; set; }
+
+        private bool _isFrontCounterAccess;
+        public bool IsFrontCounterAccess
+        {
+            get => _isFrontCounterAccess;
+            set
+            {
+                _isFrontCounterAccess = value;
+                OnPropertyChanged(nameof(IsFrontCounterAccess));
+            }
+        }
 
         private bool _isCounterButtonSelected;
         public bool IsCounterButtonSelected
@@ -167,6 +182,17 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
         }
 
+        private DashboardHome _dashboardHomeDetail;
+        public DashboardHome DashboardHomeDetail
+        {
+            get => _dashboardHomeDetail;
+            set
+            {
+                _dashboardHomeDetail = value;
+                OnPropertyChanged(nameof(DashboardHomeDetail));
+            }
+        }
+
         #endregion Properties
 
         #region Commands
@@ -215,6 +241,23 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     GrandTotalDetail.OrderDashboardOverviews.Add(grantalTotalOverview);
                     OnPropertyChanged(nameof(RentalCounterDetail));
                 }
+            }
+            catch (Exception e)
+            {
+                //TODO: Log Error
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
+
+        public async Task GetDashboardHomeDetail()
+        {
+            try
+            {
+                Indicator = true;
+                DashboardHomeDetail = await FrontCounterEntityComponent.GetHomeDashboardDetails();
             }
             catch (Exception e)
             {
