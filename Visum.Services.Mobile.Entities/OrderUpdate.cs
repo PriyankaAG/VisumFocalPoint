@@ -31,5 +31,7 @@ namespace Visum.Services.Mobile.Entities
 
         [DataMember]
         public OrderSaveTypes Save { get; set; }
+
+        public string NotAcceptableErrorMessage { get; set; }
     }
 }

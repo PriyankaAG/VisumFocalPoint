@@ -52,8 +52,9 @@
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
             <ContentPage Title="Notes" Icon="notes_96.png">
-                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
-                    <Label Margin="5,5" Text="{Binding CustomerNotes_HTML}" />
+                <ScrollView>
+                    <controls:HtmlFormattedLabel x:Name="lblHTML" FontSize ="15" 
+			        TextColor="Black" Margin="10"/>
                 </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
@@ -149,7 +150,8 @@
                 </StackLayout>
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>-->
-                <!--<demo:TabPageResources/>--><!--
+<!--<demo:TabPageResources/>-->
+<!--
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </dxn:TabPage.Resources>

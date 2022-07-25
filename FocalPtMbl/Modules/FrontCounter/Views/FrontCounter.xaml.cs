@@ -7,6 +7,7 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPoint.Modules.Dispatching.Views;
 using FocalPoint.Modules.ServiceDepartment.Views;
 using FocalPoint.Data;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 
 namespace FocalPoint.Modules.FrontCounter.Views
@@ -23,14 +24,17 @@ namespace FocalPoint.Modules.FrontCounter.Views
             BindingContext = frontCounterDashboardViewModel;
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (frontCounterDashboardViewModel.IsFrontCounterAccess)
-                {
+                //SUSHIL COme back here
+                frontCounterDashboardViewModel.IsFrontCounterAccess = true;
+
+                //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
+                //{
                     await frontCounterDashboardViewModel.GetDashboardDetail();
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     await frontCounterDashboardViewModel.GetDashboardHomeDetail();
-                }
+                //}
             });
         }
 
@@ -95,8 +99,11 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             try
             {
-                NewQuickRentalMainPage newQuickRentalMainPage = new NewQuickRentalMainPage();
-                await this.Navigation.PushAsync(newQuickRentalMainPage);
+                //NewQuickRentalMainPage newQuickRentalMainPage = new NewQuickRentalMainPage();
+                //await this.Navigation.PushAsync(newQuickRentalMainPage);
+                
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                await NavSer.PushPageFromMenu(typeof(NewQuickRentalMainPage), "Quick Rental");
             }
             catch (Exception ex)
             {

@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
+             x:Class="FocalPoint.MainMenu.Controls.HomeDashboardContent">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.BindingContext>
+        <viewModel:FrontCounterViewModel />
+    </ContentView.BindingContext>
+    <ContentView.Content>
+        <Grid Margin="0" RowSpacing="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Reservation -->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Reservation" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" VerticalOptions="Center"
+                      Padding="0,3,0,3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Text="Today" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Week" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="Month" Style="{DynamicResource LabelListHeader}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.RsrvsDayCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.RsrvsWeekCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="{Binding DashboardHomeDetail.RsrvsMonthCnt}" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Item #" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.RsrvsDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.RsrvsWeekItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="{Binding DashboardHomeDetail.RsrvsMonthItemCnt}" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <BoxView Grid.Row="4" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+            </Grid>
+
+            <!-- Due Back -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Due Back" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" 
+                        Padding="0,3,0,3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Text="Today" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Tomorrow" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="Week" Style="{DynamicResource LabelListHeader}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Item #" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.DueBackDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.DueBackTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="{Binding DashboardHomeDetail.DueBackWeekItemCnt}" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <BoxView Grid.Row="3" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+            </Grid>
+            
+            <!-- Deliveries -->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Deliveries" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}"
+                        Padding="0,3,0,3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Text="Today" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Tomorrow" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="Week" Style="{DynamicResource LabelListHeader}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Item #" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.DlvrDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.DlvrTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="{Binding DashboardHomeDetail.DlvrWeekItemCnt}" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <BoxView Grid.Row="3" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+            </Grid>
+
+            <!-- Pickups -->
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Pickups" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" 
+                        Padding="0,3,0,3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Text="Today" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Tomorrow" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="Week" Style="{DynamicResource LabelListHeader}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="2" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Item #" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.PckpDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.PckpTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" Text="{Binding DashboardHomeDetail.PckpWeekItemCnt}" Style="{DynamicResource LabelListDetail}"  VerticalTextAlignment="Center"/>
+                </Grid>
+                <BoxView Grid.Row="3" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+            </Grid>
+
+            <!-- Work Orders -->
+            <Grid Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Text="Work Orders" Style="{DynamicResource LabelSubHeader}"/>
+                <Grid Grid.Row="1" BackgroundColor="{DynamicResource ListHeaderBackgroundColor}" 
+                        Padding="0,3,0,3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Text="Internal" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Customer" Style="{DynamicResource LabelListHeader}" VerticalTextAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="2" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Open Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.PckpDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.PckpTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="3" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Promised Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.PckpDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.PckpTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="4" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Completed Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.PckpDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.PckpTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="5" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Promise Missed Count" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="{Binding DashboardHomeDetail.PckpDayItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="{Binding DashboardHomeDetail.PckpTmrwItemCnt}" Style="{DynamicResource LabelListDetail}" VerticalTextAlignment="Center" />
+                </Grid>
+                <BoxView Grid.Row="6" Style="{DynamicResource BoxViewListSeperatorDefault}"/>
+            </Grid>
+
+        </Grid>
+    </ContentView.Content>
+</ContentView>

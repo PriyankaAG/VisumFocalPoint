@@ -113,7 +113,12 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             {
                 _isFrontCounterAccess = value;
                 OnPropertyChanged(nameof(IsFrontCounterAccess));
+                OnPropertyChanged(nameof(IsFrontCounterNotAccessible));
             }
+        }
+        public bool IsFrontCounterNotAccessible
+        {
+            get => !_isFrontCounterAccess;
         }
 
         private bool _isCounterButtonSelected;

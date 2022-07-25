@@ -5,7 +5,8 @@
              xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels"
              x:Name="frontCounter"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter">
+             x:Class="FocalPoint.Modules.FrontCounter.Views.FrontCounter"
+              BackgroundColor="#fff">
     <ContentView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,12 +30,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Grid.Column="0" >
                         <Grid.ColumnDefinitions>
@@ -42,13 +38,13 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{DynamicResource LabelDashboardHeader}" Text="Closed Order Summary" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        <Image Grid.Column="1" Source="filter.png" Style="{DynamicResource ImageDefault}">
+                        <Image Grid.Column="1" Source="filter.png" Style="{DynamicResource ImageDefault}" IsVisible="{Binding IsFrontCounterAccess}">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="FilterIconTapped" NumberOfTapsRequired="1" />
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
-                    
+
                     <Grid Grid.Row="1" Grid.Column="0" ColumnSpacing="10">
                         <Frame Grid.Column="0" Style="{DynamicResource FrameStyle}" Padding="5" HasShadow="True">
                             <Grid>
@@ -115,62 +111,100 @@
 
                     </Grid>
 
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label HorizontalOptions="Center" Grid.Column="0" Text="{Binding FrontCounterFilterResult.SelectedDate, StringFormat='{0:MM/dd/yyyy}'}" Style="{DynamicResource LabelDashboardHeader}"/>
-                    </Grid>
-                    
-                    <Grid Grid.Row="3" BackgroundColor="#f5f6fa" Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="5*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Style="{DynamicResource TabSelectedButton}" Clicked="Counter_Clicked" BackgroundColor="{DynamicResource TabPageFavoriteColor}" TextColor="#FFFFFF" Text="Counter" Command="{Binding ButtonSelectedCommand}" CommandParameter="True">
-                            <Button.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
-                                    <Setter Property="Style" Value="{DynamicResource TabButton}"/>
-                                    <Setter Property="BackgroundColor" Value="#FFFFFF"/>
-                                    <Setter Property="TextColor" Value="{DynamicResource TabPageFavoriteColor }"/>
-                                </DataTrigger>
-                            </Button.Triggers>
-                        </Button>
-                        <Button Grid.Column="1" Style="{DynamicResource TabButton}" Text="UTILIZATION" Clicked="Utilization_Clicked" BackgroundColor="#FFFFFF" TextColor="{StaticResource TabPageFavoriteColor}">
-                            <Button.Triggers>
-                                <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
-                                    <Setter Property="Style" Value="{DynamicResource TabSelectedButton}"/>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource TabPageFavoriteColor}"/>
-                                    <Setter Property="TextColor" Value="#FFFFFF"/>
-                                </DataTrigger>
-                            </Button.Triggers>
-                        </Button>
-                    </Grid>
-                    <controls:DashboardListView Grid.Row="4" IsRental="True" BindingContext="{Binding RentalCounterDetail, Mode=TwoWay}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="RentalCounterDetailView">
-                        <controls:DashboardListView.Triggers>
-                            <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="False">
-                                <Setter Property="IsVisible" Value="True"/>
-                            </DataTrigger>
-                            <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="True">
-                                <Setter Property="IsVisible" Value="False"/>
-                            </DataTrigger>
-                        </controls:DashboardListView.Triggers>
-                    </controls:DashboardListView>
-                    <controls:DashboardListView Grid.Row="5" IsWorkOrder="True" BindingContext="{Binding WorkOrderDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="WorkOrderDetailView"/>
-                    <controls:DashboardListView Grid.Row="6" IsRental="True" BindingContext="{Binding GrandTotalDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="GrandTotalDetailView"/>
-                    <Grid Grid.Row="7" RowSpacing="15" BackgroundColor="#f5f6fa" Padding="10" x:Name="grdUtilization" Margin="0,-45,0,0" IsVisible="false">
-                        <controls:UtilizationBlock Grid.Row="0" Title="Total All Rental Count" Value="{Binding OrderDashboardDetail.Utilization.AllRentalCnt, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="1" Title="Total Count On Items On Rent" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCnt, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="2" Title="Utilization Percentage" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCntPct, StringFormat='{}{0:f2}%'}"/>
-                        <controls:UtilizationBlock Grid.Row="3" Title="Total All Rental Cost" Value="{Binding OrderDashboardDetail.Utilization.AllRentalCost, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="4" Title="Total All Cost On Rent" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCost, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="5" Title="Utilization Cost Percentage" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCostPct, StringFormat='{}{0:f2}%'}"/>
-                        <controls:UtilizationBlock Grid.Row="6" Title="Total Not On Rent Count" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCnt, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="7" Title="Total Not On Rent Cost" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCost, StringFormat='{}{0:C}'}"/>
-                        <controls:UtilizationBlock Grid.Row="8" Title="Utilization Cost Percentage" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCostPct, StringFormat='{}{0:f2}%'}"/>                        
-                    </Grid>
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterNotAccessible}">
+                        <ContentView.Content>
+                            <controls:HomeDashboardContent BindingContext="{Binding .}" />
+                        </ContentView.Content>
+                    </ContentView>
+
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterAccess}">
+                        <ContentView.Content>
+                            <Grid Margin="0" RowSpacing="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label HorizontalOptions="Center" Grid.Column="0" Text="{Binding FrontCounterFilterResult.SelectedDate, StringFormat='{0:MM/dd/yyyy}'}" Style="{DynamicResource LabelDashboardHeader}"/>
+                                </Grid>
+
+                                <Grid Grid.Row="1" BackgroundColor="#f5f6fa" Padding="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Style="{DynamicResource TabSelectedButton}" Clicked="Counter_Clicked" BackgroundColor="{DynamicResource TabPageFavoriteColor}" TextColor="#FFFFFF" Text="Counter" Command="{Binding ButtonSelectedCommand}" CommandParameter="True">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
+                                                <Setter Property="Style" Value="{DynamicResource TabButton}"/>
+                                                <Setter Property="BackgroundColor" Value="#FFFFFF"/>
+                                                <Setter Property="TextColor" Value="{DynamicResource TabPageFavoriteColor }"/>
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                    <Button Grid.Column="1" Style="{DynamicResource TabButton}" Text="UTILIZATION" Clicked="Utilization_Clicked" BackgroundColor="#FFFFFF" TextColor="{StaticResource TabPageFavoriteColor}">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
+                                                <Setter Property="Style" Value="{DynamicResource TabSelectedButton}"/>
+                                                <Setter Property="BackgroundColor" Value="{StaticResource TabPageFavoriteColor}"/>
+                                                <Setter Property="TextColor" Value="#FFFFFF"/>
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </Grid>
+                                <controls:DashboardListView Grid.Row="2" IsRental="True" BindingContext="{Binding RentalCounterDetail, Mode=TwoWay}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="RentalCounterDetailView">
+                                    <controls:DashboardListView.Triggers>
+                                        <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="False">
+                                            <Setter Property="IsVisible" Value="True"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="True">
+                                            <Setter Property="IsVisible" Value="False"/>
+                                        </DataTrigger>
+                                    </controls:DashboardListView.Triggers>
+                                </controls:DashboardListView>
+                                <controls:DashboardListView Grid.Row="3" IsWorkOrder="True" BindingContext="{Binding WorkOrderDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="WorkOrderDetailView"/>
+                                <controls:DashboardListView Grid.Row="4" IsRental="True" BindingContext="{Binding GrandTotalDetail}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="GrandTotalDetailView"/>
+                                <Grid Grid.Row="5" RowSpacing="15" BackgroundColor="#f5f6fa" x:Name="grdUtilization" Margin="0,-45,0,0" IsVisible="false">
+                                    <controls:UtilizationBlock Grid.Row="0" Title="Total All Rental Count" Value="{Binding OrderDashboardDetail.Utilization.AllRentalCnt, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="1" Title="Total Count On Items On Rent" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCnt, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="2" Title="Utilization Percentage" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCntPct, StringFormat='{}{0:f2}%'}"/>
+                                    <controls:UtilizationBlock Grid.Row="3" Title="Total All Rental Cost" Value="{Binding OrderDashboardDetail.Utilization.AllRentalCost, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="4" Title="Total All Cost On Rent" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCost, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="5" Title="Utilization Cost Percentage" Value="{Binding OrderDashboardDetail.Utilization.AllOnRentCostPct, StringFormat='{}{0:f2}%'}"/>
+                                    <controls:UtilizationBlock Grid.Row="6" Title="Total Not On Rent Count" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCnt, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="7" Title="Total Not On Rent Cost" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCost, StringFormat='{}{0:C}'}"/>
+                                    <controls:UtilizationBlock Grid.Row="8" Title="Utilization Cost Percentage" Value="{Binding OrderDashboardDetail.Utilization.NotOnRentCostPct, StringFormat='{}{0:f2}%'}"/>
+                                </Grid>
+                            </Grid>
+                        </ContentView.Content>
+                    </ContentView>
+
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="True">
+                        <ContentView.Content>
+                            <Grid Margin="0" RowSpacing="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                            </Grid>
+                        </ContentView.Content>
+                    </ContentView>
                 </Grid>
             </ScrollView>
+
             <Grid Grid.Row="1" Style="{DynamicResource GridFooterDefault}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
