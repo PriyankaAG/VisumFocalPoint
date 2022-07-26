@@ -1,6 +1,7 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
 using FocalPoint.Modules.Payments.Types;
+using FocalPoint.Utils;
 using FocalPoint.Validations;
 using FocalPoint.Validations.Rules;
 using FocalPtMbl.MainMenu.ViewModels;
@@ -423,7 +424,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     SourceID = Order?.OrderNo ?? -1,
                     CustomerNo = Order?.OrderCustNo ?? -1,
                     PaymentTNo = SelectedPaymentType.PaymentTNo,
-                    PaymentAmt = decimal.TryParse(Payment.Value?.Trim('$'), out decimal total) ? total : decimal.Zero,
+                    PaymentAmt = GetPaymentAmount(),
                     CashBackAmt = GetCashbackAmount(),
                     TaxAmt = Order?.OrderTax ?? -1,
                     OnFileNo = GetOnFileNo(),
@@ -457,11 +458,22 @@ namespace FocalPoint.Modules.Payments.ViewModels
             }
         }
 
+        private decimal GetPaymentAmount()
+        {
+            var newText = Payment.Value;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            return decimal.TryParse(newText, out decimal total) ? total : decimal.Zero;
+        }
+
         private decimal GetCashbackAmount()
         {
+            var newText = ChangeDue;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
             if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
             {
-                return decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : decimal.Zero;
+                return decimal.TryParse(newText, out decimal due) ? due : decimal.Zero;
             }
             return decimal.Zero;
         }

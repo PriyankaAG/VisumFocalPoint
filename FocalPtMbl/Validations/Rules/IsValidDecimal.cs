@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FocalPoint.Utils;
 
 namespace FocalPoint.Validations.Rules
 {
@@ -14,7 +15,10 @@ namespace FocalPoint.Validations.Rules
             {
                 return false;
             }
-            var amt = value.ToString().Trim('$');
+            var newText = value.ToString();
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            var amt = newText;
             return decimal.TryParse(amt, out decimal res) && res > 0;
         }
     }

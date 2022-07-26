@@ -143,7 +143,10 @@ namespace FocalPoint.Modules.Payments.Views
                 }
                 else if (response?.Payment != null)
                 {
-                    var due = decimal.TryParse(viewModel.ChangeDue.Trim('$'), out decimal dueAmt) ? dueAmt : 0;
+                    var newText = viewModel.ChangeDue;
+                    if (newText != null && !newText.IsFirstCharacterNumber())
+                        newText = newText.Substring(1);
+                    var due = decimal.TryParse(newText, out decimal dueAmt) ? dueAmt : 0;
                     var msg = due > 0 ? "Payment Complete, Change Due: " + due.ToString("C") + "" : "Payment Complete";
                     await DisplayAlert("FocalPoint", msg, "Ok", " ");
                     if (response.GetSignature)
