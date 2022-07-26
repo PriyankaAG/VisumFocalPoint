@@ -461,7 +461,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         private decimal GetPaymentAmount()
         {
             var newText = Payment.Value;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             return decimal.TryParse(newText, out decimal total) ? total : decimal.Zero;
         }
@@ -469,7 +469,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
         private decimal GetCashbackAmount()
         {
             var newText = ChangeDue;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
             {

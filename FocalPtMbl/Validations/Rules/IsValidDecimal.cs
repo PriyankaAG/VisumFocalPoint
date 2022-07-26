@@ -16,7 +16,7 @@ namespace FocalPoint.Validations.Rules
                 return false;
             }
             var newText = value.ToString();
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             var amt = newText;
             return decimal.TryParse(amt, out decimal res) && res > 0;

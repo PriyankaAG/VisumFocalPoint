@@ -24,7 +24,7 @@ namespace FocalPoint.Modules.Payments.Views
         {
             var selectedItem = e.CurrentSelection.FirstOrDefault();
             var newText = selectedItem?.ToString();
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             var paymentValue = Convert.ToDecimal(newText);
             ((PaymentPageViewModel)BindingContext).SetSelectedPayment(paymentValue);

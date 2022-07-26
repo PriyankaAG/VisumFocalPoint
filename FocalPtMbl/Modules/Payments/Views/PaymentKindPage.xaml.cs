@@ -144,7 +144,7 @@ namespace FocalPoint.Modules.Payments.Views
                 else if (response?.Payment != null)
                 {
                     var newText = viewModel.ChangeDue;
-                    if (newText != null && !newText.IsFirstCharacterNumber())
+                    if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                         newText = newText.Substring(1);
                     var due = decimal.TryParse(newText, out decimal dueAmt) ? dueAmt : 0;
                     var msg = due > 0 ? "Payment Complete, Change Due: " + due.ToString("C") + "" : "Payment Complete";

@@ -30,7 +30,7 @@ namespace FocalPoint.Modules.Payments.Views
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             //Update text
             var newText = e.NewTextValue;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             TotalReceived.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             ChangeDue.EditorText = 0.0.ToString("c");
@@ -48,7 +48,7 @@ namespace FocalPoint.Modules.Payments.Views
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             //Update text
             var newText = e.NewTextValue;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
 
             Payment.EditorText = 0.0.ToString("c");
@@ -66,10 +66,10 @@ namespace FocalPoint.Modules.Payments.Views
             Payment.TextChanged -= Payment_TextChanged;
             //Update text
             var newText = e.NewTextValue;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             var newValue = string.IsNullOrEmpty(newText) ? 0.ToString() : newText;
-            Payment.EditorText = decimal.TryParse(newText, out decimal total) && decimal.TryParse(newValue, out decimal due)
+            Payment.EditorText = decimal.TryParse(TotalReceived.EditorText?.Substring(1), out decimal total) && decimal.TryParse(newValue, out decimal due)
                 ? (total - due).ToString("c")
                 : "";
             //Subscribe
@@ -80,7 +80,7 @@ namespace FocalPoint.Modules.Payments.Views
         {
             Payment.TextChanged -= Payment_TextChanged;
             var newText = Payment.EditorText;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
             Payment.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             Payment.TextChanged += Payment_TextChanged;
@@ -90,7 +90,7 @@ namespace FocalPoint.Modules.Payments.Views
         {
             TotalReceived.TextChanged -= TotalReceived_TextChanged;
             var newText = TotalReceived.EditorText;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
 
             TotalReceived.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
@@ -101,7 +101,7 @@ namespace FocalPoint.Modules.Payments.Views
         {
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             var newText = ChangeDue.EditorText;
-            if (newText != null && !newText.IsFirstCharacterNumber())
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
                 newText = newText.Substring(1);
 
             ChangeDue.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
