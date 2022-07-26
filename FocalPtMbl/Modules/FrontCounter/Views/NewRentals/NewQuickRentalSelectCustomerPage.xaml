@@ -6,6 +6,7 @@
              xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.NewRental"
              xmlns:conv ="clr-namespace:FocalPoint.MainMenu.Converters" 
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+            xmlns:conv1="clr-namespace:FocalPoint.Converters" 
              x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalSelectCustomerPage"
              BackgroundColor="{StaticResource BackgroundPageColor}">
     <ContentPage.BindingContext>
@@ -19,6 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
             <conv:IsNullConverter x:Key="isNullConverter"/>
         </ResourceDictionary>
+        <conv1:StringToPhoneConverter x:Key="stringToPhoneConverter" />
     </ContentPage.Resources>
     <ContentPage.Content>
         <Grid RowSpacing="2">
@@ -85,7 +87,7 @@
                                                     </DataTrigger>
                                                 </Label.Triggers>
                                             </Label>
-                                            <Label Grid.Column="1" Grid.Row="0"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" Text="{Binding CustomerPhone}" MaxLines="2" LineBreakMode="TailTruncation">
+                                            <Label Grid.Column="1" Grid.Row="0"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" Text="{Binding CustomerPhone, Converter={StaticResource stringToPhoneConverter}}" MaxLines="2" LineBreakMode="TailTruncation">
                                                 <Label.Triggers>
                                                     <DataTrigger TargetType="Label" Binding="{Binding CustomerPhone, Converter={StaticResource isNullConverter}}" Value="True">
                                                         <Setter Property="Text" Value="Phone: N/A" />
