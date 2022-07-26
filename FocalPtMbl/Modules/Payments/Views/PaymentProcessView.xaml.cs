@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FocalPoint.Modules.Payments.ViewModels;
+using FocalPoint.Utils;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,7 +29,10 @@ namespace FocalPoint.Modules.Payments.Views
             TotalReceived.TextChanged -= TotalReceived_TextChanged;
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             //Update text
-            TotalReceived.EditorText = decimal.TryParse(e.NewTextValue?.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            var newText = e.NewTextValue;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            TotalReceived.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             ChangeDue.EditorText = 0.0.ToString("c");
             //Subscribe
             TotalReceived.TextChanged += TotalReceived_TextChanged;
@@ -43,8 +47,12 @@ namespace FocalPoint.Modules.Payments.Views
             Payment.TextChanged -= Payment_TextChanged;
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
             //Update text
+            var newText = e.NewTextValue;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+
             Payment.EditorText = 0.0.ToString("c");
-            ChangeDue.EditorText = decimal.TryParse(e.NewTextValue?.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            ChangeDue.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             //Subscribe
             Payment.TextChanged += Payment_TextChanged;
             ChangeDue.TextChanged += ChangeDue_TextChanged;
@@ -57,8 +65,11 @@ namespace FocalPoint.Modules.Payments.Views
             //Unsubscribe
             Payment.TextChanged -= Payment_TextChanged;
             //Update text
-            var newValue = string.IsNullOrEmpty(e.NewTextValue) ? 0.ToString() : e.NewTextValue.Trim('$');
-            Payment.EditorText = decimal.TryParse(TotalReceived.EditorText?.Trim('$'), out decimal total) && decimal.TryParse(newValue, out decimal due)
+            var newText = e.NewTextValue;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            var newValue = string.IsNullOrEmpty(newText) ? 0.ToString() : newText;
+            Payment.EditorText = decimal.TryParse(newText, out decimal total) && decimal.TryParse(newValue, out decimal due)
                 ? (total - due).ToString("c")
                 : "";
             //Subscribe
@@ -68,21 +79,32 @@ namespace FocalPoint.Modules.Payments.Views
         private void Payment_Unfocused(object sender, FocusEventArgs e)
         {
             Payment.TextChanged -= Payment_TextChanged;
-            Payment.EditorText = decimal.TryParse(Payment.EditorText.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            var newText = Payment.EditorText;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            Payment.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             Payment.TextChanged += Payment_TextChanged;
         }
 
         private void TotalReceived_Unfocused(object sender, FocusEventArgs e)
         {
             TotalReceived.TextChanged -= TotalReceived_TextChanged;
-            TotalReceived.EditorText = decimal.TryParse(TotalReceived.EditorText.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            var newText = TotalReceived.EditorText;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+
+            TotalReceived.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             TotalReceived.TextChanged += TotalReceived_TextChanged;
         }
 
         private void ChangeDue_Unfocused(object sender, FocusEventArgs e)
         {
             ChangeDue.TextChanged -= ChangeDue_TextChanged;
-            ChangeDue.EditorText = decimal.TryParse(ChangeDue.EditorText.Trim('$'), out decimal value) ? value.ToString("c") : "";
+            var newText = ChangeDue.EditorText;
+            if (newText != null && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+
+            ChangeDue.EditorText = decimal.TryParse(newText, out decimal value) ? value.ToString("c") : "";
             ChangeDue.TextChanged += ChangeDue_TextChanged;
         }
 
