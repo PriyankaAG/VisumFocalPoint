@@ -144,7 +144,7 @@ namespace FocalPoint.Modules.Payments.Views
                 else if (response?.Payment != null)
                 {
                     var due = decimal.TryParse(viewModel.ChangeDue.Trim('$'), out decimal dueAmt) ? dueAmt : 0;
-                    var msg = due > 0 ? "Payment Complete, Change Due: " + Convert.ToDecimal(viewModel.ChangeDue).ToString("C") + "" : "Payment Complete";
+                    var msg = due > 0 ? "Payment Complete, Change Due: " + due.ToString("C") + "" : "Payment Complete";
                     await DisplayAlert("FocalPoint", msg, "Ok", " ");
                     if (response.GetSignature)
                     {

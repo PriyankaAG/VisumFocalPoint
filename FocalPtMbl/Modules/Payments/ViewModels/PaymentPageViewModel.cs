@@ -284,7 +284,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(OtherTitle));
         }
 
-        internal async Task<bool> SendEmailToCustomer(string email,int paymentNo)
+        internal async Task<bool> SendEmailToCustomer(string email, int paymentNo)
         {
             try
             {
@@ -346,29 +346,21 @@ namespace FocalPoint.Modules.Payments.ViewModels
         }
         internal void SetSelectedPayment(decimal value)
         {
-            TotalReceived = Payment.Value = value.ToString("c");
-            ChangeDue = 0.0.ToString("c");
-            OnPropertyChanged(nameof(TotalReceived));
-            OnPropertyChanged(nameof(ChangeDue));
+            Payment.Value = value.ToString("c");
             OnPropertyChanged(nameof(Payment));
         }
 
         internal void SetDueAmout()
         {
-            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
-            {
-                TotalReceived = ChangeDue = 0.0.ToString("c");
-                OnPropertyChanged(nameof(TotalReceived));
-                OnPropertyChanged(nameof(ChangeDue));
-            }
             Payment.IsValid = true;
-            Payment.Value = RequestType == RequestTypes.Standard ? GetPaymentAmt() : SuggestedDeposit;
-            OnPropertyChanged(nameof(Payment));
+            Payment.Value = RequestType == RequestTypes.Standard ? GetPaymentAmt(Order?.Totals?.TotalDueAmt.ToString() ?? null) : GetPaymentAmt(SuggestedDeposit);
+            //OnPropertyChanged(nameof(Payment));
         }
 
-        private string GetPaymentAmt()
+        private string GetPaymentAmt(string amount)
         {
-            return Order?.Totals?.TotalDueAmt < 0 ? 0.0.ToString("c") : Order?.Totals?.TotalDueAmt.ToString("c");
+            string defaultValue = 0.0.ToString("c");
+            return amount != null && decimal.TryParse(amount, out decimal res) ? res < 0 ? defaultValue : res.ToString("c") : defaultValue;
         }
 
         internal string ValidatePaymentKinds()
@@ -431,8 +423,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     SourceID = Order?.OrderNo ?? -1,
                     CustomerNo = Order?.OrderCustNo ?? -1,
                     PaymentTNo = SelectedPaymentType.PaymentTNo,
-                    PaymentAmt = decimal.TryParse(Payment.Value?.Trim('$'), out decimal total) ? total : 0,
-                    CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
+                    PaymentAmt = decimal.TryParse(Payment.Value?.Trim('$'), out decimal total) ? total : decimal.Zero,
+                    CashBackAmt = GetCashbackAmount(),
                     TaxAmt = Order?.OrderTax ?? -1,
                     OnFileNo = GetOnFileNo(),
                     Other = GetOtherDetails(),
@@ -463,6 +455,15 @@ namespace FocalPoint.Modules.Payments.ViewModels
             {
                 throw;
             }
+        }
+
+        private decimal GetCashbackAmount()
+        {
+            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
+            {
+                return decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : decimal.Zero;
+            }
+            return decimal.Zero;
         }
 
         private int GetOnFileNo()

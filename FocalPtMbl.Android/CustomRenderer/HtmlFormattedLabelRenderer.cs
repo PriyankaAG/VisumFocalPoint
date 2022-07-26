@@ -25,7 +25,7 @@ namespace FocalPtMbl.Droid.CustomRenderer
             base.OnElementChanged(e);
 
             var view = (HtmlFormattedLabel)Element;
-            if (view == null) return;
+            if (view?.Text == null) return;
 
             Control.SetText(Html.FromHtml(view.Text.ToString(), FromHtmlOptions.OptionUseCssColors), TextView.BufferType.Spannable);
         }

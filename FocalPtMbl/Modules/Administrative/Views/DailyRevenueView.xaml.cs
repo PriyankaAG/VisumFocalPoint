@@ -52,6 +52,7 @@ namespace FocalPoint.Modules.Administrative.Views
 
             //ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
             //var orderDetails = await viewOrderEntityComponent.GetOrderDetails(501842);
+            ////orderDetails.Totals.TotalDueAmt = 0;
             //if (orderDetails != null)
             //{
             //    await Navigation.PushAsync(new PaymentView(orderDetails));
