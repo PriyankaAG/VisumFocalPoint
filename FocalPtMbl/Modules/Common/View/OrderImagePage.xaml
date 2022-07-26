@@ -4,8 +4,8 @@
              xmlns:local="clr-namespace:FocalPoint;assembly=FocalPtMbl"
              x:Class="FocalPoint.Modules.Common.View.ImagePage">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Yellow">
-            <local:PinchToZoomContainer HorizontalOptions="Fill" VerticalOptions="FillAndExpand" BackgroundColor="Blue">
+        <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+            <local:PinchToZoomContainer HorizontalOptions="Fill" VerticalOptions="FillAndExpand">
                 <local:PinchToZoomContainer.Content>
                     <Image x:Name="DisplayImage"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
