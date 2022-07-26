@@ -25,7 +25,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
             Device.BeginInvokeOnMainThread(async () =>
             {
                 //SUSHIL Come back here
-                frontCounterDashboardViewModel.IsFrontCounterAccess = false;
+                //frontCounterDashboardViewModel.IsFrontCounterAccess = false;
 
                 //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
                 //{
