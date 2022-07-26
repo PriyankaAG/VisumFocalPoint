@@ -208,7 +208,7 @@
                                 </Grid.RowDefinitions>
                             <controls:LabelTextCustomControl HeightRequest="40" Grid.Row="0" Title="Ship To:" Value="{Binding SelectedOrder.ShipTo.ShipToDscr}" />
                                 <controls:LabelTextCustomControl Grid.Row="1" Title="Contact:" Value="{Binding SelectedOrder.ShipTo.ShipToContact}" />
-                                <controls:LabelTextCustomControl Grid.Row="2" Title="Phone:" Value="{Binding SelectedOrder.ShipTo.ShipToPhone, StringFormat='{0:(###) ###-####}'}" TextColorValue="Blue">
+                            <controls:LabelTextCustomControl Grid.Row="2" Title="Phone:" Value="{Binding SelectedOrder.ShipTo.ShipToPhone, Converter={StaticResource stringToPhoneConverter}}" TextColorValue="Blue">
                                     <controls:LabelTextCustomControl.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_4" />
                                     </controls:LabelTextCustomControl.GestureRecognizers>
