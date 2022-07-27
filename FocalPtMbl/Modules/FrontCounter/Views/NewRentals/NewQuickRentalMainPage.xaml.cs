@@ -2,6 +2,7 @@
 using FocalPoint.MainMenu.ViewModels;
 using FocalPoint.MainMenu.Views;
 using FocalPoint.Modules.FrontCounter.ViewModels.NewRental;
+using FocalPoint.Modules.Payments.Types;
 using FocalPoint.Modules.Payments.Views;
 using FocalPoint.Utils;
 using FocalPtMbl.MainMenu.ViewModels.Services;
@@ -22,6 +23,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     {
         NewQuickRentalMainPageViewModel theViewModel;
         public StoreSettings StoreSettingsProp { get; set; }
+        public bool IsPaymentVoidMade { get; set; }
         public NewQuickRentalMainPage()
         {
             InitializeComponent();
@@ -50,6 +52,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
             MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "NotesAdded");
             MessagingCenter.Unsubscribe<PaymentKindPage, bool>(this, "PaymentComplete");
+            MessagingCenter.Unsubscribe<PaymentHistoryDetail, bool>(this, "PaymentVoid");
         }
         protected override bool OnBackButtonPressed()
         {
@@ -109,6 +112,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             selectedItem = "Select Item Type";
 
             (Application.Current.MainPage as MainMenuFlyout).IsQuickRentalScreenDisplaying = true;
+
+            if (IsPaymentVoidMade)
+            {
+                IsPaymentVoidMade = false;
+                RefreshCurrentOrder(true);
+            }
         }
 
         public void SubscribeEvents()
@@ -147,32 +156,42 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
             MessagingCenter.Subscribe<PaymentKindPage, bool>(this, "PaymentComplete", async (sender, args) =>
             {
-                try
-                {
-                    if (args)
-                    {
-                        theViewModel.IsPageLoading = true;
-
-                        var orderNo = theViewModel.CurrentOrder.OrderNo.ToString();
-                        var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).RefetchOrder(orderNo);
-                        if (orderRefresh != null)
-                        {
-                            theViewModel.CurrentOrder = orderRefresh;
-
-                            if (theViewModel.CurrentOrderUpdate == null) theViewModel.CurrentOrderUpdate = new OrderUpdate();
-
-                            theViewModel.CurrentOrderUpdate.Order = theViewModel.CurrentOrder;
-                        }
-
-                        theViewModel.IsPageLoading = false;
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    theViewModel.IsPageLoading = false;
-                }
+                await RefreshCurrentOrder(args);
             });
+            MessagingCenter.Subscribe<PaymentHistoryDetail, bool>(this, "PaymentVoid", async (sender, args) =>
+            {
+                IsPaymentVoidMade = true;
+                await RefreshCurrentOrder(args);
+            });
+        }
+        public async Task RefreshCurrentOrder(bool args)
+        {
+            try
+            {
+                if (args)
+                {
+                    theViewModel.IsPageLoading = true;
+
+                    var orderNo = theViewModel.CurrentOrder.OrderNo.ToString();
+                    var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).RefetchOrder(orderNo);
+                    if (orderRefresh != null)
+                    {
+                        theViewModel.CurrentOrder = orderRefresh;
+
+                        if (theViewModel.CurrentOrderUpdate == null) theViewModel.CurrentOrderUpdate = new OrderUpdate();
+
+                        theViewModel.CurrentOrderUpdate.Order = theViewModel.CurrentOrder;
+                    }
+
+                    theViewModel.IsPageLoading = false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                theViewModel.IsPageLoading = false;
+            }
+
         }
         public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
         {
@@ -376,18 +395,24 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             try
             {
-                bool doVoid = await DisplayAlert("Void", "Are you sure you want to void?", "OK", "Cancel");
-                if (doVoid)
+                if (theViewModel.CurrentOrder.OrderPaid > 0)
                 {
-                    string result = await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder();
-                    if (!result.HasData())
-                    {
-                        NavigateToDashboard();
-                    }
-                    else
-                        await DisplayAlert("Void", "Void did not succeed try again", "OK");
+                    await DisplayAlert("Alert!", "Payments are made against this order. Can not void.", "OK");
                 }
-
+                else
+                {
+                    bool doVoid = await DisplayAlert("Void", "Are you sure you want to void?", "OK", "Cancel");
+                    if (doVoid)
+                    {
+                        string result = await ((NewQuickRentalMainPageViewModel)BindingContext).VoidOrder();
+                        if (!result.HasData())
+                        {
+                            NavigateToDashboard();
+                        }
+                        else
+                            await DisplayAlert("Void", "Void did not succeed try again", "OK");
+                    }
+                }
 
             }
             catch (Exception ex)

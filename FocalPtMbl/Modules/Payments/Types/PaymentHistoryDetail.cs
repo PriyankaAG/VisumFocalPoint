@@ -49,6 +49,8 @@ namespace FocalPoint.Modules.Payments.Types
                         {
                             PaymentHistory.Remove(payment);
                             await Application.Current.MainPage.DisplayAlert("Focal Point", "Payment void successful.", "Ok");
+
+                            MessagingCenter.Send(this, "PaymentVoid", true);
                         }
                     }
                 }
