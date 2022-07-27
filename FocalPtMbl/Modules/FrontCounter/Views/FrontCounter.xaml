@@ -205,7 +205,7 @@
                 </Grid>
             </ScrollView>
 
-            <Grid Grid.Row="1" Style="{DynamicResource GridFooterDefault}">
+            <Grid Grid.Row="1" Style="{DynamicResource GridFooterDefault}" IsVisible="{Binding IsFrontCounterAccess}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="1"/>
@@ -240,6 +240,28 @@
                 </StackLayout>
                 <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}"/>
                 <StackLayout Grid.Column="6">
+                    <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Service Dept"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ServiceDept_Clicked"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Grid>
+            <Grid Grid.Row="1" Style="{DynamicResource GridFooterDefault}" IsVisible="{Binding IsFrontCounterNotAccessible}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Dispatch"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Dispatching_Clicked"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}"/>
+                <StackLayout Grid.Column="2">
                     <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}"/>
                     <Label Style="{DynamicResource LabelFooterIcon}" Text="Service Dept"/>
                     <StackLayout.GestureRecognizers>

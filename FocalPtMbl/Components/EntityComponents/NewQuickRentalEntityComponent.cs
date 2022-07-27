@@ -20,6 +20,7 @@ namespace FocalPoint.Components.EntityComponents
         const string GetCitiesByStateAPIKey = "CitiesByState/{0}/{1}";
         const string OrderSettingsAPIKey = "OrderSettings/";
         const string OrderAPIKey = "Order/";
+        const string FetchOrderAPIKey = "Order/{0}";
         const string OrderAddRentalAPIKey = "OrderAddRental/";
         const string OrderAddMerchandiseAPIKey = "OrderAddMerchandise/";
         const string AvailabilityRentalsAPIKey = "Availability/Rentals/";
@@ -205,6 +206,21 @@ namespace FocalPoint.Components.EntityComponents
             }
             catch (Exception)
             {
+            }
+
+            return responseOrderUpdate;
+        }
+        public async Task<Order> RefetchOrder(string OrderNo)
+        {
+            Order responseOrderUpdate = null;
+            try
+            {
+                responseOrderUpdate = await apiComponent.GetAsync<Order>(string.Format(FetchOrderAPIKey, OrderNo));
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log error
             }
 
             return responseOrderUpdate;
