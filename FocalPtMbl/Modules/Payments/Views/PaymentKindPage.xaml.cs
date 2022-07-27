@@ -122,6 +122,7 @@ namespace FocalPoint.Modules.Payments.Views
                     return;
                 }
                 await ProcessPayment();
+
             }
             catch (Exception ex)
             {
@@ -155,10 +156,8 @@ namespace FocalPoint.Modules.Payments.Views
                     }
                     await SendEmail(response.Payment.PaymentNo);
                     viewModel.ResetCards();
-                    _ = Navigation.PopAsync();
-                    _ = Navigation.PopAsync();
-                    _ = Navigation.PopAsync();
-                    //todo: check navigation method
+                    MessagingCenter.Send(this, "PaymentComplete", true);
+                    _ = Navigation.PopToRootAsync();
                 }
                 else
                 {

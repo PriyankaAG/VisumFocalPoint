@@ -172,33 +172,13 @@ namespace FocalPoint.Modules.Payments.Types
                     return "Validation failed. Please fill required data.";
                 if (!CardLast4Digits.IsValid)
                     return CardLast4Digits.Errors?.First() ?? "Validation failed.";
-                if (ExpirationDate < DateTime.MinValue)
-                    return "Validation failed. Please fill required data.";
+                //if (ExpirationDate <= DateTime.MinValue)
+                //    return "Validation failed. Please select card Expiration date.";
             }
-            if (ExpirationDate < DateTime.MinValue && DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-                return "Credit Card Expired!";
+            if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
+                return "Please select correct card Expiration date.";
+                //return "Credit Card Expired. Please select correct card Expiration date.";
             return "";
-
-            //ValidateField(CardHolderName);
-            //ValidateField(CardLast4Digits);
-            //if (Settings.POSEnabled)
-            //{
-            //    ValidateField(AvsStreetAddress);
-            //    ValidateField(AvsZipCode);
-            //    if (!(CardHolderName.IsValid && AvsStreetAddress.IsValid && AvsZipCode.IsValid))
-            //        return "Validation failed. Please correct data.";
-            //}
-            //else
-            //{
-            //    ValidateField(AuthorizationCode);
-            //    if (!(CardHolderName.IsValid && AuthorizationCode.IsValid))
-            //        return "Validation failed. Please fill required data.";
-            //}
-            //if (!CardLast4Digits.IsValid)
-            //    return CardLast4Digits.Errors?.First() ?? "Validation failed.";
-            //if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-            //    return "Credit Card Expired!";
-            //return "";
         }
 
         public PaymentRequestCard GetCardDetails()

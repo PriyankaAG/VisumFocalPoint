@@ -448,7 +448,7 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 else
                 {
                     string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
-                    await Application.Current.MainPage.DisplayAlert("Focal Point", contentStr, "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Server Error", contentStr, "Ok");
                     return null;
                 }
             }
