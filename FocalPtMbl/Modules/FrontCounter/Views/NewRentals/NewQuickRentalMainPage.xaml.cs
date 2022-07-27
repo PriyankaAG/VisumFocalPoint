@@ -49,6 +49,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             MessagingCenter.Unsubscribe<NewQuickRentalAddCustomerPage, Customer>(this, "CustomerSelectedADD");
             MessagingCenter.Unsubscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded");
             MessagingCenter.Unsubscribe<EditDetailOfSelectedItemView, Tuple<Order, OrderDtl>>(this, "NotesAdded");
+            MessagingCenter.Unsubscribe<PaymentKindPage, bool>(this, "PaymentComplete");
         }
         protected override bool OnBackButtonPressed()
         {
@@ -68,6 +69,14 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     if (notifications.Count > 0)
                         foreach (var notification in notifications)
                             await DisplayAlert("Notification", notification, "OK");
+                }
+                if (theViewModel.CurrentOrderUpdate == null ||
+                theViewModel.CurrentOrderUpdate.Order == null)
+                {
+                    await DisplayAlert("Alert!", "Issue while creating a new order." + Environment.NewLine + "Please try after some time.", "OK");
+                    NavigateToDashboard();
+
+                    return;
                 }
 
                 StoreSettingsProp = await ((NewQuickRentalMainPageViewModel)BindingContext).GetStoreSettings();
@@ -124,7 +133,6 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
             MessagingCenter.Subscribe<OrderNotesView, Tuple<string, string>>(this, "NotesAdded", async (sender, theNotes) =>
             {
-                //// SUSHIL: Check this back
                 if ((BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder?.OrderIntNotes != theNotes.Item1
                 || (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrder?.OrderNotes != theNotes.Item2)
                 {
@@ -137,8 +145,35 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 var retOrderDtl = tup.Item2;
                 (BindingContext as NewQuickRentalMainPageViewModel).ReloadOrderDetailItems(retOrder, retOrderDtl);
             });
-        }
+            MessagingCenter.Subscribe<PaymentKindPage, bool>(this, "PaymentComplete", async (sender, args) =>
+            {
+                try
+                {
+                    if (args)
+                    {
+                        theViewModel.IsPageLoading = true;
 
+                        var orderNo = theViewModel.CurrentOrder.OrderNo.ToString();
+                        var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).RefetchOrder(orderNo);
+                        if (orderRefresh != null)
+                        {
+                            theViewModel.CurrentOrder = orderRefresh;
+
+                            if (theViewModel.CurrentOrderUpdate == null) theViewModel.CurrentOrderUpdate = new OrderUpdate();
+
+                            theViewModel.CurrentOrderUpdate.Order = theViewModel.CurrentOrder;
+                        }
+
+                        theViewModel.IsPageLoading = false;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    theViewModel.IsPageLoading = false;
+                }
+            });
+        }
         public async void UpdateTheOrder(Customer customer, Tuple<string, string> theNotes = null)
         {
             var orderRefresh = await (BindingContext as NewQuickRentalMainPageViewModel).UpdateCurrentOrder(customer, theNotes);

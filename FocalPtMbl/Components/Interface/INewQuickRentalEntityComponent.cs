@@ -15,7 +15,7 @@ namespace FocalPoint.Components.Interface
         Task<List<DisplayValueString>> GetStates(string countryCode);
         Task<string> GetOrderLock(int OrderNo, string OrderNumT, bool Locked);
         Task<CitiesStates> GetCityByState(string countryCode, string stateCode);
-
+        Task<Order> RefetchOrder(string OrderNo);
         Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings);
 
         Task<string> VoidOrder(Order CurrentOrder);

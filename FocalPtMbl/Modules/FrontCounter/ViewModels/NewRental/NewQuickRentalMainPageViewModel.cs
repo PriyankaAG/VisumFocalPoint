@@ -9,6 +9,7 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using FocalPoint.Utils;
@@ -112,18 +113,6 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        OrderUpdate _orderUpdate;
-        public OrderUpdate OrderUpdate
-        {
-            get
-            {
-                return _orderUpdate;
-            }
-            set
-            {
-                _orderUpdate = value;
-            }
-        }
         OrderSettings _theOrderSettings;
         public OrderSettings TheOrderSettings
         {
@@ -353,6 +342,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             MessagingCenter.Unsubscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder");
             MessagingCenter.Unsubscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder");
             MessagingCenter.Unsubscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder");
+
             MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
                 CurrentOrder = arg.Order;
@@ -388,14 +378,18 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         }
         public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)
         {
-            if (Recent.Contains(ordDtl))
+            if (Recent.Any(p => p.OrderDtlNo == ordDtl.OrderDtlNo))
             {
-                var index = Recent.IndexOf(ordDtl);
-                Recent.Remove(ordDtl);
+                var foundRec = Recent.First(p => p.OrderDtlNo == ordDtl.OrderDtlNo);
+                var index = Recent.IndexOf(foundRec);
+                Recent.Remove(foundRec);
                 Recent.Insert(index, ordDtl);
             }
 
             CurrentOrder = ord;
+            
+            if (CurrentOrderUpdate == null) CurrentOrderUpdate = new OrderUpdate();
+            CurrentOrderUpdate.Order = CurrentOrder;
 
             OnPropertyChanged(nameof(CurrentOrder));
             OnPropertyChanged(nameof(Recent));
@@ -665,7 +659,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             Indicator = false;
             return responseOrderUpdate;
         }
-
+        internal async Task<Order> RefetchOrder(string OrderNo)
+        {
+            var responseOrderUpdate = await NewQuickRentalEntityComponent.RefetchOrder(OrderNo);
+            return responseOrderUpdate;
+        }
         internal async Task<OrderUpdate> UpdateCurrentOrder(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
         {
             OrderUpdate responseOrderUpdate = null;

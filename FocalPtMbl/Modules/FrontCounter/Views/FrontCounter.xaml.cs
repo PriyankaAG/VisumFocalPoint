@@ -29,7 +29,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
                 //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
                 //{
-                    await frontCounterDashboardViewModel.GetDashboardDetail();
+                await frontCounterDashboardViewModel.GetDashboardDetail();
                 //}
                 //else
                 //{
