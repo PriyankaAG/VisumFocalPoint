@@ -39,18 +39,22 @@ namespace FocalPoint.Modules.Payments.Types
                     {
                         if (voidResponse.Notifications != null && voidResponse.Notifications.Any())
                         {
-                            await Application.Current.MainPage.DisplayAlert("Focal Point", string.Join(Environment.NewLine, voidResponse.Notifications), "Ok");
+                            foreach (var notification in voidResponse.Notifications)
+                            {
+                                if (!string.IsNullOrEmpty(notification))
+                                    await Application.Current.MainPage.DisplayAlert("Focal Point", notification, "Ok");
+                            }
                         }
-                        else if (voidResponse.Payment != null)
+                        else
                         {
                             PaymentHistory.Remove(payment);
+                            await Application.Current.MainPage.DisplayAlert("Focal Point", "Payment void successful.", "Ok");
                         }
                     }
                 }
                 else
                 {
-                    string contentStr = await httpResponseMessage.Content?.ReadAsStringAsync() ?? "Something went wrong";
-                    await Application.Current.MainPage.DisplayAlert("Focal Point", contentStr, "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Server Response", httpResponseMessage.ReasonPhrase, "Ok");
                 }
             }
             catch (Exception ex)

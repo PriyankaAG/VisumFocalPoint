@@ -43,7 +43,7 @@
                         <ViewCell>
                             <SwipeView >
                                 <SwipeView.RightItems>
-                                    <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
+                                    <SwipeItems SwipeBehaviorOnInvoked="Close">
                                         <SwipeItem BackgroundColor="Red"
                                                    Text="Void"
                                                    IsVisible="{Binding BindingContext.ShowVoid,Source={x:Reference HistoryDtl}}" IsEnabled="{Binding BindingContext.ShowVoid,Source={x:Reference HistoryDtl}}"
