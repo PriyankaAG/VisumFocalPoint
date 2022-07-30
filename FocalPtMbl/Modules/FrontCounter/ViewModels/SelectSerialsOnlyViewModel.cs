@@ -1,14 +1,13 @@
-﻿using FocalPoint.Data;
-using FocalPtMbl.MainMenu.Data;
+﻿using FocalPoint.Components.EntityComponents;
+using FocalPoint.Components.Interface;
 using FocalPtMbl.MainMenu.ViewModels;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
-using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
-using Xamarin.Forms;
 
 namespace FocalPoint.Modules.FrontCounter.ViewModels
 {
@@ -16,6 +15,9 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
     {
         //serials?
         private AvailabilityMerch selectedItem = new AvailabilityMerch();
+
+        public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+
         public AvailabilityMerch SelectedItem
         {
             get => this.selectedItem;
@@ -32,39 +34,32 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         {
             get { return clientHttp; }
         }
-        internal void GetSerials(AvailabilityMerch selectedItem)
+        internal async Task GetSerials(AvailabilityMerch selectedItem)
         {
             try
             {
                 //update searchText
-                List<string> merchSerials = null;
+                List<MerchandiseSerial> merchSerials = null;
                 string StoreNo = selectedItem.AvailCmp.ToString();
                 string MerchNo = selectedItem.AvailItem.ToString();
-                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "AvailabilityMerchandiseSerials/"+MerchNo+"/"+StoreNo));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-
-                var response = ClientHTTP.GetAsync(uri).GetAwaiter().GetResult();
-                if (response.IsSuccessStatusCode)
+                merchSerials = await NewQuickRentalEntityComponent.AvailabilityMerchandiseSerials(MerchNo, StoreNo);
+                //StartIdx = customersCntAndList.TotalCnt;
+                if (recent == null)
                 {
-                    string content = response.Content.ReadAsStringAsync().Result;
-                    merchSerials = JsonConvert.DeserializeObject<List<string>>(content);
-                    //StartIdx = customersCntAndList.TotalCnt;
-                    if (recent == null)
+                    SelectedSerialsFound = new ObservableCollection<MerchandiseSerial>(merchSerials);
+                }
+                else
+                {
+                    Recent.Clear();
+                    foreach (var merch in merchSerials)
                     {
-                        SelectedSerialsFound = new ObservableCollection<string>(merchSerials);
-                    }
-                    else
-                    {
-                        Recent.Clear();
-                        foreach (var merch in merchSerials)
-                        {
-                            SelectedSerialsFound.Add(merch);
-                        }
+                        SelectedSerialsFound.Add(merch);
                     }
                 }
             }
             catch (Exception ex)
             {
-
+                //TODO: log error
             }
         }
 
@@ -87,8 +82,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 OnPropertyChanged(nameof(CurrentOrder));
             }
         }
-        private ObservableCollection<string> selectedSerialsFound = new ObservableCollection<string>();
-        public ObservableCollection<string> SelectedSerialsFound
+        private ObservableCollection<MerchandiseSerial> selectedSerialsFound = new ObservableCollection<MerchandiseSerial>();
+        public ObservableCollection<MerchandiseSerial> SelectedSerialsFound
         {
             get => this.selectedSerialsFound;
             private set
@@ -98,8 +93,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
 
         }
-        private ObservableCollection<string> selectedSerials = new ObservableCollection<string>();
-        public ObservableCollection<string> SelectedSerials
+
+        public bool AddToSelectedSerial(MerchandiseSerial value)
+        {
+            if (!SelectedSerials.Any(x => x.MerchSerSerial == value.MerchSerSerial))
+            {
+                SelectedSerials.Add(value);
+                return true;
+            }
+            return false;
+        }
+
+        private ObservableCollection<MerchandiseSerial> selectedSerials = new ObservableCollection<MerchandiseSerial>();
+        public ObservableCollection<MerchandiseSerial> SelectedSerials
         {
             get => this.selectedSerials;
             private set
@@ -109,14 +115,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
 
         }
+
         public SelectSerialsOnlyViewModel()
         {
-            var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
-            this.clientHttp = httpClientCache.GetHttpClientAsync();
+            NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
         }
     }
-    //private class SerialNumberDisplay()
-    //{
-
-    //}
 }

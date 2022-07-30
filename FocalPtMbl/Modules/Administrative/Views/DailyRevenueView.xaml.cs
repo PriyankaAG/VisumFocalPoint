@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.Modules.Administrative.Views
 {
@@ -39,10 +40,24 @@ namespace FocalPoint.Modules.Administrative.Views
             Date = startdateEdit.Date;
             ((DailyRevenueViewModel)this.BindingContext).DateChanged(Date);
         }
-        private  void SimpleButton_Clicked(object sender, EventArgs e)
+        private async void SimpleButton_Clicked(object sender, EventArgs e)
         {
+            var validationMsg = ((DailyRevenueViewModel)this.BindingContext).Validate();
+            if (!string.IsNullOrEmpty(validationMsg))
+            {
+                await DisplayAlert("FocalPoint", validationMsg, "OK");
+                return;
+            }
             ((DailyRevenueViewModel)this.BindingContext).GetDailyRev();
-           // await Navigation.PopModalAsync();
+
+            //ViewOrderEntityComponent viewOrderEntityComponent = new ViewOrderEntityComponent();
+            //var orderDetails = await viewOrderEntityComponent.GetOrderDetails(501842);
+            ////orderDetails.Totals.TotalDueAmt = 0;
+            //if (orderDetails != null)
+            //{
+            //    await Navigation.PushAsync(new PaymentView(orderDetails));
+            //}
+
         }
         private void ComboBoxEdit_SelectionChanged(object sender, EventArgs e)
         {
@@ -53,6 +68,13 @@ namespace FocalPoint.Modules.Administrative.Views
         {
             var comboBox = sender as ComboBoxEdit;
             ((DailyRevenueViewModel)this.BindingContext).SelectedPostCode = (PostCode)comboBox.SelectedItem;
+        }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var startdateEdit = sender as DatePicker;
+            Date = startdateEdit.Date;
+            ((DailyRevenueViewModel)this.BindingContext).DateChanged(Date);
         }
     }
 }

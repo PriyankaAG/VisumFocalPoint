@@ -17,6 +17,8 @@ namespace FocalPoint.Data
         /// If there are upgrades to this table, do them before the first save
         /// </summary>
         public static bool FirstSave = true;
+        public static bool IsTokenExpired;
+
 
         public static string DatabaseFilename = "FocalPtSQL.db3";
 
@@ -177,6 +179,42 @@ namespace FocalPoint.Data
             return GetSettings().UserToken;
         }
 
+        public static void SaveStores(List<Store> stores)
+        {
+            //In the future, we should record a schema version
+            lock (locker)
+            {
+                //This ensures that the subsequent call to insert will succeed with any new fields
+                SQLCon.BeginTransaction();
+                SQLCon.Execute("DROP TABLE tblCompany");
+                SQLCon.CreateTable<Store>();
+                foreach (Store store in stores)
+                {
+                    SQLCon.Insert(store, typeof(Store));
+                }
+                SQLCon.Commit();
+            }
+        }
+
+        public static List<Store> LoadStores()
+        {
+            List<Store> stores = null;
+
+            try
+            {
+                lock (locker)
+                {
+                    stores = SQLCon.Query<Store>("SELECT * FROM tblCompany").ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                //FPConsole.WriteLine("GetSettings exception. Message: " + e.Message);
+            }
+
+            return (stores == null) ? new List<Store>() : stores;
+        }
+
         public static void LoadSettings(string appVersion)
         {
             Settings = GetSettings();
@@ -216,7 +254,6 @@ namespace FocalPoint.Data
             httpClientCache.Token = Settings.UserToken;
             httpClientCache.User = Settings.User;
         }
-
 
         public static void ClearSettings()
         {
@@ -294,13 +331,11 @@ namespace FocalPoint.Data
                 SQLCon.CreateTable<Vendor>();
         }
 
-
         public static void EnsureTableExists<T>()
         {
             if (!TableExists<T>())
                 SQLCon.CreateTable<T>();
         }
-
 
         /// <summary>
         /// 
@@ -314,7 +349,6 @@ namespace FocalPoint.Data
             var result = SQLCon.ExecuteScalar<string>(qText);
             return result != null;
         }
-
 
         /// <summary>
         /// 

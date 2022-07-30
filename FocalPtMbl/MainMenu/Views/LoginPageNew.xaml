@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views"
-             xmlns:viewModel="clr-namespace:FocalPoint.MainMenu.ViewModels"
-             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
-             xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" 
-             x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views" xmlns:viewModel="clr-namespace:FocalPoint.MainMenu.ViewModels" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:converters="clr-namespace:FocalPoint.MainMenu.Converters" xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:ia="clr-namespace:IntelliAbb.Xamarin.Controls;assembly=IntelliAbb.Xamarin.Controls" x:Class="FocalPoint.MainMenu.Views.LoginPageNew">
     <ContentPage.BindingContext>
         <viewModel:LoginPageViewModelNew />
     </ContentPage.BindingContext>
@@ -29,72 +21,75 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
-            <Grid VerticalOptions="FillAndExpand" Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="8*" />
-                </Grid.RowDefinitions>
-                <StackLayout Grid.Row="0" VerticalOptions="Center">
-                    <Image HorizontalOptions="Center" WidthRequest="300" Source="FPMobile.png" />
-                    <Label HorizontalOptions="Center" Text="Rental software solution for your day-to-day operations" />
-                </StackLayout>
-                <Grid Grid.Row="1" VerticalOptions="CenterAndExpand" Margin="20,-40,20,0" RowSpacing="12">
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Grid VerticalOptions="FillAndExpand" Margin="10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="8*" />
                     </Grid.RowDefinitions>
-                    <StackLayout Grid.Row="0">
-                        <controls:CustomEditor x:Name="HostName" Image="cloud.png" Padding="1" Text="{Binding HostName.Value}" PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding HostName.IsValid}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
-                                </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
-                        <Label Text="{Binding HostName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding HostName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                    <StackLayout Grid.Row="0" VerticalOptions="Center">
+                        <Image HorizontalOptions="Center" WidthRequest="300" Source="FPMobile.png" />
+                        <Label HorizontalOptions="Center" Text="Rental software solution for your day-to-day operations" />
                     </StackLayout>
-                    <StackLayout Grid.Row="1">
-                        <controls:CustomEditor Image="port.png" Text="{Binding  PortNumber.Value}" Padding="1" PlaceHolder="Port Number" Keyboard="Numeric" Command="{Binding ValidatePortNumberCommand}">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding PortNumber.IsValid}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
-                                </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
-                        <Label Text="{Binding PortNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding PortNumber.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
-                    </StackLayout>                    
-                    <StackLayout Grid.Row="2">
-                        <controls:CustomEditor Image="user.png" Text="{Binding  UserName.Value}" Padding="1" PlaceHolder="UserName" Command="{Binding ValidateUserNameCommand}">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding UserName.IsValid}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
-                                </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
-                        <Label Text="{Binding UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
-                    </StackLayout>
-                    <StackLayout Grid.Row="3">
-                        <controls:CustomEditor Image="lock.png" Text="{Binding  UserPassword.Value}" Padding="1" PlaceHolder="Password" Command="{Binding ValidatePasswordCommand}" IsPassword="true">
-                            <controls:CustomEditor.Triggers>
-                                <DataTrigger TargetType="controls:CustomEditor" Binding="{Binding UserPassword.IsValid}" Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
-                                </DataTrigger>
-                            </controls:CustomEditor.Triggers>
-                        </controls:CustomEditor>
-                        <Label Text="{Binding UserPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserPassword.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal" Grid.Row="4">
-                        <ia:Checkbox x:Name="IsSignedInCheckbox" OutlineColor="#fff17b" FillColor="#fff17b" CheckColor="#fff17b" Shape="Circle" IsCheckedChanged="IsSignedInCheckbox_IsCheckedChanged" />
+                    <Grid Grid.Row="1" VerticalOptions="CenterAndExpand" Margin="20,-40,20,0" RowSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackLayout Grid.Row="0">
+                            <controls:ImageEditoCustomControl x:Name="HostName" Image="cloud.png" Padding="1" Text="{Binding HostName.Value}" PlaceHolder="Host Name" Command="{Binding ValidateHostNameCommand}">
+                                <controls:ImageEditoCustomControl.Triggers>
+                                    <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding HostName.IsValid}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </controls:ImageEditoCustomControl.Triggers>
+                            </controls:ImageEditoCustomControl>
+                            <Label Text="{Binding HostName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding HostName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="1">
+                            <controls:ImageEditoCustomControl Image="port.png" Text="{Binding  PortNumber.Value}" Padding="1" PlaceHolder="Port Number" Keyboard="Numeric" Command="{Binding ValidatePortNumberCommand}">
+                                <controls:ImageEditoCustomControl.Triggers>
+                                    <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding PortNumber.IsValid}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </controls:ImageEditoCustomControl.Triggers>
+                            </controls:ImageEditoCustomControl>
+                            <Label Text="{Binding PortNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding PortNumber.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="2">
+                            <controls:ImageEditoCustomControl Image="user.png" Text="{Binding  UserName.Value}" Padding="1" PlaceHolder="UserName" Command="{Binding ValidateUserNameCommand}">
+                                <controls:ImageEditoCustomControl.Triggers>
+                                    <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding UserName.IsValid}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </controls:ImageEditoCustomControl.Triggers>
+                            </controls:ImageEditoCustomControl>
+                            <Label Text="{Binding UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserName.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="3">
+                            <controls:ImageEditoCustomControl Image="lock.png" Text="{Binding  UserPassword.Value}" Padding="1" PlaceHolder="Password" Command="{Binding ValidatePasswordCommand}" IsPassword="true">
+                                <controls:ImageEditoCustomControl.Triggers>
+                                    <DataTrigger TargetType="controls:ImageEditoCustomControl" Binding="{Binding UserPassword.IsValid}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </controls:ImageEditoCustomControl.Triggers>
+                            </controls:ImageEditoCustomControl>
+                            <Label Text="{Binding UserPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" IsVisible="{Binding UserPassword.IsValid, Converter={StaticResource InvertedBoolConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" Grid.Row="4">
+                            <ia:Checkbox x:Name="IsSignedInCheckbox" OutlineColor="#fff17b" FillColor="#fff17b" CheckColor="#fff17b" Shape="Circle" IsCheckedChanged="IsSignedInCheckbox_IsCheckedChanged" />
 
-                        <Label Text="Keep me signed in" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
-                    </StackLayout>
-                    <Button Text="Login" Grid.Row="5" Style="{DynamicResource PrimaryButton}" BackgroundColor="#fff17b" Clicked="LoginButton_Clicked" Margin="0,10,0,10"/>
+                            <Label Text="Keep me signed in" Style="{DynamicResource LabelDefault}" HorizontalOptions="Start" VerticalOptions="Center" />
+                        </StackLayout>
+                        <Button Text="Login" Grid.Row="5" Style="{DynamicResource PrimaryButton}" BackgroundColor="#fff17b" TextColor="Black" Clicked="LoginButton_Clicked" Margin="0,10,0,10" />
+                        <ActivityIndicator x:Name="activityIndicator" Color="Blue" IsRunning="{Binding Indicator}" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+                    </Grid>
                 </Grid>
-            </Grid>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

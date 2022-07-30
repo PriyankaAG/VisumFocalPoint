@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:views="clr-namespace:FocalPoint.CustomControls"
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentProcessView">
+    <ContentView.Content>
+        <Frame x:Name="frameView" Padding="10,10,10,0" HasShadow="False" BackgroundColor="#f5f6fa">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Text="To Process" TextColor="#131523" FontAttributes="Bold" />
+                <ImageButton Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center" Source="arrow_down.png" Clicked="ImageButton_Clicked" BackgroundColor="#f5f6fa" />
+
+                <Grid x:Name="PaymentGrid" Grid.Row="1" Grid.ColumnSpan="2" ColumnSpacing="20" RowSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <views:LabelEditorCustomControl x:Name="Payment" Grid.Row="0" Grid.Column="0"
+                                                    TextChanged="Payment_TextChanged" 
+                                                    TextUnfocused="Payment_Unfocused"
+                                                    EditorText="{Binding Payment.Value}"
+                                                    MaxLenth="10" 
+                                                    LabelText="Payment"
+                                                    PlaceHolder="Payment due" 
+                                                    Keyboard="Numeric"
+                                                    Command="{Binding ValidatePaymentCommand}" 
+                                                    IsValid="{Binding Payment.IsValid}" />
+                    <views:LabelEditorCustomControl x:Name="TotalReceived" Grid.Row="0" Grid.Column="1" TextChanged="TotalReceived_TextChanged" TextUnfocused="TotalReceived_Unfocused" EditorText="{Binding TotalReceived}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Total Received" PlaceHolder="Amount received" Keyboard="Numeric" />
+                    <views:LabelEditorCustomControl x:Name="ChangeDue" Grid.Row="1" Grid.Column="0" TextChanged="ChangeDue_TextChanged" TextUnfocused="ChangeDue_Unfocused" EditorText="{Binding ChangeDue}" MaxLenth="10" IsVisible="{Binding ShowDueAndReceived}" LabelText="Change Due" PlaceHolder="Change due" Keyboard="Numeric" />
+                </Grid>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

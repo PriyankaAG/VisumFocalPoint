@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using System.Windows.Input;
+using System.IO;
 
 namespace FocalPoint.Modules.CustomerRelations.Views
 {
@@ -24,16 +25,37 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         public ICommand CallPhone { get; }
        // private Command CallPhone = new Command(() => AttemptCall(number1));
         readonly CustomerDetailViewModel viewModel;
-        public CustomerDetailView(Customer cust)
+        public CustomerDetailView(Customer cust, CustomerBalance balance)
         {
-            DevExpress.XamarinForms.Navigation.Initializer.Init();
-            this.viewModel = new CustomerDetailViewModel(cust);
+            //DevExpress.XamarinForms.Navigation.Initializer.Init();
+            this.viewModel = new CustomerDetailViewModel(cust, balance);
             InitializeComponent();
             BindingContext = this.viewModel;
             number1 = this.viewModel.Phone;
             CallPhone = new Command(() => AttemptCall(number1));
 
+            //var source = new HtmlWebViewSource();
+//            string html = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
+//<html xmlns=""http://www.w3.org/1999/xhtml"">
+//	<head>
+//		<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /><title>
+//		</title>
+//		<style type=""text/css"">
+//			.cs95E872D0{text-align:left;text-indent:0pt;margin:0pt 0pt 0pt 0pt}
+//			.cs97EF4E27{color:#000000;background-color:transparent;font-family:Calibri;font-size:15pt;word-wrap: break-word;font-weight:normal;font-style:normal;}
+//		</style>
+//	</head>
+//	<body>
+//		<p class=""cs95E872D0""><span class=""cs97EF4E27"">asdfasdgfasdgasdgf</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">as;dlkfj;alkdsjfg;laksjdf;lkjsad;lfkjas;<span style=""color:blue"">dljfk;asdljkf;lsajkdf;</span>lkjsad;lfkjas;dlkjf;lkdjsaf;lkjsdf;lkjsadf;lkjsad;flkjas;dlfkjsldjf;asdkjlf;lksajdf;lkdsjf;lksajdf;lkajsdf;lkjasd;lfkjasdlfkjas;dlkf;ldkjsf</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">&nbsp;</span></p><p class=""cs95E872D0""><span class=""cs97EF4E27"">s</span></p></body>
+//</html>
+//";
+            //source.Html = html;
+
+            lblHTML.Text = viewModel.CustomerNotes_HTML;
+
+            //rtfNotesWebView.Source = source;
         }
+
         async protected override void OnAppearing()
         {
             base.OnAppearing();

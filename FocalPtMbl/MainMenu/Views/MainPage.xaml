@@ -8,8 +8,7 @@
              xmlns:forms="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Core" 
              xmlns:views="clr-namespace:FocalPtMbl.MainMenu.Views" 
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" 
-             ios:Page.UseSafeArea="true"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview" xmlns:views1="clr-namespace:FocalPoint.Modules.FrontCounter.Views" ios:Page.UseSafeArea="true"
              x:Name="mainPage" 
              BackgroundColor="{DynamicResource BackgroundThemeColor}">
     <ContentPage.Resources >
@@ -79,7 +78,17 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <NavigationPage.TitleView>
-        <Grid
+        <Grid ColumnSpacing="0" RowSpacing="0"  Margin="0,0,80,0" BackgroundColor="{DynamicResource BackgroundThemeColor}">
+            <Label Text="Dashboard" FontSize="Large" 
+                   FontFamily="Univia-Pro Medium" 
+                   HorizontalOptions="Center" TextColor="{DynamicResource TextThemeColor}" 
+                   BackgroundColor="{DynamicResource BackgroundThemeColor}">
+                <Label.Margin>
+                    <OnPlatform x:TypeArguments="Thickness" Android="4,0,0,0" iOS="4,4,0,0" />
+                </Label.Margin>
+            </Label>
+        </Grid>
+            <!--<Grid
             Margin="0"
             ColumnSpacing="0"
             RowSpacing="0"
@@ -118,10 +127,13 @@
                     <OnPlatform x:TypeArguments="Thickness" Android="4,0,0,0" iOS="4,4,0,0"/>
                 </Label.Margin>
             </Label>
-        </Grid>
+        </Grid>-->
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid>
+        <views1:FrontCounter/>
+        </Grid>
+        <!--<Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -132,6 +144,6 @@
             ItemTemplate="{StaticResource itemTemplateSelector}"
             ItemsSource="{Binding Items}">
         </dxcv:DXCollectionView>        
-        </Grid>
+        </Grid>-->
     </ContentPage.Content>
 </ContentPage>

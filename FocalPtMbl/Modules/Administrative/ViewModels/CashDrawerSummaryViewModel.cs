@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.Administrative.ViewModels
 {
@@ -59,13 +60,13 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             return client;
         }
 
-        internal void GetCashDrawers()
+        internal async void GetCashDrawers()
         {
             try
             {
                 Uri uriGetCashDrawer = new Uri(string.Format(DataManager.Settings.ApiUri + "CashDrawers/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
                                                                                                             // uriGetCashDrawer = new Uri(string.Format(https://visumaaron.fpsdns.com:56883/Mobile/V1/CashDrawers));
-                var responseDR = ClientHTTP.GetAsync(uriGetCashDrawer).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriGetCashDrawer);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -75,11 +76,13 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     foreach (var foundCashDrawers in cashDrawersResult)
                         CurrentCashDrawers.Add(foundCashDrawers);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
         }
+
 
         private DateTime? selectedDate = new DateTime();
         public DateTime? SelectedDate
@@ -118,7 +121,17 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             }
         }
 
-        internal void GetCashDrawerSummary()
+
+        internal string Validate()
+        {
+            if (string.IsNullOrEmpty(SelectedCashDrawer.CashDrawerName))
+                return "Must Select Cash Drawer";
+            if (SelectedDate == null || SelectedDate.HasValue == false)
+                return "Must Select Date";
+            return "";
+        }
+
+        internal async void GetCashDrawerSummary()
         {
             try
             {
@@ -137,7 +150,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                                           JsonConvert.SerializeObject(new { DateOf, CashDrawer }),
                                           Encoding.UTF8,
                                           "application/json");
-                var responseDR = ClientHTTP.PostAsync(uriCashDrawer, stringContentDR).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.PostAsync(uriCashDrawer, stringContentDR);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -146,7 +159,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                         Recent.Clear();
                     Recent.Add(cashDrawerResult);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
@@ -162,7 +176,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             selectedDate = SelectedDate;
         }
         public CashDrawerSummaryViewModel()
-            {
+        {
             Recent = new ObservableCollection<CashDrawerResult>();
             CurrentStores = new ObservableCollection<Company>();
             SelectedStore = new Company();
@@ -172,26 +186,31 @@ namespace FocalPoint.Modules.Administrative.ViewModels
 
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
-            //clientHttp = PreparedClient();
-            //clientHttp.DefaultRequestHeaders.Add("Token", DataManager.Settings.UserToken);
-            //ClientHTTP.DefaultRequestHeaders.Add("StoreNo", DataManager.Settings.HomeStore.ToString());
-            //clientHttp.DefaultRequestHeaders.Add("TerminalNo", DataManager.Settings.Terminal.ToString());
-            //GetCashDrawers();
+            Task.Run(() => 
+            {
+                GetCashDrawers();
+            });
         }
-    private void GetStores()
+        private async void GetStores()
         {
             try
             {
+                Indicator = true;
                 Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "LoginStores"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-                var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriStores);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
                     var Stores = JsonConvert.DeserializeObject<List<Company>>(content);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
     }

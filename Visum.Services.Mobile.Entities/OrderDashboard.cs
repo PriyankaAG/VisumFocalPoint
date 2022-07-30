@@ -13,6 +13,6 @@ namespace Visum.Services.Mobile.Entities
         public int MonthCnt { get; set; }
         public decimal MonthAmt { get; set; }
         public List<OrderDashboardOverview> Overviews { get; set; } = new List<OrderDashboardOverview>();
-        public DashboardUtilization Utilization { get; set; }
+        public DashboardUtilization Utilization { get; set; } = new DashboardUtilization();
     }
 }

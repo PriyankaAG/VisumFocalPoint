@@ -7,7 +7,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
         <ListView x:Name="MenuItemsListView" Grid.Row="0"
               SeparatorVisibility="None"
@@ -105,11 +105,12 @@
             </Frame>
             <Frame Grid.Column="1" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >
                 <StackLayout Orientation="Vertical" Padding="0" Margin="0" VerticalOptions="Center">
-                    <Image Source="manage_profile.png" HeightRequest="40" WidthRequest="40" />
-                    <Label HorizontalTextAlignment="Center" Text ="Manage Profile" Style="{DynamicResource MainMenuFooterOptions}"/>
+                    <Image Source="icon_about_white.png" HeightRequest="40" WidthRequest="40" />
+                    <Label HorizontalTextAlignment="Center" Text ="About" Style="{DynamicResource MainMenuFooterOptions}"/>
                 </StackLayout>
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageProfileCommand}"/>
+                    <!--<TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>-->
                 </Frame.GestureRecognizers>
             </Frame>
             <Frame Grid.Column="2" BackgroundColor="{DynamicResource MenuDrawerFooterButtonColor}" Padding="5" VerticalOptions="FillAndExpand" Opacity=".8"  >

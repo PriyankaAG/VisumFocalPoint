@@ -4,9 +4,9 @@
              x:Class="FocalPoint.Modules.Dispatching.PickupTicketTabs.PickupTicketNotesPage"
              BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout HorizontalOptions="FillAndExpand">
-                <Label Text="Ticket Notes" TextColor="Black" FontSize="Title" XAlign="Start" VerticalOptions="Center" Padding="10,0" BackgroundColor="{DynamicResource BackgroundThemeColor}" />
+        <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+            <StackLayout Margin="5,5" HorizontalOptions="FillAndExpand">
+                <Label Text="Ticket Notes" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                 <Label Text="{Binding PuNote}" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,0"/>
             </StackLayout>
         </ScrollView>

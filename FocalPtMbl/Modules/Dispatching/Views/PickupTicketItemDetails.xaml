@@ -76,7 +76,7 @@
                     <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Lost:" TextColor="Black" FontSize="Medium" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" Padding="10,0" BackgroundColor="White" />
 
                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding UserId, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Time, StringFormat='{0:MM/dd/yyyy h:mm tt}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Time, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
                     <Label Grid.Row="2" Grid.Column="1" Text="{Binding LastCounted, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
                     <Label Grid.Row="3" Grid.Column="1" Text="{Binding LastDamaged, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />
                     <Label Grid.Row="4" Grid.Column="1" Text="{Binding LastStillOut, StringFormat='{0}'}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Start" />

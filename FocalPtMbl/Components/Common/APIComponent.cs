@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
 namespace FocalPoint
@@ -12,6 +13,7 @@ namespace FocalPoint
     public class APIComponent : IAPICompnent
     {
         private string mediaType = "application/json";
+        static object locker = new object();
 
         public APIComponent()
         {
@@ -22,11 +24,25 @@ namespace FocalPoint
         }
 
         HttpClient clientHttp { get; set; }
-        string baseURL; 
+        string baseURL;
 
         public HttpClient ClientHTTP
         {
             get { return clientHttp; }
+        }
+
+        public void AddStoreToHeader(string storeNo)
+        {
+            if (clientHttp.DefaultRequestHeaders.Contains("StoreNo"))
+                clientHttp.DefaultRequestHeaders.Remove("StoreNo");
+            clientHttp.DefaultRequestHeaders.Add("StoreNo", storeNo);
+        }
+
+        public void AddTerminalToHeader(string terminalNo)
+        {
+            if (clientHttp.DefaultRequestHeaders.Contains("TerminalNo"))
+                clientHttp.DefaultRequestHeaders.Remove("TerminalNo");
+            clientHttp.DefaultRequestHeaders.Add("TerminalNo", terminalNo);
         }
 
         public async Task<T> GetAsync<T>(string url)
@@ -73,6 +89,35 @@ namespace FocalPoint
                 }
                 else
                 {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return typedRequestContent;
+        }
+
+        public async Task<T> PutAsync<T>(string url, string requestContent)
+        {
+            T typedRequestContent = default;
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await PutAsync(url, requestContent);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    typedRequestContent = JsonConvert.DeserializeObject<T>(content);
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else
+                {
+                    string contentStr = await httpResponseMessage.Content.ReadAsStringAsync();
                     //TODO: Handle failure API's, add logs to server
                 }
             }
@@ -109,6 +154,103 @@ namespace FocalPoint
             }
             return typedRequestContent;
         }
+        public async Task<OrderUpdate> SendAsyncUpdateOrder(string url, string requestContent, bool isLoginMethod = false)
+        {
+            OrderUpdate orderUpdateRefresh = new OrderUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, isLoginMethod);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        //success
+                    }
+                    else
+                    {
+                        orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                        //check if empty result
+                        if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                        {
+                            if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
+                            {
+                                orderUpdateRefresh.Answers.Clear();
+                                return orderUpdateRefresh;
+                            }
+                        }
+                    }
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+                    string errorMessage= JsonConvert.DeserializeObject<string>(readErrorContent, settings);
+                    orderUpdateRefresh.NotAcceptableErrorMessage = errorMessage;
+                }
+            }
+            catch
+            {
+            }
+            return orderUpdateRefresh;
+        }
+
+        public async Task<OrderUpdate> SendAsyncUpdateOrderDetails(string url, string requestContent)
+        {
+            OrderUpdate orderDetailUpdateRefresh = new OrderUpdate();
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await SendAsync(url, requestContent, false);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    orderDetailUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                    if (orderDetailUpdateRefresh != null)
+                    {
+                        if (orderDetailUpdateRefresh.Answers != null && orderDetailUpdateRefresh.Answers.Count > 0)
+                        {
+                            orderDetailUpdateRefresh.Answers.Clear();
+                            return orderDetailUpdateRefresh;
+                        }
+                    }
+                    else
+                        throw new Exception("Order customer not changed");
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    HandleTokenExpired();
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+
+                    orderDetailUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
+                    //orderUpdate.Answers.
+                }
+                else
+                {
+                    //TODO: Handle failure API's, add logs to server
+                }
+            }
+            catch
+            {
+            }
+            return orderDetailUpdateRefresh;
+        }
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
@@ -142,7 +284,24 @@ namespace FocalPoint
             return responseMessage;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod)
+        public async Task<HttpResponseMessage> PutAsync(string url, string requestConentString)
+        {
+            HttpResponseMessage responseMessage = null;
+            try
+            {
+                StringContent requestContent = new StringContent(requestConentString);
+                HttpContent content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
+                responseMessage = await ClientHTTP.PutAsync(GetCompleteURL(url), content);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return responseMessage;
+        }
+
+        public async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
         {
             HttpResponseMessage responseMessage;
             try
@@ -152,9 +311,8 @@ namespace FocalPoint
                 request.Content = new StringContent(requestConentString, Encoding.UTF8, mediaType);
 
                 responseMessage = await ClientHTTP.SendAsync(request);
-                responseMessage.EnsureSuccessStatusCode();
             }
-            catch 
+            catch (Exception ex)
             {
                 throw;
             }
@@ -172,13 +330,21 @@ namespace FocalPoint
             return baseURL.Replace("V1/", "") + url;
         }
 
-        private void HandleTokenExpired()
+        public void HandleTokenExpired()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            lock (locker)
             {
-                await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
-            });
+                if (DataManager.IsTokenExpired == false)
+                {
+                    DataManager.IsTokenExpired = true;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        DataManager.ClearSettings();
+                        await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
+                    });
+                }
+            }
         }
     }
 }

@@ -15,14 +15,41 @@ namespace FocalPoint.MainMenu.Views
         public NavigationPage NavPage => navPage;
         public MainPage MainPageObject => mainPage;
         public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
+        public bool IsQuickRentalScreenDisplaying { get; set; } = false;
         public MainMenuFlyout()
         {
             InitializeComponent();
             FlyoutPageDrawer.ListView.ItemSelected += ListView_ItemSelected;
+            IsGestureEnabled = true;
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            bool result = true;
+            if (IsQuickRentalScreenDisplaying)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await this.DisplayAlert("Alert!", "Please Save or Void the order to exit.", "Ok");
+                });
+                result = true;
+            }
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+                    if (result)
+                    {
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
+                    }
+                });
+            }
+            return result;
+
         }
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -41,7 +68,16 @@ namespace FocalPoint.MainMenu.Views
 
                 FlyoutPageDrawer.ListView.SelectedItem = null;
             }
-
+            else
+            {
+                page = Activator.CreateInstance(item.TargetType) as Page;
+                if (page != null)
+                {
+                    page.Title = item.Title;
+                    Detail = new NavigationPage(page);
+                }
+                IsPresented = false;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
+using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels.Rentals;
 using System;
 using System.Collections.Generic;
@@ -17,13 +18,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
         public OpenRentalsView()
         {
             InitializeComponent();
-            ((OpenRentalsViewModel)this.BindingContext).GetRentals();
             //this.Title = "View";
         }
+        
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
             if (args.Item != null)
+            {
                 await OpenDetailPage(GetOrderInfo(args.Item));
+                collectionView.SelectedItem = null;
+            }
         }
         private Rental GetOrderInfo(object item)
         {
@@ -46,12 +50,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
 
         private void TextEdit_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)
         {
-
+            ((OpenRentalsViewModel)this.BindingContext).GetRentals("");
         }
 
         private void TextEdit_Completed(object sender, EventArgs e)
         {
-
+            ((OpenRentalsViewModel)this.BindingContext).GetRentals((sender as TextEdit).Text);
         }
 
         private void collectionView_SelectionChanged(object sender, DevExpress.XamarinForms.CollectionView.CollectionViewSelectionChangedEventArgs e)

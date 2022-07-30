@@ -1,4 +1,6 @@
 ﻿
+using System.Linq;
+
 namespace Visum.Services.Mobile.Entities
 {
     public class Vendor
@@ -20,5 +22,12 @@ namespace Visum.Services.Mobile.Entities
         public decimal VenLimit { get; set; }
         public decimal VenMinPO { get; set; }
         public string VenNotes { get; set; }
+        public string CityStateZip
+        {
+            get {
+                var res = string.Join(",", new string[] { VenCity, VenState, VenZip }.Where(x => !string.IsNullOrEmpty(x)));
+                return res == "" ? null : res;
+            }
+        }
     }
 }

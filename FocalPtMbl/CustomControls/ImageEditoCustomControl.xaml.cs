@@ -1,18 +1,20 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace FocalPoint.MainMenu.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomEditor : ContentView
+    public partial class ImageEditoCustomControl : ContentView
     {
-        public CustomEditor()
+        public event EventHandler<TextChangedEventArgs> TextChanged;
+        public ImageEditoCustomControl()
         {
             InitializeComponent();
         }
 
-        public static readonly BindableProperty ImageProperty = BindableProperty.Create(nameof(Image), typeof(string), typeof(CustomEditor), 
+        public static readonly BindableProperty ImageProperty = BindableProperty.Create(nameof(Image), typeof(string), typeof(ImageEditoCustomControl), 
             default(string), Xamarin.Forms.BindingMode.OneWay);
         public string Image
         {
@@ -27,7 +29,7 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomEditor), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ImageEditoCustomControl), default(string), BindingMode.TwoWay);
         public string Text
         {
             get
@@ -41,7 +43,7 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(nameof(PlaceHolder), typeof(string), typeof(CustomEditor), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(nameof(PlaceHolder), typeof(string), typeof(ImageEditoCustomControl), default(string), BindingMode.TwoWay);
         public string PlaceHolder
         {
             get
@@ -55,7 +57,7 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(nameof(IsPassword), typeof(string), typeof(CustomEditor), default(string), BindingMode.TwoWay);
+        public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(nameof(IsPassword), typeof(string), typeof(ImageEditoCustomControl), default(string), BindingMode.TwoWay);
         public string IsPassword
         {
             get
@@ -69,7 +71,7 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(CustomEditor), Keyboard.Default, BindingMode.TwoWay);
+        public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(ImageEditoCustomControl), Keyboard.Default, BindingMode.TwoWay);
         public Keyboard Keyboard
         {
             get
@@ -83,7 +85,21 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
-        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(CustomEditor), null, BindingMode.TwoWay);
+        public static readonly BindableProperty CompletedProperty = BindableProperty.Create(nameof(Completed), typeof(ICommand), typeof(ImageEditoCustomControl), null, BindingMode.TwoWay);
+        public ICommand Completed
+        {
+            get
+            {
+                return (ICommand)GetValue(CompletedProperty);
+            }
+
+            set
+            {
+                SetValue(CompletedProperty, value);
+            }
+        }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(ImageEditoCustomControl), null, BindingMode.TwoWay);
         public ICommand Command
         {
             get
@@ -97,6 +113,19 @@ namespace FocalPoint.MainMenu.Views
             }
         }
 
+        public static readonly BindableProperty UnfocusedProperty = BindableProperty.Create(nameof(Unfocused), typeof(ICommand), typeof(ImageEditoCustomControl), null, BindingMode.TwoWay);
+        public new ICommand Unfocused
+        {
+            get
+            {
+                return (ICommand)GetValue(UnfocusedProperty);
+            }
+
+            set
+            {
+                SetValue(UnfocusedProperty, value);
+            }
+        }
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Text = e.NewTextValue;
@@ -118,7 +147,7 @@ namespace FocalPoint.MainMenu.Views
 
         private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //entryPropertyValue?.TextChanged.Invoke(entry, e);
+            TextChanged?.Invoke(sender, e);
         }
     }
 }

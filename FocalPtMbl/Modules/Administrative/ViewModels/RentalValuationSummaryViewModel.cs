@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace FocalPoint.Modules.Administrative.ViewModels
 {
@@ -44,21 +45,25 @@ namespace FocalPoint.Modules.Administrative.ViewModels
             }
         }
         public RentalValuationSummaryViewModel()
-            {
+        {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
 
             CurrentStores = new ObservableCollection<Company>();
-            GetCurrentStores();
-           // GetRentVal();
+            Task.Run(() =>
+            {
+                GetCurrentStores();
+            });
+            // GetRentVal();
         }
 
-        private void GetCurrentStores()
+        private async void GetCurrentStores()
         {
             try
             {
+                Indicator = true;
                 Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "LoginStores"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-                var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriStores);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -66,9 +71,14 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     foreach (var store in Stores)
                         CurrentStores.Add(store);
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                Indicator = false;
             }
         }
 
@@ -91,7 +101,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
         {
             get { return clientHttp; }
         }
-        public void GetRentVal()
+        public async void GetRentVal()
         {
             try
             {
@@ -101,7 +111,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
 
 
                 Uri uriDailyRev = new Uri(string.Format(DataManager.Settings.ApiUri + "Reports/RentalValSummary/1"));
-                var responseDR = ClientHTTP.GetAsync(uriDailyRev).GetAwaiter().GetResult();
+                var responseDR = await ClientHTTP.GetAsync(uriDailyRev);
                 if (responseDR.IsSuccessStatusCode)
                 {
                     var content = responseDR.Content.ReadAsStringAsync().Result;
@@ -168,7 +178,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     }
 
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
@@ -231,11 +242,13 @@ namespace FocalPoint.Modules.Administrative.ViewModels
         }
         public string UtilizationPercentAmount
         {
-            get {
+            get
+            {
                 if (RentalVal.TotalAmt <= 0)
                     return "0";
 
-                return (RentalVal.RentAmt/ RentalVal.TotalAmt *100).ToString(); }
+                return (RentalVal.RentAmt / RentalVal.TotalAmt * 100).ToString();
+            }
         }
         public string UtilizationPercentCount
         {
@@ -244,7 +257,8 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                 if (RentalVal.TotalAmt <= 0)
                     return "0";
 
-                return (RentalVal.RentCnt / RentalVal.TotalCnt *100).ToString(); }
+                return (RentalVal.RentCnt / RentalVal.TotalCnt * 100).ToString();
+            }
         }
         public string UtilizationSerialTotalAmount
         {
@@ -253,14 +267,17 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                 if (RentalVal.SerialTotalAmt <= 0)
                     return "0";
 
-                return (RentalVal.SerialRentAmt / RentalVal.SerialTotalAmt).ToString(); }
+                return (RentalVal.SerialRentAmt / RentalVal.SerialTotalAmt).ToString();
+            }
         }
         public string UtilizationSerialTotalCount
         {
-            get {
+            get
+            {
                 if (RentalVal.SerialTotalCnt <= 0)
                     return "0";
-                return (RentalVal.SerialRentCnt / RentalVal.SerialTotalCnt).ToString(); }
+                return (RentalVal.SerialRentCnt / RentalVal.SerialTotalCnt).ToString();
+            }
         }
         public string UnUtilizationPercentAmount
         {
@@ -269,7 +286,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                 if (RentalVal.TotalAmt == 0)
                     return "100";
 
-                var val = 1 - (RentalVal.RentAmt/ RentalVal.TotalAmt) * 100;
+                var val = 1 - (RentalVal.RentAmt / RentalVal.TotalAmt) * 100;
 
                 if (val < 0)
                     return "100";

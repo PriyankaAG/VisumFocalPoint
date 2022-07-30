@@ -82,7 +82,7 @@ namespace FocalPtMbl.MainMenu.ViewModels
                 {
                     var httpClientCache = DependencyService.Resolve<FocalPoint.MainMenu.Services.IHttpClientCacheService>();
                     this.httpClient = httpClientCache.GetHttpClientAsync();
-                    Task.Delay(10000).Wait();
+                    //Task.Delay(10000).Wait();
                 }
                 int counter = 0;
                 Uri uriStores = new Uri(string.Format(DataManager.Settings.ApiUri + "LoginStores"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
@@ -99,7 +99,7 @@ namespace FocalPtMbl.MainMenu.ViewModels
                         if (counter > 5)
                             break;
                         responseDR = httpClient.GetAsync(uriStores).GetAwaiter().GetResult();
-                        Task.Delay(10000).Wait();
+                        //Task.Delay(10000).Wait();
                         counter++;
                     }
                 }

@@ -14,6 +14,15 @@ namespace Visum.Services.Mobile.Entities
         public string CustomerName { get; set; }
 
         [DataMember]
+        public string CustomerFName { get; set; }
+
+        [DataMember]
+        public string CustomerLName { get; set; }
+
+        [DataMember]
+        public string CustomerMI { get; set; }
+
+        [DataMember]
         public string CustomerAddr1 { get; set; }
 
         [DataMember]
@@ -151,10 +160,28 @@ namespace Visum.Services.Mobile.Entities
         public int CustomerFoundNo { get; set; }
 
         [DataMember]
-        public string CustomerFName { get; set; }
+        public bool CustomerPEMail { get; set; }
 
         [DataMember]
-        public string CustomerLName { get; set; }
+        public byte CustomerOEMail { get; set; }
+
+        [DataMember]
+        public byte CustomerCEMail { get; set; }
+
+        [DataMember]
+        public byte CustomerROHEMail { get; set; }
+
+        [DataMember]
+        public byte CustomerWOCEMail { get; set; }
+
+        [DataMember]
+        public byte CustomerWOFEMail { get; set; }
+
+        [DataMember]
+        public byte CustomerReminder { get; set; }
+
+        [DataMember]
+        public byte CustomerReminderEvent { get; set; }
 
         [OnSerializing]
         private void OnSerializing(StreamingContext ctx)

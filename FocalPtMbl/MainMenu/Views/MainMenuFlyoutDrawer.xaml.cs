@@ -28,5 +28,10 @@ namespace FocalPoint.MainMenu.Views
             base.OnBindingContextChanged();
             (BindingContext as MainMenuFlyoutDrawerViewModel).NavigationObject = Navigation;
         }
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AboutPageNew());
+        }
     }
 }

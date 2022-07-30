@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewModel="clr-namespace:FocalPoint.Modules.Payments.ViewModels" xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:views="clr-namespace:FocalPoint.Modules.Payments.Views" x:Class="FocalPoint.Modules.Payments.Views.PaymentKindPage" Title="Payments" BackgroundColor="#fff">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <views:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
+            <ScrollView Grid.Row="1" Grid.Column="0">
+                <StackLayout>
+                    <views:PaymentCash BindingContext="{Binding .}" IsVisible="{Binding IsCash}" Margin="10,0" VerticalOptions="StartAndExpand" />
+                    <views:PaymentCreditCard BindingContext="{Binding .}" IsVisible="{Binding IsCreditCard}" Margin="10,0" VerticalOptions="StartAndExpand" />
+                    <views:PaymentCreditCardPos BindingContext="{Binding .}" IsVisible="{Binding IsCreditCardPOS}" Margin="10,0" VerticalOptions="StartAndExpand" />
+                    <views:PaymentCheck BindingContext="{Binding .}" IsVisible="{Binding IsCheck}" Margin="10,0" VerticalOptions="StartAndExpand" />
+                    <views:PaymentDiscount BindingContext="{Binding .}" IsVisible="{Binding IsOtherType}" Margin="10,0" VerticalOptions="StartAndExpand" />
+                </StackLayout>
+            </ScrollView>
+            <Grid Grid.Row="2" Grid.Column="0" ColumnSpacing="20" VerticalOptions="End" BackgroundColor="#f5f6fa">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <views:PaymentProcessView BindingContext="{Binding .}" BackgroundColor="Orange" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" />
+                <Button Text="CANCEL" Grid.Row="1" Grid.Column="0" Style="{DynamicResource PrimaryButton}" BackgroundColor="#f0142f" TextColor="#fff" Margin="10,10" Clicked="CancelButton_Clicked" />
+                <Button Text="PROCESS PAYMENT" Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{DynamicResource PrimaryButton}"
+                        Clicked="ProcessPayment_Clicked"
+                        BackgroundColor="#57b8ff" TextColor="#fff" Margin="10,10" />
+            </Grid>
+        </Grid>
+            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

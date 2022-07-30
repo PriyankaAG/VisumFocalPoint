@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes" 
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Controls"
+             xmlns:views1="clr-namespace:FocalPoint.Modules.Payments.Views" 
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentView" 
+             Title="Payments" BackgroundColor="#fff">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+        <Grid>
+            <Grid RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <views1:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
+                <Grid BackgroundColor="#f5f6fa" Grid.Row="1" Grid.Column="0" Margin="10,0" ColumnSpacing="20" RowSpacing="10" Padding="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Frame Grid.Row="0" x:Name="Payment"  Style="{DynamicResource FrameStyle}" Padding="5">
+                            <Image Source="payment_96.png" Aspect="AspectFit" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Payment_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                        <Label Grid.Row="1" Text="Payment" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Frame Grid.Row="0" x:Name="Deposit" Style="{DynamicResource FrameStyle}" Padding="5" >
+                            <Image Source="Deposit_96.png" Aspect="AspectFit" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Deposit_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                        <Label Grid.Row="1" Text="Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                    <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5">
+                            <Image Source="Deposit_Security_96.png" Aspect="AspectFit" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SecurityDeposit_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                        <Label Grid.Row="1" Text="Security Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5">
+                            <Image Source="Deposit_PreAuth_96.png" Aspect="AspectFit" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Security_PreAuth_Tapped" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                        <Label Grid.Row="1" Text="Security Pre-Auth" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
+                    </Grid>
+                </Grid>
+                <!--</Frame>-->
+                <ScrollView Grid.Row="2" Grid.Column="0">
+                        <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding PaymentHistoryDtl, Mode=TwoWay}" HeightRequest="200" />
+                </ScrollView>
+                <ScrollView Grid.Row="3" Grid.Column="0">
+                    <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150" />
+                </ScrollView>
+            </Grid>
+            <ActivityIndicator x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

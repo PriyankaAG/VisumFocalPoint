@@ -22,7 +22,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
     {
         public ViewOrderDetailsView(Order selectedOrder)
         {
-            this.Title = "View Orders";
+            this.Title = "View Orders: "+ selectedOrder.OrderNo;
             InitializeComponent();
             ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)this.BindingContext;
             viewOrderDetailsViewModel.SelectedOrder = selectedOrder;
@@ -31,7 +31,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
             this.ToolbarItems.Add(new ToolbarItem()
             {
-                IconImageSource = "more.png",
+                IconImageSource = "more_black.png",
                 Command = this.CogCommand,
             });
             Task.Run(async () =>

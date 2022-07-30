@@ -9,25 +9,42 @@ namespace FocalPoint.Components.EntityComponents
     {
         IAPICompnent apiComponent;
 
-        const string GetDashboard = "Order/Dashboard/{0}";
+        const string GetDashboard = "Order/Dashboard/{0}/{1}";
+        const string HomeDashboardAPIKey = "Dashboard/";
 
         public FrontCounterEntityComponent()
         {
             apiComponent = new APIComponent();
         }
 
-        public async Task<OrderDashboard> GetDashboardDetails(DateTime searchDate)
+        public async Task<OrderDashboard> GetDashboardDetails(int storeNo, DateTime searchDate)
         {
             OrderDashboard orderDashboardDetail;
             try
             {
-                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, searchDate));
+                string dateToPass = searchDate.ToUniversalTime()
+                         .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, storeNo, dateToPass));
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             return orderDashboardDetail;
+        }
+
+        public async Task<DashboardHome> GetHomeDashboardDetails()
+        {
+            DashboardHome dashboardHomeDetail;
+            try
+            {
+                dashboardHomeDetail = await apiComponent.GetAsync<DashboardHome>(HomeDashboardAPIKey);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dashboardHomeDetail;
         }
     }
 }

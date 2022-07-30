@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
@@ -16,6 +16,16 @@
 		<EmbeddedResource Remove="Modules\Common\ViewModel\**" />
 		<None Remove="Behaviors\**" />
 		<None Remove="Modules\Common\ViewModel\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="MainMenu\Views\LoginPageView.xaml.cs" />
+	  <Compile Remove="Modules\FrontCounter\ViewModels\FrontCounterDashboardViewModel.cs" />
+	  <Compile Remove="Modules\Payments\ViewModels\PayementViewModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="MainMenu\Views\LoginPageView.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,13 +81,55 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="CustomControls\ImageEditoCustomControl.xaml.cs">
+	    <DependentUpon>ImageEditoCustomControl.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml.cs">
+	    <DependentUpon>FrontCounterFilter.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="CustomControls\LabelEditorCustomControl.xaml.cs">
+	    <DependentUpon>LabelEditorCustomControl.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="CustomControls\CustomDropDown.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="CustomControls\LabelDropDownCustomControl.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="CustomControls\LabelTextCustomControl.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\DashboardListView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\HomeDashboardContent.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\PaymentHistoryList.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="MainMenu\Controls\UtilizationBlock.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+	  <Compile Update="Modules\Payments\Views\PaymentKindPage.xaml.cs">
+	    <DependentUpon>PaymentKindPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="MainMenu\Views\AboutPageNew.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyout.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\MainMenuFlyoutDrawer.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="MainMenu\Controls\CustomEditor.xaml">
+		<EmbeddedResource Update="CustomControls\ImageEditoCustomControl.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="MainMenu\Views\LoginPageNew.xaml">
@@ -125,7 +177,43 @@
 		<EmbeddedResource Update="Modules\Common\View\OrderSignatureView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterDashboard.xaml">
+		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounter.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\FrontCounterFilter.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailKitsView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailMerchView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailRentalSalesView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\AddDetailRentalView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\EditDetailOfSelectedItemView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalAddCustomerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalAddItemPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalMainPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\NewQuickRentalSelectCustomerPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\OrderNotesView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\FrontCounter\Views\NewRentals\TotalBreakoutView.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\QuickOrderDetailsRateView.xaml">
@@ -163,6 +251,48 @@
 		</EmbeddedResource>
 		<EmbeddedResource Update="Modules\FrontCounter\Views\ViewOrderDetailsView.xaml">
 			<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentCash.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCard.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="CustomControls\LabelEditorCustomControl.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\Pay.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentCheck.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentCreditCardPos.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentDebitCard.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentDiscount.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentHeader.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentManual.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentMethodsPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentKindPage.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentProcessView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Modules\Payments\Views\PaymentView.xaml">
+		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Themes\Dimensions.xaml">
 		  <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

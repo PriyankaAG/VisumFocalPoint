@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:customrenderers="clr-namespace:FocalPoint.CustomRenderers"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+              x:Name="customEntryView" 
+             x:Class="FocalPoint.MainMenu.Views.ImageEditoCustomControl">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Frame x:Name="frameView" Padding="5,0" CornerRadius="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="imagePropertyName" Grid.Row="0" Grid.Column="0" Aspect="AspectFit" HeightRequest="20"
+                       Source="{Binding Image, Source={x:Reference customEntryView}}" VerticalOptions="Center"/>
+                <customrenderers:CustomEntry x:Name="entryPropertyValue" TextChanged="Entry_TextChanged" Grid.Row="0" Grid.Column="1" HorizontalOptions="Fill"
+                        ClearButtonVisibility="WhileEditing"
+                        Style="{DynamicResource EntryStyle}" 
+                        Text="{Binding Text, Source={x:Reference customEntryView}}" 
+                        Keyboard="{Binding Keyboard, Source={x:Reference customEntryView}}"
+                        Placeholder="{Binding PlaceHolder, Source={x:Reference customEntryView}}" 
+                        IsPassword="{Binding IsPassword, Source={x:Reference customEntryView}}">
+                    <customrenderers:CustomEntry.Behaviors>
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Completed}" CommandParameter="1" EventName="Completed" />
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Command}" CommandParameter="1" EventName="TextChanged" />
+                        <xct:EventToCommandBehavior Command="{Binding Source={x:Reference customEntryView}, Path=Unfocused}" CommandParameter="1" EventName="Unfocused" />
+                    </customrenderers:CustomEntry.Behaviors>
+                </customrenderers:CustomEntry>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

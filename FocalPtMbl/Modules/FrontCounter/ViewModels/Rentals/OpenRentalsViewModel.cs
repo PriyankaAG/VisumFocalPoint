@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -48,16 +49,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            Task.Run(() =>
+            {
+                GetRentals("");
+            });
         }
         private string SearchText = "";
         private int StartIdx = 0;
         private int MaxCnt = 100;
-        internal void GetRentals()
+        internal async void GetRentals(string searchText)
         {
-            Visum.Services.Mobile.Entities.Rentals rentalCntAndList = null;
+            StartIdx = 0;
+            SearchText = searchText;
             try
             {
-
+                Indicator = true;
                 Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Rentals/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
                 var stringContent = new StringContent(
                                           JsonConvert.SerializeObject(new { SearchText, StartIdx, MaxCnt }),
@@ -65,23 +71,25 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
                                           "application/json");
 
 
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
-                    rentalCntAndList = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.Rentals>(content);
-                    StartIdx = rentalCntAndList.TotalCnt;
-                    if (recent == null)
-                    {
-                        Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
-                    }
-                    else
-                    {
-                        foreach (var rental in rentalCntAndList.List)
-                        {
-                            Recent.Add(rental);
-                        }
-                    }
+                    Visum.Services.Mobile.Entities.Rentals rentalCntAndList = JsonConvert.DeserializeObject<Visum.Services.Mobile.Entities.Rentals>(content);
+                    //StartIdx = rentalCntAndList.TotalCnt;
+                    Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
+
+                    //if (recent == null)
+                    //{
+                    //    Recent = new ObservableCollection<Rental>(rentalCntAndList.List);
+                    //}
+                    //else
+                    //{
+                    //    foreach (var rental in rentalCntAndList.List)
+                    //    {
+                    //        Recent.Add(rental);
+                    //    }
+                    //}
 
                 }
                
@@ -89,7 +97,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
             catch (Exception ex)
             { 
             }
-
+            finally
+            {
+                Indicator = false;
+            }
         }
     }
 }

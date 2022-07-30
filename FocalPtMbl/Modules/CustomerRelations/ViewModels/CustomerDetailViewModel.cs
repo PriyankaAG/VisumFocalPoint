@@ -9,9 +9,11 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
     public class CustomerDetailViewModel : ThemeBaseViewModel
     {
         readonly Customer cust;
-        public CustomerDetailViewModel(Customer contact)
+        public CustomerBalance Balance { get; set; }
+        public CustomerDetailViewModel(Customer contact, CustomerBalance balance)
         {
             this.cust = contact;
+            Balance = balance;
         }
 
         public int No
@@ -74,7 +76,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
 
         public string Phone
         {
-            get => this.cust.CustomerPhone;
+            get => Utils.Utils.ConvertPhone(this.cust.CustomerPhone);
         }
 
         public string PhoneType
@@ -84,7 +86,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
 
         public string Phone2
         {
-            get => this.cust.CustomerPhone2;
+            get => Utils.Utils.ConvertPhone(cust.CustomerPhone2);
         }
 
         public string PhoneType2
@@ -94,7 +96,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
 
         public string Phone3
         {
-            get => this.cust.CustomerPhone3;
+            get => Utils.Utils.ConvertPhone(this.cust.CustomerPhone3);
         }
 
         public string PhoneType3
@@ -125,6 +127,11 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         public string Notes
         {
             get => this.cust.CustomerNotes;
+        }
+
+        public string CustomerNotes_HTML
+        {
+            get => cust.CustomerNotes_HTML;
         }
 
         public int Store

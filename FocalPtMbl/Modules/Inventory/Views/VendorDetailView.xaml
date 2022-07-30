@@ -2,162 +2,67 @@
 <dxn:TabPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.Inventory.Views.VendorDetailView"
-             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation"
+             xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" 
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls" 
              HeaderPanelPosition="Top"
-             IsSelectedItemIndicatorVisible="False"
-             ItemHeaderWidth="*"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             IsSelectedItemIndicatorVisible="True"
+             SelectedItemHeaderTextColor="OrangeRed"
+             SelectedItemHeaderIconColor="Transparent"
+             ItemHeaderIconColor="Transparent"
+             ItemHeaderWidth="*"  
+             Title="Vendors" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Info" Icon="user.png" BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                        <RowDefinition Height="18"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Text="Vendor Information"/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="NO: "/>
-                    <Label Grid.Row="2" Grid.Column="0" Text="Web URL: "/>
+            <ContentPage Title="Info" Icon="provider_96.png">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                        <!--<Label Text="{Binding Name, StringFormat='Vendor Information: {0}'}" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />-->
+                        <Label Text="Vendor Information:" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="NO:" Value="{Binding No}" />
+                        <controls:LabelTextCustomControl Title="Web URL:" Value="{Binding Link}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Text="Contact Information"/>
-                    <Label Grid.Row="4" Grid.Column="0" Text="Contact Name: "/>
-                    <Label Grid.Row="5" Grid.Column="0" Text="Email: "/>
-                    <Label Grid.Row="6" Grid.Column="0" Text="Phone &amp; Ext: "/>
+                        <Label Text="Contact Information" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Contact Name:" Value="{Binding Name}" />
+                        <controls:LabelTextCustomControl Title="Email:" Value="{Binding Email}" />
+                        <controls:LabelTextCustomControl Title="Phone &amp; Ext:" Value="{Binding Phone}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="0" Text="Primary Address"/>
-                    <Label Grid.Row="8" Grid.Column="0" Text="Address: "/>
-                    <Label Grid.Row="9" Grid.Column="0" Text="City: "/>
-                    <Label Grid.Row="10" Grid.Column="0" Text="State: "/>
-                    <Label Grid.Row="11" Grid.Column="0" Text="Zip: "/>
+                        <Label Text="Primary Address" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Address:" Value="{Binding Addr1}" />
+                        <controls:LabelTextCustomControl Title="City:" Value="{Binding City}" />
+                        <controls:LabelTextCustomControl Title="State:" Value="{Binding State}" />
+                        <controls:LabelTextCustomControl Title="Zip:" Value="{Binding Zip}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="12" Grid.ColumnSpan="2" Grid.Column="0" Text="Account Info "/>
-                    <Label Grid.Row="13" Grid.Column="0" Text="Account #: "/>
-                    <Label Grid.Row="14" Grid.Column="0" Text="Credit Limit: "/>
-                    <Label Grid.Row="15" Grid.Column="0" Text="Minimum PO: "/>
+                        <Label Text="Account Info" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Account #:" Value="{Binding AcctNo}" />
+                        <controls:LabelTextCustomControl Title="Credit Limit:" Value="{Binding Limit}" />
+                        <controls:LabelTextCustomControl Title="Minimum PO:" Value="{Binding MinPO}" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="16" Grid.ColumnSpan="2" Grid.Column="0" Text="Other: "/>
-                    <Label Grid.Row="17" Grid.Column="0" Text="Last Updated: "/>
+                        <Label Text="Other" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
+                        <controls:LabelTextCustomControl Title="Last Updated:" Value="" />
 
-                    <Label BackgroundColor="SteelBlue" Grid.Row="0" Grid.Column="1"  Text="{Binding Name}"/>
-                    <Label Grid.Row="1" Grid.Column="1"  Text="{Binding No}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="4" Grid.Column="1"  Text="{Binding Name}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="8" Grid.Column="1"  Text="{Binding Addr1}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding Addr2}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding City}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="11" Grid.Column="1" Text="{Binding Zip}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="10" Grid.Column="1" Text="{Binding State}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Grid.Row="18" Grid.Column="1"  Text="{Binding BillAddr1}"
-                               TextColor="#959aa0"/>-->
-                    <!--<Label Text="{Binding BillAddr2}"
-                               TextColor="#959aa0"/>-->
-                    <!--<Label Grid.Row="19" Grid.Column="1" Text="{Binding BillCity}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="21" Grid.Column="1" Text="{Binding BillZip}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="20" Grid.Column="1" Text="{Binding BillState}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="6" Grid.Column="1"  Text="{Binding Phone}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding PhoneType}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="13" Grid.Column="1" Text="{Binding AcctNo}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding PhoneType2}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Phone3}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding PhoneType3}"
-                               TextColor="#959aa0"/>-->
-                    <Label Grid.Row="5" Grid.Column="1"  Text="{Binding Email}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="15" Grid.Column="1" Text="{Binding MinPO}"
-                               TextColor="#959aa0"/>
-                    <Label Grid.Row="14" Grid.Column="1" Text="{Binding Limit}"
-                               TextColor="#959aa0"/>
-                    <!--<Label Text="{Binding Type}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Notes}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Store}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Status}"
-                               TextColor="#959aa0"/>
-                    <Label Text="{Binding Status_Display}"
-                               TextColor="#959aa0"/>
-                <Label Text="{Binding Type_Display}"
-                               TextColor="#959aa0"/>-->
-                </Grid>
+                    </StackLayout>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Notes" Icon="Order_32.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}">
-                <Label Text="{Binding Notes}"/>
+            <ContentPage Title="Notes" Icon="notes_96.png">
+                <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <Label Text="{Binding Notes}" Margin="5,5"/>
+                </ScrollView>
             </ContentPage>
         </dxn:TabPageItem.Content>
     </dxn:TabPageItem>
 
-    <dxn:TabPageItem >
+    <!--<dxn:TabPageItem >
         <dxn:TabPageItem.Content>
-            <ContentPage Title="Balance" Icon="dollar.png"  BackgroundColor="{DynamicResource BackgroundThemeColor}" Appearing="ContentPage_Appearing">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                        <RowDefinition Height="45"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Text="Amount Owed: " 
-                        HorizontalOptions="FillAndExpand" />
-                    <!--<Label Grid.Row="1" Grid.Column="0" Text="Amount Owed: "/>-->
-
-                    <Label Grid.Row="0" Grid.Column="1"  Text="$0"
-                               TextColor="#959aa0"/>
-
-                </Grid>
+            <ContentPage Title="Balance" Icon="dollar.png"
+                         Appearing="ContentPage_Appearing">
+                <StackLayout BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
+                    <controls:LabelTextCustomControl BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5" Title="Amount Owed:" Value="$0" />
+                </StackLayout>
             </ContentPage>
         </dxn:TabPageItem.Content>
-    </dxn:TabPageItem>
+    </dxn:TabPageItem>-->
 </dxn:TabPage>

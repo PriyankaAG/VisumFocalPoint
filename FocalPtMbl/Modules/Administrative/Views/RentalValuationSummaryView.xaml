@@ -5,126 +5,74 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
              xmlns:dxe="http://schemas.devexpress.com/xamarin/2014/forms/editors"
-             xmlns:viewModel="clr-namespace:FocalPoint.Modules.Administrative.ViewModels"
-             ios:Page.UseSafeArea="True"
-             BackgroundColor="{DynamicResource BackgroundThemeColor}">
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.Administrative.ViewModels" 
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes" xmlns:controls="clr-namespace:FocalPoint.MainMenu.Controls" ios:Page.UseSafeArea="True"
+             BackgroundColor="#fff">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <viewModel:RentalValuationSummaryViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid RowSpacing="0"  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-        <!--<Grid.RowDefinitions>
-				<RowDefinition Height="{x:Static local:Constants.InfoPageRowHeight}" />
-			</Grid.RowDefinitions>-->
+    <Grid>
+    <Grid RowSpacing="0" Padding="5,5" Margin="5,5"
+          HorizontalOptions="FillAndExpand" 
+          VerticalOptions="Start" 
+          BackgroundColor="#f5f6fa">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60*" />
-            <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <dxe:ComboBoxEdit ItemsSource="{Binding CurrentStores}"
-                  DisplayMember="CmpName"
-                  ValueMember="CmpNo" 
+        <dxe:ComboBoxEdit ItemsSource="{Binding CurrentStores}" 
+                          DisplayMember="CmpName"
+                          ValueMember="CmpNo"
+                          Style="{StaticResource Key=DxeComboBoxStyle}"
                           SelectionChanged="ComboBoxEdit_SelectionChanged"/>
         
-        
-        <dxe:SimpleButton Grid.Row="0" Grid.Column="1" TextColor="White" HeightRequest="50"  BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />
 
-        <dxcv:DXCollectionView x:Name="collectionView"
-                           ItemsSource="{Binding Recent}"
-                           IndicatorColor="Lime" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <!--Define the item template.-->
+        <Button Grid.Row="0" Grid.Column="1" 
+                Text="Search"
+                Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked" 
+                BackgroundColor="#57b8ff" TextColor="#fff" />
 
-            <dxcv:DXCollectionView.ItemTemplate>
+        <CollectionView Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" Grid.ColumnSpan="2" ItemsSource="{Binding Recent}" 
+                        ItemsLayout="VerticalGrid, 1" SelectionMode="None">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10, 8, 18, 7">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                            <RowDefinition Height="22"/>
-                        </Grid.RowDefinitions>
-
-                        <Label Text="Total Amount:" Grid.Row="1" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding TotalAmt, StringFormat='{}{0:C}'}" Grid.Row="1" Grid.Column="1" />
-
-                        <Label Text="Total Count:" Grid.Row="2" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding TotalCount}" Grid.Row="2" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Rent Amount:" Grid.Row="3" Grid.Column="0" TextColor="Black" XAlign="End" />
-                        <Label Text="{Binding RentAmount, StringFormat='{}{0:C}'}" Grid.Row="3" Grid.Column="1"  />
-
-                        <Label Text="Rent Count:" Grid.Row="4" Grid.Column="0" TextColor="Black" XAlign="End" />
-                        <Label Text="{Binding RentCount}" Grid.Row="4" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Off Rent Amount:" Grid.Row="5" Grid.Column="0" TextColor="Black" XAlign="End" />
-                        <Label Text="{Binding OffRentAmount, StringFormat='{}{0:C}'}" Grid.Row="5" Grid.Column="1"  />
-
-                        <Label Text="Off Rent Count:" Grid.Row="6" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding OffRentCount}" Grid.Row="6" Grid.Column="1" TextColor="Black"  />
-
-                        <Label Text="Serial Total Amount:" Grid.Row="7" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding SerialTotalAmount, StringFormat='{}{0:C}'}" Grid.Row="7" Grid.Column="1" TextColor="Black"  />
-
-                        <Label Text="Serial Total Count:" Grid.Row="8" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding SerialTotalCount}" Grid.Row="8" Grid.Column="1" TextColor="Black"  />
-
-                        <Label Text="Serial Rent Amount:" Grid.Row="9" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding SerialRentAmount, StringFormat='{}{0:C}'}" Grid.Row="9" Grid.Column="1"  />
-
-                        <Label Text="Serial Rent Count:" Grid.Row="10" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding SerialRentCount}" Grid.Row="10" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Serial Off Rent Amount:" Grid.Row="11" Grid.Column="0" TextColor="Black" XAlign="End"  />
-                        <Label Text="{Binding SerialOffRentAmount, StringFormat='{}{0:C}'}" Grid.Row="11" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Serial Off Rent Count:" Grid.Row="12" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding SerialOffRentCount}" Grid.Row="12" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Utilization Percent Amount:" Grid.Row="13" Grid.Column="0" TextColor="Black" XAlign="End" />
-                        <Label Text="{Binding UtilizationPercentAmount, StringFormat='{}{0:f2}%'}" Grid.Row="13" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Utilization Percent Count:" Grid.Row="14" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding UtilizationPercentCount, StringFormat='{}{0:f2}%'}" Grid.Row="14" Grid.Column="1" TextColor="Black"/>
-
-                        <Label Text="Utilization Serial Total Amount:" Grid.Row="15" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding UtilizationSerialTotalAmount, StringFormat='{}{0:C}'}" Grid.Row="15" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Utilization Serial Total Count:" Grid.Row="16" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding UtilizationSerialTotalCount}" Grid.Row="16" Grid.Column="1" TextColor="Black" />
-
-                        <Label Text="Un-Utilization Percent Amount:" Grid.Row="17" Grid.Column="0" TextColor="Black" XAlign="End"/>
-                        <Label Text="{Binding UnUtilizationPercentAmount, StringFormat='{}{0:f2}%'}" Grid.Row="17" Grid.Column="1" TextColor="Black"  />
-
+                    <Grid RowSpacing="10" BackgroundColor="#f5f6fa" x:Name="grdUtilization">
+                        <controls:UtilizationBlock Grid.Row="0" HeightRequest="40" Title="Total Amount:" Value="{Binding TotalAmt, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="1" Title="Total Count:" Value="{Binding TotalCount}" />
+                        <controls:UtilizationBlock Grid.Row="2" Title="Rent Amount:" Value="{Binding RentAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="3" Title="Rent Count:" Value="{Binding RentCount}" />
+                        <controls:UtilizationBlock Grid.Row="4" Title="Off Rent Amount:" Value="{Binding OffRentAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="5" Title="Off Rent Count:" Value="{Binding OffRentCount}" />
+                        <controls:UtilizationBlock Grid.Row="6" Title="Serial Total Amount:" Value="{Binding SerialTotalAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="7" Title="Serial Total Count:" Value="{Binding SerialTotalCount}" />
+                        <controls:UtilizationBlock Grid.Row="8" Title="Serial Rent Amount:" Value="{Binding SerialRentAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="9" Title="Serial Rent Count:" Value="{Binding SerialRentCount}" />
+                        <controls:UtilizationBlock Grid.Row="10" Title="Serial Off Rent Amount:" Value="{Binding SerialOffRentAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="11" Title="Serial Off Rent Count:" Value="{Binding SerialOffRentCount}" />
+                        <controls:UtilizationBlock Grid.Row="12" Title="Utilization Percent Amount:" Value="{Binding UtilizationPercentAmount, StringFormat='{}{0:f2}%'}" />
+                        <controls:UtilizationBlock Grid.Row="13" Title="Utilization Percent Count:" Value="{Binding UtilizationPercentCount, StringFormat='{}{0:f2}%'}" />
+                        <controls:UtilizationBlock Grid.Row="14" Title="Utilization Serial Total Amount:" Value="{Binding UtilizationSerialTotalAmount, StringFormat='{}{0:C}'}" />
+                        <controls:UtilizationBlock Grid.Row="15" Title="Utilization Serial Total Count:" Value="{Binding UtilizationSerialTotalCount}" />
+                        <controls:UtilizationBlock Grid.Row="16" Title="Un-Utilization Percent Amount:" Value="{Binding UnUtilizationPercentAmount, StringFormat='{}{0:f2}%'}" />
                     </Grid>
-
                 </DataTemplate>
-            </dxcv:DXCollectionView.ItemTemplate>
-
-            <!--Define the group header template.-->
-            <dxcv:DXCollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <StackLayout Margin="2, 0, 18, 10">
-                        <Label FontFamily="Roboto-Medium"
-                       Margin="0,20,0,1"
-                       TextColor="#55575c"
-                       Text="{Binding Value}"/>
-                        <BoxView BackgroundColor="#ebebeb" 
-                         HeightRequest="1"/>
-                    </StackLayout>
-                </DataTemplate>
-            </dxcv:DXCollectionView.GroupHeaderTemplate>
-
-            <!--Specify margins.-->
-            <dxcv:DXCollectionView.Margin>
-                <OnIdiom x:TypeArguments="Thickness" Phone="16,0,0,0" Tablet="71,0,0,0"/>
-            </dxcv:DXCollectionView.Margin>
-        </dxcv:DXCollectionView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+        <ActivityIndicator x:Name="activityIndicatorQuotes" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
     </Grid>
 </ContentPage>

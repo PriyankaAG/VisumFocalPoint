@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:styles="clr-namespace:FocalPtMbl.Themes"
+             xmlns:controls="clr-namespace:FocalPoint.MainMenu.Views"
+             xmlns:viewModel="clr-namespace:FocalPoint.Modules.FrontCounter.ViewModels.NewRental"
+             xmlns:conv ="clr-namespace:FocalPoint.MainMenu.Converters" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+            xmlns:conv1="clr-namespace:FocalPoint.Converters" 
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.NewQuickRentalSelectCustomerPage"
+             BackgroundColor="{StaticResource BackgroundPageColor}">
+    <ContentPage.BindingContext>
+        <viewModel:NewQuickRentalSelectCustomerViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:LightTheme />
+                <styles:DarkTheme />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:IsNullConverter x:Key="isNullConverter"/>
+        </ResourceDictionary>
+        <conv1:StringToPhoneConverter x:Key="stringToPhoneConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowSpacing="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame Grid.Column="0" Grid.Row="0" Style="{DynamicResource NewQuickRentalFrameStyle}"  Margin="10,2,10,2">
+                <Button Style="{DynamicResource NewQuickRentalFrameButton}" Text="ADD NEW CUSTOMER" VerticalOptions="Center" Margin="20,10,20,10" WidthRequest="100"  Clicked="Button_Clicked">
+                </Button>
+            </Frame>
+
+            <Label Grid.Column="0" Grid.Row="1"  Style="{DynamicResource NewQuickRentalFrameAnswerLable}" 
+                           Text="OR" Margin="10,10,10,10" HorizontalOptions="Center"/>
+
+            <Frame Grid.Column="0" Grid.Row="2" Style="{DynamicResource NewQuickRentalFrameStyle}" Margin="10,2,10,10">
+                <controls:ImageEditoCustomControl x:Name="SearchCustomerText" Image="" Padding="1" PlaceHolder="Search Existing Customer" Text="{Binding TextToSearch}"
+                                       Command="{Binding TextChangedCommand}" Completed="{Binding SearchCommand}" Unfocused="{Binding UnfocusedCommand}">
+
+                </controls:ImageEditoCustomControl>
+            </Frame>
+
+            <Frame Grid.Column="0" Grid.Row="3" Style="{DynamicResource NewQuickRentalFrameStyle}" Margin="10,2,10,2">
+                <Grid RowSpacing="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="MenuItemsListView" Grid.Row="0"
+                          SeparatorVisibility="None"
+                          HasUnevenRows="True"
+                          VerticalOptions="FillAndExpand"
+                          SelectionMode="Single"
+                          ItemTapped="ItemSelected"
+                          ItemsSource="{Binding ListOfCustomers}">
+                        <ListView.Header>
+                            <Label Style="{DynamicResource LabelDashboardHeader}" Text="Customer List" HorizontalOptions="Start"/>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True" Margin="0,5,0,5" Padding="10,15,10,15">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Grid.Column="0" Grid.Row="0"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailName }" Text="{Binding CustomerName}" MaxLines="1" LineBreakMode="TailTruncation">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding CustomerName, Converter={StaticResource isNullConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="Name: N/A" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Grid.Column="1" Grid.Row="0"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailNumber}" Text="{Binding CustomerPhone, Converter={StaticResource stringToPhoneConverter}}" MaxLines="2" LineBreakMode="TailTruncation">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding CustomerPhone, Converter={StaticResource isNullConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="Phone: N/A" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Grid.Column="0" Grid.Row="1"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailEmail  }" Text="{Binding CustomerEmail}"  MaxLines="2" LineBreakMode="TailTruncation">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding CustomerEmail, Converter={StaticResource isNullConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="Email: N/A" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Grid.Column="1" Grid.Row="1"  Style="{DynamicResource CustomerDetailsLable}" TextColor="{StaticResource CustomerDetailAddress}" Text="{Binding CityStateZip}" MaxLines="2" LineBreakMode="TailTruncation">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding CityStateZip, Converter={StaticResource isNullConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="Address: N/A" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Grid>
+
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <ActivityIndicator Grid.Row="0" x:Name="activityIndicator" IsRunning="{Binding Indicator}" IsVisible="{Binding Indicator}" Color="Blue" BackgroundColor="Transparent" VerticalOptions="Center" HorizontalOptions="Center" />
+
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

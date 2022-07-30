@@ -19,6 +19,8 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Visum.Services.Mobile.Entities;
 using System.Linq;
+using FocalPoint.Modules.FrontCounter.Views.NewRentals;
+using FocalPoint.Modules.Payments.Views;
 
 namespace FocalPoint.MainMenu.ViewModels
 {
@@ -58,9 +60,14 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 0,
                     Title = "Dashboard",
                     Icon = "dashboard.png",
-                    TargetType = typeof(MainPage),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
+                        new MainMenuFlyoutSubItem() {
+                            Title = "Dashboard",
+                            SubItemText = "Dashboard",
+                            IsVisible = true,
+                            SubText_TargetType = typeof(MainPage)
+                        },
                         new MainMenuFlyoutSubItem() {
                             Title = "Daily Revenue",
                             SubItemText = "Daily Revenue",
@@ -78,7 +85,7 @@ namespace FocalPoint.MainMenu.ViewModels
                             SubItemText = "Rental Valuation",
                             IsVisible = true,
                             SubText_TargetType = typeof(RentalValuationSummaryView)
-                        },
+                        }
                     }
                 });
             }
@@ -106,7 +113,7 @@ namespace FocalPoint.MainMenu.ViewModels
                             Title = "Quick Rental",
                             SubItemText = "Quick Rental",
                             IsVisible = true,
-                            SubText_TargetType = typeof(QuickOrderCreationOutlineView)
+                            SubText_TargetType = typeof(NewQuickRentalMainPage)
                         },
                         new MainMenuFlyoutSubItem() {
                             Title = "View Orders",
@@ -135,7 +142,6 @@ namespace FocalPoint.MainMenu.ViewModels
                     Id = 2,
                     Title = "Dispatch",
                     Icon = "dispatch.png",
-                    TargetType = typeof(ScheduleDispatchingPageView),
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
@@ -193,7 +199,7 @@ namespace FocalPoint.MainMenu.ViewModels
                 MenuItems.Add(new MainMenuFlyoutFlyoutMenuItem()
                 {
                     Id = 4,
-                    Title = "Customer Relations",
+                    Title = "Customer Center",
                     Icon = "customer_relations.png",
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                         {
@@ -232,8 +238,8 @@ namespace FocalPoint.MainMenu.ViewModels
                     SubMenuItems = new List<MainMenuFlyoutSubItem>
                     {
                         new MainMenuFlyoutSubItem() {
-                            Title = "Rental File List",
-                            SubItemText = "Rental File List",
+                            Title = "Rental List",
+                            SubItemText = "Rental List",
                             IsVisible = true,
                             SubText_TargetType = typeof(OpenRentalsView)
                         },
@@ -281,9 +287,18 @@ namespace FocalPoint.MainMenu.ViewModels
         }
 
         public void OnTimeClock()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
+            NavSer.PushPageFromMenu(typeof(FocalPoint.MainMenu.Views.TimeClockView), "Time Clock");
+
+        }
         public void OnManageProfile()
-        { }
+        {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushPageFromMenu(typeof(AboutPageNew), "FocalPoint Mobile");
+
+        }
         public async void OnLogOut()
         {
             bool loggedOut = await FocalPtMbl.App.Current.MainPage.DisplayAlert("Logout", "Are you sure you want to logout", "Ok", "Cancel");

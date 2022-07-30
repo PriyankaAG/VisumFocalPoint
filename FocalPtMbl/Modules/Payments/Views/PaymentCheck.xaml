@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:views="clr-namespace:FocalPoint.CustomControls" 
+             x:Class="FocalPoint.Modules.Payments.Views.PaymentCheck">
+  <ContentView.Content>
+        <Frame x:Name="frameView" Padding="10,10" CornerRadius="5" BackgroundColor="#f5f6fa">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Check Payment" TextColor="#131523" FontAttributes="Bold" />
+                <Grid ColumnSpacing="20" RowSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="0"
+                                                    EditorText="{Binding CheckNumber.Value}"
+                                                    MaxLenth="100" LabelText="Check Number" 
+                                                    PlaceHolder="Enter check number"
+                                                    Keyboard="Text" Command="{Binding ValidateCheckNumberCommand}"
+                                                    IsValid="{Binding CheckNumber.IsValid}" />
+                    <views:LabelEditorCustomControl Grid.Row="0" Grid.Column="1" EditorText="{Binding LicenseNumber}" MaxLenth="100"  LabelText="Driver's License Number" PlaceHolder="Enter license number" Keyboard="Text" />
+                    <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+                        <Label Text="Drivers License State" FontSize="Default" Style="{DynamicResource LabelDefault}" />
+                        <Picker ItemsSource="{Binding LicenseStates}" ItemDisplayBinding="{Binding Display}" SelectedItem="{Binding SelectedLicenseState}" Title="Select State"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>
