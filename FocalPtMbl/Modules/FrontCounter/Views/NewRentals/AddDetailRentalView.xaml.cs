@@ -38,23 +38,30 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                string result = "0";
-                if (selItem != null)
+                try
                 {
-                    //Check Serialized on selcted item
-                    if (selItem.AvailSerialized)
+                    string result = "0";
+                    if (selItem != null)
                     {
-                        await FinishQuestions(1);
+                        //Check Serialized on selcted item
+                        if (selItem.AvailSerialized)
+                        {
+                            await FinishQuestions(1);
+                        }
+                        else
+                        {
+                            result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                            if (result != "cancel")
+                                await FinishQuestions(int.Parse(result));
+                        }
                     }
                     else
-                    {
-                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                        if (result != "cancel")
-                            await FinishQuestions(int.Parse(result));
-                    }
+                        await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
                 }
-                else
-                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                catch (Exception ex)
+                {
+                    //TODO: log error
+                }
             });
         }
 
@@ -338,13 +345,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 {
                     await DisplayAlert("Item not added", "Item not added", "ok");
                 }
-
             } while (UpdatedOrder != null && questionFault != null);
         }
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
-            if(SearchTextEditor.Text==null)
+            if (SearchTextEditor.Text == null)
             {
                 await DisplayAlert("Validation", "Please enter Search For.", "OK");
                 return;

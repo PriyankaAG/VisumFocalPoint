@@ -345,37 +345,37 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
             MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
+                UpdateOrderDetails(arg);
             });
             MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
+                UpdateOrderDetails(arg);
             });
             MessagingCenter.Subscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
+                UpdateOrderDetails(arg);
             });
             MessagingCenter.Subscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
             {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
+                UpdateOrderDetails(arg);
             });
         }
+
+        private void UpdateOrderDetails(OrderUpdate orderUpdate)
+        {
+            try
+            {
+                CurrentOrder = orderUpdate.Order;
+                Recent.Clear();
+                foreach (var item in orderUpdate.Order.OrderDtls)
+                    Recent.Add(item);
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
         public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)
         {
             if (Recent.Any(p => p.OrderDtlNo == ordDtl.OrderDtlNo))

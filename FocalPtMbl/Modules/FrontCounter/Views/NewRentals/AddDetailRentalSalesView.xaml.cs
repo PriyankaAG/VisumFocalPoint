@@ -24,15 +24,22 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                string result = "0";
-                if (selItem != null)
+                try
                 {
-                    result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                    if (result != "cancel")
-                        await FinishQuestions(int.Parse(result));
+                    string result = "0";
+                    if (selItem != null)
+                    {
+                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                        if (result != "cancel")
+                            await FinishQuestions(int.Parse(result));
+                    }
+                    else
+                        await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
                 }
-                else
-                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                catch(Exception ex)
+                {
+                    //TODO: log error
+                }
             });
         }
 
