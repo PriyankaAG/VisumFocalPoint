@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:FocalPoint.MainMenu.Views"
-             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls"
-             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailKitsView"
+             xmlns:customcontrols="clr-namespace:FocalPoint.CustomControls" 
+             xmlns:views="clr-namespace:FocalPoint.MainMenu.Views" 
+             x:Class="FocalPoint.Modules.FrontCounter.Views.NewRentals.AddDetailRateTableView"
              Title="{Binding Title}">
     <ContentPage.Content BackgroundColor="{DynamicResource MainPageBackgroundColor}">
         <Grid BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
@@ -12,7 +12,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0" VerticalOptions="FillAndExpand">
-                <Grid Margin="10">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
@@ -24,10 +24,10 @@
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
 
-                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}"
-                                                       ItemsSource="{Binding SearchInList}"/>
+                        <customcontrols:CustomDropDown Grid.Column="0" SelectedItem="{Binding SelectedSearchIn}" x:Name="pickerSearchIn"
+                                                       ItemsSource="{Binding SearchInList}" ItemSelected="SearchIn_ItemSelected"/>
 
-                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Saleable" x:Name="SearchTextEditor"/>
+                        <views:ImageEditoCustomControl Grid.Column="1" Image="" PlaceHolder="Search Rental" x:Name="SearchTextEditor"/>
                         <Image Source="search.png" Grid.Column="2" WidthRequest="40" HorizontalOptions="End">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Search_Tapped"/>
@@ -61,6 +61,8 @@
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="5*" />
@@ -81,28 +83,58 @@
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <FormattedString.Spans>
-                                                        <Span Text="Quantity: " FontAttributes="Bold" />
+                                                        <Span Text="Available Qty: " FontAttributes="Bold" />
                                                         <Span Text="{Binding AvailQty, StringFormat='{}{0}'}" />
                                                     </FormattedString.Spans>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource LabelDefault}">
+                                        <Label Grid.Row="2" Grid.Column="0" IsVisible="{Binding IsRentalAvailMinChgVisible}" Style="{DynamicResource LabelDefault}">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <FormattedString.Spans>
-                                                        <Span Text="Retail: " FontAttributes="Bold" />
-                                                        <Span Text="{Binding AvailRetail, StringFormat='{}{0:C}'}" />
+                                                        <Span Text="Minimum: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMinChg, StringFormat='{}{0:C}'}" />
                                                     </FormattedString.Spans>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelDefault}">
+                                        <Label Grid.Row="2" Grid.Column="1" IsVisible="{Binding IsRentalAvailHourChgVisible}" Style="{DynamicResource LabelDefault}">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <FormattedString.Spans>
-                                                        <Span Text="Sell: " FontAttributes="Bold" />
-                                                        <Span Text="{Binding AvailSellPrice, StringFormat='{}{0:C}'}" />
+                                                        <Span Text="Hourly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailHourChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsRentalAvailDayChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Daily: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailDayChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="3" Grid.Column="1" IsVisible="{Binding IsRentalAvailWeekChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Weekly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailWeekChg, StringFormat='{}{0:C}'}" />
+                                                    </FormattedString.Spans>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Grid.Row="4" Grid.Column="0" IsVisible="{Binding IsRentalAvailMonthChgVisible}" Style="{DynamicResource LabelDefault}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <FormattedString.Spans>
+                                                        <Span Text="Monthly: " FontAttributes="Bold" />
+                                                        <Span Text="{Binding AvailMonthChg, StringFormat='{}{0:C}'}" />
                                                     </FormattedString.Spans>
                                                 </FormattedString>
                                             </Label.FormattedText>

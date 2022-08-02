@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -49,14 +48,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             OrderUpdate UpdatedOrder = null;
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
+            string errorMessage = string.Empty;
             do
             {
                 AddDetailKitsViewModel addDetailKitsViewModel = (AddDetailKitsViewModel)this.BindingContext;
-                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailKitsViewModel.AddItem(selItem, count, addDetailKitsViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailKitsViewModel.AddItem(selItem, count, addDetailKitsViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
                     UpdatedOrder = addRentalAPIResult.Item1;
                     questionFault = addRentalAPIResult.Item2;
+                    errorMessage = addRentalAPIResult.Item3;
                 }
                 if (questionFault != null)
                 {
@@ -315,6 +316,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             break;
                     };
                 }
+                else if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    await DisplayAlert("Error", errorMessage, "OK");
+                }
                 else if (questionFault == null)
                 {
                     MessagingCenter.Send<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
@@ -330,15 +335,22 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
-            if (pickerSearchIn.SelectedItem == "Item Number")
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                if (!int.TryParse(SearchTextEditor.Text, out int itemNumber))
+                try
                 {
-                    await DisplayAlert("Validation", "Invalid Search For, must be a numeric value!", "OK");
-                    return;
+                    if (SearchTextEditor.Text == null)
+                    {
+                        await DisplayAlert("Validation", "Please enter Search For.", "OK");
+                        return;
+                    }
+                    await ((AddDetailKitsViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 }
-            }
-            await ((AddDetailKitsViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                catch (Exception ex)
+                {
+
+                }
+            });
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)

@@ -36,7 +36,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             SearchInList[3] = "Extended";
         }
 
-        public override async Task GetSearchedCustomersInfo(string text)
+        public override async Task GetSearchedInfo(string text)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (string.IsNullOrEmpty(Search))
                     Search = "%";
                 Indicator = true;
-                SearchIn = (short)Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn);
+                SearchIn = Utils.Utils.GetEnumValueFromDescription<AvailSearchIns>(SelectedSearchIn);
                 List<AvailabilityMerch> merchCntAndList = null;
                 merchCntAndList = await NewQuickRentalEntityComponent.GetAvailabilityMerchandise(Search, SearchIn);
                 if (merchCntAndList != null)
@@ -83,7 +83,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom>> AddItem(AvailabilityMerch selItem, decimal numOfItems, List<string> serials, QuestionFaultExceptiom result)
+        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom, string>> AddItem(AvailabilityMerch selItem, decimal numOfItems, List<string> serials, QuestionFaultExceptiom result)
         {
             result = null;
             try
@@ -97,6 +97,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 MerchItem.Quantity = numOfItems;
                 MerchItem.Serials = serials;
                 OrderUpdate OrderToUpDate = new OrderUpdate();
+                string errorMessage = string.Empty;
                 var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddMerchandise(MerchItem);
                 if (responseOrderUpdate.IsSuccessStatusCode)
                 {
@@ -104,7 +105,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
                     orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent, settings);
                     orderUpdate.Answers.Clear();
-                    return new Tuple<OrderUpdate, QuestionFaultExceptiom>(orderUpdate, null);
+                    return new Tuple<OrderUpdate, QuestionFaultExceptiom, string>(orderUpdate, null, null);
                 }
                 else if (responseOrderUpdate.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
                 {
@@ -114,7 +115,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     result = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
                 }
                 
-                return new Tuple<OrderUpdate, QuestionFaultExceptiom>(orderUpdate, result);
+                return new Tuple<OrderUpdate, QuestionFaultExceptiom, string>(orderUpdate, result, errorMessage);
             }
             catch (Exception ex)
             {

@@ -42,6 +42,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     QuestionFaultExceptiom questionFault = null;
                     Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
                     List<string> selectedSerials = new List<string>();
+                    string errorMessage = string.Empty;
                     string result = "0";
 
                     if (selItem != null)
@@ -61,14 +62,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             do
                             {
                                 decimal numberOfItems = Convert.ToDecimal(result);
-                                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, selectedSerials, questionFault);
+                                
+                                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await ((AddDetailMerchViewModel)this.BindingContext).AddItem(selItem, numberOfItems, selectedSerials, questionFault);
 
                                 if (addRentalAPIResult != null)
                                 {
                                     UpdatedOrder = addRentalAPIResult.Item1;
                                     questionFault = addRentalAPIResult.Item2;
+                                    errorMessage = addRentalAPIResult.Item3;
                                 }
-                                if (questionFault != null)
+                                if(questionFault != null)
                                 {
                                     if (questionFault.Message == "Do you want to Select Serial Numbers Now?")
                                     {
@@ -90,6 +93,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                         UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
                                     }
 
+                                }
+                                else if (!string.IsNullOrEmpty(errorMessage))
+                                {
+                                    await DisplayAlert("Error", errorMessage, "OK");
                                 }
                                 else if (questionFault == null)
                                 {
@@ -125,7 +132,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         await DisplayAlert("Validation", "Please enter Search For.", "OK");
                         return;
                     }
-                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                    await ((AddDetailMerchViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 }
                 catch (Exception ex)
                 {

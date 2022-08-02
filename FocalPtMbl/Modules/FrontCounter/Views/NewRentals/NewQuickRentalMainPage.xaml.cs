@@ -36,7 +36,52 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             SubscribeEvents();
 
             GetOrderInfo();
+            MessagingCenter.Unsubscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder");
+            MessagingCenter.Unsubscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder");
 
+            MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                UpdateOrderDetails(arg);
+            });
+            MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                UpdateOrderDetails(arg);
+            });
+            MessagingCenter.Subscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                UpdateOrderDetails(arg);
+            });
+            MessagingCenter.Subscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
+            {
+                UpdateOrderDetails(arg);
+            });
+        }
+
+
+        private void UpdateOrderDetails(OrderUpdate orderUpdate)
+        {
+            try
+            {
+                if (orderUpdate != null && orderUpdate != null)
+                {
+                    NewQuickRentalMainPageViewModel newQuickRentalMainPageViewModel = (NewQuickRentalMainPageViewModel)BindingContext;
+                    newQuickRentalMainPageViewModel.CurrentOrder = orderUpdate.Order;
+                    newQuickRentalMainPageViewModel.Recent.Clear();
+                    foreach (var item in orderUpdate.Order.OrderDtls)
+                        newQuickRentalMainPageViewModel.Recent.Add(item);
+                }
+                else
+                {
+                    DisplayAlert("Error", "Error occurred while adding detail line", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", "Error occurred while adding detail line", "OK");
+                //TODO: log error
+            }
         }
 
         ~NewQuickRentalMainPage()
@@ -314,7 +359,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             if (selectedItem == "Rentals")
             {
                 AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
@@ -332,7 +377,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             else if (selectedItem == "Rental Saleable")
             {
                 AddDetailRentalSalesView addDetailRentalSalesView = new AddDetailRentalSalesView();
-                AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = new AddDetailRentalSalesViewModel(selectedItem, 1);
+                AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = new AddDetailRentalSalesViewModel(selectedItem);
                 addDetailRentalSalesViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalSalesViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalSalesView.BindingContext = addDetailRentalSalesViewModel;
@@ -340,8 +385,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             }
             else if (selectedItem == "Rate Tables")
             {
-                AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 6);
+                AddDetailRateTableView addDetailRentalView = new AddDetailRateTableView();
+                AddDetailRateTableViewModel addDetailRentalViewModel = new AddDetailRateTableViewModel(selectedItem);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
@@ -350,7 +395,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             else if (selectedItem == "Kits")
             {
                 AddDetailKitsView addDetailKitsView = new AddDetailKitsView();
-                AddDetailKitsViewModel addDetailKitsViewModel = new AddDetailKitsViewModel(selectedItem, 1);
+                AddDetailKitsViewModel addDetailKitsViewModel = new AddDetailKitsViewModel(selectedItem);
                 addDetailKitsViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailKitsViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailKitsView.BindingContext = addDetailKitsViewModel;
@@ -384,7 +429,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             else
             {
                 AddDetailRentalView addDetailRentalView = new AddDetailRentalView();
-                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem, 1);
+                AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
                 await Navigation.PushAsync(addDetailRentalView);

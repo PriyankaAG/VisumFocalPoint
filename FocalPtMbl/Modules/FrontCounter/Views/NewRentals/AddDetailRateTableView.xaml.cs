@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -10,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddDetailRentalView : ContentPage
+    public partial class AddDetailRateTableView : ContentPage
     {
-        public AddDetailRentalView()
+        public AddDetailRateTableView()
         {
             InitializeComponent();
         }
@@ -61,15 +62,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             OrderUpdate UpdatedOrder = null;
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
-            AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
             string errorMessage = string.Empty;
+            AddDetailRateTableViewModel AddDetailRateTableViewModel = (AddDetailRateTableViewModel)this.BindingContext;
             do
             {
-                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await AddDetailRateTableViewModel.AddItem(selItem, count, AddDetailRateTableViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
                     UpdatedOrder = addRentalAPIResult.Item1;
                     questionFault = addRentalAPIResult.Item2;
+                    errorMessage = addRentalAPIResult.Item3;
                 }
                 if (questionFault != null)
                 {
@@ -334,12 +336,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
                 else if (questionFault == null)
                 {
-                    MessagingCenter.Send<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
+                    MessagingCenter.Send<AddDetailRateTableView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
                     await Navigation.PopAsync();
                 }
                 else if (UpdatedOrder == null)
                 {
-                    await DisplayAlert("Item not added", "Item not added", "ok");
+                    await DisplayAlert("Item not added", "Item not added", "OK");
                 }
             } while (UpdatedOrder != null && questionFault != null);
         }
@@ -359,7 +361,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return;
                 }
             }
-            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
+            await ((AddDetailRateTableViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -382,7 +384,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 Task.Run(async () =>
                 {
-                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
+                    await ((AddDetailRateTableViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 });
             }
         }
