@@ -111,12 +111,6 @@
 
                     </Grid>
 
-                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterNotAccessible}">
-                        <ContentView.Content>
-                            <controls:HomeDashboardContent BindingContext="{Binding .}" />
-                        </ContentView.Content>
-                    </ContentView>
-
                     <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterAccess}">
                         <ContentView.Content>
                             <Grid Margin="0" RowSpacing="15">
@@ -136,12 +130,13 @@
                                     <Label HorizontalOptions="Center" Grid.Column="0" Text="{Binding FrontCounterFilterResult.SelectedDate, StringFormat='{0:MM/dd/yyyy}'}" Style="{DynamicResource LabelDashboardHeader}"/>
                                 </Grid>
 
-                                <Grid Grid.Row="1" BackgroundColor="#f5f6fa" Padding="10">
+                                <Grid Grid.Row="1" BackgroundColor="#f5f6fa" Padding="10" IsEnabled="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="5*"/>
                                         <ColumnDefinition Width="5*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0" Style="{DynamicResource TabSelectedButton}" Clicked="Counter_Clicked" BackgroundColor="{DynamicResource TabPageFavoriteColor}" TextColor="#FFFFFF" Text="Counter" Command="{Binding ButtonSelectedCommand}" CommandParameter="True">
+                                    <!--<Button Grid.Column="0" Text="Click Me" />-->
+                                    <Button Grid.Column="0" Style="{DynamicResource TabSelectedButton}" Clicked="Counter_Clicked" BackgroundColor="{DynamicResource TabPageFavoriteColor}" TextColor="#FFFFFF" Text="Counter" Command="{Binding ButtonSelectedCommand}" CommandParameter="True" IsEnabled="True">
                                         <Button.Triggers>
                                             <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
                                                 <Setter Property="Style" Value="{DynamicResource TabButton}"/>
@@ -150,7 +145,7 @@
                                             </DataTrigger>
                                         </Button.Triggers>
                                     </Button>
-                                    <Button Grid.Column="1" Style="{DynamicResource TabButton}" Text="UTILIZATION" Clicked="Utilization_Clicked" BackgroundColor="#FFFFFF" TextColor="{StaticResource TabPageFavoriteColor}">
+                                    <Button Grid.Column="1" Style="{DynamicResource TabButton}" Text="UTILIZATION" Clicked="Utilization_Clicked" BackgroundColor="#FFFFFF" TextColor="{StaticResource TabPageFavoriteColor}"  IsEnabled="True">
                                         <Button.Triggers>
                                             <DataTrigger TargetType="Button" Binding="{Binding IsCounterButtonSelected}" Value="False">
                                                 <Setter Property="Style" Value="{DynamicResource TabSelectedButton}"/>
@@ -160,6 +155,7 @@
                                         </Button.Triggers>
                                     </Button>
                                 </Grid>
+                                
                                 <controls:DashboardListView Grid.Row="2" IsRental="True" BindingContext="{Binding RentalCounterDetail, Mode=TwoWay}" IsVisible="{Binding IsCounterButtonSelected}" x:Name="RentalCounterDetailView">
                                     <controls:DashboardListView.Triggers>
                                         <DataTrigger TargetType="controls:DashboardListView" Binding="{Binding IsCounterButtonSelected}" Value="False">
@@ -187,21 +183,12 @@
                         </ContentView.Content>
                     </ContentView>
 
-                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="True">
+                    <ContentView Grid.Row="2" Margin="0" Padding="5" IsVisible="{Binding IsFrontCounterNotAccessible}">
                         <ContentView.Content>
-                            <Grid Margin="0" RowSpacing="15">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                            </Grid>
+                            <controls:HomeDashboardContent BindingContext="{Binding .}" />
                         </ContentView.Content>
                     </ContentView>
+                    
                 </Grid>
             </ScrollView>
 

@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid  HeightRequest="240" WidthRequest="320" VerticalOptions="CenterAndExpand">
+        <Grid  HeightRequest="260" WidthRequest="320" VerticalOptions="CenterAndExpand">
             <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}">
                 <Grid VerticalOptions="CenterAndExpand" HeightRequest="300">
                     <Grid.RowDefinitions>
@@ -24,6 +24,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Frame Grid.Row="0" BackgroundColor="{DynamicResource TabPageFavoriteColor}" Style="{DynamicResource FrameStyle}" Margin="-10">
@@ -33,13 +34,13 @@
                     <Picker Grid.Row="3" x:Name="storePicker" ItemDisplayBinding="{Binding DisplayName}" Margin="0,-5,0,0"/>
                     <Label Grid.Row="4" Text="Date" Style="{DynamicResource LabelDefault}" Margin="5,5,5,0"/>
                     <DatePicker Grid.Row="5" x:Name="datePicker" Style="{DynamicResource LabelDefault}" Margin="0,-5,0,0"/>
-                    <Grid Grid.Row="6">
+                    <Grid Grid.Row="7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" HorizontalOptions="End" Text="Cancel" Style="{DynamicResource PrimaryButton}" BackgroundColor="#f0142f" TextColor="#fff" Clicked="OnCancelClicked"/>
-                        <Button Grid.Column="1" HorizontalOptions="Start" Text="OK" Style="{DynamicResource PrimaryButton}" BackgroundColor="#2088ff" TextColor="White" Clicked="OnOKClicked"/>
+                        <Button Grid.Column="0" HorizontalOptions="End" Text="Cancel" Style="{DynamicResource PrimaryButton}" BackgroundColor="#f0142f" TextColor="#fff" Clicked="OnCancelClicked" HeightRequest="40"/>
+                        <Button Grid.Column="1" HorizontalOptions="Start" Text="OK" Style="{DynamicResource PrimaryButton}" BackgroundColor="#2088ff" TextColor="White" Clicked="OnOKClicked" HeightRequest="40"/>
                     </Grid>
                 </Grid>
             </Frame>

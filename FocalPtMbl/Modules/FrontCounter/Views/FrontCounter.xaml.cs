@@ -27,14 +27,14 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 //SUSHIL Come back here
                 //frontCounterDashboardViewModel.IsFrontCounterAccess = false;
 
-                //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
-                //{
-                await frontCounterDashboardViewModel.GetDashboardDetail();
-                //}
-                //else
-                //{
+                if (frontCounterDashboardViewModel.IsFrontCounterAccess)
+                {
+                    await frontCounterDashboardViewModel.GetDashboardDetail();
+                }
+                else
+                {
                     await frontCounterDashboardViewModel.GetDashboardHomeDetail();
-                //}
+                }
             });
         }
 
