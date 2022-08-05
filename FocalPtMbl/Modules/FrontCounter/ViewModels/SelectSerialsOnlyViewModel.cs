@@ -34,7 +34,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         {
             get { return clientHttp; }
         }
-        internal async Task GetSerials(AvailabilityMerch selectedItem)
+        internal async Task GetSerials(int AvailCmp, int AvailItem)
         {
             try
             {

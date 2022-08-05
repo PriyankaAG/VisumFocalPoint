@@ -86,7 +86,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                     }
                                     else
                                     {
-                                        var selectSerialOnlyPage = new SelectSerialOnlyView(selItem);
+                                        var selectSerialOnlyPage = new SelectSerialOnlyView(selItem.AvailCmp, selItem.AvailItem);
                                         await this.Navigation.PushModalAsync(selectSerialOnlyPage);
                                         selectedSerials = await selectSerialOnlyPage.Result.Task;
                                         currentAnswers[questionFault.Code] = true.ToString();

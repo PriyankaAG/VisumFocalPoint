@@ -76,7 +76,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
         }
 
-        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom, string>> AddItem(AvailabilityKit selItem, decimal numOfItems, Order curOrder, OrderUpdate myOrderUpdate, QuestionFaultExceptiom result)
+        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom, string>> RentalAddItem(AvailabilityKit selItem, decimal numOfItems, Order curOrder, OrderUpdate myOrderUpdate, QuestionFaultExceptiom result)
         {
             // success no questions needed
             result = null;
@@ -93,7 +93,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                     RentalItem.Answers = myOrderUpdate.Answers;
                 OrderUpdate OrderToUpDate = new OrderUpdate();
                 string errorMessage = string.Empty;
-                var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddRental(RentalItem);
+                var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddSubGroup(RentalItem);
                 Indicator = false;
                 if (responseOrderUpdate.IsSuccessStatusCode)
                 {
@@ -115,6 +115,51 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 {
                     errorMessage = await responseOrderUpdate.Content.ReadAsStringAsync();
                 }
+                return new Tuple<OrderUpdate, QuestionFaultExceptiom, string>(orderUpdate, result, errorMessage);
+            }
+            catch (Exception ex)
+            {
+                result = null;
+                return null;
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
+
+        internal async Task<Tuple<OrderUpdate, QuestionFaultExceptiom, string>> MerchAddItem(AvailabilityKit selItem, decimal numOfItems, List<string> serials, QuestionFaultExceptiom result)
+        {
+            result = null;
+            try
+            {
+                Indicator = true;
+                orderUpdate = new OrderUpdate();
+                //update searchText
+                OrderAddItem MerchItem = new OrderAddItem();
+                MerchItem.OrderNo = CurrentOrder.OrderNo;
+                MerchItem.AvailItem = selItem.AvailItem;
+                MerchItem.Quantity = numOfItems;
+                MerchItem.Serials = serials;
+                OrderUpdate OrderToUpDate = new OrderUpdate();
+                string errorMessage = string.Empty;
+                var responseOrderUpdate = await NewQuickRentalEntityComponent.OrderAddMerchandise(MerchItem);
+                if (responseOrderUpdate.IsSuccessStatusCode)
+                {
+                    string orderContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+                    orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent, settings);
+                    orderUpdate.Answers.Clear();
+                    return new Tuple<OrderUpdate, QuestionFaultExceptiom, string>(orderUpdate, null, null);
+                }
+                else if (responseOrderUpdate.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
+                {
+                    string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
+                    var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+
+                    result = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
+                }
+
                 return new Tuple<OrderUpdate, QuestionFaultExceptiom, string>(orderUpdate, result, errorMessage);
             }
             catch (Exception ex)

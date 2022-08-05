@@ -14,14 +14,13 @@ namespace FocalPoint.Modules.FrontCounter.Views
     public partial class SelectSerialOnlyView : ContentPage
     {
         public TaskCompletionSource<List<string>> Result = new TaskCompletionSource<List<string>>();
-        public SelectSerialOnlyView(AvailabilityMerch selectedItem)
+        public SelectSerialOnlyView(int AvailCmp, int AvailItem)
         {
             this.Title = "Select Serials";
             InitializeComponent();
-            ((SelectSerialsOnlyViewModel)this.BindingContext).SelectedItem = selectedItem;
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await ((SelectSerialsOnlyViewModel)this.BindingContext).GetSerials(selectedItem);
+                await ((SelectSerialsOnlyViewModel)this.BindingContext).GetSerials(AvailCmp, AvailItem);
             });
         }
 
