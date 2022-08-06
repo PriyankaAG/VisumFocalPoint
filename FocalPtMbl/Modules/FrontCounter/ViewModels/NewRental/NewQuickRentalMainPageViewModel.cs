@@ -333,47 +333,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
-
-
             RefreshDateTimeProperties();
-            Recent = new ObservableCollection<OrderDtl>();
-
-            MessagingCenter.Unsubscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder");
-
-            MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                UpdateOrderDetails(arg);
-            });
-            MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                UpdateOrderDetails(arg);
-            });
-            MessagingCenter.Subscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                UpdateOrderDetails(arg);
-            });
-            MessagingCenter.Subscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                UpdateOrderDetails(arg);
-            });
-        }
-
-        private void UpdateOrderDetails(OrderUpdate orderUpdate)
-        {
-            try
-            {
-                CurrentOrder = orderUpdate.Order;
-                Recent.Clear();
-                foreach (var item in orderUpdate.Order.OrderDtls)
-                    Recent.Add(item);
-            }
-            catch(Exception ex)
-            {
-
-            }
+            Recent = new ObservableCollection<OrderDtl>();            
         }
 
         public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)

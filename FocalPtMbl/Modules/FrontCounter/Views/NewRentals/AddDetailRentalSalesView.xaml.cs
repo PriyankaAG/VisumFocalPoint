@@ -50,14 +50,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 OrderUpdate UpdatedOrder = null;
                 QuestionFaultExceptiom questionFault = null;
                 Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
+                string errorMessage = string.Empty;
                 do
                 {
                     AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = (AddDetailRentalSalesViewModel)this.BindingContext;
-                    Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                    Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
                     if (addRentalAPIResult != null)
                     {
                         UpdatedOrder = addRentalAPIResult.Item1;
                         questionFault = addRentalAPIResult.Item2;
+                        errorMessage = addRentalAPIResult.Item3;
                     }
                     if (questionFault != null)
                     {
@@ -316,6 +318,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                 break;
                         };
                     }
+                    else if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        await DisplayAlert("Error", errorMessage, "OK");
+                    }
                     else if (questionFault == null)
                     {
                         MessagingCenter.Send<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
@@ -345,7 +351,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         await DisplayAlert("Validation", "Please enter Search For.", "OK");
                         return;
                     }
-                    await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                    await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 }
                 catch (Exception ex)
                 {

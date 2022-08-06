@@ -169,7 +169,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 if (selItem.AvailSerialized)
                 {
                     //get the serial numbers
-                    await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
+                    await Navigation.PushAsync(new SelectSerialOnlyView(selItem.AvailCmp, selItem.AvailItem));
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
                     {
                         //ask questions ' Show Message and return no numbers for not assigning else return number to assign equal to qty
                         //List<string> serialNumbers = ((QuickOrderDetailsMerchViewModel)this.BindingContext).GetSerials(selItem);
-                        await Navigation.PushAsync(new SelectSerialOnlyView(selItem));
+                        await Navigation.PushAsync(new SelectSerialOnlyView(selItem.AvailCmp, selItem.AvailItem));
                         //string action = await DisplayActionSheet("Select Serialized Items", "Cancel", null, serialNumbers);
                         //await DisplayAlert("Serialized Item", "Item not added", "ok");
                     }

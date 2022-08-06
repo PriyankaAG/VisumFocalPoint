@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
@@ -10,15 +11,20 @@ using Xamarin.Forms.Xaml;
 namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddDetailKitsView : ContentPage
+    public partial class AddDetailRateTableView : ContentPage
     {
-        public AddDetailKitsView()
+        public AddDetailRateTableView()
         {
             InitializeComponent();
         }
 
-        private AvailabilityKit selItem;
-        private Int16 SearchIn = 1;
+        private AvailabilityRent selItem;
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var selectedItem = (e as TappedEventArgs).Parameter;
+            selItem = (AvailabilityRent)selectedItem;
+        }
 
         private void AddToOrder_Clicked(object sender, EventArgs e)
         {
@@ -29,13 +35,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     string result = "0";
                     if (selItem != null)
                     {
-                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                        if (result != "cancel")
+                        //Check Serialized on selcted item
+                        if (selItem.AvailSerialized)
                         {
-                            if (Convert.ToInt32(selItem.AvailType) == (int)AvailSearchFors.Merchandise)
-                                await MerchFinishQuestions(int.Parse(result));
-                            else
-                                await RentalFinishQuestions(int.Parse(result));
+                            await FinishQuestions(1);
+                        }
+                        else
+                        {
+                            result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                            if (result != "cancel")
+                                await FinishQuestions(int.Parse(result));
                         }
                     }
                     else
@@ -48,16 +57,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             });
         }
 
-        private async Task RentalFinishQuestions(int count)
+        private async Task FinishQuestions(int count)
         {
             OrderUpdate UpdatedOrder = null;
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
             string errorMessage = string.Empty;
-            AddDetailKitsViewModel AddDetailKitsViewModel = (AddDetailKitsViewModel)this.BindingContext;
+            AddDetailRateTableViewModel AddDetailRateTableViewModel = (AddDetailRateTableViewModel)this.BindingContext;
             do
             {
-                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await AddDetailKitsViewModel.RentalAddItem(selItem, count, AddDetailKitsViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await AddDetailRateTableViewModel.AddItem(selItem, count, AddDetailRateTableViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
                     UpdatedOrder = addRentalAPIResult.Item1;
@@ -68,6 +77,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 {
                     switch (questionFault.Code)
                     {
+
                         case 1000:
                             {
                                 var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
@@ -326,7 +336,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
                 else if (questionFault == null)
                 {
-                    MessagingCenter.Send<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
+                    MessagingCenter.Send<AddDetailRateTableView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
                     await Navigation.PopAsync();
                 }
                 else if (UpdatedOrder == null)
@@ -335,83 +345,23 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 }
             } while (UpdatedOrder != null && questionFault != null);
         }
-        private async Task MerchFinishQuestions(int count)
-        {
-            OrderUpdate UpdatedOrder = null;
-            QuestionFaultExceptiom questionFault = null;
-            Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
-            List<string> selectedSerials = new List<string>();
-            string errorMessage = string.Empty;
-            do
-            {
-                decimal numberOfItems = count;
-
-                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await ((AddDetailKitsViewModel)this.BindingContext).MerchAddItem(selItem, numberOfItems, selectedSerials, questionFault);
-
-                if (addRentalAPIResult != null)
-                {
-                    UpdatedOrder = addRentalAPIResult.Item1;
-                    questionFault = addRentalAPIResult.Item2;
-                    errorMessage = addRentalAPIResult.Item3;
-                }
-                if (questionFault != null)
-                {
-                    if (questionFault.Message == "Do you want to Select Serial Numbers Now?")
-                    {
-                        var action = await DisplayAlert("Question", questionFault.Message, "ok", "cancel");
-                        if (!action)
-                            UpdatedOrder = null;
-                        else
-                        {
-                            currentAnswers[questionFault.Code] = action.ToString();
-                            UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
-                        }
-                    }
-                    else
-                    {
-                        var selectSerialOnlyPage = new SelectSerialOnlyView(selItem.AvailCmp, selItem.AvailItem);
-                        await this.Navigation.PushModalAsync(selectSerialOnlyPage);
-                        selectedSerials = await selectSerialOnlyPage.Result.Task;
-                        currentAnswers[questionFault.Code] = true.ToString();
-                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
-                    }
-
-                }
-                else if (!string.IsNullOrEmpty(errorMessage))
-                {
-                    await DisplayAlert("Error", errorMessage, "OK");
-                }
-                else if (questionFault == null)
-                {
-                    MessagingCenter.Send<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
-                    await Navigation.PopAsync();
-                }
-                else if (UpdatedOrder == null)
-                {
-                    await DisplayAlert("Item not added", "Item not added", "ok");
-                }
-
-            } while (UpdatedOrder != null && questionFault != null);
-        }
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            if (SearchTextEditor.Text == null)
             {
-                try
+                await DisplayAlert("Validation", "Please enter Search For.", "OK");
+                return;
+            }
+            if (pickerSearchIn.SelectedItem == "Item Number")
+            {
+                if (!int.TryParse(SearchTextEditor.Text, out int itemNumber))
                 {
-                    if (SearchTextEditor.Text == null)
-                    {
-                        await DisplayAlert("Validation", "Please enter Search For.", "OK");
-                        return;
-                    }
-                    await ((AddDetailKitsViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
+                    await DisplayAlert("Validation", "Invalid Search For, must be a numeric value!", "OK");
+                    return;
                 }
-                catch (Exception ex)
-                {
-
-                }
-            });
+            }
+            await ((AddDetailRateTableViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -423,8 +373,19 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             if (e.CurrentSelection != null && e.CurrentSelection.Any())
             {
-                var selecteItem = e.CurrentSelection.First() as AvailabilityKit;
+                var selecteItem = e.CurrentSelection.First() as AvailabilityRent;
                 selItem = selecteItem;
+            }
+        }
+
+        private void SearchIn_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
+        {
+            if (pickerSearchIn.SelectedItem == "Top 20")
+            {
+                Task.Run(async () =>
+                {
+                    await ((AddDetailRateTableViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
+                });
             }
         }
     }

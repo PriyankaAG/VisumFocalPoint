@@ -17,16 +17,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             InitializeComponent();
         }
 
-        public AddDetailRentalView(Int16 searchIn)
-        {
-            InitializeComponent();
-            SearchIn = searchIn;
-            ((AddDetailRentalViewModel)this.BindingContext).SearchIn = searchIn;
-            _ = ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("Rental");
-        }
-
         private AvailabilityRent selItem;
-        private Int16 SearchIn = 1;
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
@@ -71,9 +62,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
             AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
+            string errorMessage = string.Empty;
             do
             {
-                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
                     UpdatedOrder = addRentalAPIResult.Item1;
@@ -336,6 +328,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             break;
                     };
                 }
+                else if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    await DisplayAlert("Error", errorMessage, "OK");
+                }
                 else if (questionFault == null)
                 {
                     MessagingCenter.Send<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
@@ -363,7 +359,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return;
                 }
             }
-            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -386,7 +382,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 Task.Run(async () =>
                 {
-                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 });
             }
         }
