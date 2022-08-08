@@ -334,7 +334,6 @@
                                                 <x:String>Merchandise</x:String>
                                                 <x:String>Rate Tables</x:String>
                                                 <x:String>Rental Saleable</x:String>
-                                                <x:String>Kits</x:String>
                                             </x:Array>
                                         </Binding.Source>
                                     </Binding>

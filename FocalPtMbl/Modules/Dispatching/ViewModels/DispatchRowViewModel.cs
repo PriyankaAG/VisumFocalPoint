@@ -27,6 +27,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
+        public string TheTruckName { get; set; }
 
         /// <summary>
         /// 
@@ -69,6 +70,25 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
             }
         }
 
+        public bool HasLine4
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(TheTruckName);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Line4
+        {
+            get
+            {
+                return string.Format("  Truck: {0}", TheTruckName);
+            }
+        }
 
         /// <summary>
         /// 
@@ -155,9 +175,10 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
         /// 
         /// </summary>
         /// <param name="dis"></param>
-        public DispatchRowViewModel(Dispatches dis)
+        public DispatchRowViewModel(Dispatches dis, string truckName = "")
         {
             this.Dispatch = dis;
+            TheTruckName = truckName;
             OpenPhoneDialerCommand = new Command<string>(async phoneNo => await OpenPhoneDialerTask(phoneNo));
             OpenMapApplicationCommand = new Command<string>(async address => await OpenMapApplicationTask(AddressText));
         }
