@@ -50,7 +50,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
 
         private void SimpleButton_Clicked(object sender, EventArgs e)
         {
-
+            ((OpenRentalDetailsViewModel)this.BindingContext).GetRentalAvailability();
         }
     }
 }

@@ -158,18 +158,18 @@
                             <ColumnDefinition Width="50*" />
                             <ColumnDefinition Width="50*" />
                         </Grid.ColumnDefinitions>
-                        <dxe:DateEdit Date="{Binding StartDate}" PlaceholderText="Start Date" Style="{DynamicResource DxeDateTime}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="0" Grid.Column="0" ReturnType="Default"></dxe:DateEdit>
+                        <dxe:DateEdit Date="{Binding StartDte}" PlaceholderText="Start Date" Style="{DynamicResource DxeDateTime}" DisplayFormat="d" DateChanged="DateEdit_DateChanged" Grid.Row="0" Grid.Column="0" ReturnType="Default"></dxe:DateEdit>
                         <dxe:TimeEdit Time="{Binding StartTime}" TimeChanged="TimeEdit_TimeChanged" Grid.Row="0" Grid.Column="1" Style="{DynamicResource DxeDateTime}" PlaceholderText="Start Time" ReturnType="Default"></dxe:TimeEdit>
 
-                        <dxe:DateEdit Date="{Binding EndDate}" DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="1" Grid.Column="0" Style="{DynamicResource DxeDateTime}" PlaceholderText="End Date" ReturnType="Default"></dxe:DateEdit>
+                        <dxe:DateEdit Date="{Binding EndDte}" DisplayFormat="d" DateChanged="DateEdit_DateChanged_1" Grid.Row="1" Grid.Column="0" Style="{DynamicResource DxeDateTime}" PlaceholderText="End Date" ReturnType="Default"></dxe:DateEdit>
                         <dxe:TimeEdit Time="{Binding EndTime}" TimeChanged="TimeEdit_TimeChanged_1" Grid.Row="1" Grid.Column="1" Style="{DynamicResource DxeDateTime}" PlaceholderText="End Time" ReturnType="Default"></dxe:TimeEdit>
                         <!--<dxe:SimpleButton Grid.Row="2" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />-->
                         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Search" Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked"  Margin="10,10" />
 
-                        <controls:LabelTextCustomControl Grid.Row="3" Grid.ColumnSpan="2" Title="Availability:" Value="{Binding CurrentRental.RentalDscr}" />
-                        <controls:LabelTextCustomControl Grid.Row="4" Grid.ColumnSpan="2" Title="Store:" Value="{Binding CurrentRental.RentalBelongsTo}" />
-                        <controls:LabelTextCustomControl Grid.Row="5" Grid.ColumnSpan="2" Title="Equipment ID:" Value="{Binding CurrentRental.RentalEquipID}" />
-                        <controls:LabelTextCustomControl Grid.Row="6" Grid.ColumnSpan="2" Title="Manufacturer:" Value="{Binding CurrentRental.MfgName}" />
+                        <controls:LabelTextCustomControl Grid.Row="3" Grid.ColumnSpan="2" Title="Quantity:" Value="{Binding Availability.AvailQty}" />
+                        <controls:LabelTextCustomControl Grid.Row="4" Grid.ColumnSpan="2" Title="On Rent:" Value="{Binding Availability.AvailRentedQty}" />
+                        <controls:LabelTextCustomControl Grid.Row="5" Grid.ColumnSpan="2" Title="In Shop:" Value="{Binding Availability.AvailShopQty}" />
+                        <controls:LabelTextCustomControl Grid.Row="6" Grid.ColumnSpan="2" Title="Available:" Value="{Binding Availability.AvailItem}" />
                     </Grid>
                 </StackLayout>
             </dxn:TabViewItem.Content>
