@@ -22,11 +22,12 @@ namespace Visum.Services.Mobile.Entities
         public decimal VenLimit { get; set; }
         public decimal VenMinPO { get; set; }
         public string VenNotes { get; set; }
-        public string CityStateZip
+        public string VenAddress
         {
-            get {
-                var res = string.Join(",", new string[] { VenCity, VenState, VenZip }.Where(x => !string.IsNullOrEmpty(x)));
-                return res == "" ? null : res;
+            get
+            {
+                var res = string.Join(", ", new string[] { VenAddr1, VenCity, VenState, VenZip }.Where(x => !string.IsNullOrWhiteSpace(x)));
+                return string.IsNullOrWhiteSpace(res) ? null : res;
             }
         }
     }

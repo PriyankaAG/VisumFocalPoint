@@ -33,22 +33,28 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
-            if (args.Item != null)
+            try
             {
-                var customer = args.Item as Customer;
-                if (customer != null)
+                if (args.Item != null)
                 {
-                    var balance = await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerBalance(customer.CustomerNo);
-                    await OpenDetailPage(GetCustInfo(args.Item), balance);
-                    collectionView.SelectedItem = null;
+                    var customer = args.Item as Customer;
+                    if (customer != null)
+                    {
+                        var balance = await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerBalance(customer.CustomerNo);
+                        await OpenDetailPage(await GetCustInfo(args.Item), balance);
+                        collectionView.SelectedItem = null;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                return;
+            }
         }
-        private Customer GetCustInfo(object item)
+        private async Task<Customer> GetCustInfo(object item)
         {
-            if (item is Customer custInfo)
-                return custInfo;
-            return new Customer();
+            return await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo((item as Customer).CustomerNo);
         }
         Task OpenDetailPage(Customer cust, CustomerBalance balance)
         {

@@ -65,6 +65,8 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <!--<StackLayout Grid.Column="0" 
                              Padding="18,1,18,7"
@@ -95,6 +97,26 @@
                                             <FormattedString.Spans>
                                                 <Span Text="Description: " FontAttributes="Bold" />
                                                 <Span Text="{Binding WOItemDscr, TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" MaxLines="2" Margin="10,0" TextColor="#3A3A3A">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Start: " FontAttributes="Bold" />
+                                                <Span Text="{Binding WOODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" MaxLines="2" Margin="10,0" TextColor="#3A3A3A">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="Projected: " FontAttributes="Bold" />
+                                                <Span Text="{Binding WOPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}', TargetNullValue={StaticResource UnknownValue}}" />
                                             </FormattedString.Spans>
                                         </FormattedString>
                                     </Label.FormattedText>

@@ -1,9 +1,12 @@
-﻿using FocalPtMbl.MainMenu.ViewModels;
+﻿using FocalPoint.Data;
+using FocalPtMbl.MainMenu.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Visum.Services.Mobile.Entities;
 using Xamarin.Forms;
 
@@ -11,6 +14,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
 {
     public class OpenRentalDetailsViewModel : ThemeBaseViewModel
     {
+        IGeneralComponent generalComponent;
         ObservableCollection<Rental> recent;
         public ObservableCollection<Rental> Recent
         {
@@ -35,10 +39,9 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
             }
         }
 
-        internal void GetRate()
+        internal async void GetRate()
         {
-            CurrentRentalRates = new RentalRate();
-            //throw new NotImplementedException();
+             await GetRentalRates();
         }
 
         private Rental currentRental = new Rental();
@@ -68,7 +71,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
             }
         }
 
-
+        public DateTime SubGroupLastUpdated { get { return DateTime.Now; } }
 
 
         HttpClient clientHttp;
@@ -80,7 +83,34 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            generalComponent = new GeneralComponent();
         }
 
+        private async Task GetRentalRates()
+        {
+            try
+            {
+                Indicator = true;
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "RentalRate/" + CurrentRental.RentalSubGroup));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+                var response = await ClientHTTP.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    RentalRate rentalCntAndList = JsonConvert.DeserializeObject<RentalRate>(content);
+                    CurrentRentalRates = rentalCntAndList;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
     }
 }

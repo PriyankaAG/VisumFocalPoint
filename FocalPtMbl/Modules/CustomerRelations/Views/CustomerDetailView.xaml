@@ -17,7 +17,7 @@
                         <Label Text="{Binding Name, StringFormat='Customer Information {0}'}" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Grid.Row="1" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="NO:" Value="{Binding No}" />
                         <controls:LabelTextCustomControl Grid.Row="1" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Store:" Value="{Binding Store}" />
-                        <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Status:" Value="{Binding Status}" />
+                        <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="0" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Status:" Value="{Binding Status_Display}" />
                         <controls:LabelTextCustomControl Grid.Row="2" Grid.Column="1" RequestedTitleWidth="auto" RequestedValueWidth="*" Title="Type:" Value="{Binding Type_Display}" />
 
                         <Label Text="Phone Numbers" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />

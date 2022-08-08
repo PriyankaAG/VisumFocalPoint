@@ -108,9 +108,14 @@ namespace FocalPoint.MainMenu.Views
             {
                 currentSelectedLoginTerminal = terminals[0];
             }
-            else
+            else if (terminals?.Count() > 1)
             {
                 currentSelectedLoginTerminal = await DisplayActionSheet("Select Terminal:", "Cancel", null, terminals);
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Terminals", "No Terminals Defined for the selected store, setup in FocalPoint Desktop.", "OK");
+                return;
             }
             viewModel.TerminalNo = viewModel.GetTerminalFromArray(currentSelectedLoginTerminal);
             

@@ -34,6 +34,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         //    }
         //}
         public ICommand OpenPhoneCmd { get; }
+        IGeneralComponent generalComponent;
         readonly Visum.Services.Mobile.Entities.Customer repository;
         IList<Visum.Services.Mobile.Entities.Customer> customers;
         ObservableCollection<Visum.Services.Mobile.Entities.Customer> recent;
@@ -129,6 +130,7 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            generalComponent = new GeneralComponent();
             Task.Run(() =>
             {
                 _ = GetCustomersInfo();
@@ -208,6 +210,10 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                     //var custList = JsonConvert.DeserializeObject<List<FocalPoint.Data.DataLayer.Customer>(content);
                     // Recent = (ObservableCollection<FocalPoint.Data.DataLayer.Customer>)CustList;
                 }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
+                }
                 return customersCntAndList;
             }
             catch (Exception ex)
@@ -232,27 +238,33 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                 }
             }
         }
-        public void GetCustomerInfo()
+        public async Task<Customer> GetCustomerInfo(int customerNo)
         {
+            Customer customerDetails = new Customer();
             try
             {
-                Uri uri = new Uri(string.Format("https://10.0.2.2:56883/Mobile/V1/Customer/1"));
-
-                var stringContent = new StringContent(
-                              JsonConvert.SerializeObject(new { SelectedCustomer }),
-                              Encoding.UTF8,
-                              "application/json");
-
-                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                Indicator = true;
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Customer/" + customerNo));
+                var response = await ClientHTTP.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
-
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    customerDetails = JsonConvert.DeserializeObject<Customer>(content);
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
                 }
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
+            finally
+            {
+                Indicator = false;
+            }
+            return customerDetails;
         }
         public async Task<CustomerBalance> GetCustomerBalance(int custNo)
         {
@@ -264,6 +276,10 @@ namespace FocalPoint.Modules.CustomerRelations.ViewModels
                 {
                     string content = response.Content.ReadAsStringAsync().Result;
                     return JsonConvert.DeserializeObject<CustomerBalance>(content);
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
                 }
             }
             catch (Exception ex)

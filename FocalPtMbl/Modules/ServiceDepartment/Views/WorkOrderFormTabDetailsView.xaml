@@ -31,17 +31,17 @@
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <StackLayout Margin="5,5">
                         <Grid>
-                            <controls:LabelTextCustomControl Grid.Row="0" Title="Description:" Value="{Binding WODscr, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
-                            <controls:LabelTextCustomControl Grid.Row="1" Title="Tax Exempt:" Value="{Binding WOTaxNo, StringFormat='{}{0:MM/dd/yy h:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="0" Title="Description:" Value="{Binding WODscr}" />
+                            <controls:LabelTextCustomControl Grid.Row="1" Title="Tax Exempt:" Value="{Binding WOTaxNo}" />
                             <controls:LabelTextCustomControl Grid.Row="2" Title="Tax Code:" Value="{Binding TaxDscr}" />
                             <controls:LabelTextCustomControl Grid.Row="3" Title="PO Number:" Value="{Binding WOPO}" />
                             <controls:LabelTextCustomControl Grid.Row="4" Title="Job Number:" Value="{Binding WOJobNo}" />
                             <controls:LabelTextCustomControl Grid.Row="5" Title="Tech Assigned:" Value="{Binding WOTechID}" />
                             <controls:LabelTextCustomControl Grid.Row="6" Title="Repair Type:" Value="{Binding WORepairDscr}" />
-                            <controls:LabelTextCustomControl Grid.Row="7" Title="Start Date:" Value="{Binding WOODte}" />
-                            <controls:LabelTextCustomControl Grid.Row="8" Title="Projected Date:" Value="{Binding WOPDte}" />
-                            <controls:LabelTextCustomControl Grid.Row="9" Title="Completed Date:" Value="{Binding WOCDte}" />
-                            <controls:LabelTextCustomControl Grid.Row="10" Title="Pickup Date:" Value="{Binding WOPUDte}" />
+                            <controls:LabelTextCustomControl Grid.Row="7" Title="Start Date:" Value="{Binding WOODte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="8" Title="Projected Date:" Value="{Binding WOPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="9" Title="Completed Date:" Value="{Binding WOCDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                            <controls:LabelTextCustomControl Grid.Row="10" Title="Pickup Date:" Value="{Binding WOPUDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                             <controls:LabelTextCustomControl Grid.Row="11" Title="Pickup Amount:" Value="{Binding WOPUAmt, StringFormat='{0:C}'}" />
                             <controls:LabelTextCustomControl Grid.Row="12" Title="Delivery Date:" Value="{Binding WODelDte}" />
                             <controls:LabelTextCustomControl Grid.Row="13" Title="Delivery Amount:" Value="{Binding WODelAmt, StringFormat='{0:C}'}" />

@@ -86,7 +86,7 @@
                                         <FormattedString>
                                             <FormattedString.Spans>
                                                 <Span Text="Address: " FontAttributes="Bold" />
-                                                <Span Text="{Binding CityStateZip,TargetNullValue={StaticResource UnknownValue}}" />
+                                                <Span Text="{Binding VenAddress,TargetNullValue={StaticResource UnknownValue}}" />
                                                 <!--<Span Text="{Binding VenCity, StringFormat='{0},',TargetNullValue=''}" />
                                                 <Span Text="{Binding VenState, StringFormat=' {0},', TargetNullValue=''}"/>
                                                 <Span Text="{Binding VenZip, StringFormat=' {0}', TargetNullValue=''}" />-->

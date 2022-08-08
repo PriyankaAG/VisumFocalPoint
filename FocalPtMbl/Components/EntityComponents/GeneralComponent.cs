@@ -93,5 +93,10 @@ namespace FocalPoint
             }
             return states;
         }
+
+        public void HandleTokenExpired()
+        {
+            apiComponent.HandleTokenExpired();
+        }
     }
 }

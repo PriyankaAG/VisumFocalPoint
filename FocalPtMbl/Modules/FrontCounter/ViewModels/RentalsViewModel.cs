@@ -220,6 +220,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 try
                 {
                     Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "RentalsAvailability/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+                    var serText = JsonConvert.SerializeObject(new { SearchType, Search, ShowStoreID, StartDate, EndDate });
                     var stringContent = new StringContent(
                                               JsonConvert.SerializeObject(new { SearchType, Search, ShowStoreID, StartDate, EndDate }),
                                               Encoding.UTF8,

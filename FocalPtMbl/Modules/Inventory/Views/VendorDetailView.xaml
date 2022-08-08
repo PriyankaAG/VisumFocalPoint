@@ -3,14 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FocalPoint.Modules.Inventory.Views.VendorDetailView"
              xmlns:dxn="http://schemas.devexpress.com/xamarin/2014/forms/navigation" 
-             xmlns:controls="clr-namespace:FocalPoint.CustomControls" 
-             HeaderPanelPosition="Top"
+             xmlns:controls="clr-namespace:FocalPoint.CustomControls" xmlns:conv="clr-namespace:FocalPoint.Converters" HeaderPanelPosition="Top"
              IsSelectedItemIndicatorVisible="True"
              SelectedItemHeaderTextColor="OrangeRed"
              SelectedItemHeaderIconColor="Transparent"
              ItemHeaderIconColor="Transparent"
              ItemHeaderWidth="*"  
              Title="Vendors" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+    <dxn:TabPage.Resources>
+        <conv:StringToPhoneConverter x:Key="stringToPhoneConverter" />
+    </dxn:TabPage.Resources>
     <dxn:TabPageItem>
         <dxn:TabPageItem.Content>
             <ContentPage Title="Info" Icon="provider_96.png">
@@ -24,7 +26,7 @@
                         <Label Text="Contact Information" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Title="Contact Name:" Value="{Binding Name}" />
                         <controls:LabelTextCustomControl Title="Email:" Value="{Binding Email}" />
-                        <controls:LabelTextCustomControl Title="Phone &amp; Ext:" Value="{Binding Phone}" />
+                        <controls:LabelTextCustomControl Title="Phone &amp; Ext:" Value="{Binding Phone, Converter={StaticResource stringToPhoneConverter}, TargetNullValue={StaticResource UnknownValue}}" />
 
                         <Label Text="Primary Address" Margin="0,10,0,0" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
                         <controls:LabelTextCustomControl Title="Address:" Value="{Binding Addr1}" />

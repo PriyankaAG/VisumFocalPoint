@@ -16,6 +16,7 @@ namespace FocalPoint.Modules.Inventory.ViewModels
 {
     public class VendorsViewModel : ThemeBaseViewModel
     {
+        IGeneralComponent generalComponent;
         ObservableCollection<Vendor> recent;
         public ObservableCollection<Vendor> Recent
         {
@@ -57,6 +58,7 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         {
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
+            generalComponent = new GeneralComponent();
             Task.Run(() =>
             {
                 _ = GetVendorsInfo();
@@ -90,7 +92,7 @@ namespace FocalPoint.Modules.Inventory.ViewModels
                                           Encoding.UTF8,
                                           "application/json");
 
-               // ClientHTTP.DefaultRequestHeaders.Add("Token", "581543bd-ac48-414b-a356-643b2403eba3");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08");
+                // ClientHTTP.DefaultRequestHeaders.Add("Token", "581543bd-ac48-414b-a356-643b2403eba3");//"3d2ad6f3-8f4a-4c47-8e8b-69f0b1a7ec08");
                 var response = await ClientHTTP.PostAsync(uri, stringContent);
                 if (response.IsSuccessStatusCode)
                 {
@@ -112,6 +114,10 @@ namespace FocalPoint.Modules.Inventory.ViewModels
                     //}
 
                 }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
+                }
                 return vendorsCntAndList;
             }
             catch (Exception ex)
@@ -126,34 +132,39 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         {
             Recent.Clear();
             SearchText = text;
-            StartIdx = 0; 
+            StartIdx = 0;
             Vendors vendorsCntAndList = null;
-            try { 
-            Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Vendors/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
-            var stringContent = new StringContent(
-                                      JsonConvert.SerializeObject(new { StoreID, SearchText, StartIdx, MaxCnt }),
-                                      Encoding.UTF8,
-                                      "application/json");
-
-            var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string content = response.Content.ReadAsStringAsync().Result;
-                vendorsCntAndList = JsonConvert.DeserializeObject<Vendors>(content);
-                StartIdx = vendorsCntAndList.TotalCnt;
-                if (recent == null)
-                {
-                    Recent = new ObservableCollection<Vendor>(vendorsCntAndList.List);
-                }
-                else
-                {
-                    foreach (var vendor in vendorsCntAndList.List)
-                    {
-                        Recent.Add(vendor);
-                    }
-                }
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "Vendors/"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+                var stringContent = new StringContent(
+                                          JsonConvert.SerializeObject(new { StoreID, SearchText, StartIdx, MaxCnt }),
+                                          Encoding.UTF8,
+                                          "application/json");
 
-            }
+                var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = response.Content.ReadAsStringAsync().Result;
+                    vendorsCntAndList = JsonConvert.DeserializeObject<Vendors>(content);
+                    StartIdx = vendorsCntAndList.TotalCnt;
+                    if (recent == null)
+                    {
+                        Recent = new ObservableCollection<Vendor>(vendorsCntAndList.List);
+                    }
+                    else
+                    {
+                        foreach (var vendor in vendorsCntAndList.List)
+                        {
+                            Recent.Add(vendor);
+                        }
+                    }
+
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    generalComponent.HandleTokenExpired();
+                }
             }
             catch (Exception ex)
             {
