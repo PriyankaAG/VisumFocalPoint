@@ -32,7 +32,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
                         if (result != "cancel")
                         {
-                            if (Convert.ToInt32(selItem.AvailType) == (int)AvailSearchFors.Merchandise)
+                            if (selItem.AvailType == "M")
                                 await MerchFinishQuestions(int.Parse(result));
                             else
                                 await RentalFinishQuestions(int.Parse(result));

@@ -38,7 +38,7 @@ namespace Visum.Services.Mobile.Entities
         [DataMember]
         public string WORepairDscr { get; set; }
 
-        public DateTime WOODte { get; set; }
+        public DateTime? WOODte { get; set; }
         [DataMember(Name = "WOODte")]
         private string strWOODte { get; set; }
 
@@ -144,7 +144,8 @@ namespace Visum.Services.Mobile.Entities
                 this.strWOPUDte = this.WOPUDte.Value.ToString("g", CultureInfo.InvariantCulture);
             if (this.WODelDte != null)
                 this.strWODelDte = this.WODelDte.Value.ToString("g", CultureInfo.InvariantCulture);
-            this.strWOODte = this.WOODte.ToString("g", CultureInfo.InvariantCulture);
+            if (this.WOODte != null)
+                this.strWOODte = this.WOODte.Value.ToString("g", CultureInfo.InvariantCulture);
         }
 
         [OnDeserialized]
@@ -158,7 +159,8 @@ namespace Visum.Services.Mobile.Entities
                 this.WOPUDte = DateTime.ParseExact(this.strWOPUDte, "g", CultureInfo.InvariantCulture);
             if (string.IsNullOrEmpty(this.strWODelDte) == false)
                 this.WODelDte = DateTime.ParseExact(this.strWODelDte, "g", CultureInfo.InvariantCulture);
-            this.WOODte = DateTime.ParseExact(this.strWOODte, "g", CultureInfo.InvariantCulture);
+            if (string.IsNullOrEmpty(this.strWOODte) == false)
+                this.WOODte = DateTime.ParseExact(this.strWOODte, "g", CultureInfo.InvariantCulture);
         }
     }
-    }
+}

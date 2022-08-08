@@ -278,20 +278,20 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             ClearCommand = new Command<string>((a) => Clear(a));
         }
 
-        private void GetData()
+        private async Task GetData()
         {
             try
             {
                 Indicator = true;
-                Task.Run(() =>
+                var t1 = Task.Run(() =>
                 {
                     _ = GetSearchedOrdersInfo("", 1, true);
                 });
-                Task.Run(() =>
+                var t2 = Task.Run(() =>
                 {
                     _ = GetSearchedOrdersInfo("", 2, true);
                 });
-                Task.Run(() =>
+                var t3 = Task.Run(() =>
                 {
                     _ = GetSearchedOrdersInfo("", 3, true);
                 });
