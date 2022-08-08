@@ -195,18 +195,35 @@
             <dxn:TabViewItem.Content>
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <StackLayout Margin="5,5">
-                        <ListView VerticalOptions="End" x:Name="listView" ItemSelected="listView_ItemSelected">
+                        <ListView x:Name="listView" ItemSelected="listView_ItemSelected"
+                                SeparatorVisibility="None"
+                                HasUnevenRows="True"
+                                VerticalOptions="FillAndExpand"
+                                SelectionMode="Single"
+                                ItemsSource="{Binding SelectedOrder.Payments}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Spacing="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                                            <StackLayout Padding="0,0,0,0" Spacing="0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                                                <Label TextColor="Black" Text="{Binding Payment.PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start" />
-                                                <Label TextColor="Black" Text="{Binding Payment.PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
-                                                <Label TextColor="Black" Text="{Binding Payment.PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
-                                            </StackLayout>
-                                            <Label TextColor="Black" Text="  {Binding Payment.PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
-                                        </StackLayout>
+                                        <Frame CornerRadius="5" HasShadow="True" Margin="2" Padding="10" BackgroundColor="White" >
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="0" Grid.Column="0" TextColor="Black" Text="{Binding PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start" />
+                                                <Label Grid.Row="0" Grid.Column="1" TextColor="Black" Text="{Binding PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
+                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" Text="{Binding PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
+
+                                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" Text="{Binding PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
+
+                                            </Grid>
+                                        </Frame>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
