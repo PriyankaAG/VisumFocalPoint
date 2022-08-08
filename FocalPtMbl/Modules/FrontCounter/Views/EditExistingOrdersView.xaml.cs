@@ -25,7 +25,26 @@ namespace FocalPoint.Modules.FrontCounter.Views
             //    _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
             //    _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
             //});
+            containerTab.ItemHeaderTapped += ContainerTab_ItemHeaderTapped;
         }
+
+        private void ContainerTab_ItemHeaderTapped(object sender, DevExpress.XamarinForms.Navigation.ItemHeaderTappedEventArgs e)
+        {
+            int index = e.Index;
+            switch (index)
+            {
+                case 0:
+                    Title = "View Orders";
+                    break;
+                case 1:
+                    Title = "View Reservations";
+                    break;
+                case 2:
+                    Title = "View Quotes";
+                    break;
+            }
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

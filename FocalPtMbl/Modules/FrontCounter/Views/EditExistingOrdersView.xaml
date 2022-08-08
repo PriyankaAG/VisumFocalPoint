@@ -12,7 +12,8 @@
              SelectedItemHeaderTextColor="OrangeRed"
              SelectedItemHeaderIconColor ="Transparent"
              ItemHeaderIconColor="Transparent"
-             ItemHeaderWidth="*" BackgroundColor="{DynamicResource MainPageBackgroundColor}">
+             ItemHeaderWidth="*" BackgroundColor="{DynamicResource MainPageBackgroundColor}"
+             x:Name="containerTab" >
     <dxn:TabPage.BindingContext>
         <viewModel:EditExistingOrdersViewModel/>
     </dxn:TabPage.BindingContext>
