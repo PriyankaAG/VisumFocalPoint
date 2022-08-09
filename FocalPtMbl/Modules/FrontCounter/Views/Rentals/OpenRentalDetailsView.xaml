@@ -166,10 +166,10 @@
                         <!--<dxe:SimpleButton Grid.Row="2" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#2088ff" Text="Search" Clicked="SimpleButton_Clicked" />-->
                         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Search" Style="{DynamicResource PrimaryButton}" Clicked="SimpleButton_Clicked"  Margin="10,10" />
 
-                        <controls:LabelTextCustomControl Grid.Row="3" Grid.ColumnSpan="2" Title="Quantity:" Value="{Binding Availability.AvailQty}" />
+                        <controls:LabelTextCustomControl Grid.Row="3" Grid.ColumnSpan="2" Title="Quantity:" Value="{Binding Availability.AvailOwnQty}" />
                         <controls:LabelTextCustomControl Grid.Row="4" Grid.ColumnSpan="2" Title="On Rent:" Value="{Binding Availability.AvailRentedQty}" />
                         <controls:LabelTextCustomControl Grid.Row="5" Grid.ColumnSpan="2" Title="In Shop:" Value="{Binding Availability.AvailShopQty}" />
-                        <controls:LabelTextCustomControl Grid.Row="6" Grid.ColumnSpan="2" Title="Available:" Value="{Binding Availability.AvailItem}" />
+                        <controls:LabelTextCustomControl Grid.Row="6" Grid.ColumnSpan="2" Title="Available:" Value="{Binding Availability.AvailQty}" />
                     </Grid>
                 </StackLayout>
             </dxn:TabViewItem.Content>

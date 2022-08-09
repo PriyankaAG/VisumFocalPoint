@@ -112,7 +112,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
         }
 
 
-        private DateTime? startTime = new DateTime();
+        private DateTime? startTime = DateTime.Now;
         public DateTime? StartTime
         {
             get { return startTime; }
@@ -125,7 +125,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
                 }
             }
         }
-        private DateTime? endTime = new DateTime();
+        private DateTime? endTime = DateTime.Now;
         public DateTime? EndTime
         {
             get { return endTime; }
@@ -183,9 +183,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
             try
             {
                 Rental rental = CurrentRental;
-                short SearchType = 1;
-                string Search = rental.RentalItem.ToString();
-                int ShowStoreID = rental.RentalCmp;
+                string ItemID = rental.RentalItem.ToString();
                 var combinedStartDte = new DateTime();
                 var combinedEndDte = new DateTime();
                 if (StartTime != null)
@@ -210,18 +208,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.Rentals
                 string EndDate = combinedEndDte.ToString();
 
                 Indicator = true;
-                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "RentalAvailability"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+                Uri uri = new Uri(string.Format(DataManager.Settings.ApiUri + "RentalAvailability"));
                 var stringContent = new StringContent(
                                           JsonConvert.SerializeObject(new
                                           {
-                                              SearchType,
-                                              Search,
-                                              ShowStoreID,
+                                              ItemID,
                                               StartDate,
                                               EndDate
                                           }),
-                                          Encoding.UTF8,
-                                          "application/json");
+                                          Encoding.UTF8,"application/json");
                 var response = ClientHTTP.PostAsync(uri, stringContent).GetAwaiter().GetResult();
                 if (response.IsSuccessStatusCode)
                 {

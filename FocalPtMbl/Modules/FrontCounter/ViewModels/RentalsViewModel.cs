@@ -44,7 +44,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
         }
 
 
-        private DateTime? startTime = new DateTime();
+        private DateTime? startTime = DateTime.Now;
         public DateTime? StartTime
         {
             get { return startTime; }
@@ -57,7 +57,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                 }
             }
         }
-        private DateTime? endTime = new DateTime();
+        private DateTime? endTime = DateTime.Now;
         public DateTime? EndTime
         {
             get { return endTime; }
