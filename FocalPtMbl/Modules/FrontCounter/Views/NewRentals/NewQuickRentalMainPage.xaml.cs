@@ -30,6 +30,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
             (Application.Current.MainPage as FlyoutPage).IsGestureEnabled = false;
             theViewModel = new NewQuickRentalMainPageViewModel();
+            theViewModel.ShowOkMesssage += (message) =>
+            {
+                DisplayAlert("Alert!", message, "OK");
+            };
             theViewModel.IsPageLoading = true;
             BindingContext = theViewModel;
 
@@ -280,9 +284,22 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                     break;
                                 }
                             }
-                            bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
-                            orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
 
+                            if (question.Answer.ToLower().Contains(" job# required") ||
+                                question.Answer.ToLower().Contains(" po# required"))
+                            {
+                                string result = "";
+                                while (string.IsNullOrWhiteSpace(result))
+                                {
+                                    result = await DisplayPromptAsync("Customer Options", question.Answer + "\nPlease enter a value.", keyboard: Keyboard.Text, accept: "Ok", cancel: null);
+                                }
+                                orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = result;
+                            }
+                            else
+                            {
+                                bool custOk = await DisplayAlert("Customer Options", question.Answer, "Yes", "No");
+                                orderRefresh.Answers.Find(qa => qa.Code == question.Code).Answer = custOk.ToString();
+                            }
                             var ordUpdate = (BindingContext as NewQuickRentalMainPageViewModel).CurrentOrderUpdate;
                             if (ordUpdate == null)
                                 ordUpdate = orderRefresh;
@@ -557,6 +574,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private async void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
             if (theViewModel.IsPageLoading) return;
+            if (theViewModel.IsInvalidDate)
+            {
+                //Date property will reset and this will fire again instantly. So wait for some time and then reset
+                Task.Delay(500).ContinueWith((a) =>
+                {
+                    theViewModel.IsInvalidDate = false;
+                });
+                return;
+            }
+            (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
 
             UpdateODateEDate();
         }
@@ -564,6 +591,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private async void TimePicker_Unfocused(object sender, FocusEventArgs e)
         {
             if (theViewModel.IsPageLoading) return;
+
+            (BindingContext as NewQuickRentalMainPageViewModel).GetEndDateAndTimeValues();
 
             UpdateODateEDate();
         }

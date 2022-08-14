@@ -129,24 +129,25 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     orderCntAndList = JsonConvert.DeserializeObject<Orders>(content);
                     //var ord = orderCntAndList.List.Where(x => x.Payments.Count > 0 && x.Totals.TotalDueAmt > 0);
 
+                    var list = orderCntAndList.List.OrderByDescending(x => x.OrderNo).ToList();
                     if (OrderType == 1)
                     {
                         OpenOrders.Clear();
-                        OpenOrders = new ObservableCollection<Order>(orderCntAndList.List);
+                        OpenOrders = new ObservableCollection<Order>(list);
                         StartIdxOrd = MaxCntOrd;
                         MaxCntOrd = StartIdxOrd + 100;
                     }
                     if (OrderType == 2)
                     {
                         OpenReserv.Clear();
-                        OpenReserv = new ObservableCollection<Order>(orderCntAndList.List);
+                        OpenReserv = new ObservableCollection<Order>(list);
                         StartIdxRes = MaxCntRes;
                         MaxCntRes = StartIdxRes + 100;
                     }
                     if (OrderType == 3)
                     {
                         OpenQuote.Clear();
-                        OpenQuote = new ObservableCollection<Order>(orderCntAndList.List);
+                        OpenQuote = new ObservableCollection<Order>(list);
                         StartIdxQuote = MaxCntQuote;
                         MaxCntQuote = StartIdxQuote + 100;
                     }

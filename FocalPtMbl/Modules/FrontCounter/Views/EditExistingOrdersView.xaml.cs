@@ -86,7 +86,7 @@ namespace FocalPoint.Modules.FrontCounter.Views
                         Order SelectedOrder = task.Result;
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder));
+                            Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder, Title));
                             ((EditExistingOrdersViewModel)BindingContext).Indicator = false;
                             ((EditExistingOrdersViewModel)this.BindingContext).OrdersEnabled = true;
                         });

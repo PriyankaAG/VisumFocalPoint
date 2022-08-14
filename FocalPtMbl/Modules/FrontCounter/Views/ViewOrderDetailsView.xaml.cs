@@ -20,9 +20,9 @@ namespace FocalPoint.Modules.FrontCounter.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ViewOrderDetailsView
     {
-        public ViewOrderDetailsView(Order selectedOrder)
+        public ViewOrderDetailsView(Order selectedOrder, string typeText)
         {
-            this.Title = "View Orders: "+ selectedOrder.OrderNo;
+            this.Title = typeText + ": " + selectedOrder.OrderNo;
             InitializeComponent();
             ViewOrderDetailsViewModel viewOrderDetailsViewModel = (ViewOrderDetailsViewModel)this.BindingContext;
             viewOrderDetailsViewModel.SelectedOrder = selectedOrder;
