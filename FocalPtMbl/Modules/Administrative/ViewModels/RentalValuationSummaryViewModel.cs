@@ -110,7 +110,7 @@ namespace FocalPoint.Modules.Administrative.ViewModels
                     StoreID = SelectedStore.CmpNo;
 
 
-                Uri uriDailyRev = new Uri(string.Format(DataManager.Settings.ApiUri + "Reports/RentalValSummary/1"));
+                Uri uriDailyRev = new Uri(string.Format(DataManager.Settings.ApiUri + "Reports/RentalValSummary/"+StoreID));
                 var responseDR = await ClientHTTP.GetAsync(uriDailyRev);
                 if (responseDR.IsSuccessStatusCode)
                 {
