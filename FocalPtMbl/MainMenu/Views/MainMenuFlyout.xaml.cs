@@ -16,6 +16,7 @@ namespace FocalPoint.MainMenu.Views
         public MainPage MainPageObject => mainPage;
         public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
         public bool IsQuickRentalScreenDisplaying { get; set; } = false;
+        public bool IsDashboardAboutToLoad { get; set; } = false;
         public MainMenuFlyout()
         {
             InitializeComponent();

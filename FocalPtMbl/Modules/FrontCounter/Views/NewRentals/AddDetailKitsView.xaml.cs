@@ -30,12 +30,30 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     if (selItem != null)
                     {
                         result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                        if (result != "cancel")
+                        if (result != null)
                         {
-                            if (selItem.AvailType == "M")
-                                await MerchFinishQuestions(int.Parse(result));
-                            else
-                                await RentalFinishQuestions(int.Parse(result));
+                            if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                            {
+                                await DisplayAlert("Alert!", "Quantity can not be empty.", "ok");
+                                return;
+                            }
+                            if (result.Contains('.'))
+                            {
+                                await DisplayAlert("Alert!", "Quantity can not contain decimal.", "ok");
+                                return;
+                            }
+                            if (int.Parse(result) < 1)
+                            {
+                                await DisplayAlert("Alert!", "Quantity should be greater than zero.", "ok");
+                                return;
+                            }
+                            if (result != "cancel")
+                            {
+                                if (selItem.AvailType == "M")
+                                    await MerchFinishQuestions(int.Parse(result));
+                                else
+                                    await RentalFinishQuestions(int.Parse(result));
+                            }
                         }
                     }
                     else

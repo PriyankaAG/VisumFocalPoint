@@ -19,6 +19,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        public Action<string> ShowOkMesssage;
+        public bool IsInvalidDate { get; set; } = false;
         public OrderUpdate CurrentOrderUpdate { get; set; }
         bool isPageLoading;
         public bool IsPageLoading
@@ -107,6 +109,13 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
+                if (value < StartDate)
+                {
+                    ShowOkMesssage?.Invoke("Due Date must be after Out Date.");
+                    IsInvalidDate = true;
+                    RefreshDateTimeProperties();
+                    return;
+                }
                 SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, 0);
 
                 RefreshDateTimeProperties();
@@ -334,7 +343,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
             RefreshDateTimeProperties();
-            Recent = new ObservableCollection<OrderDtl>();            
+            Recent = new ObservableCollection<OrderDtl>();
         }
 
         public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)
@@ -348,7 +357,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
 
             CurrentOrder = ord;
-            
+
             if (CurrentOrderUpdate == null) CurrentOrderUpdate = new OrderUpdate();
             CurrentOrderUpdate.Order = CurrentOrder;
 

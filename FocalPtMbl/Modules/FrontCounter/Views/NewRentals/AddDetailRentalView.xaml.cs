@@ -42,8 +42,26 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         else
                         {
                             result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                            if (result != "cancel")
+
+                            if (result != null)
+                            {
+                                if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not be empty.", "ok");
+                                    return;
+                                }
+                                if (result.Contains('.'))
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not contain decimal.", "ok");
+                                    return;
+                                }
+                                if (int.Parse(result) < 1)
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not be less than zero.", "ok");
+                                    return;
+                                }
                                 await FinishQuestions(int.Parse(result));
+                            }
                         }
                     }
                     else
@@ -226,12 +244,23 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             {
                                 //Get Meter Value in Double 3 decimal places
                                 string action = await DisplayPromptAsync("Enter Meter", questionFault.Message, initialValue: "1", keyboard: Keyboard.Numeric);
-                                if (action == null && action == "")
-                                    UpdatedOrder = null;
-                                else
+                                if (action != null)
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    if (string.IsNullOrEmpty(action) || string.IsNullOrWhiteSpace(action))
+                                    {
+                                        await DisplayAlert("Alert!", "Meter can not be empty.", "ok");
+                                        UpdatedOrder = null;
+                                    }
+                                    else if (double.Parse(action) < 1)
+                                    {
+                                        await DisplayAlert("Alert!", "Meter should be greater than zero.", "ok");
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
                             }
                             break;

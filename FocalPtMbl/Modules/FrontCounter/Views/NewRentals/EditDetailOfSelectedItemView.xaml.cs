@@ -15,10 +15,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
     {
         EditDetailOfSelectedItemViewModel _viewModel;
         OrderDtlUpdate CurrentOrderDtlUpdate;
+        public string OrderDetailType { get; set; }
         public EditDetailOfSelectedItemView(OrderDtl ordDetails, Order currentOrder)
         {
             InitializeComponent();
             string typeString = "";
+            OrderDetailType = ordDetails?.OrderDtlType;
             switch (ordDetails?.OrderDtlType)
             {
                 case "R":
@@ -61,6 +63,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         }
         public async Task<bool> isDataValid()
         {
+            if (OrderDetailType != "M" && qtyEntry.EditorText.Contains('.'))
+            {
+                await DisplayAlert("Invalid", "Quantity can not contain decimal.", "Ok");
+                return false;
+            }
             if (qtyEntry.EditorText == "0" || qtyEntry.EditorText == "" || _viewModel.OrderDetails.OrderDtlQty == 0)
             {
                 await DisplayAlert("Invalid", "Quantity can not be Zero.", "Ok");

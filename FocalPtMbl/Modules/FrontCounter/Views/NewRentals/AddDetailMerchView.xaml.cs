@@ -56,7 +56,15 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         {
                             result = "1";
                         }
-
+                        if (result == null)
+                        {
+                            return;
+                        }
+                        if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                        {
+                            await DisplayAlert("Alert!", "Quantity can not be empty.", "ok");
+                            return;
+                        }
                         if (result != null && Convert.ToDecimal(result) > 0)
                         {
                             do
@@ -111,7 +119,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             } while (UpdatedOrder != null && questionFault != null);
                         }
                         else
-                            await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                            await DisplayAlert("Select Item", "Quantity should be greater than zero.", "ok");
                     }
                 }
                 catch (Exception ex)

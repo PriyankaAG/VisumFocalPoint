@@ -118,6 +118,7 @@ namespace FocalPtMbl.MainMenu.Services
                     {
                         if (pageToPush == typeof(FocalPtMbl.MainMenu.Views.MainPage))
                         {
+                            (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
                             (Application.Current.MainPage as MainMenuFlyout).Detail = (Application.Current.MainPage as MainMenuFlyout).NavPage;
                         }
                         else

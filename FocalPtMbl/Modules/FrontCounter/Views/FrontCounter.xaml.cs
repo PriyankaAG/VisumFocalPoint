@@ -9,24 +9,29 @@ using FocalPoint.Modules.ServiceDepartment.Views;
 using FocalPoint.Data;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
+using FocalPoint.MainMenu.Views;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FrontCounter : ContentView
     {
+        FrontCounterViewModel frontCounterDashboardViewModel;
         public FrontCounter()
         {
             InitializeComponent();
             if (DataManager.Settings != null && string.IsNullOrEmpty(DataManager.Settings.UserName))
                 return;
-            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();
+            frontCounterDashboardViewModel = new FrontCounterViewModel();
             BindingContext = frontCounterDashboardViewModel;
+            ReloadData();
+        }
+        public void ReloadData()
+        {
+            if (frontCounterDashboardViewModel == null) return;
+
             Device.BeginInvokeOnMainThread(async () =>
             {
-                //SUSHIL Come back here
-                //frontCounterDashboardViewModel.IsFrontCounterAccess = false;
-
                 if (frontCounterDashboardViewModel.IsFrontCounterAccess)
                 {
                     await frontCounterDashboardViewModel.GetDashboardDetail();

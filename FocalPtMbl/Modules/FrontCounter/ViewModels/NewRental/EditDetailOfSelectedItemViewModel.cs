@@ -41,11 +41,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
+                if (OrderDetails.OrderDtlType != "M")
+                    OrderDetails.OrderDtlQty = (int)OrderDetails.OrderDtlQty;
+
                 return OrderDetails.OrderDtlQty;
             }
             set
             {
                 OrderDetails.OrderDtlQty = value;
+
                 OnPropertyChanged("Quantity");
             }
         }
