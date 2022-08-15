@@ -29,7 +29,7 @@ namespace FocalPoint.MainMenu.Views
         }
         protected override bool OnBackButtonPressed()
         {
-            bool result = true;
+            bool result = false;
             if (IsQuickRentalScreenDisplaying)
             {
                 Device.BeginInvokeOnMainThread(async () =>

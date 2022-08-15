@@ -164,7 +164,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
             finally
             {
-                Indicator = false;
+                //Indicator = false;
             }
         }
         internal void SearchForOrder(string text, int OrderType, bool isNewSearch)
@@ -281,29 +281,33 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
 
         private async Task GetData()
         {
-            try
+            _ = Task.Run(async () =>
             {
-                Indicator = true;
-                var t1 = Task.Run(() =>
+                try
                 {
-                    _ = GetSearchedOrdersInfo("", 1, true);
-                });
-                var t2 = Task.Run(() =>
+                    Indicator = true;
+                    var t1 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 1, true);
+                    });
+                    var t2 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 2, true);
+                    });
+                    var t3 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 3, true);
+                    });
+                    Task.WaitAll(t1, t2, t3);
+                }
+                finally
                 {
-                    _ = GetSearchedOrdersInfo("", 2, true);
-                });
-                var t3 = Task.Run(() =>
-                {
-                    _ = GetSearchedOrdersInfo("", 3, true);
-                });
-            }
-            finally
-            {
-                Indicator = false;
-            }
+                    Indicator = false;
+                }
+            });
         }
 
-        private void Clear(string ordType)
+        private async void Clear(string ordType)
         {
             if (Indicator)
                 return;
@@ -314,21 +318,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             switch (orderType)
             {
                 case 1:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
                 case 2:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
                 case 3:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
             }
 
         }
-        private void Search(string ordType)
+        private async void Search(string ordType)
         {
             if (Indicator)
                 return;
@@ -338,15 +342,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             switch (orderType)
             {
                 case 1:
-                    GetSearchedOrdersInfo(OrderToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(OrderToSearch, orderType, true);
                     Indicator = false;
                     break;
                 case 2:
-                    GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
                     Indicator = false;
                     break;
                 case 3:
-                    GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
                     Indicator = false;
                     break;
             }

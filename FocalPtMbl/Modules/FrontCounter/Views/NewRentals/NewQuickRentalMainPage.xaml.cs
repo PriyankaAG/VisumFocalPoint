@@ -482,6 +482,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 //TODO: log error
             }
         }
+        protected override void OnDisappearing()
+        {
+            (Application.Current.MainPage as MainMenuFlyout).IsQuickRentalScreenDisplaying = false;
+            base.OnDisappearing();
+        }
         public async void NavigateToDashboard()
         {
             UnSubscribeMessagingCenter();
