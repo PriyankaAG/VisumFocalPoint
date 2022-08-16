@@ -118,11 +118,14 @@ namespace FocalPtMbl.MainMenu.Services
                     {
                         if (pageToPush == typeof(FocalPtMbl.MainMenu.Views.MainPage))
                         {
+                            (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = true;
                             (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
                             (Application.Current.MainPage as MainMenuFlyout).Detail = (Application.Current.MainPage as MainMenuFlyout).NavPage;
                         }
                         else
                         {
+
+                            (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = false;
                             page = (Page)Activator.CreateInstance(pageToPush);
                             if (page != null)
                             {

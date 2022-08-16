@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,6 +17,7 @@ namespace FocalPoint.MainMenu.Views
         public MainPage MainPageObject => mainPage;
         public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
         public bool IsQuickRentalScreenDisplaying { get; set; } = false;
+        public bool IsMainDashboardPage { get; set; } = false;
         public bool IsDashboardAboutToLoad { get; set; } = false;
         public MainMenuFlyout()
         {
@@ -38,8 +40,9 @@ namespace FocalPoint.MainMenu.Views
                 });
                 result = true;
             }
-            else
+            else if (IsMainDashboardPage)
             {
+                result = true;
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
@@ -48,6 +51,23 @@ namespace FocalPoint.MainMenu.Views
                         System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 });
+            }
+            else
+            {
+                //var NavSer = DependencyService.Resolve<INavigationService>();
+                //Device.BeginInvokeOnMainThread(async () =>
+                //{
+                //    await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
+                //});
+                return base.OnBackButtonPressed();
+                //Device.BeginInvokeOnMainThread(async () =>
+                //{
+                //    result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+                //    if (result)
+                //    {
+                //        System.Diagnostics.Process.GetCurrentProcess().Kill();
+                //    }
+                //});
             }
             return result;
 
