@@ -22,8 +22,7 @@ namespace FocalPoint.Components.EntityComponents
             OrderDashboard orderDashboardDetail;
             try
             {
-                string dateToPass = searchDate.ToUniversalTime()
-                         .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                string dateToPass = searchDate.ToString("yyyy'-'MM'-'dd");
                 orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, storeNo, dateToPass));
             }
             catch (Exception ex)

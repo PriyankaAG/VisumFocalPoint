@@ -218,7 +218,8 @@
 
                                                 <Label Grid.Row="0" Grid.Column="0" TextColor="Black" Text="{Binding PayID}" HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" XAlign="Start" />
                                                 <Label Grid.Row="0" Grid.Column="1" TextColor="Black" Text="{Binding PaymentAmt, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
-                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" Text="{Binding PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
+                                                <Label Grid.Row="1" Grid.Column="0" TextColor="Black" Text="{Binding PaymentDscr, StringFormat='{0}'}" HorizontalOptions="Start" LineBreakMode="TailTruncation" XAlign="Start" />
+                                                <Label Grid.Row="1" Grid.Column="1" TextColor="Black" Text="{Binding PaymentTxt, StringFormat='{0}'}" HorizontalOptions="EndAndExpand" LineBreakMode="TailTruncation" XAlign="End" />
 
                                                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Black" Text="{Binding PaymentPDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" XAlign="Start" LineBreakMode="TailTruncation" />
 
@@ -272,9 +273,9 @@
                 <ScrollView BackgroundColor="{DynamicResource BackgroundThemeColor}" Margin="5,5">
                     <StackLayout Margin="5,5">
                         <Label Text="Delivery" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.DelDispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding SelectedOrder.DelDispatch.DispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                         <Label Text="Pickup" Style="{StaticResource Key=LabelDashboardHeader}" XAlign="Start" YAlign="Center" />
-                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding Order.PUDispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
+                        <controls:LabelTextCustomControl Title="Date:" Value="{Binding SelectedOrder.PUDispatch.DispatchPreferDte, StringFormat='{0:MM/dd/yyyy hh:mm tt}'}" />
                     </StackLayout>
                 </ScrollView>
             </dxn:TabViewItem.Content>

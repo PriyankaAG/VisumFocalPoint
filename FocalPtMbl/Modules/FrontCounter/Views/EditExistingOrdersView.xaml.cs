@@ -19,12 +19,6 @@ namespace FocalPoint.Modules.FrontCounter.Views
         public EditExistingOrdersView()
         {
             InitializeComponent();
-            //Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 1, true);
-            //    _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
-            //    _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
-            //});
             containerTab.ItemHeaderTapped += ContainerTab_ItemHeaderTapped;
         }
 

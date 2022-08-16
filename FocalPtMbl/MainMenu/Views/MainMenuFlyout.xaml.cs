@@ -27,9 +27,13 @@ namespace FocalPoint.MainMenu.Views
         {
             base.OnAppearing();
         }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
         protected override bool OnBackButtonPressed()
         {
-            bool result = false;
+            bool result = true;
             if (IsQuickRentalScreenDisplaying)
             {
                 Device.BeginInvokeOnMainThread(async () =>

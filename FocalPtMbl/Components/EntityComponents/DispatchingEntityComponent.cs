@@ -41,10 +41,8 @@ namespace FocalPoint.Components.EntityComponents
             List<Dispatches> dispatchList = null;
             try
             {
-                //2022 - 04 - 04T18: 25:43.511Z
-                //UNIVERSAL TIME
-                string dateToPass = searchDate.ToUniversalTime()
-                         .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                //As per Kirk: For this one do not convert the selected date to Universal just used the selected date
+                string dateToPass = searchDate.ToString("yyyy'-'MM'-'dd");
                 //API Call
                 dispatchList = await apiComponent.PostAsync<List<Dispatches>>(string.Format(DispatchesAPIKey, dateToPass), "");
 
