@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -80,7 +81,9 @@ namespace FocalPoint.Modules.FrontCounter.Views
                         Order SelectedOrder = task.Result;
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder, Title));
+                            var NavSer = DependencyService.Resolve<INavigationService>();
+                            NavSer.PushChildPage(new ViewOrderDetailsView(SelectedOrder, Title));
+                            //Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder, Title));
                             ((EditExistingOrdersViewModel)BindingContext).Indicator = false;
                             ((EditExistingOrdersViewModel)this.BindingContext).OrdersEnabled = true;
                         });

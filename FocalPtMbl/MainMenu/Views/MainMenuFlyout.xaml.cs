@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FocalPoint.MainMenu.ViewModels;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
 using Xamarin.Forms;
@@ -17,7 +18,9 @@ namespace FocalPoint.MainMenu.Views
         public MainPage MainPageObject => mainPage;
         public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
         public bool IsQuickRentalScreenDisplaying { get; set; } = false;
-        public bool IsMainDashboardPage { get; set; } = false;
+        public bool IsMainDashboardPage { get; set; } = true;
+        public bool IsMasterPageShown { get; set; } = false;
+        public bool IsChildPageShown { get; set; } = false;
         public bool IsDashboardAboutToLoad { get; set; } = false;
         public MainMenuFlyout()
         {
@@ -56,22 +59,20 @@ namespace FocalPoint.MainMenu.Views
                     }
                 });
             }
+            else if (IsMasterPageShown)
+            {
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    //await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
+                    (FlyoutPageDrawerObject.BindingContext as MainMenuFlyoutDrawerViewModel).ResetSelectedItem();
+                    var NavSer = DependencyService.Resolve<INavigationService>();
+                    await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
+                });
+            }
             else
             {
-                //var NavSer = DependencyService.Resolve<INavigationService>();
-                //Device.BeginInvokeOnMainThread(async () =>
-                //{
-                //    await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
-                //});
                 return base.OnBackButtonPressed();
-                //Device.BeginInvokeOnMainThread(async () =>
-                //{
-                //    result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
-                //    if (result)
-                //    {
-                //        System.Diagnostics.Process.GetCurrentProcess().Kill();
-                //    }
-                //});
             }
             return result;
 

@@ -105,11 +105,28 @@ namespace FocalPtMbl.MainMenu.Services
             }
             return await Task.FromResult(page);
         }
+        public void PushChildPage(Page page)
+        {
+            this.navigator.BackgroundColor = (Color)Application.Current.Resources["BackgroundThemeColor"];
+            //(Application.Current.MainPage as MainMenuFlyout).Detail = new NavigationPage(page);
+            (Application.Current.MainPage as MainMenuFlyout).Detail.Navigation.PushAsync(page);
+            (Application.Current.MainPage as MainMenuFlyout).IsMasterPageShown = false;
+            (Application.Current.MainPage as MainMenuFlyout).IsChildPageShown = true;
+            page.Appearing -= ChildPage_Appearing;
+            page.Appearing += ChildPage_Appearing;
+        }
+
+        private void ChildPage_Appearing(object sender, EventArgs e)
+        {
+            (Application.Current.MainPage as MainMenuFlyout).IsMasterPageShown = false;
+            (Application.Current.MainPage as MainMenuFlyout).IsChildPageShown = true;
+        }
 
         public async Task<Page> PushPageFromMenu(Type pageToPush, string pageTitle)
         {
             Page page = null;
 
+            (Application.Current.MainPage as MainMenuFlyout).IsChildPageShown = false;
             if (!this.isPagePushed && pageToPush != null)
             {
                 try
@@ -130,6 +147,8 @@ namespace FocalPtMbl.MainMenu.Services
                             if (page != null)
                             {
                                 page.Title = pageTitle;
+                                page.Appearing -= MasterPage_Appearing;
+                                page.Appearing += MasterPage_Appearing;
                                 (Application.Current.MainPage as MainMenuFlyout).Detail = new NavigationPage(page);
                             }
                         }
@@ -150,6 +169,12 @@ namespace FocalPtMbl.MainMenu.Services
                 }
             }
             return await Task.FromResult(page);
+        }
+
+        private void MasterPage_Appearing(object sender, EventArgs e)
+        {
+            (Application.Current.MainPage as MainMenuFlyout).IsMasterPageShown = true;
+            (Application.Current.MainPage as MainMenuFlyout).IsChildPageShown = false;
         }
 
         public IEnumerable<Page> GetOpenedPages<T>() where T : Page

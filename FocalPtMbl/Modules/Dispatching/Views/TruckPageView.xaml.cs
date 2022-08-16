@@ -1,5 +1,6 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using FocalPoint.Modules.Dispatching.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,7 +107,9 @@ namespace FocalPoint.Modules.Dispatching.Views
                 if (item == null)
                     return;
 
-                await this.Navigation.PushAsync(new DispatchesPageView(item));
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(new DispatchesPageView(item));
+                //await this.Navigation.PushAsync(new DispatchesPageView(item));
                 listView.SelectedItem = null;
             }
         }
