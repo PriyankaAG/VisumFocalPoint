@@ -35,14 +35,14 @@ namespace FocalPoint.Modules.FrontCounter.Views
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (frontCounterDashboardViewModel.IsFrontCounterAccess)
-                {
+                //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
+                //{
                     await frontCounterDashboardViewModel.GetDashboardDetail();
-                }
-                else
-                {
+                //}
+                //else
+                //{
                     await frontCounterDashboardViewModel.GetDashboardHomeDetail();
-                }
+                //}
             });
         }
 
