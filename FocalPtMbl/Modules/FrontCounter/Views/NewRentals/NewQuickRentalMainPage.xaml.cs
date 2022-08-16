@@ -150,7 +150,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new NewQuickRentalSelectCustomerPage());
         }
 
         protected override void OnAppearing()
@@ -364,6 +365,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private async void myPicker_ItemSelected(object sender, CustomControls.ItemSelectedEventArgs e)
         {
             var data = e.SelectedIndex;
+            var NavSer = DependencyService.Resolve<INavigationService>();
             if (e.IsFirstRowPlaceholder && e.SelectedIndex != 0)
             {
                 selectedItem = myPicker.ItemsSource[e.SelectedIndex];
@@ -380,7 +382,9 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
-                await Navigation.PushAsync(addDetailRentalView);
+
+                NavSer.PushChildPage(addDetailRentalView);
+                //await Navigation.PushAsync(addDetailRentalView);
             }
             else if (selectedItem == "Merchandise")
             {
@@ -389,7 +393,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailMerchViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailMerchView.BindingContext = addDetailMerchViewModel;
-                await Navigation.PushAsync(addDetailMerchView);
+                NavSer.PushChildPage(addDetailMerchView);
+                //await Navigation.PushAsync(addDetailMerchView);
             }
             else if (selectedItem == "Rental Saleable")
             {
@@ -398,7 +403,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailRentalSalesViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalSalesViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalSalesView.BindingContext = addDetailRentalSalesViewModel;
-                await Navigation.PushAsync(addDetailRentalSalesView);
+                NavSer.PushChildPage(addDetailRentalSalesView);
+                //await Navigation.PushAsync(addDetailRentalSalesView);
             }
             else if (selectedItem == "Rate Tables")
             {
@@ -407,7 +413,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
-                await Navigation.PushAsync(addDetailRentalView);
+                NavSer.PushChildPage(addDetailRentalView);
+                //await Navigation.PushAsync(addDetailRentalView);
             }
             else if (selectedItem == "Kits")
             {
@@ -416,7 +423,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 addDetailKitsViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailKitsViewModel.OrderSettings = ((NewQuickRentalMainPageViewModel)BindingContext).TheOrderSettings;
                 addDetailKitsView.BindingContext = addDetailKitsViewModel;
-                await Navigation.PushAsync(addDetailKitsView);
+                NavSer.PushChildPage(addDetailKitsView);
+                //await Navigation.PushAsync(addDetailKitsView);
             }
 
         }
@@ -430,6 +438,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
 
         private async void AddDetails_Clicked(object sender, EventArgs e)
         {
+            var NavSer = DependencyService.Resolve<INavigationService>();
+
             if (selectedItem == "")
             {
                 await DisplayAlert("Select Type", "Please select a search type", "OK");
@@ -441,7 +451,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 AddDetailMerchViewModel addDetailMerchViewModel = new AddDetailMerchViewModel();
                 addDetailMerchViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailMerchView.BindingContext = addDetailMerchViewModel;
-                await Navigation.PushAsync(addDetailMerchView);
+                NavSer.PushChildPage(addDetailMerchView);
+                //await Navigation.PushAsync(addDetailMerchView);
             }
             else
             {
@@ -449,7 +460,8 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 AddDetailRentalViewModel addDetailRentalViewModel = new AddDetailRentalViewModel(selectedItem);
                 addDetailRentalViewModel.CurrentOrder = ((NewQuickRentalMainPageViewModel)BindingContext).CurrentOrder;
                 addDetailRentalView.BindingContext = addDetailRentalViewModel;
-                await Navigation.PushAsync(addDetailRentalView);
+                NavSer.PushChildPage(addDetailRentalView);
+                //await Navigation.PushAsync(addDetailRentalView);
             }
         }
 
@@ -523,13 +535,19 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             var orderDetails = await viewOrderEntityComponent.GetOrderDetails(((NewQuickRentalMainPageViewModel)this.BindingContext).CurrentOrder?.OrderNo ?? 0);
             if (orderDetails != null)
             {
-                await Navigation.PushAsync(new PaymentView(orderDetails));
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(new PaymentView(orderDetails));
+
+                //await Navigation.PushAsync(new PaymentView(orderDetails));
             }
         }
 
         private void Button_Clicked_2(object sender, EventArgs e)
         {
-            this.Navigation.PushAsync(new OrderNotesView(new Tuple<string, string>(theViewModel.CurrentOrder.OrderIntNotes, theViewModel.CurrentOrder.OrderNotes)));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new OrderNotesView(new Tuple<string, string>(theViewModel.CurrentOrder.OrderIntNotes, theViewModel.CurrentOrder.OrderNotes)));
+
+            //this.Navigation.PushAsync(new OrderNotesView(new Tuple<string, string>(theViewModel.CurrentOrder.OrderIntNotes, theViewModel.CurrentOrder.OrderNotes)));
 
         }
 
@@ -543,13 +561,21 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var a = (e as TappedEventArgs).Parameter;
-            this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl, theViewModel.CurrentOrder));
+
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new EditDetailOfSelectedItemView(a as OrderDtl, theViewModel.CurrentOrder));
+
+            //this.Navigation.PushAsync(new EditDetailOfSelectedItemView(a as OrderDtl, theViewModel.CurrentOrder));
         }
 
         private void Button_Clicked_4(object sender, EventArgs e)
         {
             var vm = (BindingContext as NewQuickRentalMainPageViewModel);
-            this.Navigation.PushAsync(new TotalBreakoutView(vm.CurrentOrder));
+
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new TotalBreakoutView(vm.CurrentOrder));
+
+            //this.Navigation.PushAsync(new TotalBreakoutView(vm.CurrentOrder));
         }
 
         private async void UpdateODateEDate()
@@ -606,7 +632,11 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             if (!theViewModel.IsSaveEnabled)
             {
                 await DisplayAlert("Alert!", "Please select a valid customer.", "Ok");
-                this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
+
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(new NewQuickRentalSelectCustomerPage());
+
+                //this.Navigation.PushAsync(new NewQuickRentalSelectCustomerPage());
                 return false;
             }
             return true;
