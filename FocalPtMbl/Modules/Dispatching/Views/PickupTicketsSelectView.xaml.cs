@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.Dispatching.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -47,7 +48,9 @@ namespace FocalPoint.Modules.Dispatching.Views
                 await DisplayAlert("FocalPoint", "No details on this Pickup Ticket.", "OK");
                 return;
             }
-            await Navigation.PushAsync(new PickupTicketPage(detailedTicket));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new PickupTicketPage(detailedTicket));
+            //await Navigation.PushAsync(new PickupTicketPage(detailedTicket));
         }
 
         private void Search_TextChanged(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.CustomerRelations.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,7 +66,10 @@ namespace FocalPoint.Modules.CustomerRelations.Views
                 return Task.CompletedTask;
 
             this.inNavigation = true;
-            return Navigation.PushAsync(new CustomerDetailView(cust, balance));
+            //return Navigation.PushAsync(new CustomerDetailView(cust, balance));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new CustomerDetailView(cust, balance));
+            return Task.CompletedTask;
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

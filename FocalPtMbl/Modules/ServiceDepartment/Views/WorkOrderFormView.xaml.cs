@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 
 namespace FocalPoint.Modules.ServiceDepartment.Views
 {
@@ -58,7 +59,10 @@ namespace FocalPoint.Modules.ServiceDepartment.Views
 
             this.inNavigation = true;
             WorkOrder detailedWordOrder = ((WorkOrderFormViewModel)this.BindingContext).GetWorkOrderDetail(workOrder);
-            return Navigation.PushAsync(new WorkOrderFormTabDetailsView(detailedWordOrder));
+            //return Navigation.PushAsync(new WorkOrderFormTabDetailsView(detailedWordOrder));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new WorkOrderFormTabDetailsView(detailedWordOrder));
+            return Task.CompletedTask;
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

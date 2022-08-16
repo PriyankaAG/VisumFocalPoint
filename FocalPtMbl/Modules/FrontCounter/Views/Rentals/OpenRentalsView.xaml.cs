@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels.Rentals;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.Rentals
 
             //this.inNavigation = true;
             //Goto New Order Page
-            return Navigation.PushAsync(new OpenRentalDetailsView(order));
+            //return Navigation.PushAsync(new OpenRentalDetailsView(order));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new OpenRentalDetailsView(order));
+            return Task.CompletedTask;
         }
 
         private void TextEdit_ClearIconClicked(object sender, System.ComponentModel.HandledEventArgs e)

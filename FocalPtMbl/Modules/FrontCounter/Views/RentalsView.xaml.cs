@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,7 +184,11 @@ namespace FocalPoint.Modules.FrontCounter.Views
                 if (SearchedObsCollection == null)
                     await DisplayAlert("Enter Values", "Please enter a value for all the fields", "OK");
                 else if (SearchedObsCollection.Count > 0)
-                    await Navigation.PushAsync(new RentalResultsView(SearchedObsCollection));
+                {
+                    var NavSer = DependencyService.Resolve<INavigationService>();
+                    NavSer.PushChildPage(new RentalResultsView(SearchedObsCollection));
+                    //await Navigation.PushAsync(new RentalResultsView(SearchedObsCollection));
+                }
                 else if (SearchedObsCollection.Count == 0)
                     await DisplayAlert("No Results Found", "No Results Found for: " + textSearched, "OK");
             }
