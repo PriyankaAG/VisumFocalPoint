@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FocalPoint.Components.Interface;
+using FocalPoint.MainMenu.Views;
+using FocalPoint.Modules.Payments.Entity;
 using Newtonsoft.Json;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 
 namespace FocalPoint.Components.EntityComponents
 {
@@ -81,13 +85,13 @@ namespace FocalPoint.Components.EntityComponents
             return info;
         }
 
-        public async Task<PaymentResponse> PostPaymentProcess(PaymentRequest request)
+        public async Task<HttpResponseMessage> PostPaymentProcess(PaymentRequest request)
         {
-            PaymentResponse result;
+            HttpResponseMessage result;
             try
             {
                 string requestContent = JsonConvert.SerializeObject(new { Request = request });
-                result = await apiComponent.PostAsync<PaymentResponse>(PaymentProcess, requestContent);
+                result = await apiComponent.PostAsync(PaymentProcess, requestContent);
             }
             catch (Exception ex)
             {
@@ -96,12 +100,13 @@ namespace FocalPoint.Components.EntityComponents
             return result;
         }
 
-        public async Task<bool> PostPaymentEmail(string emailAddress, int paymentNo)
+        public async Task<HttpResponseMessage> PaymentUpdate(Payment payment, bool paymentVoid)
         {
-            bool result;
+            HttpResponseMessage result;
             try
             {
-                result = await apiComponent.PostAsync<bool>(string.Format(PaymentEmail, emailAddress, paymentNo), null);
+                var serRequest = JsonConvert.SerializeObject(new VoidRequest { Pay = payment, PayVoid = true });
+                result = await apiComponent.SendAsync("Payment", serRequest, false);
             }
             catch (Exception ex)
             {
@@ -110,19 +115,25 @@ namespace FocalPoint.Components.EntityComponents
             return result;
         }
 
-        public async Task<Payment> PaymentUpdate(Payment pay, bool paymentVoid)
+        public async Task<HttpResponseMessage> PaymentEmailPost(string emailAddress, int paymentNo)
         {
-            Payment result;
+            HttpResponseMessage result;
             try
             {
-                string requestContent = JsonConvert.SerializeObject(new { pay, paymentVoid });
-                result = await apiComponent.SendAsync<Payment>("Payment", requestContent, false);
+
+                var serRequest = JsonConvert.SerializeObject(new { EmailAddress = emailAddress, PaymentNo = paymentNo });
+                result = await apiComponent.PostAsync(string.Format(PaymentEmail, emailAddress,paymentNo), serRequest);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             return result;
+        }
+
+        public void HandleTokenExpired()
+        {
+            apiComponent.HandleTokenExpired();
         }
     }
 }

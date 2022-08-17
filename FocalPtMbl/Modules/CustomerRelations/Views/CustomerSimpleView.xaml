@@ -38,7 +38,7 @@
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate>
                         <Frame BackgroundColor="{StaticResource BackgroundPageColor}" CornerRadius="5" HasShadow="True"
-                               Padding="5, 5" Margin="0,5">
+                               Padding="2, 5" Margin="0,5">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Selected">
@@ -63,7 +63,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CustomerName}" Margin="10,0" TextColor="#3A3A3A">
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CustomerName}" Margin="0,0" TextColor="#3A3A3A">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
@@ -74,7 +74,7 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="1" Grid.Column="0" LineBreakMode="TailTruncation" MaxLines="2" Margin="10,0" TextColor="#3A3A3A">
+                                <Label Grid.Row="1" Grid.Column="0" LineBreakMode="TailTruncation" MaxLines="2" Margin="0,0" TextColor="#3A3A3A">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
@@ -84,17 +84,18 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="1" Grid.Column="1" LineBreakMode="TailTruncation" MaxLines="2" HorizontalOptions="End" Margin="10,0" TextColor="#3A3A3A">
+                                <Label Grid.Row="1" Grid.Column="1" LineBreakMode="TailTruncation" MaxLines="3" Margin="0,0" TextColor="#3A3A3A">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>
                                                 <Span Text="Address: " FontAttributes="Bold" />
-                                                <Span Text="{Binding CityStateZip, TargetNullValue={StaticResource UnknownValue}}" />
+                                                <Span Text="{Binding CustomerAddr1, StringFormat='{0}', TargetNullValue=''}" />
+                                                <Span Text="{Binding CityStateZip, StringFormat=' {0}', TargetNullValue={StaticResource UnknownValue}}" />
                                             </FormattedString.Spans>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" MaxLines="2" Margin="10,0" TextColor="#3A3A3A">
+                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" LineBreakMode="TailTruncation" MaxLines="2" Margin="0,0" TextColor="#3A3A3A">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <FormattedString.Spans>

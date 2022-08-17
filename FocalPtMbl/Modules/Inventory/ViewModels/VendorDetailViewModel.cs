@@ -44,6 +44,10 @@ namespace FocalPoint.Modules.Inventory.ViewModels
         {
             get => this.vend.VenEMail;
         }
+        public string Phone
+        {
+            get => this.vend.VenPhone;
+        }
         public string Ext
         {
             get => this.vend.VenExt;

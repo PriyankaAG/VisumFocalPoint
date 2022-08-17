@@ -10,6 +10,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FocalPtMbl.MainMenu.ViewModels;
+using FocalPoint.Modules.FrontCounter.Views;
+using FocalPoint.MainMenu.Views;
 
 namespace FocalPtMbl.MainMenu.Views
 {
@@ -26,10 +28,29 @@ namespace FocalPtMbl.MainMenu.Views
         private void LoadHttpClient()
         {
             //((MainPageViewModel)this.BindingContext).LoadHttpClient();
-            
+
             //throw new NotImplementedException();
         }
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if ((Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad == true) 
+            {
+                try
+                {
+                    var a = ((Content as Grid).Children[0] as FrontCounter);
+                    a?.ReloadData();
+
+                    (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = false;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+        }
+
         private void OnInfoClicked(object sender, EventArgs e)
         {
             (Application.Current.MainPage as DrawerPage).IsDrawerOpened = true;

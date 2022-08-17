@@ -348,7 +348,7 @@ namespace FocalPoint.MainMenu.ViewModels
             ClientHTTP.DefaultRequestHeaders.Add("StoreNo", StoreLoginNo);
 
             List<string> CurrentTerminals = new List<string>();
-            Uri uriStores = new Uri(string.Format(BaseURL + "/Mobile/V1//Terminals"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
+            Uri uriStores = new Uri(string.Format(BaseURL + "/Mobile/V1/Terminals"));//"https://10.0.2.2:56883/Mobile/V1/Customers/"));//"https://visumaaron.fpsdns.com:56883/Mobile/V1/Customers/"));//"https://visumkirk.fpsdns.com:56883/Mobile/V1/Customers/"));
             var responseDR = ClientHTTP.GetAsync(uriStores).GetAwaiter().GetResult();
             if (responseDR.IsSuccessStatusCode)
             {

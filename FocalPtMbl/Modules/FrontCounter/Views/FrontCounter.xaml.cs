@@ -7,22 +7,42 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPoint.Modules.Dispatching.Views;
 using FocalPoint.Modules.ServiceDepartment.Views;
 using FocalPoint.Data;
+using FocalPtMbl.MainMenu.ViewModels.Services;
+using Visum.Services.Mobile.Entities;
+using FocalPoint.MainMenu.Views;
 
 namespace FocalPoint.Modules.FrontCounter.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FrontCounter : ContentView
     {
+        FrontCounterViewModel frontCounterDashboardViewModel;
         public FrontCounter()
         {
             InitializeComponent();
             if (DataManager.Settings != null && string.IsNullOrEmpty(DataManager.Settings.UserName))
                 return;
-            FrontCounterViewModel frontCounterDashboardViewModel = new FrontCounterViewModel();
+            frontCounterDashboardViewModel = new FrontCounterViewModel();
             BindingContext = frontCounterDashboardViewModel;
+            ReloadData();
+        }
+        public void ReloadData()
+        {
+            if (frontCounterDashboardViewModel == null) return;
+
+            if (Application.Current.MainPage != null)
+                (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = true;
+
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await frontCounterDashboardViewModel.GetDashboardDetail();
+                //if (frontCounterDashboardViewModel.IsFrontCounterAccess)
+                //{
+                    await frontCounterDashboardViewModel.GetDashboardDetail();
+                //}
+                //else
+                //{
+                    await frontCounterDashboardViewModel.GetDashboardHomeDetail();
+                //}
             });
         }
 
@@ -87,8 +107,13 @@ namespace FocalPoint.Modules.FrontCounter.Views
         {
             try
             {
-                NewQuickRentalMainPage newQuickRentalMainPage = new NewQuickRentalMainPage();
-                await this.Navigation.PushAsync(newQuickRentalMainPage);
+                //NewQuickRentalMainPage newQuickRentalMainPage = new NewQuickRentalMainPage();
+                //await this.Navigation.PushAsync(newQuickRentalMainPage);
+
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                await NavSer.PushPageFromMenu(typeof(NewQuickRentalMainPage), "Quick Rental");
+                (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
+                (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = false;
             }
             catch (Exception ex)
             {
@@ -101,7 +126,13 @@ namespace FocalPoint.Modules.FrontCounter.Views
             try
             {
                 ScheduleDispatchingPageView scheduleDispatchingPageView = new ScheduleDispatchingPageView();
-                await this.Navigation.PushAsync(scheduleDispatchingPageView);
+
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(scheduleDispatchingPageView);
+                (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
+                (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = false;
+
+                //await this.Navigation.PushAsync(scheduleDispatchingPageView);
             }
             catch (Exception ex)
             {
@@ -114,7 +145,13 @@ namespace FocalPoint.Modules.FrontCounter.Views
             try
             {
                 WorkOrderFormView workOrderFormView = new WorkOrderFormView();
-                await this.Navigation.PushAsync(workOrderFormView);
+
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(workOrderFormView);
+                (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
+                (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = false;
+
+                //await this.Navigation.PushAsync(workOrderFormView);
             }
             catch (Exception ex)
             {
@@ -127,12 +164,19 @@ namespace FocalPoint.Modules.FrontCounter.Views
             try
             {
                 ReturnsView returnsView = new ReturnsView();
-                await this.Navigation.PushAsync(returnsView);
+
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                NavSer.PushChildPage(returnsView);
+                (Application.Current.MainPage as MainMenuFlyout).IsDashboardAboutToLoad = true;
+                (Application.Current.MainPage as MainMenuFlyout).IsMainDashboardPage = false;
+
+                //await this.Navigation.PushAsync(returnsView);
             }
             catch (Exception ex)
             {
                 //TODO: log error
             }
         }
+
     }
 }

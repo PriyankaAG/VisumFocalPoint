@@ -9,6 +9,7 @@ using FocalPoint.Modules.FrontCounter.Views.NewRentals;
 using FocalPtMbl.MainMenu.ViewModels.Services;
 using Visum.Services.Mobile.Entities;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using FocalPoint.Utils;
@@ -18,6 +19,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
     public class NewQuickRentalMainPageViewModel : ThemeBaseViewModel
     {
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
+        public Action<string> ShowOkMesssage;
+        public bool IsInvalidDate { get; set; } = false;
         public OrderUpdate CurrentOrderUpdate { get; set; }
         bool isPageLoading;
         public bool IsPageLoading
@@ -106,24 +109,19 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             }
             set
             {
+                if (value < StartDate)
+                {
+                    ShowOkMesssage?.Invoke("Due Date must be after Out Date.");
+                    IsInvalidDate = true;
+                    RefreshDateTimeProperties();
+                    return;
+                }
                 SelectedEndDateTime = new DateTime(value.Year, value.Month, value.Day, SelectedEndDateTime.Hour, SelectedEndDateTime.Minute, 0);
 
                 RefreshDateTimeProperties();
             }
         }
 
-        OrderUpdate _orderUpdate;
-        public OrderUpdate OrderUpdate
-        {
-            get
-            {
-                return _orderUpdate;
-            }
-            set
-            {
-                _orderUpdate = value;
-            }
-        }
         OrderSettings _theOrderSettings;
         public OrderSettings TheOrderSettings
         {
@@ -136,6 +134,8 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 _theOrderSettings = value;
             }
         }
+        public StoreSettings StoreSettingsProp { get; set; }
+
         Order _currentOrder;
         public Order CurrentOrder
         {
@@ -158,14 +158,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             get
             {
-                return CurrentOrder != null && CurrentOrder.Customer != null;
+                return SelectedCustomer != null
+                    && StoreSettingsProp != null && !StoreSettingsProp.CashCustomers.Contains(SelectedCustomer.CustomerNo);
             }
         }
         public bool IsPaymentEnabled
         {
             get
             {
-                return IsSaveEnabled && SelectedCustomer.CustomerType != "C";
+                return IsSaveEnabled;
             }
         }
         Decimal? _balanceDue;
@@ -341,61 +342,27 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             SelectedCustomer = null;
             NewQuickRentalEntityComponent = new NewQuickRentalEntityComponent();
-
-
             RefreshDateTimeProperties();
             Recent = new ObservableCollection<OrderDtl>();
-
-            MessagingCenter.Unsubscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Unsubscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder");
-            MessagingCenter.Subscribe<AddDetailMerchView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
-            });
-            MessagingCenter.Subscribe<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
-            });
-            MessagingCenter.Subscribe<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
-            });
-            MessagingCenter.Subscribe<AddDetailKitsView, OrderUpdate>(this, "UpdateOrder", (sender, arg) =>
-            {
-                CurrentOrder = arg.Order;
-                Recent.Clear();
-                foreach (var item in arg.Order.OrderDtls)
-                    Recent.Add(item);
-
-            });
         }
-        public void ReloadOrder(Order ord, OrderDtl ordDtl)
+
+        public void ReloadOrderDetailItems(Order ord, OrderDtl ordDtl)
         {
-            if (Recent.Contains(ordDtl))
+            if (Recent.Any(p => p.OrderDtlNo == ordDtl.OrderDtlNo))
             {
-                var index = Recent.IndexOf(ordDtl);
-                Recent.Remove(ordDtl);
+                var foundRec = Recent.First(p => p.OrderDtlNo == ordDtl.OrderDtlNo);
+                var index = Recent.IndexOf(foundRec);
+                Recent.Remove(foundRec);
                 Recent.Insert(index, ordDtl);
             }
 
             CurrentOrder = ord;
 
-               OnPropertyChanged(nameof(CurrentOrder));
-               OnPropertyChanged(nameof(Recent));
+            if (CurrentOrderUpdate == null) CurrentOrderUpdate = new OrderUpdate();
+            CurrentOrderUpdate.Order = CurrentOrder;
+
+            OnPropertyChanged(nameof(CurrentOrder));
+            OnPropertyChanged(nameof(Recent));
         }
 
         public void RefreshDateTimeProperties()
@@ -589,10 +556,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
         {
             TheOrderSettings = await NewQuickRentalEntityComponent.GetOrderSettings();
             PopulateMasters();
-            OrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
-            if (OrderUpdate != null && OrderUpdate.Order != null)
+            CurrentOrderUpdate = await NewQuickRentalEntityComponent.GetNewOrderCreationDetail(TheOrderSettings);
+            if (CurrentOrderUpdate != null && CurrentOrderUpdate.Order != null)
             {
-                CurrentOrder = OrderUpdate.Order;
+                CurrentOrder = CurrentOrderUpdate.Order;
 
                 //SelectedCustomerNameBox = CurrentOrder.Customer.CustomerName + " " + Regex.Replace(CurrentOrder.Customer.CustomerPhone, @"(\d{3})(\d{3})(\d{4})", "($1)$2-$3") + Environment.NewLine + "Type: " + displayCustType + " " + CurrentOrder.Customer.CustomerCity + ", " + CurrentOrder.Customer.CustomerState + " " + CurrentOrder.Customer.CustomerZip + " ";
 
@@ -600,18 +567,30 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 SelectedCustomer = CurrentOrder.Customer;
 
                 RefreshAllProperties();
-                if (OrderUpdate.Notifications.Count > 0)
-                    return OrderUpdate.Notifications;
+                if (CurrentOrderUpdate.Notifications.Count > 0)
+                    return CurrentOrderUpdate.Notifications;
             }
 
             return null;
         }
 
+        internal async Task<StoreSettings> GetStoreSettings()
+        {
+            StoreSettingsProp = await NewQuickRentalEntityComponent.GetStoreSettings();
+            OnPropertyChanged(nameof(IsSaveEnabled));
+            OnPropertyChanged(nameof(IsPaymentEnabled));
+            OnPropertyChanged(nameof(StoreSettingsProp));
+            return StoreSettingsProp;
+        }
         internal async Task<string> VoidOrder()
         {
             return await NewQuickRentalEntityComponent.VoidOrder(CurrentOrder);
         }
-
+        internal async Task<string> OrderLock(bool isLocked)
+        {
+            var res = await NewQuickRentalEntityComponent.GetOrderLock(CurrentOrder.OrderNo, CurrentOrder.OrderNumberT, isLocked);
+            return res;
+        }
         internal async Task<OrderUpdate> UpdateDateValues()
         {
             Indicator = true;
@@ -637,7 +616,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
                     CurrentOrder.OrderTaxExempt = ExemptID;
 
-                    var Update = OrderUpdate;
+                    var Update = CurrentOrderUpdate;
                     Update.Order = CurrentOrder;
 
                     responseOrderUpdate = await UpdateOrder(Update);
@@ -650,7 +629,11 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             Indicator = false;
             return responseOrderUpdate;
         }
-
+        internal async Task<Order> RefetchOrder(string OrderNo)
+        {
+            var responseOrderUpdate = await NewQuickRentalEntityComponent.RefetchOrder(OrderNo);
+            return responseOrderUpdate;
+        }
         internal async Task<OrderUpdate> UpdateCurrentOrder(Customer selectedCustomer = null, Tuple<string, string> theNotes = null, OrderUpdate updateOrder = null)
         {
             OrderUpdate responseOrderUpdate = null;
@@ -669,7 +652,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                             CurrentOrder.OrderNotes = theNotes.Item2;
                         }
 
-                        var Update = OrderUpdate;
+                        var Update = CurrentOrderUpdate;
                         Update.Order = CurrentOrder;
 
                         responseOrderUpdate = await UpdateOrder(Update);
@@ -695,6 +678,10 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
                 if (responseOrderUpdate != null && responseOrderUpdate.Order != null)
                 {
                     CurrentOrder = responseOrderUpdate.Order;
+
+                    if (CurrentOrderUpdate == null)
+                        CurrentOrderUpdate = new OrderUpdate();
+
                     CurrentOrderUpdate.Order = responseOrderUpdate.Order;
 
                     OnPropertyChanged("CurrentOrder");
@@ -704,7 +691,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
             {
 
             }
-            return responseOrderUpdate;
+            if (responseOrderUpdate != null && (responseOrderUpdate.Answers == null || responseOrderUpdate.Answers.Count == 0)
+                && (responseOrderUpdate.Notifications == null || responseOrderUpdate.Notifications.Count == 0)
+                && responseOrderUpdate.Order == null && string.IsNullOrEmpty(responseOrderUpdate.NotAcceptableErrorMessage))
+            {
+                //Update was sucessfull
+                return null;
+            }
+            else
+                return responseOrderUpdate;
         }
     }
 }

@@ -129,37 +129,25 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
                     orderCntAndList = JsonConvert.DeserializeObject<Orders>(content);
                     //var ord = orderCntAndList.List.Where(x => x.Payments.Count > 0 && x.Totals.TotalDueAmt > 0);
 
+                    var list = orderCntAndList.List.OrderByDescending(x => x.OrderNo).ToList();
                     if (OrderType == 1)
                     {
                         OpenOrders.Clear();
-                        OpenOrders = new ObservableCollection<Order>(orderCntAndList.List);
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenOrders.Add(order);
-                        //};
+                        OpenOrders = new ObservableCollection<Order>(list);
                         StartIdxOrd = MaxCntOrd;
                         MaxCntOrd = StartIdxOrd + 100;
                     }
                     if (OrderType == 2)
                     {
                         OpenReserv.Clear();
-                        OpenReserv = new ObservableCollection<Order>(orderCntAndList.List);
-
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenReserv.Add(order);
-                        //};
+                        OpenReserv = new ObservableCollection<Order>(list);
                         StartIdxRes = MaxCntRes;
                         MaxCntRes = StartIdxRes + 100;
                     }
                     if (OrderType == 3)
                     {
                         OpenQuote.Clear();
-                        OpenQuote = new ObservableCollection<Order>(orderCntAndList.List);
-                        //foreach (var order in orderCntAndList.List)
-                        //{
-                        //    OpenQuote.Add(order);
-                        //};
+                        OpenQuote = new ObservableCollection<Order>(list);
                         StartIdxQuote = MaxCntQuote;
                         MaxCntQuote = StartIdxQuote + 100;
                     }
@@ -176,7 +164,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             }
             finally
             {
-                Indicator = false;
+                //Indicator = false;
             }
         }
         internal void SearchForOrder(string text, int OrderType, bool isNewSearch)
@@ -286,10 +274,40 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             var httpClientCache = DependencyService.Resolve<MainMenu.Services.IHttpClientCacheService>();
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             OrdersEnabled = true;
+            GetData();
             SearchCommand = new Command<string>((a) => Search(a));
             ClearCommand = new Command<string>((a) => Clear(a));
         }
-        private void Clear(string ordType)
+
+        private async Task GetData()
+        {
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    Indicator = true;
+                    var t1 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 1, true);
+                    });
+                    var t2 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 2, true);
+                    });
+                    var t3 = Task.Run(async () =>
+                    {
+                        await GetSearchedOrdersInfo("", 3, true);
+                    });
+                    Task.WaitAll(t1, t2, t3);
+                }
+                finally
+                {
+                    Indicator = false;
+                }
+            });
+        }
+
+        private async void Clear(string ordType)
         {
             if (Indicator)
                 return;
@@ -300,21 +318,21 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             switch (orderType)
             {
                 case 1:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
                 case 2:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
                 case 3:
-                    GetSearchedOrdersInfo("", orderType, true);
+                    await GetSearchedOrdersInfo("", orderType, true);
                     Indicator = false;
                     break;
             }
 
         }
-        private void Search(string ordType)
+        private async void Search(string ordType)
         {
             if (Indicator)
                 return;
@@ -324,15 +342,15 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels
             switch (orderType)
             {
                 case 1:
-                    GetSearchedOrdersInfo(OrderToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(OrderToSearch, orderType, true);
                     Indicator = false;
                     break;
                 case 2:
-                    GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(ReservationToSearch, orderType, true);
                     Indicator = false;
                     break;
                 case 3:
-                    GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
+                    await GetSearchedOrdersInfo(QuotesToSearch, orderType, true);
                     Indicator = false;
                     break;
             }

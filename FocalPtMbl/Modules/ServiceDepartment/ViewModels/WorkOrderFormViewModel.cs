@@ -44,7 +44,8 @@ namespace FocalPoint.Modules.ServiceDepartment.ViewModels
             this.clientHttp = httpClientCache.GetHttpClientAsync();
             Task.Run(() =>
             {
-                _ = GetWorkOrdersInfo();
+                //_ = GetWorkOrdersInfo();
+                _ = GetSearchedWorkOrdersInfo("");
             });
         }
 

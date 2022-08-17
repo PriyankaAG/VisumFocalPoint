@@ -10,6 +10,7 @@ namespace FocalPoint.Components.EntityComponents
         IAPICompnent apiComponent;
 
         const string GetDashboard = "Order/Dashboard/{0}/{1}";
+        const string HomeDashboardAPIKey = "Dashboard/";
 
         public FrontCounterEntityComponent()
         {
@@ -21,8 +22,7 @@ namespace FocalPoint.Components.EntityComponents
             OrderDashboard orderDashboardDetail;
             try
             {
-                string dateToPass = searchDate.ToUniversalTime()
-                         .ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+                string dateToPass = searchDate.ToString("yyyy'-'MM'-'dd");
                 orderDashboardDetail = await apiComponent.GetAsync<OrderDashboard>(string.Format(GetDashboard, storeNo, dateToPass));
             }
             catch (Exception ex)
@@ -30,6 +30,20 @@ namespace FocalPoint.Components.EntityComponents
                 throw ex;
             }
             return orderDashboardDetail;
+        }
+
+        public async Task<DashboardHome> GetHomeDashboardDetails()
+        {
+            DashboardHome dashboardHomeDetail;
+            try
+            {
+                dashboardHomeDetail = await apiComponent.GetAsync<DashboardHome>(HomeDashboardAPIKey);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dashboardHomeDetail;
         }
     }
 }

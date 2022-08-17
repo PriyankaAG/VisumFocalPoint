@@ -10,7 +10,7 @@ namespace FocalPtMbl.MainMenu.ViewModels.Services
     {
         Task<Page> PushPage(object viewModel);
         Task<Page> PushPageFromMenu(Type pageToPush, string pageTitle);
-
+        void PushChildPage(Page page);
 
         Task Push(Object viewModel);
     }

@@ -36,19 +36,12 @@ namespace FocalPoint.Modules.Administrative.Views
         }
         public CashDrawerSummaryView()
         {
-            DevExpress.XamarinForms.CollectionView.Initializer.Init();
-            DevExpress.XamarinForms.Editors.Initializer.Init();
-            //BindingContext = new CashDrawerSummaryViewModel();
             InitializeComponent();
 
         }
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ((CashDrawerSummaryViewModel)this.BindingContext).GetCashDrawers();
-            });
         }
 
 

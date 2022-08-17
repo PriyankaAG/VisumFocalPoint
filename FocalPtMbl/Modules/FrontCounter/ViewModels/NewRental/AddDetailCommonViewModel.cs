@@ -23,7 +23,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         public INewQuickRentalEntityComponent NewQuickRentalEntityComponent { get; set; }
 
-        public Int16 SearchIn;
+        public AvailSearchIns SearchIn;
         public string ItemType;
 
         Order _currentOrder;
@@ -127,7 +127,7 @@ namespace FocalPoint.Modules.FrontCounter.ViewModels.NewRental
 
         }
 
-        public virtual async Task GetSearchedCustomersInfo(string text)
+        public virtual async Task GetSearchedInfo(string text)
         {
 
         }

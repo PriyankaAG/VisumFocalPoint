@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FocalPoint.Components.Interface;
@@ -84,10 +83,10 @@ namespace FocalPoint.Modules.Payments.Types
         }
         public bool IsStoredCardSelected { get; set; }
         private string _cardOnFileText;
-        public string CardOnFileText 
+        public string CardOnFileText
         {
             get { return _cardOnFileText; }
-            set 
+            set
             {
                 _cardOnFileText = value;
                 OnPropertyChanged(nameof(CardOnFileText));
@@ -173,33 +172,13 @@ namespace FocalPoint.Modules.Payments.Types
                     return "Validation failed. Please fill required data.";
                 if (!CardLast4Digits.IsValid)
                     return CardLast4Digits.Errors?.First() ?? "Validation failed.";
-                if(ExpirationDate < DateTime.MinValue)
-                    return "Validation failed. Please fill required data.";
+                //if (ExpirationDate <= DateTime.MinValue)
+                //    return "Validation failed. Please select card Expiration date.";
             }
-            if (ExpirationDate < DateTime.MinValue && DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-                return "Credit Card Expired!";
+            if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
+                return "Please select correct card Expiration date.";
+                //return "Credit Card Expired. Please select correct card Expiration date.";
             return "";
-
-            //ValidateField(CardHolderName);
-            //ValidateField(CardLast4Digits);
-            //if (Settings.POSEnabled)
-            //{
-            //    ValidateField(AvsStreetAddress);
-            //    ValidateField(AvsZipCode);
-            //    if (!(CardHolderName.IsValid && AvsStreetAddress.IsValid && AvsZipCode.IsValid))
-            //        return "Validation failed. Please correct data.";
-            //}
-            //else
-            //{
-            //    ValidateField(AuthorizationCode);
-            //    if (!(CardHolderName.IsValid && AuthorizationCode.IsValid))
-            //        return "Validation failed. Please fill required data.";
-            //}
-            //if (!CardLast4Digits.IsValid)
-            //    return CardLast4Digits.Errors?.First() ?? "Validation failed.";
-            //if (DateTime.Compare(ExpirationDate, DateTime.Now) < 0)
-            //    return "Credit Card Expired!";
-            //return "";
         }
 
         public PaymentRequestCard GetCardDetails()
@@ -239,31 +218,5 @@ namespace FocalPoint.Modules.Payments.Types
             OnPropertyChanged(nameof(ProcessOnline));
             OnPropertyChanged(nameof(ManualToken));
         }
-    }
-
-    public class PaymentHistoryDetail
-    {
-        public string Header { get; set; }
-        public ICommand VoidPaymentCommand { get; }
-        public ObservableCollection<Payment> PaymentHistory { get; set; }
-
-        public PaymentHistoryDetail()
-        {
-            VoidPaymentCommand = new Command<Payment>(payment => VoidPayment(payment));
-        }
-
-        private void VoidPayment(Payment payment)
-        {
-            var res = "";
-        }
-    }
-
-    public class CreditCardPaymentDetails
-    {
-        public ICommand CardDetailSelectCommand { get; }
-
-        public string Header { get; set; }
-
-        public ObservableCollection<PaymentInfo> CreditCardDetailList { get; set; }
     }
 }

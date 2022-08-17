@@ -114,7 +114,7 @@ namespace FocalPoint.Modules.Dispatching.ViewModels
                                      if (tvm != null)
                                          tvm.Dispatches.Add(new DispatchRowViewModel(d));
 
-                                     this.AllDispatches.Add(new DispatchRowViewModel(d));
+                                     this.AllDispatches.Add(new DispatchRowViewModel(d, tvm.Truck.TruckID));
                                  }
                              }
                          }

@@ -17,16 +17,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             InitializeComponent();
         }
 
-        public AddDetailRentalView(Int16 searchIn)
-        {
-            InitializeComponent();
-            SearchIn = searchIn;
-            ((AddDetailRentalViewModel)this.BindingContext).SearchIn = searchIn;
-            _ = ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo("Rental");
-        }
-
         private AvailabilityRent selItem;
-        private Int16 SearchIn = 1;
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
@@ -38,23 +29,48 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                string result = "0";
-                if (selItem != null)
+                try
                 {
-                    //Check Serialized on selcted item
-                    if (selItem.AvailSerialized)
+                    string result = "0";
+                    if (selItem != null)
                     {
-                        await FinishQuestions(1);
+                        //Check Serialized on selcted item
+                        if (selItem.AvailSerialized)
+                        {
+                            await FinishQuestions(1);
+                        }
+                        else
+                        {
+                            result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+
+                            if (result != null)
+                            {
+                                if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not be empty.", "ok");
+                                    return;
+                                }
+                                if (result.Contains('.'))
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not contain decimal.", "ok");
+                                    return;
+                                }
+                                if (int.Parse(result) < 1)
+                                {
+                                    await DisplayAlert("Alert!", "Quantity can not be less than zero.", "ok");
+                                    return;
+                                }
+                                await FinishQuestions(int.Parse(result));
+                            }
+                        }
                     }
                     else
-                    {
-                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                        if (result != "cancel")
-                            await FinishQuestions(int.Parse(result));
-                    }
+                        await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
                 }
-                else
-                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                catch (Exception ex)
+                {
+                    //TODO: log error
+                }
             });
         }
 
@@ -64,9 +80,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             QuestionFaultExceptiom questionFault = null;
             Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
             AddDetailRentalViewModel addDetailRentalViewModel = (AddDetailRentalViewModel)this.BindingContext;
+            string errorMessage = string.Empty;
             do
             {
-                Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailRentalViewModel.AddItem(selItem, count, addDetailRentalViewModel.CurrentOrder, UpdatedOrder, questionFault);
                 if (addRentalAPIResult != null)
                 {
                     UpdatedOrder = addRentalAPIResult.Item1;
@@ -227,12 +244,23 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             {
                                 //Get Meter Value in Double 3 decimal places
                                 string action = await DisplayPromptAsync("Enter Meter", questionFault.Message, initialValue: "1", keyboard: Keyboard.Numeric);
-                                if (action == null && action == "")
-                                    UpdatedOrder = null;
-                                else
+                                if (action != null)
                                 {
-                                    currentAnswers[questionFault.Code] = action.ToString();
-                                    UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    if (string.IsNullOrEmpty(action) || string.IsNullOrWhiteSpace(action))
+                                    {
+                                        await DisplayAlert("Alert!", "Meter can not be empty.", "ok");
+                                        UpdatedOrder = null;
+                                    }
+                                    else if (double.Parse(action) < 1)
+                                    {
+                                        await DisplayAlert("Alert!", "Meter should be greater than zero.", "ok");
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        currentAnswers[questionFault.Code] = action.ToString();
+                                        UpdatedOrder.Answers = currentAnswers.Select(qa => new QuestionAnswer(qa.Key, qa.Value)).ToList();
+                                    }
                                 }
                             }
                             break;
@@ -329,6 +357,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                             break;
                     };
                 }
+                else if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    await DisplayAlert("Error", errorMessage, "OK");
+                }
                 else if (questionFault == null)
                 {
                     MessagingCenter.Send<AddDetailRentalView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
@@ -338,13 +370,12 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 {
                     await DisplayAlert("Item not added", "Item not added", "ok");
                 }
-
             } while (UpdatedOrder != null && questionFault != null);
         }
 
         private async void Search_Tapped(object sender, EventArgs e)
         {
-            if(SearchTextEditor.Text==null)
+            if (SearchTextEditor.Text == null)
             {
                 await DisplayAlert("Validation", "Please enter Search For.", "OK");
                 return;
@@ -357,7 +388,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                     return;
                 }
             }
-            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+            await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
         }
 
         private void CancelButton_Clicked(object sender, EventArgs e)
@@ -380,7 +411,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
             {
                 Task.Run(async () =>
                 {
-                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                    await ((AddDetailRentalViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 });
             }
         }

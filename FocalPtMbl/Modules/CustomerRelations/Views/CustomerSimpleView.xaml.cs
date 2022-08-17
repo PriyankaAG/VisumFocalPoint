@@ -1,8 +1,10 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.CustomerRelations.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +20,6 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         bool inNavigation = false;
         public CustomerSimpleView()
         {
-            DevExpress.XamarinForms.CollectionView.Initializer.Init();
             InitializeComponent();
             BindingContext = new CustomerSimpleViewModel();
         }
@@ -26,11 +27,6 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         {
             base.OnAppearing();
             this.inNavigation = false;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ((CustomerSimpleViewModel)this.BindingContext).GetCustomersInfo();
-            });
-            //((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo();
         }
         protected override void OnDisappearing()
         {
@@ -38,22 +34,28 @@ namespace FocalPoint.Modules.CustomerRelations.Views
         }
         public async void ItemSelected(object sender, CollectionViewGestureEventArgs args)
         {
-            if (args.Item != null)
+            try
             {
-                var customer = args.Item as Customer;
-                if (customer != null)
+                if (args.Item != null)
                 {
-                    var balance = await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerBalance(customer.CustomerNo);
-                    await OpenDetailPage(GetCustInfo(args.Item), balance);
-                    collectionView.SelectedItem = null;
+                    var customer = args.Item as Customer;
+                    if (customer != null)
+                    {
+                        var balance = await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerBalance(customer.CustomerNo);
+                        await OpenDetailPage(await GetCustInfo(args.Item), balance);
+                        collectionView.SelectedItem = null;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                return;
+            }
         }
-        private Customer GetCustInfo(object item)
+        private async Task<Customer> GetCustInfo(object item)
         {
-            if (item is Customer custInfo)
-                return custInfo;
-            return new Customer();
+            return await ((CustomerSimpleViewModel)this.BindingContext).GetCustomerInfo((item as Customer).CustomerNo);
         }
         Task OpenDetailPage(Customer cust, CustomerBalance balance)
         {
@@ -64,7 +66,10 @@ namespace FocalPoint.Modules.CustomerRelations.Views
                 return Task.CompletedTask;
 
             this.inNavigation = true;
-            return Navigation.PushAsync(new CustomerDetailView(cust, balance));
+            //return Navigation.PushAsync(new CustomerDetailView(cust, balance));
+            var NavSer = DependencyService.Resolve<INavigationService>();
+            NavSer.PushChildPage(new CustomerDetailView(cust, balance));
+            return Task.CompletedTask;
         }
         private void TextEdit_Completed(object sender, EventArgs e)
         {

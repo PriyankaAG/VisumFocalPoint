@@ -1,13 +1,6 @@
-﻿using DevExpress.XamarinForms.DataGrid;
-using FocalPoint.Modules.CustomerRelations.ViewModels;
+﻿using FocalPoint.Modules.CustomerRelations.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.XamarinForms.DataGrid;
-using DevExpress.XamarinForms.Navigation;
 using Visum.Services.Mobile.Entities;
 
 using Xamarin.Forms;
@@ -22,31 +15,16 @@ namespace FocalPoint.Modules.CustomerRelations.Views
     {
         private string number1;
         public ICommand CallPhone { get; }
-       // private Command CallPhone = new Command(() => AttemptCall(number1));
         readonly CustomerDetailViewModel viewModel;
         public CustomerDetailView(Customer cust, CustomerBalance balance)
         {
-            //DevExpress.XamarinForms.Navigation.Initializer.Init();
             this.viewModel = new CustomerDetailViewModel(cust, balance);
             InitializeComponent();
             BindingContext = this.viewModel;
             number1 = this.viewModel.Phone;
             CallPhone = new Command(() => AttemptCall(number1));
 
-        }
-
-        async protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            //if web request is pending try to reload token and wait if()
-            ActivityIndicator activityIndicator = new ActivityIndicator { IsRunning = true };
-            await Task.Delay(10000);
-            //when task is complete turn indicator off
-            activityIndicator.IsRunning = false;
-        }
-        public async void On_ItemSelected(object sender, DataGridGestureEventArgs args)
-        {
-
+            lblHTML.Text = viewModel.CustomerNotes_HTML;
         }
 
         private void ContentPage_Appearing(object sender, EventArgs e)

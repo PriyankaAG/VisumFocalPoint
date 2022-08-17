@@ -1,6 +1,7 @@
 ﻿using DevExpress.XamarinForms.CollectionView;
 using DevExpress.XamarinForms.Editors;
 using FocalPoint.Modules.FrontCounter.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,14 +20,26 @@ namespace FocalPoint.Modules.FrontCounter.Views
         public EditExistingOrdersView()
         {
             InitializeComponent();
-            //DevExpress.XamarinForms.Navigation.Initializer.Init();
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 1, true);
-                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 2, true);
-                _ = ((EditExistingOrdersViewModel)this.BindingContext).GetSearchedOrdersInfo("", 3, true);
-            });
+            containerTab.ItemHeaderTapped += ContainerTab_ItemHeaderTapped;
         }
+
+        private void ContainerTab_ItemHeaderTapped(object sender, DevExpress.XamarinForms.Navigation.ItemHeaderTappedEventArgs e)
+        {
+            int index = e.Index;
+            switch (index)
+            {
+                case 0:
+                    Title = "View Orders";
+                    break;
+                case 1:
+                    Title = "View Reservations";
+                    break;
+                case 2:
+                    Title = "View Quotes";
+                    break;
+            }
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -68,7 +81,9 @@ namespace FocalPoint.Modules.FrontCounter.Views
                         Order SelectedOrder = task.Result;
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder));
+                            var NavSer = DependencyService.Resolve<INavigationService>();
+                            NavSer.PushChildPage(new ViewOrderDetailsView(SelectedOrder, Title));
+                            //Navigation.PushAsync(new ViewOrderDetailsView(SelectedOrder, Title));
                             ((EditExistingOrdersViewModel)BindingContext).Indicator = false;
                             ((EditExistingOrdersViewModel)this.BindingContext).OrdersEnabled = true;
                         });

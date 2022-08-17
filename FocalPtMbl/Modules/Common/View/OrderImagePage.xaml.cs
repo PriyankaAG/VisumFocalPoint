@@ -29,7 +29,7 @@ namespace FocalPoint.Modules.Common.View
 		async protected override void OnAppearing()
 		{
 			base.OnAppearing();
-
+			DisplayImage.Source = _imageVM.Image;
 			try
 			{
 				//TODO: 

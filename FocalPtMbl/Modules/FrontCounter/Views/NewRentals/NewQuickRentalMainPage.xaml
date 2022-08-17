@@ -430,8 +430,7 @@
                         BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_4"/>
                 <Button Text="NOTES" Grid.Column="1" Style="{DynamicResource PrimaryButton}"
                         BackgroundColor="#57b8ff" TextColor="#fff" FontSize="{DynamicResource SmallFontSize}" Clicked="Button_Clicked_2"/>
-                <Button Grid.Column="2" BackgroundColor="{DynamicResource TabPageFavoriteColor}" 
-                        IsEnabled="{Binding IsPaymentEnabled}"
+                <Button Grid.Column="2" BackgroundColor="{DynamicResource TabPageFavoriteColor}"
                         TextColor="#FFFFFF" Text="PAYMENT" Clicked="Payment_Clicked" Style="{DynamicResource PrimaryButton}"/>
             </Grid>
             <Grid Grid.Row="4" Style="{DynamicResource GridFooterDefault}" Padding="0" Margin="0" ColumnSpacing="0">
@@ -444,9 +443,9 @@
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackLayout Grid.Column="0" IsEnabled="{Binding IsSaveEnabled}">
-                    <Image Source="quick_rental.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"  Margin="0,0,0,5"/>
+                <StackLayout Grid.Column="0">
+                    <Image Source="diskette_96.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save"  Margin="0,0,0,5" TextColor="#000000"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SaveTapped"/>
                     </StackLayout.GestureRecognizers>
@@ -466,9 +465,9 @@
                     </VisualStateManager.VisualStateGroups>
                 </StackLayout>
                 <BoxView Grid.Column="1" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
-                <StackLayout Grid.Column="2" IsEnabled="{Binding IsSaveEnabled}">
-                    <Image Source="return_order.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save &amp; Email"  Margin="0,0,0,5"/>
+                <StackLayout Grid.Column="2">
+                    <Image Source="diskette_email_96.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save &amp; Email"  Margin="0,0,0,5" TextColor="#000000"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SaveAndEmailTapped"/>
                     </StackLayout.GestureRecognizers>
@@ -488,9 +487,9 @@
                     </VisualStateManager.VisualStateGroups>
                 </StackLayout>
                 <BoxView Grid.Column="3" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
-                <StackLayout Grid.Column="4" IsEnabled="{Binding IsSaveEnabled}">
-                    <Image Source="dispatch_dashboard.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save As Quote"  Margin="0,0,0,5"/>
+                <StackLayout Grid.Column="4">
+                    <Image Source="diskette_quote_96.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Save As Quote"  Margin="0,0,0,5" TextColor="#000000"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SaveAsQuoteTapped"/>
                     </StackLayout.GestureRecognizers>
@@ -511,8 +510,8 @@
                 </StackLayout>
                 <BoxView Grid.Column="5" Style="{DynamicResource BoxViewFooterDefault}" WidthRequest="1" Margin="0"/>
                 <StackLayout Grid.Column="6">
-                    <Image Source="service_dept_dashboard.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
-                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Void"  Margin="0,0,0,5"/>
+                    <Image Source="void_96.png" Style="{DynamicResource ImageFooterDefault}" Margin="0,5,0,0"/>
+                    <Label Style="{DynamicResource LabelFooterIcon}" Text="Void"  Margin="0,0,0,5" TextColor="#000000"/>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="VoidOrder_Clicked"/>
                     </StackLayout.GestureRecognizers>

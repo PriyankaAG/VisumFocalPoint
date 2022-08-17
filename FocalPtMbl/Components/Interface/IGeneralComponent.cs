@@ -16,5 +16,7 @@ namespace FocalPoint
         Task<List<Country>> GetCountries();
 
         Task<List<State>> GetStates(int countryCode);
+
+        void HandleTokenExpired();
     }
 }

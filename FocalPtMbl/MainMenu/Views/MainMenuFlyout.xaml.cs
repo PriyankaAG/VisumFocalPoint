@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FocalPoint.MainMenu.ViewModels;
+using FocalPtMbl.MainMenu.ViewModels.Services;
 using FocalPtMbl.MainMenu.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,6 +17,11 @@ namespace FocalPoint.MainMenu.Views
         public NavigationPage NavPage => navPage;
         public MainPage MainPageObject => mainPage;
         public MainMenuFlyoutDrawer FlyoutPageDrawerObject => FlyoutPageDrawer;
+        public bool IsQuickRentalScreenDisplaying { get; set; } = false;
+        public bool IsMainDashboardPage { get; set; } = true;
+        public bool IsMasterPageShown { get; set; } = false;
+        public bool IsChildPageShown { get; set; } = false;
+        public bool IsDashboardAboutToLoad { get; set; } = false;
         public MainMenuFlyout()
         {
             InitializeComponent();
@@ -25,17 +32,51 @@ namespace FocalPoint.MainMenu.Views
         {
             base.OnAppearing();
         }
-        //// SUSHIL: Check this back
-        //protected override bool OnBackButtonPressed()
-        //{
-        //    bool result = true;
-        //    Device.BeginInvokeOnMainThread(async () =>
-        //    {
-        //        result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
-        //    });
-        //    return result;
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            bool result = true;
+            if (IsQuickRentalScreenDisplaying)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await this.DisplayAlert("Alert!", "Please Save or Void the order to exit.", "Ok");
+                });
+                result = true;
+            }
+            else if (IsMainDashboardPage)
+            {
+                result = true;
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    result = await this.DisplayAlert("Alert!", "Are you sure you want to Exit?", "Yes", "No");
+                    if (result)
+                    {
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
+                    }
+                });
+            }
+            else if (IsMasterPageShown)
+            {
+                var NavSer = DependencyService.Resolve<INavigationService>();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    //await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
+                    (FlyoutPageDrawerObject.BindingContext as MainMenuFlyoutDrawerViewModel).ResetSelectedItem();
+                    var NavSer = DependencyService.Resolve<INavigationService>();
+                    await NavSer.PushPageFromMenu(typeof(MainPage), "Dashboard");
+                });
+            }
+            else
+            {
+                return base.OnBackButtonPressed();
+            }
+            return result;
 
-        //}
+        }
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as MainMenuFlyoutFlyoutMenuItem;

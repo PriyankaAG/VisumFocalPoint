@@ -13,6 +13,7 @@ namespace FocalPoint
     public class APIComponent : IAPICompnent
     {
         private string mediaType = "application/json";
+        static object locker = new object();
 
         public APIComponent()
         {
@@ -162,20 +163,23 @@ namespace FocalPoint
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     string content = await httpResponseMessage.Content.ReadAsStringAsync();
-                    orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
-                    //orderUpdate = JsonConvert.DeserializeObject<OrderUpdate>(orderContent);
-                    //check if empty result
-                    if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                    if (string.IsNullOrEmpty(content))
                     {
-                        //CurrentOrder = orderUpdateRefresh.Order;
-                        if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
-                        {
-                            orderUpdateRefresh.Answers.Clear();
-                            return orderUpdateRefresh;
-                        }
+                        //success
                     }
                     else
-                        throw new Exception("Order customer not changed");
+                    {
+                        orderUpdateRefresh = JsonConvert.DeserializeObject<OrderUpdate>(content);
+                        //check if empty result
+                        if (orderUpdateRefresh != null && orderUpdateRefresh.Order != null)
+                        {
+                            if (orderUpdateRefresh.Answers != null && orderUpdateRefresh.Answers.Count > 0)
+                            {
+                                orderUpdateRefresh.Answers.Clear();
+                                return orderUpdateRefresh;
+                            }
+                        }
+                    }
                 }
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
@@ -184,30 +188,16 @@ namespace FocalPoint
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.ExpectationFailed)
                 {
                     string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
-
                     QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                    //exceptionMessage = questionFaultExceptiom.Message;
-
                     orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
-                    //orderUpdate.Answers.
                 }
                 else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotAcceptable)
                 {
                     string readErrorContent = await httpResponseMessage.Content.ReadAsStringAsync();
-                    //string readErrorContent = responseOrderUpdate.Content.ReadAsStringAsync().Result;
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
-
-                    QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                    //exceptionMessage = questionFaultExceptiom.Message;
-
-                    orderUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
-                    //orderUpdate.Answers.
-                }
-                else
-                {
-                    //TODO: Handle failure API's, add logs to server
+                    string errorMessage= JsonConvert.DeserializeObject<string>(readErrorContent, settings);
+                    orderUpdateRefresh.NotAcceptableErrorMessage = errorMessage;
                 }
             }
             catch
@@ -247,7 +237,7 @@ namespace FocalPoint
                     var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
 
                     QuestionFaultExceptiom questionFaultExceptiom = JsonConvert.DeserializeObject<QuestionFaultExceptiom>(readErrorContent, settings);
-                   
+
                     orderDetailUpdateRefresh.Answers.Add(new QuestionAnswer(questionFaultExceptiom.Code, questionFaultExceptiom.Message));
                     //orderUpdate.Answers.
                 }
@@ -311,7 +301,7 @@ namespace FocalPoint
             return responseMessage;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
+        public async Task<HttpResponseMessage> SendAsync(string url, string requestConentString, bool isLoginMethod = false)
         {
             HttpResponseMessage responseMessage;
             try
@@ -322,7 +312,7 @@ namespace FocalPoint
 
                 responseMessage = await ClientHTTP.SendAsync(request);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -340,13 +330,21 @@ namespace FocalPoint
             return baseURL.Replace("V1/", "") + url;
         }
 
-        private void HandleTokenExpired()
+        public void HandleTokenExpired()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            lock (locker)
             {
-                await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
-            });
+                if (DataManager.IsTokenExpired == false)
+                {
+                    DataManager.IsTokenExpired = true;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        DataManager.ClearSettings();
+                        await Application.Current.MainPage.DisplayAlert("Token Expired", "", "OK");
+                        await Application.Current.MainPage.Navigation.PushModalAsync(new LoginPageNew());
+                    });
+                }
+            }
         }
     }
 }

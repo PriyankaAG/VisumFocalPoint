@@ -111,6 +111,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
@@ -128,6 +129,7 @@
                                 </Label>
                                 <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line2}" Grid.Row="1" Font="black" LineBreakMode="TailTruncation" />
                                 <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line3}" Grid.Row="2" IsVisible="{Binding HasLine3}" IsEnabled="{Binding HasLine3}" Font="black" LineBreakMode="TailTruncation" />
+                                <Label Padding="5, 0, 0, 0" TextColor="Black" Text="{Binding Line4}" Grid.Row="3" IsVisible="{Binding HasLine4}" IsEnabled="{Binding HasLine4}" Font="black" LineBreakMode="TailTruncation" />
                             </Grid>
                         </Frame>
                     </DataTemplate>

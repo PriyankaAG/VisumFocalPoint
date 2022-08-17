@@ -20,9 +20,9 @@
             <Grid RowSpacing="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <views1:PaymentHeader Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
                 <Grid BackgroundColor="#f5f6fa" Grid.Row="1" Grid.Column="0" Margin="10,0" ColumnSpacing="20" RowSpacing="10" Padding="10">
@@ -31,15 +31,15 @@
                         <RowDefinition Height="100" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0" Grid.Column="0" HorizontalOptions="Center">
+                    <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Frame Grid.Row="0" x:Name="Payment"  Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
+                        <Frame Grid.Row="0" x:Name="Payment"  Style="{DynamicResource FrameStyle}" Padding="5">
                             <Image Source="payment_96.png" Aspect="AspectFit" />
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Payment_Tapped" />
@@ -48,12 +48,12 @@
                         <Label Grid.Row="1" Text="Payment" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                     </Grid>
 
-                    <Grid Grid.Row="0" Grid.Column="1" HorizontalOptions="Center">
+                    <Grid Grid.Row="0" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Frame Grid.Row="0" x:Name="Deposit" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
+                        <Frame Grid.Row="0" x:Name="Deposit" Style="{DynamicResource FrameStyle}" Padding="5" >
                             <Image Source="Deposit_96.png" Aspect="AspectFit" />
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Deposit_Tapped" />
@@ -62,12 +62,12 @@
                         <Label Grid.Row="1" Text="Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                     </Grid>
 
-                    <Grid Grid.Row="1" Grid.Column="0" HorizontalOptions="Center">
+                    <Grid Grid.Row="1" Grid.Column="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                    <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="End" WidthRequest="130">
+                    <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5">
                             <Image Source="Deposit_Security_96.png" Aspect="AspectFit" />
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="SecurityDeposit_Tapped" />
@@ -76,12 +76,12 @@
                         <Label Grid.Row="1" Text="Security Deposit" HorizontalOptions="Center" Style="{DynamicResource LabelSubHeader}" VerticalOptions="Center" />
                     </Grid>
 
-                    <Grid Grid.Row="1" Grid.Column="1" HorizontalOptions="Center">
+                    <Grid Grid.Row="1" Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5" HorizontalOptions="Start" WidthRequest="130">
+                        <Frame Grid.Row="0" Style="{DynamicResource FrameStyle}" Padding="5">
                             <Image Source="Deposit_PreAuth_96.png" Aspect="AspectFit" />
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Security_PreAuth_Tapped" />
@@ -92,7 +92,7 @@
                 </Grid>
                 <!--</Frame>-->
                 <ScrollView Grid.Row="2" Grid.Column="0">
-                    <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding PaymentHistory, Mode=TwoWay}" HeightRequest="200" />
+                        <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding PaymentHistoryDtl, Mode=TwoWay}" HeightRequest="200" />
                 </ScrollView>
                 <ScrollView Grid.Row="3" Grid.Column="0">
                     <views:PaymentHistoryList Margin="10,0" BindingContext="{Binding DepositPaymentHistory, Mode=TwoWay}" HeightRequest="150" />

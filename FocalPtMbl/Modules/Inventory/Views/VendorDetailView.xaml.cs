@@ -22,15 +22,6 @@ namespace FocalPoint.Modules.Inventory.Views
             InitializeComponent();
             BindingContext = this.viewModel;
         }
-        async protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            //if web request is pending try to reload token and wait if()
-            ActivityIndicator activityIndicator = new ActivityIndicator { IsRunning = true };
-            await Task.Delay(10000);
-            //when task is complete turn indicator off
-            activityIndicator.IsRunning = false;
-        }
         public async void On_ItemSelected(object sender, DataGridGestureEventArgs args)
         {
 

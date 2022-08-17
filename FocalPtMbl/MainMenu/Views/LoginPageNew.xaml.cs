@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FocalPoint.Data;
 using FocalPoint.MainMenu.ViewModels;
 using FocalPtMbl;
 using FocalPtMbl.MainMenu.Services;
@@ -107,9 +108,14 @@ namespace FocalPoint.MainMenu.Views
             {
                 currentSelectedLoginTerminal = terminals[0];
             }
-            else
+            else if (terminals?.Count() > 1)
             {
                 currentSelectedLoginTerminal = await DisplayActionSheet("Select Terminal:", "Cancel", null, terminals);
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Terminals", "No Terminals Defined for the selected store, setup in FocalPoint Desktop.", "OK");
+                return;
             }
             viewModel.TerminalNo = viewModel.GetTerminalFromArray(currentSelectedLoginTerminal);
             
@@ -126,6 +132,7 @@ namespace FocalPoint.MainMenu.Views
                 activityIndicator.IsRunning = true;
                 if (viewModel.LoginSecurity())
                 {
+                    DataManager.IsTokenExpired = false;
                     ShowMainPage();
                 }
             }

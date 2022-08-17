@@ -126,6 +126,7 @@
     <Compile Include="CustomRenderer\CustomEitorRenderer.cs" />
     <Compile Include="CustomRenderer\CustomEntryRenderer.cs" />
     <Compile Include="CustomRenderer\ExtendedTabbedPageRenderer.cs" />
+    <Compile Include="CustomRenderer\HtmlFormattedLabelRenderer.cs" />
     <Compile Include="CustomRenderer\HybridWebViewRenderer.cs" />
     <Compile Include="Helpers\JavascriptWebViewClient.cs" />
     <Compile Include="DeviceInfo.cs" />
@@ -652,6 +653,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\payment_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\diskette_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\diskette_email_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\diskette_quote_96.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="_RemoveMdbFiles" BeforeTargets="_Upload">

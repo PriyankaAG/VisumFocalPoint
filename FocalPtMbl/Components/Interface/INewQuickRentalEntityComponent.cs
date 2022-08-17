@@ -11,26 +11,32 @@ namespace FocalPoint.Components.Interface
         Task<List<Customer>> GetCustomers(string searchCustomer);
 
         Task<CustomerSettings> GetCustomerSettings();
-
+        Task<StoreSettings> GetStoreSettings();
         Task<List<DisplayValueString>> GetStates(string countryCode);
-
+        Task<string> GetOrderLock(int OrderNo, string OrderNumT, bool Locked);
         Task<CitiesStates> GetCityByState(string countryCode, string stateCode);
-
+        Task<Order> RefetchOrder(string OrderNo);
         Task<OrderUpdate> GetNewOrderCreationDetail(OrderSettings settings);
 
         Task<string> VoidOrder(Order CurrentOrder);
 
-        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, Int16 SearchIn, string SearchType, int SearchFor);
+        Task<List<AvailabilityRent>> GetAvailabilityRentals(string text, AvailSearchIns SearchIn, string SearchType, AvailSearchFors SearchFor);
 
-        Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, Int16 searchIn);
+        Task<List<AvailabilityMerch>> GetAvailabilityMerchandise(string text, AvailSearchIns searchIn);
 
         Task<List<MerchandiseSerial>> AvailabilityMerchandiseSerials(string merchNo, string storeNo);
 
-        Task<List<AvailabilityKit>> GetAvailabilityKits(string text, Int16 SearchIn, string SearchType);
+        Task<List<AvailabilityKit>> GetAvailabilityKits(string text, AvailSearchIns SearchIn, string SearchType);
 
-        Task<List<AvailabilityRentSale>> GetAvailabilitySalable(string text, Int16 SearchIn);
+        Task<List<AvailabilityRentSale>> GetAvailabilitySalable(string text, AvailSearchIns SearchIn);
+
+        Task<List<AvailabilityKit>> GetOrderKits(int OrderDtlNo);
+
+        Task<List<AvailabilityKit>> OrderKitDetails(int OrderDtlNo);
 
         Task<HttpResponseMessage> OrderAddRental(OrderAddItem RentalItem);
+
+        Task<HttpResponseMessage> OrderAddSubGroup(OrderAddItem SubGroupItem);
 
         Task<HttpResponseMessage> OrderAddMerchandise(OrderAddItem RentalItem);
 

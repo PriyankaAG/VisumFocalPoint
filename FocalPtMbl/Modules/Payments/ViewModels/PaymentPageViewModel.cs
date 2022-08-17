@@ -1,10 +1,12 @@
 ﻿using FocalPoint.Components.EntityComponents;
 using FocalPoint.Components.Interface;
 using FocalPoint.Modules.Payments.Types;
+using FocalPoint.Utils;
 using FocalPoint.Validations;
 using FocalPoint.Validations.Rules;
 using FocalPtMbl.MainMenu.ViewModels;
 using MvvmHelpers.Commands;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Visum.Services.Mobile.Entities;
+using Xamarin.Forms;
 using static Visum.Services.Mobile.Entities.PaymentRequest;
 
 namespace FocalPoint.Modules.Payments.ViewModels
@@ -89,14 +92,14 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             get { return getCashPayments(); }
         }
-        private PaymentHistoryDetail _paymentHistory;
-        public PaymentHistoryDetail PaymentHistory
+        private PaymentHistoryDetail _paymentHistoryDtl;
+        public PaymentHistoryDetail PaymentHistoryDtl
         {
-            get => _paymentHistory;
+            get => _paymentHistoryDtl;
             set
             {
-                _paymentHistory = value;
-                OnPropertyChanged(nameof(PaymentHistory));
+                _paymentHistoryDtl = value;
+                OnPropertyChanged(nameof(PaymentHistoryDtl));
             }
         }
         private PaymentHistoryDetail _depositPaymentHistory;
@@ -120,8 +123,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 OnPropertyChanged(nameof(CreditCardDetails));
             }
         }
-        public ICommand ValidateCheckNumberCommand => new Command(() => ValidateField(CheckNumber));
-        public ICommand ValidatePaymentCommand => new Command(() => ValidateField(Payment));
+        public ICommand ValidateCheckNumberCommand => new MvvmHelpers.Commands.Command(() => ValidateField(CheckNumber));
+        public ICommand ValidatePaymentCommand => new MvvmHelpers.Commands.Command(() => ValidateField(Payment));
 
         #region const
         public PaymentPageViewModel() : base("Payments")
@@ -144,13 +147,15 @@ namespace FocalPoint.Modules.Payments.ViewModels
                 Settings = a.Result;
                 //Settings.POSEnabled = false;
             });
-            PaymentHistory = new PaymentHistoryDetail
+            PaymentHistoryDtl = new PaymentHistoryDetail(paymentEntityComponent)
             {
-                Header = "Payment History"
+                Header = "Payment History",
+                ShowVoid = true
             };
-            DepositPaymentHistory = new PaymentHistoryDetail
+            DepositPaymentHistory = new PaymentHistoryDetail(paymentEntityComponent)
             {
-                Header = "Deposits & Security Deposits"
+                Header = "Deposits & Security Deposits",
+                ShowVoid = false
             };
             //GetOrderDetails();
             SetPaymentData();
@@ -279,6 +284,32 @@ namespace FocalPoint.Modules.Payments.ViewModels
             OnPropertyChanged(nameof(ShowDueAndReceived));
             OnPropertyChanged(nameof(OtherTitle));
         }
+
+        internal async Task<bool> SendEmailToCustomer(string email, int paymentNo)
+        {
+            try
+            {
+                Indicator = true;
+                var httpResponseMessage = await paymentEntityComponent.PaymentEmailPost(email, paymentNo);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string resContent = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var resResult = JsonConvert.DeserializeObject<bool>(resContent);
+                    return resResult;
+                }
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                Indicator = false;
+            }
+        }
+
         public string GetPaymentImage(byte paymentTIcon)
         {
             return paymentTIcon switch
@@ -309,36 +340,28 @@ namespace FocalPoint.Modules.Payments.ViewModels
         {
             if (Order?.Payments?.Count > 0)
             {
-                PaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
+                PaymentHistoryDtl.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && !p.PaymentSD && !p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
                 DepositPaymentHistory.PaymentHistory = new ObservableCollection<Payment>(Order.Payments.Where(p => !p.PaymentVoid && p.PaymentSD || p.PaymentDeposit).OrderByDescending(p => p.PaymentPDte));
-                OnPropertyChanged(nameof(PaymentHistory.PaymentHistory));
+                OnPropertyChanged(nameof(PaymentHistoryDtl.PaymentHistory));
             }
         }
         internal void SetSelectedPayment(decimal value)
         {
-            TotalReceived = Payment.Value = value.ToString("c");
-            ChangeDue = 0.0.ToString("c");
-            OnPropertyChanged(nameof(TotalReceived));
-            OnPropertyChanged(nameof(ChangeDue));
+            Payment.Value = value.ToString("c");
             OnPropertyChanged(nameof(Payment));
         }
 
         internal void SetDueAmout()
         {
-            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
-            {
-                TotalReceived = ChangeDue = 0.0.ToString("c");
-                OnPropertyChanged(nameof(TotalReceived));
-                OnPropertyChanged(nameof(ChangeDue));
-            }
             Payment.IsValid = true;
-            Payment.Value = RequestType == RequestTypes.Standard ? GetPaymentAmt() : SuggestedDeposit;
-            OnPropertyChanged(nameof(Payment));
+            Payment.Value = RequestType == RequestTypes.Standard ? GetPaymentAmt(Order?.Totals?.TotalDueAmt.ToString() ?? null) : GetPaymentAmt(SuggestedDeposit);
+            //OnPropertyChanged(nameof(Payment));
         }
 
-        private string GetPaymentAmt()
+        private string GetPaymentAmt(string amount)
         {
-            return Order?.Totals?.TotalDueAmt < 0 ? 0.0.ToString("c") : Order?.Totals?.TotalDueAmt.ToString("c");
+            string defaultValue = 0.0.ToString("c");
+            return amount != null && decimal.TryParse(amount, out decimal res) ? res < 0 ? defaultValue : res.ToString("c") : defaultValue;
         }
 
         internal string ValidatePaymentKinds()
@@ -401,8 +424,8 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     SourceID = Order?.OrderNo ?? -1,
                     CustomerNo = Order?.OrderCustNo ?? -1,
                     PaymentTNo = SelectedPaymentType.PaymentTNo,
-                    PaymentAmt = decimal.TryParse(Payment.Value?.Trim('$'), out decimal total) ? total : 0,
-                    CashBackAmt = decimal.TryParse(ChangeDue?.Trim('$'), out decimal due) ? due : 0,
+                    PaymentAmt = GetPaymentAmount(),
+                    CashBackAmt = GetCashbackAmount(),
                     TaxAmt = Order?.OrderTax ?? -1,
                     OnFileNo = GetOnFileNo(),
                     Other = GetOtherDetails(),
@@ -410,12 +433,48 @@ namespace FocalPoint.Modules.Payments.ViewModels
                     eCheck = null,
                     Card = SelectedPaymentType?.PaymentKind == "CC" ? _creditCardDetails.GetCardDetails() : null
                 };
-                return await paymentEntityComponent.PostPaymentProcess(request);
+                var httpResponseMessage = await paymentEntityComponent.PostPaymentProcess(request);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    string content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject<PaymentResponse>(content);
+                    return response;
+                }
+                else if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    paymentEntityComponent.HandleTokenExpired();
+                    return null;
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Server Error", httpResponseMessage.ReasonPhrase, "Ok");
+                    return null;
+                }
             }
             catch (Exception ex)
             {
                 throw;
             }
+        }
+
+        private decimal GetPaymentAmount()
+        {
+            var newText = Payment.Value;
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            return decimal.TryParse(newText, out decimal total) ? total : decimal.Zero;
+        }
+
+        private decimal GetCashbackAmount()
+        {
+            var newText = ChangeDue;
+            if (!string.IsNullOrEmpty(newText) && !newText.IsFirstCharacterNumber())
+                newText = newText.Substring(1);
+            if (SelectedPaymentType.PaymentKind == "CA" || SelectedPaymentType.PaymentKind == "CK")
+            {
+                return decimal.TryParse(newText, out decimal due) ? due : decimal.Zero;
+            }
+            return decimal.Zero;
         }
 
         private int GetOnFileNo()

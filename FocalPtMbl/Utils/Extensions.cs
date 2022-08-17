@@ -17,7 +17,12 @@ namespace FocalPoint.Utils
 
         public static bool HasData(this string result)
         {
-            return (!string.IsNullOrEmpty(result) && !string.IsNullOrWhiteSpace(result));
+            return !string.IsNullOrEmpty(result) && !string.IsNullOrWhiteSpace(result);
+        }
+
+        public static bool IsFirstCharacterNumber(this string stringNumber)
+        {
+            return char.IsNumber(stringNumber.ToCharArray()[0]);
         }
     }
 }

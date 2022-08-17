@@ -24,15 +24,40 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                string result = "0";
-                if (selItem != null)
+                try
                 {
-                    result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
-                    if (result != "cancel")
-                        await FinishQuestions(int.Parse(result));
+                    string result = "0";
+                    if (selItem != null)
+                    {
+                        result = await DisplayPromptAsync("Pick Quantity", "Enter in the Quantity", keyboard: Keyboard.Numeric);
+                        if (result != null)
+                        {
+                            if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
+                            {
+                                await DisplayAlert("Alert!", "Quantity can not be empty.", "ok");
+                                return;
+                            }
+                            if (result.Contains('.'))
+                            {
+                                await DisplayAlert("Alert!", "Quantity can not contain decimal.", "ok");
+                                return;
+                            }
+                            if (int.Parse(result) < 1)
+                            {
+                                await DisplayAlert("Alert!", "Quantity should be greater than zero.", "ok");
+                                return;
+                            }
+                            if (result != "cancel")
+                                await FinishQuestions(int.Parse(result));
+                        }
+                    }
+                    else
+                        await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
                 }
-                else
-                    await DisplayAlert("Select Item", "Please Search and select an Item.", "ok");
+                catch(Exception ex)
+                {
+                    //TODO: log error
+                }
             });
         }
 
@@ -43,14 +68,16 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                 OrderUpdate UpdatedOrder = null;
                 QuestionFaultExceptiom questionFault = null;
                 Dictionary<int, string> currentAnswers = new Dictionary<int, string>();
+                string errorMessage = string.Empty;
                 do
                 {
                     AddDetailRentalSalesViewModel addDetailRentalSalesViewModel = (AddDetailRentalSalesViewModel)this.BindingContext;
-                    Tuple<OrderUpdate, QuestionFaultExceptiom> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
+                    Tuple<OrderUpdate, QuestionFaultExceptiom, string> addRentalAPIResult = await addDetailRentalSalesViewModel.AddItem(selItem, count, addDetailRentalSalesViewModel.CurrentOrder, UpdatedOrder, questionFault);
                     if (addRentalAPIResult != null)
                     {
                         UpdatedOrder = addRentalAPIResult.Item1;
                         questionFault = addRentalAPIResult.Item2;
+                        errorMessage = addRentalAPIResult.Item3;
                     }
                     if (questionFault != null)
                     {
@@ -309,6 +336,10 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                                 break;
                         };
                     }
+                    else if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        await DisplayAlert("Error", errorMessage, "OK");
+                    }
                     else if (questionFault == null)
                     {
                         MessagingCenter.Send<AddDetailRentalSalesView, OrderUpdate>(this, "UpdateOrder", UpdatedOrder);
@@ -338,7 +369,7 @@ namespace FocalPoint.Modules.FrontCounter.Views.NewRentals
                         await DisplayAlert("Validation", "Please enter Search For.", "OK");
                         return;
                     }
-                    await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedCustomersInfo(SearchTextEditor.Text);
+                    await ((AddDetailRentalSalesViewModel)this.BindingContext).GetSearchedInfo(SearchTextEditor.Text);
                 }
                 catch (Exception ex)
                 {
